@@ -10,6 +10,9 @@ function App() {
         <p>
           Reimon <code> Testing </code> new stuff.
         </p>
+        <p>
+          UPDATED 1:06 AM
+        </p>
         <a
           className="App-link"
           target="_blank"
