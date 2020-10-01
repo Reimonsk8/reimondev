@@ -11,9 +11,7 @@ function App() {
         <p>
           Reimon <code> Testing </code> new stuff.
         </p>
-
         <p>git update</p>
-
         <p className="App-link">
           Chopin is beautiful
         </p>
