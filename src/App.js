@@ -10,13 +10,9 @@ function App() {
         <p>
           Reimon <code> Testing </code> new stuff.
         </p>
-        <a
-          className="App-link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <p className="App-link">
           Chopin is beautiful
-        </a>
+        </p>
       </header>
     </div>
   );
