@@ -1,0 +1,25 @@
+{
+  "trigger": true,
+  "modules": [
+    "verification-link"
+  ],
+  "parentResource": "reimondev1b52600d",
+  "functionName": "reimondev1b52600dCustomMessage",
+  "resourceName": "reimondev1b52600dCustomMessage",
+  "parentStack": "auth",
+  "triggerEnvs": [
+    {
+      "key": "RESOURCENAME",
+      "value": "resourceName"
+    }
+  ],
+  "triggerDir": "C:\\Users\\SRT\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\CustomMessage",
+  "triggerTemplate": "CustomMessage.json.ejs",
+  "roleName": "reimondev1b52600dCustomMessage",
+  "skipEdit": true,
+  "REDIRECTURL": "https://www.google.com/",
+  "EMAILSUBJECT": "confirmation",
+  "EMAILMESSAGE": "confirm",
+  "RESOURCENAME": "resourceName",
+  "enableCors": false
+}

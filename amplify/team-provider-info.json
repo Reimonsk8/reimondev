@@ -1,23 +1,33 @@
 {
-    "base": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-reimondev-base-154115-authRole",
-            "UnauthRoleArn": "arn:aws:iam::721926878294:role/amplify-reimondev-base-154115-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::721926878294:role/amplify-reimondev-base-154115-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-reimondev-base-154115-deployment",
-            "UnauthRoleName": "amplify-reimondev-base-154115-unauthRole",
-            "StackName": "amplify-reimondev-base-154115",
-            "StackId": "arn:aws:cloudformation:us-east-1:721926878294:stack/amplify-reimondev-base-154115/388dedb0-0437-11eb-b1a3-1214c28caebf",
-            "AmplifyAppId": "d3hikaqb30a4bh"
-        },
-        "categories": {
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "d3hikaqb30a4bh",
-                    "type": "manual"
-                }
-            }
+  "base": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reimondev-base-154115-authRole",
+      "UnauthRoleArn": "arn:aws:iam::721926878294:role/amplify-reimondev-base-154115-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::721926878294:role/amplify-reimondev-base-154115-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-reimondev-base-154115-deployment",
+      "UnauthRoleName": "amplify-reimondev-base-154115-unauthRole",
+      "StackName": "amplify-reimondev-base-154115",
+      "StackId": "arn:aws:cloudformation:us-east-1:721926878294:stack/amplify-reimondev-base-154115/388dedb0-0437-11eb-b1a3-1214c28caebf",
+      "AmplifyAppId": "d3hikaqb30a4bh"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3hikaqb30a4bh",
+          "type": "manual"
         }
+      },
+      "function": {
+        "reimondev1b52600dCustomMessage": {
+          "REDIRECTURL": "https://www.google.com/",
+          "EMAILSUBJECT": "confirmation",
+          "EMAILMESSAGE": "confirm"
+        }
+      },
+      "auth": {
+        "reimondev1b52600d": {}
+      }
     }
+  }
 }
