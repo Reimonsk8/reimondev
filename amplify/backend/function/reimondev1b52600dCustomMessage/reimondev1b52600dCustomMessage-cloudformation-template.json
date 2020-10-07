@@ -119,7 +119,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-reimondev-base-154115-deployment",
-          "S3Key": "amplify-builds/reimondev1b52600dCustomMessage-416f597a576a354d656d-build.zip"
+          "S3Key": "amplify-builds/reimondev1b52600dCustomMessage-48643339437445344d76-build.zip"
         }
       }
     },
