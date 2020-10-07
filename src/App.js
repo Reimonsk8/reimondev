@@ -17,7 +17,17 @@ class App extends React.Component{
     let component;
 
     if(this.state.screen === "welcome"){
-      component = <Welcome />
+      component = 
+      <div>
+        <Welcome />
+        <div class="skip" onClick={ ()=> this.nextScreen("value")}>
+          <a href="#">
+            Skip&nbsp;Intro&nbsp;
+            <span class="shift">›</span>
+          </a>
+          <div class="mask"></div>
+        </div>
+      </div>
     }else if(this.state.screen === "mainmenu"){
       component = <MainMenu/>
     }
@@ -25,7 +35,6 @@ class App extends React.Component{
     return (
       <div className="App">
         <header className="App-header">
-          <button onClick={ ()=> this.nextScreen("value")}>skip intro</button>
           {component}
         </header>
       </div>
