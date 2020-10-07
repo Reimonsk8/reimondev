@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from '../logo.png';
+import logo from '../logo2.gif';
 import './Welcome.css'
 
 const Welcome = () => {
     return(
         <div>
             <img src={logo} className="App-logo" alt="logo" />
-
         </div>
     )
 }

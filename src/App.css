@@ -5,19 +5,6 @@
   text-align: center;
   
 }
-
-.App-logo {
-  opacity: 0.3;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 10s linear;
-  }
-}
-
 .App-header {
   /*background-color: linear-gradient(to bottom right, black, rgba(25,25,25,1), rgba(35,25,25,1));*/
   min-height: 100vh;
@@ -27,29 +14,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-color: #202020;
-	background-image: radial-gradient(35% 100% ellipse at top center, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 100%);
   justify-content: center;
 	margin: 0;
 	padding: 0;
-	transition: background-color 4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  0% {
-    transform: scale(3) rotate(0deg);
-  }
-  50% {
-    transform: scale(2) rotate(180deg);
-  }
-  100% {
-    transform: scale(3) rotate(360deg);
-  }
-}
 
 .skip {
   margin-top: 25vh;
@@ -123,3 +92,53 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }*/
+
+/* ---- reset ---- */ 
+canvas{ 
+  display: block; 
+  vertical-align: bottom; 
+} 
+/* ---- particles.js container ---- */ 
+#particles-js{ 
+  z-index: -1;
+  background-color: #202020;
+	background-image: radial-gradient(35% 100% ellipse at top center, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 100%);
+	transition: background-color 4s cubic-bezier(0.19, 1, 0.22, 1);
+  position:absolute; 
+  width: 100%; 
+  height: 100%; 
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  background-position: 50% 50%; 
+} 
+/* ---- stats.js ---- */ 
+.count-particles{ 
+  /*background: #000022;*/ 
+  position: absolute; 
+  top: 48px; 
+  left: 0; 
+  width: 80px; 
+  color: #13E8E9; 
+  font-size: .8em; 
+  text-align: left; 
+  text-indent: 4px; 
+  line-height: 14px; 
+  padding-bottom: 2px; 
+  font-family: Helvetica, Arial, sans-serif; 
+  font-weight: bold; 
+} 
+.js-count-particles{ 
+  font-size: 1.1em; 
+} 
+#stats, .count-particles{ 
+  -webkit-user-select: none; 
+  margin-top: 5px; 
+  margin-left: 5px; 
+} 
+#stats{ 
+  border-radius: 3px 3px 0 0; 
+  overflow: hidden; 
+} 
+.count-particles{ 
+  border-radius: 0 0 3px 3px; 
+}
