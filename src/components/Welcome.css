@@ -26,3 +26,18 @@
       transform: scale(3) rotate(1480deg);
     }
   }
+
+  title{
+    color: white;
+  }
+
+  #mybody{
+    overflow:hidden;
+    background: purple;
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left:0;
+  }
