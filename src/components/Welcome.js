@@ -1,105 +1,105 @@
 //import { render } from '@testing-library/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 //import logo from '../logo2.gif';
 import './Welcome.css'
 
-class Welcome extends React.Component{
+const Welcome = () =>{
 
-    componentDidMount(){        
-        const canvas = document.getElementById('canvas1')
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        let particleArray = [];
-        const adjustX = 0;
-        const adjustY = 0;
+    useEffect( () => {        
+    const canvas = document.getElementById('canvas1')
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particleArray = [];
+    const adjustX = 0;
+    const adjustY = 0;
 
-        const mouse = {
-            x: null,
-            y: null,
-            radius: 35
+    const mouse = {
+        x: null,
+        y: null,
+        radius: 35
+    }
+
+    window.addEventListener('mousemove', function(event){
+        mouse.x = event.x;
+        mouse.y = event.y;
+        //console.log(mouse.x,mouse.y)
+    })
+
+    ctx.fillStyle = 'white';            
+    let ch = window.innerHeight / 2;
+    let valuetop = "25vw"
+    let valuebot = "13.25vw"
+    let titleVspace;
+    let sizeRatio = (window.innerWidth * window.innerHeight) / 100000;
+    console.log(sizeRatio);
+    if (window.innerHeight >  window.innerWidth){
+        titleVspace = 9;
+    }else{ 
+        titleVspace = 5;
+    }
+    ctx.font = `${valuetop} Varela Round`;
+    ctx.fillText('REIMON', 5, ch - ch/titleVspace);
+    ctx.font = `${valuebot} Varela Round`;
+    ctx.fillText('DEVELOPMENT', 5, ch + ch/titleVspace);
+    /*
+    ctx.strokeStyle = 'white';
+    ctx.strokeRect(0, 0, 10, 10);
+    */
+    const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    class Particle{
+        constructor(x, y){
+            this.x = x;
+            this.y = y;
+            //this.size = Math.random() * 2.5;
+            this.size = 2.5; //4
+            this.baseX = this.x;
+            this.baseY = this.y;
+            this.density = (Math.random() * 100) + 1;//move speed
         }
-
-        window.addEventListener('mousemove', function(event){
-            mouse.x = event.x;
-            mouse.y = event.y;
-            //console.log(mouse.x,mouse.y)
-        })
-
-        ctx.fillStyle = 'white';            
-        let ch = window.innerHeight / 2;
-        let valuetop = "25vw"
-        let valuebot = "13.25vw"
-        let titleVspace;
-        let sizeRatio = (window.innerWidth * window.innerHeight) / 500000;
-        console.log(sizeRatio);
-        if (window.innerHeight >  window.innerWidth){
-            titleVspace = 9;
-        }else{ 
-            titleVspace = 5;
+        draw(){
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
         }
-        ctx.font = `${valuetop} Varela Round`;
-        ctx.fillText('REIMON', 5, ch - ch/titleVspace);
-        ctx.font = `${valuebot} Varela Round`;
-        ctx.fillText('DEVELOPMENT', 5, ch + ch/titleVspace);
-        /*
-        ctx.strokeStyle = 'white';
-        ctx.strokeRect(0, 0, 10, 10);
-        */
-        const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        update(){
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy)
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let maxDistance = mouse.radius;
+            let force = (maxDistance - distance) / maxDistance;
+            let directionX = forceDirectionX * force * this.density;
+            let directionY = forceDirectionY * force * this.density;
 
-        class Particle{
-            constructor(x, y){
-                this.x = x;
-                this.y = y;
-                //this.size = Math.random() * 2.5;
-                this.size = 2.5; //4
-                this.baseX = this.x;
-                this.baseY = this.y;
-                this.density = (Math.random() * 100) + 1;//move speed
-            }
-            draw(){
-                ctx.fillStyle = 'white';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.fill();
-            }
-            update(){
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx * dx + dy * dy)
-                let forceDirectionX = dx / distance;
-                let forceDirectionY = dy / distance;
-                let maxDistance = mouse.radius;
-                let force = (maxDistance - distance) / maxDistance;
-                let directionX = forceDirectionX * force * this.density;
-                let directionY = forceDirectionY * force * this.density;
-
-                if (distance < mouse.radius){
-                    this.x -= directionX;
-                    this.y -= directionY;
-                } else {
-                    if (this.x !== this.baseX){
-                        let dx = this.x - this.baseX;
-                        this.x -= sizeRatio * dx / 75; //velocity of rearrange
-                    };
-                    if (this.y !== this.baseY){
-                        let dy = this.y - this.baseY;
-                        this.y -= sizeRatio * dy / 75; //velocity of rearrange
-                    };
-                }
+            if (distance < mouse.radius){
+                this.x -= directionX;
+                this.y -= directionY;
+            } else {
+                if (this.x !== this.baseX){
+                    let dx = this.x - this.baseX;
+                    this.x -= dx / 25; //velocity of rearrange
+                };
+                if (this.y !== this.baseY){
+                    let dy = this.y - this.baseY;
+                    this.y -= dy / 25; //velocity of rearrange
+                };
             }
         }
+    }
         
         function init(){
-            console.log(textCoordinates);
+            //console.log(textCoordinates);
             let particle_space = 1;
             let step;
-            if(sizeRatio < 3)
+            if(sizeRatio < 8)
                 step = 5;
             else
-                step = 8;
+                step = 10;
             particleArray = [];
             /*
             let total_particles = (window.innerHeight * window.innerWidth) / 50;
@@ -134,21 +134,10 @@ class Welcome extends React.Component{
                     }
                 }
             }
-           console.log(particleArray)
+           //console.log(particleArray)
         }
-        function animate(){
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particleArray.length; i++){
-                particleArray[i].draw();
-                particleArray[i].update();
-            }
-            connect();
-            requestAnimationFrame(animate);
-        }
-        init();
-        animate();
-
-        function connect(){
+        
+        const connect =()=>{
             const step = 5;
             let opacityValue = 1;
             let pLen = particleArray.length;
@@ -177,16 +166,28 @@ class Welcome extends React.Component{
                 }
             }
         }
-    }
 
-    render(){
-        //const blackhole = <img src={logo} className="App-logo" alt="logo" />
-        return(
-            <div id="mybody">
-                <title>PARTICLE TEXT</title>
-                <canvas id="canvas1"></canvas>
-            </div>
-        )
-    }
+        function animate(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particleArray.length; i++){
+                particleArray[i].draw();
+                particleArray[i].update();
+            }
+            connect();
+            requestAnimationFrame(animate);
+        }
+        init();
+        animate();
+
+
+    }, []);
+
+    return(
+        <div id="mybody">
+            <title>PARTICLE TEXT</title>
+            <canvas id="canvas1"></canvas>
+        </div>
+    )
+    
 }
 export default Welcome;

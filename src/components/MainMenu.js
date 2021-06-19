@@ -1,12 +1,13 @@
 import { render } from '@testing-library/react';
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import particlesJS from 'particles.js'
 //import Auth from 'aws-amplify';
 //import awsconfig from '../aws-exports';
 //import {withAuthenticator} from 'aws-amplify-react';
 //Auth.configure(awsconfig);
-class MainMenu extends Component{
-    componentDidMount(){
+const MainMenu = ()=>{
+    
+    useEffect(()=>{
         window.particlesJS(
         'particles-js', 
         {
@@ -126,28 +127,26 @@ class MainMenu extends Component{
             }
         }
         );
-    }
+    },[]);
 
-    render(){
-        return(
-            <div>
-                
-                <p>WELCOME</p>
-                <p>Main Menu</p>
-                <p className="App-link">
-                    COMING SOON
-                </p>
+    return(
+        <div>
+            <p>WELCOME</p>
+            <p>Main Menu</p>
+            <p className="App-link">
+                COMING SOON
+            </p>
 
 
-                <p>
-                    Reimon <code> Testing </code> new stuff.
-                </p>
-                <p className="App-link">
-                    Chopin is beautiful
-                </p>
-            </div>
-        )
-    }
+            <p>
+                Reimon <code> Testing </code> new stuff.
+            </p>
+            <p className="App-link">
+                Chopin is beautiful
+            </p>
+        </div>
+    )
+    
 }
 //export default withAuthenticator(MainMenu, {includeGreetings: true});
 export default MainMenu;
