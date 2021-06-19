@@ -1,6 +1,9 @@
 import { render } from '@testing-library/react';
 import React, { useEffect } from 'react';
 import particlesJS from 'particles.js'
+import Navbar from './NavBar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 //import Auth from 'aws-amplify';
 //import awsconfig from '../aws-exports';
 //import {withAuthenticator} from 'aws-amplify-react';
@@ -129,21 +132,42 @@ const MainMenu = ()=>{
         );
     },[]);
 
+    function Products() {
+        return (
+          <div className='products'>
+            <h1>Products</h1>
+          </div>
+        );
+      }
+    function Reports() {
+    return (
+        <div className='reports'>
+        <h1>Reports</h1>
+        </div>
+    );
+    } 
+    function Home() {
+        return (
+          <div className='home'>
+            <h1>Home</h1>
+          </div>
+        );
+      } 
     return(
         <div>
+            <Router>
+                <Navbar />
+                <Switch>
+                <Route path='/' exact component={Home} />
+                <Route path='/reports' component={Reports} />
+                <Route path='/products' component={Products} />
+                </Switch>
+            </Router>
             <p>WELCOME</p>
             <p>Main Menu</p>
-            <p className="App-link">
-                COMING SOON
-            </p>
-
-
-            <p>
-                Reimon <code> Testing </code> new stuff.
-            </p>
-            <p className="App-link">
-                Chopin is beautiful
-            </p>
+            <p className="App-link">COMING SOON</p>
+            <p>Reimon <code> Testing </code> new stuff.</p>
+            <p className="App-link">Chopin is beautiful</p>
         </div>
     )
     
