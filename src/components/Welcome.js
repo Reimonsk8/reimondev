@@ -1,6 +1,6 @@
 //import { render } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 import './styles/Welcome.css'
 
 const CreateParticlesAndRun = () => {
@@ -118,10 +118,10 @@ const CreateParticlesAndRun = () => {
                 let distanceToBase = Math.sqrt(dBx * dBx + dBy * dBy);
                 opacityValue = 0 + ( distanceToBase / 50);
                 let condition1 = (distanceNeighboor > 15 && distanceNeighboor < 50) 
-                let condition2 = ( 
-                    particleArray[a].x > (particleArray[a].baseX + 20) && 
-                    particleArray[a].y > (particleArray[a].baseY + 20)
-                )
+                // let condition2 = ( 
+                //     particleArray[a].x > (particleArray[a].baseX + 20) && 
+                //     particleArray[a].y > (particleArray[a].baseY + 20)
+                // )
                 if (condition1){
                     ctx.strokeStyle = `rgba(255, 255, 255, ${opacityValue})`;
                     ctx.lineWidth = 1;
@@ -185,7 +185,8 @@ const CreateParticlesAndRun = () => {
 
 const Welcome = () =>{
 
-    const history = useHistory();
+    const navigate = useNavigate();
+
     const [outro, setOutro] = useState(false);
     const [enterSite, setEnterSite] = useState(false);
 
@@ -194,6 +195,7 @@ const Welcome = () =>{
         if (!outro) setTimeout(()=>{
             setOutro(true);
         }, 1000)
+        // eslint-disable-next-line
     }, []);
 
     const getBackgroundStyle = () => {
@@ -208,7 +210,7 @@ const Welcome = () =>{
     const onIntroFinished = () => {
         setEnterSite(true);
         setTimeout(()=>{
-            history.push('/home')
+            navigate('/home', { replace: true });
         }, 2000);
     }
 
@@ -217,7 +219,7 @@ const Welcome = () =>{
             {/* Enter button container*/}
             <div className="bottom-container">
                 <div className="skip" onClick={() => onIntroFinished()}>
-                    <a>
+                    <a href={null}>
                         Enter
                         <span className="shift">›</span>
                     </a>

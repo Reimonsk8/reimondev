@@ -1,8 +1,9 @@
-import { render } from '@testing-library/react';
+// import { render } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, withRouter , Route } from 'react-router-dom';
+import { BrowserRouter, Routes , Route, useLocation, useNavigation } from 'react-router-dom';
+// eslint-disable-next-line
 import particlesJS from 'particles.js'
-import Navbar from './NavBar';
+import NavBar from './Navbar';
 import Welcome from './Welcome';
 import Home from './pages/Home';
 import Resume from './pages/Resume';
@@ -14,10 +15,8 @@ import SupportMe from './pages/SupportMe';
 //import {withAuthenticator} from 'aws-amplify-react';
 //Auth.configure(awsconfig);
 
-const MainMenu = ()=>{
-    // const [skip, setSkip] = useState(true)
-    useEffect(()=>{
-        window.particlesJS(
+const createParticleBackground = () =>{
+    window.particlesJS(
         'particles-js', 
         {
             "particles": {
@@ -115,7 +114,7 @@ const MainMenu = ()=>{
                 "speed": 3
                 },
                 "repulse": {
-                "distance": 200
+                "distance": 120 // here hover mouse distance radius
                 },
                 "push": {
                 "particles_nb": 4
@@ -136,43 +135,40 @@ const MainMenu = ()=>{
             }
         }
         );
-    },[]);
+}
 
-    // const onSkip = () => {
-    //     // props.history.push("/home");
-    //     // console.log(this.props);
-    //     setSkip(false);
-    //     // <Link to='/home'></Link>
-    // }
+//maybe useful for geting route info
+// eslint-disable-next-line
+function Dashboard() {
+    const location = useLocation()
+    const loc = window.location;
+    const nav = useNavigation()
+    const hist = window.history;
+    return console.log(location.pathname, {loc, nav, hist});
+  }
+
+
+const MainMenu = () =>{
+
+    const [showNavbar, setShowNavBar] = useState(false)
+
+    useEffect(() => {
+        createParticleBackground();
+      }, [])
 
     return(
-        <div>
-            <Router>
-            {/* { skip ?
-                <div className="skip" onClick={()=> onSkip()}> 
-                    <a href="" > Skip&nbsp;Intro&nbsp;
-                        <span className="shift">›</span>
-                    </a>
-                    <div className="mask"></div>
-                </div>
-                :<Navbar/>
-            }
-                <div className="skip" onClick={ ()=> onSkip()}>
-                    <a href=" "> Skip&nbsp;Intro&nbsp;
-                        <span className="shift">›</span>
-                    </a>
-                    <div className="mask"></div>
-                </div> */}
-                <Switch>
-                <Route path='/' exact component={Welcome} />
-                <Route path='/home' exact component={Home} />
-                <Route path='/resume' component={Resume} />
-                <Route path='/projects' component={Projects} />
-                <Route path='/postboard' component={PostBoard} />
-                <Route path='/supportme' component={SupportMe} />
-                </Switch>
-            </Router>
-        </div>
+        <BrowserRouter>
+            {showNavbar ? <NavBar/> :<></>}
+            <Routes>
+                <Route path='/' element={<Welcome />} />
+                <Route path='/home' element={<Home setShowNavBar={setShowNavBar}/>} />
+                <Route path='/resume' element={<Resume setShowNavBar={setShowNavBar}/>} />
+                <Route path='/projects' element={<Projects setShowNavBar={setShowNavBar}/>} />
+                <Route path='/postboard' element={<PostBoard setShowNavBar={setShowNavBar}/>} />
+                <Route path='/supportme' element={<SupportMe setShowNavBar={setShowNavBar}/>} />
+                <Route path='*' element={<>{/*nopage*/}</>}/>
+            </Routes >
+        </BrowserRouter>
     )
     
 }

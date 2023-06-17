@@ -3,7 +3,9 @@
   width: 100vw;
   height: 100vh;
   text-align: center;
-  
+  display: flex;
+  justify-content: center;
+  color: white;
 }
 .App-header {
   /*background-color: linear-gradient(to bottom right, black, rgba(25,25,25,1), rgba(35,25,25,1));*/
@@ -67,4 +69,17 @@ canvas{
 } 
 .count-particles{ 
   border-radius: 0 0 3px 3px; 
+}
+
+/* pages */
+.Resume{
+  flex: 0 0 100%;
+}
+.container-iframe{
+  height: calc(100% - 150px);
+  width: 800px;
+}
+.Home{
+  font-size: calc(10px + 2vmin);
+  margin: auto;
 }

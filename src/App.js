@@ -6,10 +6,10 @@ import MainMenu from './components/MainMenu';
 const App = () => {
     return (
       <div className="App">       
-        <div id="particles-js" ></div>
         <header className="App-header">
-          <MainMenu/>
         </header>
+        <div id="particles-js" ></div>
+        <MainMenu/>
       </div>
     );
 };
