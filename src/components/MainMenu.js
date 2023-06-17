@@ -1,15 +1,21 @@
 import { render } from '@testing-library/react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, withRouter , Route } from 'react-router-dom';
 import particlesJS from 'particles.js'
 import Navbar from './NavBar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
+import Welcome from './Welcome';
+import Home from './pages/Home';
+import Resume from './pages/Resume';
+import Projects from './pages/Projects';
+import PostBoard from './pages/PostBoard';
+import SupportMe from './pages/SupportMe'; 
 //import Auth from 'aws-amplify';
 //import awsconfig from '../aws-exports';
 //import {withAuthenticator} from 'aws-amplify-react';
 //Auth.configure(awsconfig);
+
 const MainMenu = ()=>{
-    
+    // const [skip, setSkip] = useState(true)
     useEffect(()=>{
         window.particlesJS(
         'particles-js', 
@@ -132,45 +138,45 @@ const MainMenu = ()=>{
         );
     },[]);
 
-    function Products() {
-        return (
-          <div className='products'>
-            <h1>Products</h1>
-          </div>
-        );
-      }
-    function Reports() {
-    return (
-        <div className='reports'>
-        <h1>Reports</h1>
-        </div>
-    );
-    } 
-    function Home() {
-        return (
-          <div className='home'>
-            <h1>Home</h1>
-          </div>
-        );
-      } 
+    // const onSkip = () => {
+    //     // props.history.push("/home");
+    //     // console.log(this.props);
+    //     setSkip(false);
+    //     // <Link to='/home'></Link>
+    // }
+
     return(
         <div>
             <Router>
-                <Navbar />
+            {/* { skip ?
+                <div className="skip" onClick={()=> onSkip()}> 
+                    <a href="" > Skip&nbsp;Intro&nbsp;
+                        <span className="shift">›</span>
+                    </a>
+                    <div className="mask"></div>
+                </div>
+                :<Navbar/>
+            }
+                <div className="skip" onClick={ ()=> onSkip()}>
+                    <a href=" "> Skip&nbsp;Intro&nbsp;
+                        <span className="shift">›</span>
+                    </a>
+                    <div className="mask"></div>
+                </div> */}
                 <Switch>
-                <Route path='/' exact component={Home} />
-                <Route path='/reports' component={Reports} />
-                <Route path='/products' component={Products} />
+                <Route path='/' exact component={Welcome} />
+                <Route path='/home' exact component={Home} />
+                <Route path='/resume' component={Resume} />
+                <Route path='/projects' component={Projects} />
+                <Route path='/postboard' component={PostBoard} />
+                <Route path='/supportme' component={SupportMe} />
                 </Switch>
             </Router>
-            <p>WELCOME</p>
-            <p>Main Menu</p>
-            <p className="App-link">COMING SOON</p>
-            <p>Reimon <code> Testing </code> new stuff.</p>
-            <p className="App-link">Chopin is beautiful</p>
         </div>
     )
     
 }
+// withRouter(MainMenu);
+
 //export default withAuthenticator(MainMenu, {includeGreetings: true});
 export default MainMenu;
