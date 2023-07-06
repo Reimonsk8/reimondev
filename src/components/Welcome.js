@@ -1,24 +1,26 @@
 //import { render } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
-import './styles/Welcome.css'
+import '../styles/Welcome.css'
 
-const CreateParticlesAndRun = () => {
+const CreateParticlesAndRun = (stopAnimation = false) => {
     
     const canvas = document.getElementById('IntroParticleCanvas')
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    ctx.clearRect(0, 0, canvas.width, window.innerHeight);
     let particleArray = [];
     const adjustX = 0;
     const adjustY = 0;
+    const isMobileSize = () => (window.innerWidth * window.innerHeight) < 500000;
+    console.log("size", window.innerWidth * window.innerHeight, "isMobileSize", isMobileSize())
 
     class Particle{
         constructor(x, y){
             this.x = x;
             this.y = y;
-            // this.size = Math.random() * 5;
-            this.size = 2.5; //4
+            this.size = (Math.random() * 0.5) + (isMobileSize() ? 1 : 2); //4;
             this.baseX = this.x;
             this.baseY = this.y;
             this.density = (Math.random() * 100) + 1;//move speed
@@ -62,11 +64,8 @@ const CreateParticlesAndRun = () => {
     function init(){
         //console.log(textCoordinates);
         let particle_space = 1;
-        let step;
-        if(sizeRatio < 8)
-            step = 5;
-        else
-            step = 10;
+        const step = isMobileSize() ? 6 : 7;
+        const randomValue = () => (Math.random * 2)
         particleArray = [];
         /*
         let total_particles = (window.innerHeight * window.innerWidth) / 50;
@@ -75,6 +74,8 @@ const CreateParticlesAndRun = () => {
             let y = Math.random () * canvas.height;
             particleArray.push(new Particle(x, y));
         }*/
+
+        
         
         let particleIndex= 0;
         for (let y = 0, y2 = textCoordinates.height ; y < y2; y += step){
@@ -136,12 +137,18 @@ const CreateParticlesAndRun = () => {
 
     function animate(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < particleArray.length; i++){
-            particleArray[i].draw();
-            particleArray[i].update();
+        if(stopAnimation){
+            console.log("stopped");
+            particleArray = [];
+            window.cancelAnimationFrame(animate);
+        }else{
+            for (let i = 0; i < particleArray.length; i++){
+                particleArray[i].draw();
+                particleArray[i].update();
+            }
+            connect();
+            requestAnimationFrame(animate);
         }
-        connect();
-        requestAnimationFrame(animate);
     }
     
     const mouse = {
@@ -155,6 +162,12 @@ const CreateParticlesAndRun = () => {
         mouse.y = event.y;
         //console.log(mouse.x,mouse.y)
     })
+
+    window.addEventListener('touchmove', function(event){
+        mouse.x = event.x;
+        mouse.y = event.y;
+        //console.log(mouse.x,mouse.y)
+    })
     
     //Begin
     ctx.fillStyle = 'white';            
@@ -162,9 +175,9 @@ const CreateParticlesAndRun = () => {
     let valuetop = "25vw"
     let valuebot = "13.25vw"
     let titleVspace;
-    let sizeRatio = (window.innerWidth * window.innerHeight) / 100000;
+    let sizeRatio = (window.innerWidth * window.innerHeight) / 1000000;
     console.log(sizeRatio);
-    if (window.innerHeight >  window.innerWidth){
+    if (window.innerHeight > window.innerWidth){
         titleVspace = 9;
     }else{ 
         titleVspace = 5;
@@ -181,14 +194,22 @@ const CreateParticlesAndRun = () => {
 
     init();
     animate();
+    
 };
+
+const regenerateCanvas = () => {
+    return(
+        <canvas id="IntroParticleCanvas">
+        </canvas>
+    )
+}
 
 const Welcome = () =>{
 
     const navigate = useNavigate();
-
     const [outro, setOutro] = useState(false);
     const [enterSite, setEnterSite] = useState(false);
+    const [reloads, setReloads] = useState(0);
 
     useEffect( () => { 
         CreateParticlesAndRun();
@@ -196,7 +217,18 @@ const Welcome = () =>{
             setOutro(true);
         }, 1000)
         // eslint-disable-next-line
-    }, []);
+    }, [reloads]);
+
+    function resizeUpdate(){
+        // console.log("resized finished")
+        setReloads(reloads + 1);
+    }
+    
+    let timer;
+    window.onresize = () =>{
+      clearTimeout(timer);
+      timer = setTimeout(resizeUpdate, 100);
+    };
 
     const getBackgroundStyle = () => {
         if (!outro && !enterSite)
@@ -227,8 +259,9 @@ const Welcome = () =>{
                 </div>
             </div>
             {/* Particle intro canvas */}
-            <canvas id="IntroParticleCanvas">
-            </canvas>
+            {regenerateCanvas()}
+            {/* <canvas id="IntroParticleCanvas">
+            </canvas> */}
         </div>
     )
     

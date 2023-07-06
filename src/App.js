@@ -1,6 +1,6 @@
 import React from 'react';
 /*import particles from './assets/particles.json'*/
-import './App.css';
+import './styles/App.css';
 import MainMenu from './components/MainMenu';
 
 const App = () => {
