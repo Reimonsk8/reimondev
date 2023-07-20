@@ -1,0 +1,124 @@
+.navbar {
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  /* background-color: rgba(0,0,0,0.75); */
+  /* border: 1px solid rgba(255,255,255, 0.5); */
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+a svg:hover{
+  animation: bounce 1s infinite;
+  -webkit-animation: bounce 1s infinite;
+  -moz-animation: bounce 1s infinite;
+  -o-animation: bounce 1s infinite;
+}
+@-webkit-keyframes bounce {
+  0%, 100% {
+    -webkit-transform: translateY(0);
+    -webkit-transform: scale(1);
+  }
+  50% {
+    -webkit-transform: translateY(-5px);
+    -webkit-transform: scale(1.2);
+  }
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+    -webkit-transform: scale(1);
+  }
+  50% {
+    transform: translateY(-5px);
+    -webkit-transform: scale(1.2);
+  }
+}
+.bounce {
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
+}
+a.menu-bars.hide{
+  opacity: 0;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s  linear;
+  -o-transition: all 0.5s  linear;
+  transition: all 0.5s  linear;
+}
+.menu-bars {
+  opacity: 1;
+  margin-left: 2rem;
+  font-size: 2rem;
+  background: none;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s  linear;
+  -o-transition: all 0.5s  linear;
+  transition: all 0.5s  linear;
+}
+
+.nav-menu {
+  background-color: rgba(0,0,0,0.75);
+  /* border: 1px solid rgba(255,255,255,0.75); */
+  width: 200px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  /* top: 81px; */
+  top: 0px;
+  left: -100%;
+  opacity: 0;
+  transition: 500ms;
+}
+
+.nav-menu.active {
+  left: 0;
+  opacity: 1;
+  transition: 500ms;
+}
+
+.nav-text {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
+}
+
+.nav-text a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
+}
+
+.nav-text a:hover {
+  background-color: rgba(120,120,120,0.5);
+}
+
+.nav-menu-items {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+}
+
+.navbar-toggle {
+  background-color: rgba(0,0,0,0.5);
+  /* border: 1px solid rgba(255,255,255,1); */
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+span {
+  margin-left: 16px;
+}
