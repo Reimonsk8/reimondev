@@ -31,10 +31,16 @@ function Navbar() {
       icon: <IoIcons.IoMdPeople />,
       cName: 'nav-text'
     },
+    // {
+    //   title: 'Post Board',
+    //   path: '/postboard',
+    //   icon: <FaIcons.FaEnvelopeOpenText />,
+    //   cName: 'nav-text'
+    // },
     {
-      title: 'Post Board',
-      path: '/postboard',
-      icon: <FaIcons.FaEnvelopeOpenText />,
+      title: 'Reimon Tube',
+      path: '/reimontube',
+      icon: <FaIcons.FaTv/>,
       cName: 'nav-text'
     },
     {

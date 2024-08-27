@@ -1,6 +1,6 @@
 // import { render } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes , Route, useLocation, useNavigation } from 'react-router-dom';
+import { BrowserRouter, Routes , Route, useLocation, useNavigation, Router } from 'react-router-dom';
 // eslint-disable-next-line
 import particlesJS from 'particles.js'
 import NavBar from './Navbar';
@@ -10,6 +10,11 @@ import Resume from './pages/Resume';
 import Projects from './pages/Projects';
 import PostBoard from './pages/PostBoard';
 import SupportMe from './pages/SupportMe'; 
+import ReimonTube from './pages/ReimonTube';
+
+import IntroKartel from './projectPages/IntroKartel'
+import ShopKartel from './projectPages/ShopKartel'
+
 //import Auth from 'aws-amplify';
 //import awsconfig from '../aws-exports';
 //import {withAuthenticator} from 'aws-amplify-react';
@@ -137,6 +142,15 @@ const createParticleBackground = () =>{
         );
 }
 
+const deleteParticleJsDiv = () => {
+    // Select the div element with the ID 'particle-js'
+    let particleJsDiv = document.getElementById('particles-js');
+
+    // Check if the element exists
+    if (particleJsDiv) particleJsDiv.remove();
+    else console.log("Element not found.");
+}
+
 //maybe useful for geting route info
 // eslint-disable-next-line
 function Dashboard() {
@@ -147,13 +161,15 @@ function Dashboard() {
     return console.log(location.pathname, {loc, nav, hist});
   }
 
+// createParticleBackground()
 
 const MainMenu = () =>{
 
     const [showNavbar, setShowNavBar] = useState(false)
+    const [showParticles, setShowParticles] = useState(true)
 
     useEffect(() => {
-        createParticleBackground();
+        // showParticles ? createParticleBackground() : deleteParticleJsDiv();
       }, [])
 
     return(
@@ -163,16 +179,22 @@ const MainMenu = () =>{
                 <Route path='/' element={<Welcome />} />
                 <Route path='/home' element={<Home setShowNavBar={setShowNavBar}/>} />
                 <Route path='/resume' element={<Resume setShowNavBar={setShowNavBar}/>} />
+                
+                <Route path='/kartel' element={
+                    <IntroKartel 
+                        setShowNavBar={setShowNavBar}
+                        setShowParticles={setShowParticles}
+                        />} />
+                <Route path='/kartelshop' element={<ShopKartel setShowNavBar={setShowNavBar}/>} />
+
                 <Route path='/projects' element={<Projects setShowNavBar={setShowNavBar}/>} />
                 <Route path='/postboard' element={<PostBoard setShowNavBar={setShowNavBar}/>} />
+                <Route path='/reimontube' element={<ReimonTube setShowNavBar={setShowNavBar}/>} />
                 <Route path='/supportme' element={<SupportMe setShowNavBar={setShowNavBar}/>} />
-                <Route path='*' element={<>{/*nopage*/}</>}/>
-            </Routes >
-        </BrowserRouter>
+            </Routes>
+        </BrowserRouter>    
     )
     
 }
-// withRouter(MainMenu);
 
-//export default withAuthenticator(MainMenu, {includeGreetings: true});
 export default MainMenu;

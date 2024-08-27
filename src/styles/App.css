@@ -165,3 +165,112 @@ img.paypal{
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+
+/* SOCIAL BUTTONS */
+.flex-center {
+	 display: -webkit-box;
+	 display: -webkit-flex;
+	 display: -ms-flexbox;
+	 display: flex;
+	 -webkit-box-pack: center;
+	 -webkit-justify-content: center;
+	 -ms-flex-pack: center;
+	 justify-content: center;
+	 -webkit-box-align: center;
+	 -webkit-align-items: center;
+	 -ms-flex-align: center;
+	 align-items: center;
+}
+ .icon-3d {
+   cursor: pointer;
+   margin: 15px;
+	 -webkit-animation: icon3d 200ms 10;
+	 animation: icon3d 200ms 10;
+	 /* color: #fff; */
+}
+
+.fa{
+  color:white;
+}
+.fa:hover{
+  filter: invert(50%);
+}
+.game-1{
+  height: fit-content !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.share-list {
+  display: flex;
+  flex-direction: row;
+}
+
+.share-list a {
+  border-radius: 100px;
+  padding: 5px 5px 0px 5px;
+  margin: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  color: white;
+
+}
+.share-list img{
+  filter: invert(100%);
+  width: 40px;
+}
+.share-list a:hover{
+  filter: invert(50%);
+}
+a.fb-h { background: #3B5998; }
+a.tw-h { background: #00acee; }
+a.li-h { background: #0077B5; }
+a.re-h { background: #FF5700; }
+a.pi-h { background: #c8232c; }
+
+
+.share-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
