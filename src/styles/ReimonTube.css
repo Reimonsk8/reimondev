@@ -1,0 +1,24 @@
+.video-container {
+    overflow-y: auto;
+    height: auto;
+    margin-top: 100px;
+  }
+  
+  .video-item {
+    width: auto;
+    position: relative;
+    max-width: 80vw;
+    z-index: -1;
+  }
+  
+  .video-item video {
+    margin-bottom: 10px;
+    min-width: 80vw;
+    max-width: 80vw;
+  }  
+
+  #root > div > h1 {
+    position: fixed;
+    text-align: center;
+    margin-bottom: 20px; /* Add some space between the heading and the video container */
+  }
