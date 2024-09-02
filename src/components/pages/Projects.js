@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import "../../styles/Projects.css";
 
 const Projects = ({setShowNavBar}) =>{
 

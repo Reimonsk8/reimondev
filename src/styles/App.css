@@ -90,6 +90,7 @@ canvas{
 .home{
   font-size: calc(10px + 2vmin);
   margin: auto;
+  padding: 20%;
 }
 img.meme{
   max-width: 300px;
@@ -105,47 +106,7 @@ img.paypal{
 .supportme form:hover{
   filter: invert(100%);
 }
-.Projects {
-}
-.Projects * {
-  box-sizing: border-box;
-}
-.Projects .container { 
-  height: 100vh;
-  overflow:auto;
-  /* margin-left: 50px; */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-} 
 
-.Projects .container > div {
-  /* font-size: 5vw; */
-  padding: .5em;
-  color: white;
-  margin: 10px;
-  border-radius: 3px;
-  background: rgba(79, 82, 73, 0.281);
-  border: 5px solid transparent;
-}
-.Projects .container > div:hover {
-  border: 5px solid gold;
-}
-.Projects .container > div:nth-child(1) {
-  width: 100%;
-  height: 500px;
-}
-.Projects .container > div:nth-child(2) {
-  width: 60%;
-  height: 500px;
-}
-.Projects .container > div:nth-child(3),
-.Projects .container > div:nth-child(4),
-.Projects .container > div:nth-child(5) {
-  width: 30%;
-  height: 500px;
-}
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

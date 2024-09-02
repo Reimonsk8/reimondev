@@ -1,38 +1,24 @@
 import React, { useEffect } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
-import "../../styles/Resume.css"
-const resumePdfUrl = '/resume.pdf';
+import "../../styles/Resume.css";
 
-const style =
-{
-    backgroundColor: "none",
-    margin: "auto",
-    textAlign: "center",
-    width:  "fit-content",
-    height:  "fit-content", /* Adjust based on your needs */
-}
+const resumePdfUrl = "https://my-video-storage-demo.s3.amazonaws.com/Resume+Jose+Ramon+Gomez+Armenta+2024.pdf";
 
 const Resume = ({ setShowNavBar }) => {
-  useEffect(() => {
-    setShowNavBar(true);
-    // Set the workerSrc property
-    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-  }, []);
+    useEffect(() => {
+        setShowNavBar(true);
+    }, []);
 
-  const onDocumentLoadError = (error) => {
-    console.error('Error loading PDF:', error);
-  };
-
-  return (
-    <div className='Resume'>
-      <h1>Resume</h1>
-      <div classname="container-pdf">
-        <Document file={resumePdfUrl} onLoadError={onDocumentLoadError}>
-          <Page pageNumber={1} />
-        </Document>
-      </div>
-    </div>
-  );
+    return (
+        <div className="Resume">
+          <h1>Resume</h1>
+          <div className="container-pdf">
+            <iframe
+                src={resumePdfUrl}
+                title="Resume PDF"
+            />
+          </div>
+        </div>
+    );
 };
 
 export default Resume;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/ShopKartel.css';
+import '../../styles/KartelShop.css';
 import bannerTop from '../../res/banner.png';
 import logo from '../../res/Logo.png';
 import item1 from '../../res/item1.png';
@@ -27,7 +27,7 @@ const products = [
   { id: 3, picture: item3, picture_side: item3side, name: 'LA Black Cap', price: 23.99 },
 ];
 
-const ShopKartel = ({ setShowParticles }) => {
+const KartelShop = ({ setShowParticles }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -35,7 +35,7 @@ const ShopKartel = ({ setShowParticles }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveSlideIndex((prevIndex) => (prevIndex + 1) % products.length);
-    }, 2000);
+    }, 3000);
     return () => clearInterval(timer);
   }, []);
 
@@ -92,7 +92,6 @@ const ShopKartel = ({ setShowParticles }) => {
 
       <div className="main-content">
         <div className="shop-class">
-
           <img src={bannerTop} className='shop-banner'/>
 
           <h1>NEW ARRIVALS</h1>
@@ -138,6 +137,7 @@ const ShopKartel = ({ setShowParticles }) => {
         <img src={logo} alt="Shop Logo" className="shop-logo"/>  
         
         <div className="bottom-banner">
+            <p>&copy; 2024 Kartel. All rights reserved.</p>
         </div>  
       </div>
 
@@ -165,4 +165,4 @@ const ShopKartel = ({ setShowParticles }) => {
   );
 };
 
-export default ShopKartel;
+export default KartelShop;
