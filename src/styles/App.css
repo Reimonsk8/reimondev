@@ -27,8 +27,8 @@ canvas{
   vertical-align: bottom; 
 } 
 /* ---- particles.js container ---- */ 
-#particles-js{ 
-  z-index: -1;
+#particles-js{
+  z-index: -1; 
   background-color: #202020;
 	background-image: radial-gradient(35% 100% ellipse at top center, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 100%);
 	transition: background-color 4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -143,16 +143,16 @@ img.paypal{
 	 -ms-flex-align: center;
 	 align-items: center;
 }
- .icon-3d {
-   cursor: pointer;
-   margin: 15px;
-	 -webkit-animation: icon3d 200ms 10;
-	 animation: icon3d 200ms 10;
-	 /* color: #fff; */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust this value to change the spacing */
 }
-
-.fa{
-  color:white;
+.icon-3d {
+  cursor: pointer;
+  margin: 15px;
+  -webkit-animation: icon3d 200ms 10;
+  animation: icon3d 200ms 10;
 }
 .fa:hover{
   filter: invert(50%);

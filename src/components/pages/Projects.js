@@ -19,29 +19,28 @@ const Projects = ({setShowNavBar}) =>{
       
       <div className="container">
 
-        <div className="game-1">
-          <h5>The Uknown Void - UE5 game</h5>
-          demo of multiplayer
-          <br/>
-          <img src="https://my-video-storage-demo.s3.amazonaws.com/demoMultiplayer.gif" width="720px" height="480px" />
-          <br/>
-          demo of locomotion
-          <br/>
-          <img src="https://my-video-storage-demo.s3.amazonaws.com/AdvancedLocomotionIntegration.gif" width="720px" height="480px" />
-          <br/>
-          {/* <h5>The Uknown Void - UE5 game</h5>
-          demo of multiplayer
-          <br/>
-          <video width="720px" height="480px" controls>
-            <source src="https://my-video-storage-demo.s3.amazonaws.com/demoMultiplayer.gif" ></source>
-          </video>
-          <br/>
-          demo of locomotion
-          <br/>
-          <video width="720px" height="480px" controls>
-            <source src="https://my-video-storage-demo.s3.amazonaws.com/AdvancedLocomotionIntegration.gif" ></source>
-          </video> */}
-          <br/>
+      <div className="game-1">
+  <h5>The Uknown Void - UE5 game</h5>
+  
+  <div className="video-container">
+    demo of multiplayer
+    <br/>
+    <div key={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} className="video-item">
+      <video controls>
+        <source src={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} type="video/mp4" />
+      </video>
+    </div>
+  </div>
+
+  <div className="video-container">
+    demo of locomotion
+    <br/>
+    <div key={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} className="video-item">
+      <video controls>
+        <source src={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} type="video/mp4" />
+      </video>
+    </div>
+  </div>
 
           content update coming soon..
         </div>
@@ -50,11 +49,11 @@ const Projects = ({setShowNavBar}) =>{
 
           <div onClick={()=> handleLink('/kartel')} className='web-link'><h2>Cap Brand Webiste</h2></div>
 
-          <div onClick={()=> handleLink('/twoheads')} className='web-link'><h2>Clothing Webiste</h2></div>
+          <a href="http://ncaliforniatestbucket.s3-website-us-west-1.amazonaws.com/"><div className='web-link'><h2>Clothing Webiste</h2></div></a>
 
           content update coming soon..
           <br></br>
-          <a href="http://ncaliforniatestbucket.s3-website-us-west-1.amazonaws.com/">Cap Brand Webiste</a>
+          
           
         </div>
 

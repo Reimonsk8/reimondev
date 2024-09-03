@@ -11,8 +11,8 @@ const SupportMe = ({setShowNavBar}) =>{
 
   return (
     <div className='page-container'>
-      <h1>SupportMe</h1>
-      <div>SupportMe</div>
+      <h1>Support Me</h1>
+      {/* <div>Support Me</div> */}
 
       <div className='supportme'>
         <img className="meme" src="donate_meme.png"></img>
