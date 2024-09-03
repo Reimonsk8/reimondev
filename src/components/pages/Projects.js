@@ -20,27 +20,27 @@ const Projects = ({setShowNavBar}) =>{
       <div className="container">
 
       <div className="game-1">
-  <h5>The Uknown Void - UE5 game</h5>
-  
-  <div className="video-container">
-    demo of multiplayer
-    <br/>
-    <div key={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} className="video-item">
-      <video controls>
-        <source src={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} type="video/mp4" />
-      </video>
-    </div>
-  </div>
+        <h5>The Uknown Void - UE5 game</h5>
+        
+        <div className="video-container">
+          demo of multiplayer
+          <br/>
+          <div key={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} className="video-item">
+            <video controls>
+              <source src={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} type="video/mp4" />
+            </video>
+          </div>
+        </div>
 
-  <div className="video-container">
-    demo of locomotion
-    <br/>
-    <div key={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} className="video-item">
-      <video controls>
-        <source src={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} type="video/mp4" />
-      </video>
-    </div>
-  </div>
+        <div className="video-container">
+          demo of locomotion
+          <br/>
+          <div key={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} className="video-item">
+            <video controls>
+              <source src={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} type="video/mp4" />
+            </video>
+          </div>
+        </div>
 
           content update coming soon..
         </div>
