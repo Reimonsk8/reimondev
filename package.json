@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/cli": "*",
+    "@aws-amplify/cli": "^12.12.6",
+    "@aws-amplify/ui-react": "^6.2.0",
     "@aws-sdk/client-s3": "*",
     "@aws-sdk/s3-request-presigner": "*",
     "@fortawesome/fontawesome-svg-core": "*",
     "@fortawesome/free-brands-svg-icons": "*",
     "@fortawesome/free-solid-svg-icons": "*",
     "@fortawesome/react-fontawesome": "*",
+    "@mediapipe/tasks-vision": "^0.10.15",
     "@react-icons/all-files": "*",
     "@react-pdf/renderer": "*",
     "@react-three/drei": "*",
@@ -17,8 +19,7 @@
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
     "@testing-library/user-event": "*",
-    "aws-amplify": "*",
-    "aws-amplify-react": "*",
+    "aws-amplify": "^6.5.3",
     "axios": "*",
     "font-awesome": "*",
     "particles.js": "*",
@@ -47,6 +48,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "esbuild-loader": "*"
+    "esbuild-loader": "*",
+    "source-map-loader": "^5.0.0"
   }
 }
