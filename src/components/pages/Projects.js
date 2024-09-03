@@ -35,7 +35,7 @@ const Projects = ({setShowNavBar}) =>{
         <div className="video-container">
           demo of locomotion
           <br/>
-          <div key={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} className="video-item">
+          <div key={"https://my-video-storage-demo.s3.amplify env removeamazonaws.com/Locomotion.mp4"} className="video-item">
             <video controls>
               <source src={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} type="video/mp4" />
             </video>
