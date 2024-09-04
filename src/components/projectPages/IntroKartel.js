@@ -13,12 +13,10 @@ const Model = ({ url, spin = false, rotation = [16.5, 210, -1], position = [0, 0
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const scalePercentage = 0.00080 * scale; // 50% of the screen width
-  // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const scalePercentage = scale * (window.innerWidth / 210000)
 
   const calculateVerticalPosition = () => {
-    let verticalOffset = position[1] * (0.0015) * (window.innerWidth / 2);
-    console.log('verticalOffset:', verticalOffset, (window.innerWidth / 2))
+    let verticalOffset = position[1] * (0.0016) * (window.innerWidth / 2);
     return verticalOffset;
   };
 
@@ -34,30 +32,25 @@ const Model = ({ url, spin = false, rotation = [16.5, 210, -1], position = [0, 0
   }, [url]);
 
   useFrame(() => {
-    if (meshRef.current && spin) {
-      meshRef.current.rotation.y += 0.01;
-    }
-    // setScreenWidth(window.innerWidth);
+    if (!meshRef.current || !spin) return;
+    meshRef.current.rotation.y += 0.01;
   });
 
   if (isLoading) return null;
 
   const shinyChromeMaterial = new THREE.MeshStandardMaterial({
     color: 0xFFFFFF,
-    // reflectivity: 1,
     metalness: 0.1,
     roughness: 0.000,
-    // specular: 0x111111,
-    shininess: 100,
     side: THREE.DoubleSide
   });
-
+  
   let width = window.innerWidth;
 
   return (
     <mesh ref={meshRef } className="mesh"
       position={[position[0], calculateVerticalPosition(), position[2]]} 
-      scale={[width * scalePercentage / 100, width * scalePercentage / 100, width * scalePercentage / 100]} 
+      scale={[scalePercentage, scalePercentage, scalePercentage]} 
       rotation={[angleToRadians(rotation[0]), angleToRadians(rotation[1]), angleToRadians(rotation[2])]}
       material={shinyChromeMaterial}
     >
@@ -67,7 +60,6 @@ const Model = ({ url, spin = false, rotation = [16.5, 210, -1], position = [0, 0
 };
 
 const KartelIntro = ({ setShowParticles }) => {
-  const spinningImageRef = useRef(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -87,7 +79,7 @@ const KartelIntro = ({ setShowParticles }) => {
         <pointLight position={[-1, -1, 0 ]} intensity={2} castShadow />
         <Suspense fallback={<p>Loading...</p>}>
           <Model url="/Kartel.stl" spin={true} rotation={[16.5, 210, -1]} position={[0, 1, 0]} scale={1}/>
-          <Model url="/Confidential.stl" rotation={[0, 270, 10]} position={[0, -3, 0]} scale={2}/>
+          <Model url="/Confidential.stl" rotation={[0, 270, 10]} position={[0, -2.5, 0]} scale={2.8}/>
         </Suspense>
       </Canvas>
     </div>
