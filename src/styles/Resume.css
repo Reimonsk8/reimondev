@@ -1,0 +1,48 @@
+#root > div > div.Resume > div > iframe{
+    width: 100%;
+    height: 100vw;
+}
+.container-pdf{
+    padding-left: 10vw;
+    padding-right: 10vw;
+    height: 80vw;
+    padding-bottom: 40vw;
+    margin-bottom: 40vw;
+}
+
+.Resume {
+    text-align: center;
+  }
+  
+  .container-pdf {
+    overflow-y: auto;
+  }
+  
+  /* Hide the sidebar */
+  iframe {
+    border: none;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Remove the sidebar */
+  iframe::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Force Safari to call pagescript */
+  iframe {
+    -webkit-user-select: none;
+    -webkit-natural-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Remove the page numbers */
+  iframe {
+    page-break-after: always;
+  }
+  

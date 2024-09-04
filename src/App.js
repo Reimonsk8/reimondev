@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+/*import particles from './assets/particles.json'*/
+import './styles/App.css';
+import MainMenu from './components/MainMenu';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Testing <code> Reimon </code> code.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          more info
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    return (
+      <div className="App">       
+        <header className="App-header">
+        </header>
+        <div id="particles-js" ></div>
+        <MainMenu/>
+      </div>
+    );
+};
 
 export default App;
