@@ -8,6 +8,11 @@
     background-size: 100vw;
     background-position: center;
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
 }
 
 body {
@@ -58,4 +63,51 @@ body {
 
 .mesh{
     border: solid 5px red;
+}
+
+.logo-top.animated-logo {
+  width: 30vw;
+  height: auto;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.logo-bottom.confidential-logo {
+  width: 40vw;
+  height: auto;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeIn 4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobile vertical view styles */
+@media (max-width: 768px) and (orientation: portrait) {
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+  }
+
+  .logo-top.animated-logo,
+  .logo-bottom.confidential-logo {
+    object-fit: contain;
+    object-position: center;
+    position: absolute;
+    transform: translateY(-50%);
+  }
+
+  .logo-top.animated-logo {
+    top: 41%;
+  }
+
+  .logo-bottom.confidential-logo {
+    bottom: 31%;
+  }
 }
