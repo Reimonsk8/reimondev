@@ -1,8 +1,25 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../../styles/Projects.css";
 
 const Projects = ({setShowNavBar}) =>{
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const images = [
+    '/DarkVoidConsoleScreen0.PNG',
+    '/DarkVoidConsoleScreen1.PNG',
+    '/DarkVoidConsoleScreen2.PNG'
+  ];
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     setShowNavBar(true);
@@ -16,61 +33,70 @@ const Projects = ({setShowNavBar}) =>{
   return (
     <div className='Projects'>
       <h1>Projects</h1>
-      
       <div className="container">
+        <div className='flex-grid-container'>
+          <div>
+            <h5>The Uknown Void - UE5 game</h5>
+            <p>Unreal engine multiplayer multiplayer horror survival experience</p>
+            <p>Content and demo arriving someday</p>
+            <div className="container-game-1">
 
-      <div className="game-1">
-        <h5>The Uknown Void - UE5 game</h5>
-        
-        <div className="video-container">
-          demo of multiplayer
-          <br/>
-          <div key={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} className="video-item">
-            <video controls>
-              <source src={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} type="video/mp4" />
-            </video>
+              <div className="video-container">
+                <p>Multiplayer demo snippet</p>
+                <div key={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} className="video-item">
+                  <video controls>
+                    <source src={"https://my-video-storage-demo.s3.amazonaws.com/Multiplayer.mp4"} type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+
+              <div className="video-container">
+                <p>Locomotion demo snippet</p>
+                <div key={"https://my-video-storage-demo.s3.amplify env removeamazonaws.com/Locomotion.mp4"} className="video-item">
+                  <video controls>
+                    <source src={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </div>
+            <br/>
           </div>
-        </div>
 
-        <div className="video-container">
-          demo of locomotion
-          <br/>
-          <div key={"https://my-video-storage-demo.s3.amplify env removeamazonaws.com/Locomotion.mp4"} className="video-item">
-            <video controls>
-              <source src={"https://my-video-storage-demo.s3.amazonaws.com/Locomotion.mp4"} type="video/mp4" />
-            </video>
+          <div class="button-container">
+            <h5>single page web applications demos</h5>
+          
+            <a><div onClick={()=> handleLink('/kartel')} className='web-link'>Cap Brand Webiste </div></a>
+
+            <a href="http://ncaliforniatestbucket.s3-website-us-west-1.amazonaws.com/">
+              <div class="web-link">Clothing Webiste</div>
+            </a>
+            <span>content update coming soon..<br/></span>
           </div>
-        </div>
 
-          content update coming soon..
-        </div>
+          <div>
+            <h5>dark void - C++ Console game</h5>
+              content update coming soon..
+          </div>
 
-        <div><h5>single page web applications demos</h5>
+          <div>
+            <h5>DnD - C++ Window Application game</h5>
+            <div className="slideshow-container">
+              <img src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} className='slideshow-img'/>
+            </div>
+            <p>Embark on a thrilling adventure through a dark dungeon, 
+              navigating treacherous paths and overcoming challenges as you desperately seek the 
+              elusive exit. Will you survive the perils within, or will the shadows consume you?
+            </p>
+            <div className="download-button">Download</div>
+          </div>
 
-          <div onClick={()=> handleLink('/kartel')} className='web-link'><h2>Cap Brand Webiste</h2></div>
-
-          <a href="http://ncaliforniatestbucket.s3-website-us-west-1.amazonaws.com/"><div className='web-link'><h2>Clothing Webiste</h2></div></a>
-
-          content update coming soon..
-          <br></br>
-          
-          
-        </div>
-
-        <div> <h5>DnD - C++ Window Application game</h5>
-         content update coming soon..</div>
-
-        <div><h5>dark void - C++ Console game</h5>
+          <div><h5>PubNub Real Time Temp Plot Script on WebPage</h5>
           content update coming soon..</div>
-        
 
 
-        <div><h5>PubNub Real Time Temp Plot Script on WebPage</h5>
-         content update coming soon..</div>
-
-
-      {/* dog 911 */}
-      {/* AI image folder categorzerir */}
+        {/* dog 911 */}
+        {/* AI image folder categorzerir */}
+        </div>
       </div>
     </div>
   );

@@ -90,7 +90,8 @@ canvas{
 .home{
   font-size: calc(10px + 2vmin);
   margin: auto;
-  padding: 20%;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 img.meme{
   max-width: 300px;
@@ -146,7 +147,7 @@ img.paypal{
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Adjust this value to change the spacing */
+  gap: 10px; /* Adjust this value to change the spacing */
 }
 .icon-3d {
   cursor: pointer;
@@ -154,7 +155,7 @@ img.paypal{
   -webkit-animation: icon3d 200ms 10;
   animation: icon3d 200ms 10;
 }
-.fa:hover{
+.social-icons a:hover{
   filter: invert(50%);
 }
 .game-1{
