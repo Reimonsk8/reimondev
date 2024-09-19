@@ -1,20 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/ReimonTube.css';
+import { PixelStreamingWrapper } from "../PixelStreamingWrapper";
 
+//201.171.78.239
+//default ws://127.0.0.1:8888
 const ReimonTube = () => {
+
+  const [showBroadcast, setShowBroadcast] = useState(false);
+
   return (
-    <>
-      <h1 className="top-title"> ReimonTube </h1>
-      <div id="ReimonTube" className="video-container">
-        {videos.map((videoSrc) => (
-          <div key={videoSrc} className="video-item">
-            <video controls>
-              <source src={videoSrc} type="video/mp4" />
-            </video>
-          </div>
-        ))}
+    <div className="reimon-tube-page">
+      <div className="top-title"> 
+        <h1>ReimonTube </h1>
+        <div className='download-button' onClick={()=> setShowBroadcast(!showBroadcast)}>
+          {!showBroadcast ? "Show Broadcast" : "Show Videos"}
+        </div>
       </div>
-    </>
+
+
+
+      <div id="ReimonTube" className="rt-video-container">
+        <br/>
+        <br/>
+        {showBroadcast ?
+          <>
+            <div className="bg-filler"></div>
+            <PixelStreamingWrapper
+            initialSettings={{
+                AutoPlayVideo: true,
+                AutoConnect: true,
+                ss: 'ws://192.168.1.69',
+                StartVideoMuted: true,
+                HoveringMouse: true,
+                WaitForStreamer: true
+            }}/>
+          </>
+          :
+          <>
+            {videos.map((videoSrc) => (
+            <div key={videoSrc} className="rt-video-item">
+              <video controls>
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+            </div>
+          ))}
+          </>
+        }
+      </div>
+    </div>
   );
 };
 

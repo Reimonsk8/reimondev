@@ -2,13 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import "../../styles/Projects.css";
 
+import screenshot0 from "../../res/DarkVoidConsoleScreen0.png"
+import screenshot1 from "../../res/DarkVoidConsoleScreen1.png"
+import screenshot2 from "../../res/DarkVoidConsoleScreen2.png"
+
+
+
 const Projects = ({setShowNavBar}) =>{
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const images = [
-    '/DarkVoidConsoleScreen0.PNG',
-    '/DarkVoidConsoleScreen1.PNG',
-    '/DarkVoidConsoleScreen2.PNG'
+    screenshot0,
+    screenshot1,
+    screenshot2,
   ];
 
   useEffect(() => {
@@ -87,7 +93,9 @@ const Projects = ({setShowNavBar}) =>{
               navigating treacherous paths and overcoming challenges as you desperately seek the 
               elusive exit. Will you survive the perils within, or will the shadows consume you?
             </p>
-            <div className="download-button">Download</div>
+            <a href="/DarknessVoidConsoleAlpha.rar" download className="download-button">
+              Download
+            </a>
           </div>
 
           <div><h5>PubNub Real Time Temp Plot Script on WebPage</h5>

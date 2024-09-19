@@ -1,18 +1,38 @@
-.video-container {
+.rt-video-container {
     z-index: 1;
     overflow-y: auto;
-    height: auto;
-    margin-top: 100px;
+    height: 85vh;
+    margin-top: 10px;
   }
-  
-  .video-item {
+
+  #root > div > div.top-title > h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .bg-filler{
+    min-width: 90vw;
+  }
+  .top-title > h1{
+    margin-bottom: 5px;
+  }
+  video#streamingVideo{
+    margin-top: -20px;
+    height: 43vw !important;
+    position: fixed !important;
+    left: 0px;
+  }
+
+  .rt-video-item {
     width: auto;
-    position: relative;
+    /* position: relative; */
     max-width: 80vw;
     z-index: -1;
   }
   
-  .video-item video {
+  .rt-video-item video {
     margin-bottom: 10px;
     min-width: 80vw;
     max-width: 80vw;
