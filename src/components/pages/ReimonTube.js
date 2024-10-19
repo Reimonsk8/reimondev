@@ -29,7 +29,8 @@ const ReimonTube = () => {
             initialSettings={{
                 AutoPlayVideo: true,
                 AutoConnect: true,
-                ss: 'ws://192.168.1.69',
+                // ss: 'ws://192.168.1.69',
+                ss: 'wss://192.168.1.69:90',
                 StartVideoMuted: true,
                 HoveringMouse: true,
                 WaitForStreamer: true

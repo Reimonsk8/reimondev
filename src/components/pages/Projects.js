@@ -5,6 +5,7 @@ import "../../styles/Projects.css";
 import screenshot0 from "../../res/DarkVoidConsoleScreen0.png"
 import screenshot1 from "../../res/DarkVoidConsoleScreen1.png"
 import screenshot2 from "../../res/DarkVoidConsoleScreen2.png"
+import lobbyReady from "../../res/lobbyready.PNG"
 
 
 
@@ -41,6 +42,21 @@ const Projects = ({setShowNavBar}) =>{
       <h1>Projects</h1>
       <div className="container">
         <div className='flex-grid-container'>
+
+        <div>
+            <h3>Dark and Darker Discord Bot and Local Script for AutoClick Ready Queue and Other Features</h3>
+            <img src={lobbyReady} className='slideshow-img'/>
+            <p>Make sure to install the bot in your server:</p>
+            <a href="https://discord.com/oauth2/authorize?client_id=1107128802578006066" class="download-button">Install Bot Link</a>
+            <p>Then download, extract, and run the console application, and keep it open for logging:</p>
+            <a href="/DndAutoClickBot.zip" download class="download-button">DndAutoClickBot.zip</a>
+            <br/><br/>
+            
+            <p>Important: Run the auto-click command while in the full screen dark and darker lobby. Otherwise, it may click random things on your main screen.</p>
+
+            <p>GitHub and more features coming soon...</p>
+          </div>
+
           <div>
             <h5>The Uknown Void - UE5 game</h5>
             <p>Unreal engine multiplayer multiplayer horror survival experience</p>
@@ -80,8 +96,10 @@ const Projects = ({setShowNavBar}) =>{
           </div>
 
           <div>
-            <h5>dark void - C++ Console game</h5>
-              content update coming soon..
+            <h5>dark void - Qt C++  Console game</h5>
+            <a href="/DarknessVoidConsoleAlpha.rar" download className="download-button">
+              Download
+            </a>
           </div>
 
           <div>
