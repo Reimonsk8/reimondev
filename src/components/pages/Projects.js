@@ -45,7 +45,8 @@ const Projects = ({setShowNavBar}) =>{
 
         <div>
             <h3>Dark and Darker Discord Bot and Local Script for AutoClick Ready Queue and Other Features</h3>
-            <img src={lobbyReady} className='slideshow-img'/>
+            {/* <img src={lobbyReady} style={{width: "100%"}}/> */}
+            <img src={"lobbyready.png"} style={{width: "100%"}}/>
             <p>Make sure to install the bot in your server:</p>
             <a href="https://discord.com/oauth2/authorize?client_id=1107128802578006066" class="download-button">Install Bot Link</a>
             <p>Then download, extract, and run the console application, and keep it open for logging:</p>
