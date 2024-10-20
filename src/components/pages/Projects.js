@@ -46,8 +46,8 @@ const Projects = ({setShowNavBar}) =>{
             <img src={"lobbyready.png"} style={{width: "100%"}}/>
             <p>Make sure to install the bot in your server:</p>
             <a href="https://discord.com/oauth2/authorize?client_id=1107128802578006066" class="download-button">Install Bot Link</a>
-            <p>Then download, extract, and run the console application, and keep it open for logging:</p>
-            <a href="/DndAutoClickBotv2.zip" download class="download-button">DndAutoClickBot.zip</a>
+            <p>Then download and run the console application, and keep it open for logging:</p>
+            <a href="/DndAutoClickBot.exe" download class="download-button">DndAutoClickBot.exe</a>
             <br/><br/>
             
             <p>Important: Run the auto-click command while in the full screen dark and darker lobby. Otherwise, it may click random things on your main screen.</p>
