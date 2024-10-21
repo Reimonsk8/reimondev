@@ -47,7 +47,9 @@ const Projects = ({setShowNavBar}) =>{
             <p>Make sure to install the bot in your server:</p>
             <a href="https://discord.com/oauth2/authorize?client_id=1107128802578006066" class="download-button">Install Bot Link</a>
             <p>Then download and run the console application, and keep it open for logging:</p>
-            <a href="/DndAutoClickBot.exe" download class="download-button">DndAutoClickBot.exe</a>
+            <a href="https://my-video-storage-demo.s3.amazonaws.com/DndAutoClickBot.exe" download class="download-button">DndAutoClickBot.exe</a>
+            <br/><br/>
+            <a href="https://my-video-storage-demo.s3.amazonaws.com/DndAutoClickBot.rar" download class="download-button">DndAutoClickBot.rar</a>
             <br/><br/>
             
             <p>Important: Run the auto-click command while in the full screen dark and darker lobby. Otherwise, it may click random things on your main screen.</p>
@@ -111,7 +113,7 @@ const Projects = ({setShowNavBar}) =>{
               navigating treacherous paths and overcoming challenges as you desperately seek the 
               elusive exit. Will you survive the perils within, or will the shadows consume you?
             </p>
-            <a href="/DarknessVoidConsoleAlpha.rar" download className="download-button">
+            <a href="https://my-video-storage-demo.s3.amazonaws.com/DarknessVoidConsoleAlpha.rar" download className="download-button">
               Download
             </a>
           </div>
