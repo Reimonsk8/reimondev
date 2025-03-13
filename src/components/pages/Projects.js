@@ -7,7 +7,7 @@ import screenshot1 from "../../res/DarkVoidConsoleScreen1.png"
 import screenshot2 from "../../res/DarkVoidConsoleScreen2.png"
 
 
-const Projects = ({setShowNavBar}) =>{
+const Projects = () =>{
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const images = [
@@ -26,11 +26,6 @@ const Projects = ({setShowNavBar}) =>{
     return () => clearInterval(intervalId);
   }, []);
 
-  useEffect(() => {
-    setShowNavBar(true);
-    // eslint-disable-next-line
-  },[])
-
   const handleLink = (path = '/kartel') => {
     window.location.href = path;
   };
@@ -45,11 +40,11 @@ const Projects = ({setShowNavBar}) =>{
             <h3>Dark and Darker Discord Bot and Local Script for AutoClick Ready Queue and Other Features</h3>
             <img src={"lobbyready.png"} style={{width: "100%"}}/>
             <p>Make sure to install the bot in your server:</p>
-            <a href="https://discord.com/oauth2/authorize?client_id=1107128802578006066" class="download-button">Install Bot Link</a>
+            <a href="https://discord.com/oauth2/authorize?client_id=1107128802578006066" className="download-button">Install Bot Link</a>
             <p>Then download and run the console application, and keep it open for logging:</p>
-            <a href="https://my-video-storage-demo.s3.amazonaws.com/DndAutoClickBot.exe" download class="download-button">DndAutoClickBot.exe</a>
+            <a href="https://my-video-storage-demo.s3.amazonaws.com/DndAutoClickBot.exe" download className="download-button">DndAutoClickBot.exe</a>
             <br/><br/>
-            <a href="https://my-video-storage-demo.s3.amazonaws.com/DndAutoClickBot.rar" download class="download-button">DndAutoClickBot.rar</a>
+            <a href="https://my-video-storage-demo.s3.amazonaws.com/DndAutoClickBot.rar" download className="download-button">DndAutoClickBot.rar</a>
             <br/><br/>
             
             <p>Important: Run the auto-click command while in the full screen dark and darker lobby. Otherwise, it may click random things on your main screen.</p>

@@ -162,7 +162,11 @@ img.paypal{
   height: fit-content !important;
 }
 
-
+.service-image{
+  text-align: center;
+  margin: 20px;
+  width: 40%;
+}
 
 
 

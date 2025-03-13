@@ -90,6 +90,7 @@ a{
   color: white;
   border-radius: 5px;
   text-decoration: none;
+  margin: 3px;
 }
 
 .download-button:hover {

@@ -2,10 +2,9 @@
 import React, { useEffect } from 'react';
 
 
-const SupportMe = ({setShowNavBar}) =>{
+const SupportMe = () =>{
 
   useEffect(() => {
-    setShowNavBar(true);
     // eslint-disable-next-line
   },[])
 

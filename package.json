@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@epicgames-ps/lib-pixelstreamingfrontend-ue5.5": "^0.1.4",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@react-three/fiber": "^8.17.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -13,6 +16,7 @@
     "@types/react-dom": "^18.3.0",
     "axios": "*",
     "font-awesome": "*",
+    "framer-motion": "^12.5.0",
     "particles.js": "*",
     "pdfjs": "^2.5.3",
     "react": "^18.3.1",
@@ -21,6 +25,7 @@
     "react-pdf": "*",
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
+    "three": "^0.174.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

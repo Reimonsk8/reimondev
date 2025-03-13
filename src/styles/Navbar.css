@@ -61,7 +61,7 @@ a.menu-bars.hide{
 
 .nav-menu {
   background-color: rgba(0,0,0,0.75);
-  z-index: 2;
+  z-index: 6;
   /* border: 1px solid rgba(255,255,255,0.75); */
   width: 200px;
   height: 100vh;
