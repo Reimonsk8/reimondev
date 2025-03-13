@@ -407,34 +407,87 @@ private:
               <p class="command">
                 <pre>
                   <code>
-{`#include "GameLiftUnrealAppGameMode.h"
-#include "GameLiftUnrealAppCharacter.h"
+{`// Fill out your copyright notice in the Description page of Project Settings.
+
+#include "AGameLiftUnrealAppGameMode.h"
+#include "AGameLiftUnrealAppCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "aws/gamelift/server/GameLiftServerAPI.h"
+
+#define GAMELIFT_USE_STD 0
+
+using namespace Aws::GameLift::Server;
 
 DEFINE_LOG_CATEGORY(GameServerLog);
 
 AGameLiftUnrealAppGameMode::AGameLiftUnrealAppGameMode()
 {
-    static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter"));
-    if (PlayerPawnBPClass.Class != NULL)
-    {
-        DefaultPawnClass = PlayerPawnBPClass.Class;
-    }
+    // Set default pawn class to our Blueprinted character
+    DefaultPawnClass = AUnknownVoidOnlineCharacter::StaticClass();
 }
 
 void AGameLiftUnrealAppGameMode::BeginPlay()
 {
+    Super::BeginPlay();
+
 #if WITH_GAMELIFT
     InitGameLift();
 #endif
+}
+
+void AGameLiftUnrealAppGameMode::InitGameLift()
+{
+    UE_LOG(GameServerLog, Log, TEXT("Initializing the GameLift Server"));
+
+    // Load the GameLift Server SDK module
+    FGameLiftServerSDKModule* gameLiftSdkModule = &FModuleManager::LoadModuleChecked<FGameLiftServerSDKModule>(FName("GameLiftServerSDK"));
+
+    // Initialize GameLift SDK (for Managed EC2 Fleets, call InitSDK without parameters)
+    gameLiftSdkModule->InitSDK();
+
+    UE_LOG(GameServerLog, Log, TEXT("GameLift SDK Initialized Successfully."));
+
+    // Callback: Handle Game Session Activation
+    auto onGameSession = [=](Aws::GameLift::Server::Model::GameSession gameSession)
+        {
+            FString gameSessionId = FString(gameSession.GetGameSessionId());
+            UE_LOG(GameServerLog, Log, TEXT("GameSession Initializing: %s"), *gameSessionId);
+            gameLiftSdkModule->ActivateGameSession();
+        };
+    m_params.OnStartGameSession.BindLambda(onGameSession);
+
+    // Callback: Handle Process Termination
+    auto onProcessTerminate = [=]()
+        {
+            UE_LOG(GameServerLog, Log, TEXT("Game Server Process is terminating"));
+            gameLiftSdkModule->ProcessEnding();
+        };
+    m_params.OnTerminate.BindLambda(onProcessTerminate);
+
+    // Callback: Perform Health Check (Amazon GameLift checks approximately every 60 seconds)
+    auto onHealthCheck = []() -> bool
+        {
+            UE_LOG(GameServerLog, Log, TEXT("Performing Health Check"));
+            return true;
+        };
+    m_params.OnHealthCheck.BindLambda(onHealthCheck);
+
+    // Configure server settings
+    m_params.port = 7777;  // Port for incoming player connections
+
+    // Define log file locations (GameLift will upload these for debugging)
+    m_params.logParameters = { TEXT("GameLift426Test/Saved/Logs/GameLift426Test.log") };
+
+    // Notify GameLift that the process is ready to host game sessions
+    UE_LOG(GameServerLog, Log, TEXT("Calling Process Ready"));
+    gameLiftSdkModule->ProcessReady(m_params);
 }
 `}
                   </code>
                 </pre>
               </p>
             </div>
-            <h3>4. Adjusting for Managed EC2 Fleet</h3>
-            <p>To set up a Managed EC2 Fleet instead of a GameLift Anywhere Fleet, make these changes:</p>
+            <p>Remove unnecesary code to set up a Managed EC2 Fleet instead of a GameLift Anywhere Fleet, these changes are removed from original code:</p>
             <p><strong>Change InitSDK Call</strong>: Replace <code>{`gameLiftSdkModule->InitSDK(serverParameters);`}</code> with <code>gameLiftSdkModule->InitSDK();</code></p>
             <strong>Remove GameLift Anywhere-specific parameters</strong>:
             <p>Auth Token (<code>m_authToken</code>)</p>
@@ -445,9 +498,8 @@ void AGameLiftUnrealAppGameMode::BeginPlay()
             <p>Host ID (<code>m_hostId</code>)</p>
             <p>WebSocket URL (<code>m_webSocketUrl</code>)</p>
             <p>Fleet ID (<code>m_fleetId</code>)</p>
-                
-    
-    <       p>Following these steps, your Unreal project should be properly configured to use Amazon GameLift.</p>
+
+            <p>Following these steps, your Unreal project should be properly configured to use Amazon GameLift.</p>
           </li>
 
           <li>
@@ -492,24 +544,23 @@ void AGameLiftUnrealAppGameMode::BeginPlay()
           
           
 
+          <li><b>Step 5:</b> TEST<br />
+                on progress
+          </li>
 
 
-
-          <p>You will also need an AWS account with access permissions to use AWS GameLift. See the documentation on <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Setting up programmatic access with long-term credentials</a> for more details.</p>
-
-
-            <p>You’ll need a server target build and output. This will take some time. After the build is complete, proceed to add installation files and some OpenSSL .dll files.</p>
+       
 
           <li><b>Step 5:</b> Create a new GameLift Build.<br />
             <p>Use the appropriate commands or create a deploy build script (.bat).</p>
+            <p>You will also need an AWS account with access permissions to use AWS GameLift. See the documentation on <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Setting up programmatic access with long-term credentials</a> for more details.</p>
+            <p>You’ll need a server target build and output. This will take some time. After the build is complete, proceed to add installation files and some OpenSSL .dll files.</p>
           </li>
 
           <li><b>Step 6:</b> Create a new GameLift Fleet.<br />
-            <p>Use the appropriate commands or create a deploy build script (.bat).</p>
           </li>
 
           <li><b>Step 7:</b> Create a new GameLift Alias.<br />
-            <p>Use the appropriate commands or create a deploy build script (.bat).</p>
           </li>
         </ul>
       </div>

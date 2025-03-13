@@ -1,0 +1,72 @@
+/* 🔥 Cool Background & Centered Layout */
+.services-container {
+    text-align: center;
+    padding: 40px;
+    /* background: linear-gradient(135deg, #1a1a2e, #16213e); */
+    color: white;
+    /* font-family: 'Poppins', sans-serif; */
+  }
+  
+  /* ✨ Fade-in effect */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  /* Animation */
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 🔹 Grid layout for images */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 200px;
+  }
+  
+  /* 📸 Stylish image cards */
+  .service-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .service-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* 🖼️ Image Styling */
+  .service-image {
+    width: 80%;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  .service-image:hover {
+    transform: scale(1.1);
+  }
+  
+  /* 🚀 Social Media Icons */
+  .social-icons {
+    margin-top: 20px;
+  }
+  
+  .social-icons a {
+    margin: 0 10px;
+    color: #fff;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icons a:hover {
+    color: #f39c12;
+  }
+  
+  
