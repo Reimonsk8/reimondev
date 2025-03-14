@@ -149,6 +149,17 @@ img.paypal{
   justify-content: center;
   gap: 10px; /* Adjust this value to change the spacing */
 }
+@media (max-width: 600px) {
+  .social-icons {
+    gap: 5px; /* Reduce spacing */
+  }
+
+  .social-icons img, /* Assuming icons are images */
+  .social-icons svg { /* If icons are SVGs */
+    width: 20px; /* Make them smaller */
+    height: 20px;
+  }
+}
 .icon-3d {
   cursor: pointer;
   margin: 15px;
