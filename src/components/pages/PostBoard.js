@@ -10,6 +10,7 @@ import {
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons'; // Correct import
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'; // Add faClipboard
 import AITools from './AITools';
+import CoolAnimation from './CoolAnimation';
 import "../../styles/PostBoard.css";
 
 const INSTALLBAT = () => `
@@ -31,6 +32,10 @@ const INSTALLBAT = () => `
 
   echo Installation completed successfully.
   exit /b
+`;
+
+const UPLOADSERVERBAT = () => `
+aws gamelift upload-build --name "{yourgamename}" --operating-system "WINDOWS_2016" --build-root "C:\Users\{yourusername}\Documents\Unreal Projects\{yourgamename}\WindowsServer" --build-version "1.0.0" --region {yourregion ex: us-west-1} --server-sdk-version 5.2.0
 `;
 
 
@@ -76,6 +81,18 @@ echo Environment variables set successfully!
 pause
 `;
 
+const GAMELIFTFULLACCESSPOLICY = () => `
+
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "GameLiftFullAccess",
+      "Effect": "Allow",
+      "Action": "gamelift:*",
+      "Resource": "*"
+    }
+  ]    
+`;
 
 const PostBoard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -168,7 +185,9 @@ const PostBoard = () => {
                 /> .\GenerateProjectFiles.bat
               </p> 
             </div>
-            <p>Open the .sln file in Visual Studio 2022 set UE5 as startup project and build the solution. This step takes the most time because the build process requires a lot of memory and time. Make sure to use the development editor, otherwise, you’ll have to redo the process.</p>
+            <p>Open the <code>.sln</code> file in Visual Studio 2022, set UE5 as the startup project, and build the solution. This step takes the most time because the build process requires a lot of memory and processing power. Make sure to use the Development Editor configuration; otherwise, you’ll have to redo the process.</p>
+            <p><b>NOTE:</b> The build process is very slow, especially on a hard disk drive (HDD). You need at least 300GB of free space, so it's highly recommended to use a high-speed NVMe M.2 SSD for better performance.</p>
+
             <div className="image-container" onClick={() => handleImageClick("https://s3.us-east-1.amazonaws.com/reimondev.com/unrealbuild.JPG")}>
               <img src="https://s3.us-east-1.amazonaws.com/reimondev.com/unrealbuild.JPG" alt="Unreal Engine Source Code" />
             </div>
@@ -207,9 +226,20 @@ const PostBoard = () => {
             </li>
             <p>Go to your extracted <strong>GameLift-Cpp-ServerSDK-5.2.0</strong> folder and follow the README instructions. Here, we will only cover the steps for Windows:</p>
             <p>Make sure you have all the required tools installed, including CMake, OpenSSL, and Python, before starting the Unreal SDK plugin packaging process.</p>
+            
+
+            <h3>Configuring CMake</h3>
             <p>
-              <a href="https://slproweb.com/download/Win64OpenSSL-3_4_1.msi" target="_blank" rel="noreferrer">Download OpenSSL</a>
+                Use the Visual Studio installation path and set all the necessary environment variables:
             </p>
+
+            <h4>Environment Variables</h4>
+            <pre>
+            <strong>PATH</strong>
+            C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin
+            C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin
+            </pre>
+
             <p>
               Once installed, navigate to the OpenSSL folder (for example: <code>C:\Program Files\OpenSSL-Win64</code>).<br></br>
               <strong>COPY</strong> the following two DLLs and save them to a safe location for later use (such as your desktop).
@@ -228,10 +258,22 @@ const PostBoard = () => {
                 /> {SETOPENSSLPATHSBAT()}
               </p> 
             </div>
-            Download CMake and Python if you don’t have them installed already:
             <p>
-              <a href="https://cmake.org/download/" target="_blank" rel="noreferrer">Download CMake</a>
+            You can also set them manually in the system variables:
             </p>
+
+            <pre>
+              <strong>OPENSSL_INCLUDE_DIR</strong>
+              C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin
+
+              <strong>OPENSSL_LIBRARIES</strong>
+              C:\Program Files\OpenSSL-Win64\lib
+
+              <strong>OPENSSL_ROOT_DIR</strong>
+              C:\Program Files\OpenSSL-Win64
+            </pre>
+
+            Download Python if you don’t have them installed already:
             <p>
               <a href="https://www.python.org/downloads/" target="_blank" rel="noreferrer">Download Python</a>
             </p>
@@ -400,9 +442,10 @@ private:
               </p>
             </div>
 
-          <h3>3. Modify GameMode Source File</h3>
-          <p>add Call INITSDK() in BeginPlay()</p>
-          <p>Edit <b>Your-application-nameGameMode.cpp</b> (e.g., <b>GameLiftUnrealAppGameMode.cpp</b>) and ensure it follows this structure:</p>
+            <h3>3. Modify GameMode Source File</h3>
+            <p><b>NOTE:</b> It is very important that your server level uses this game mode as the default one; otherwise, it won’t call <code>INITSDK()</code> in <code>BeginPlay()</code>.</p>
+            <p>Edit <b>Your-application-nameGameMode.cpp</b> (e.g., <b>GameLiftUnrealAppGameMode.cpp</b>) and ensure it follows this structure:</p>
+
             <div class="command-container">
               <p class="command">
                 <pre>
@@ -544,24 +587,125 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
           
           
 
-          <li><b>Step 5:</b> TEST<br />
-                on progress
-          </li>
+          <li>
+            <h2>Step 6:</h2> Create IAM users with full gamelift access policys and download aws cli .<br />
+            <p>Download the latest AWS SDK and GameLift plugin from the Unreal Engine Marketplace. You’ll need an AWS account and must be logged in to download the plugin.</p>
+
+              <p>Log in to your AWS account and navigate to IAM (Identity and Access Management). Create a new user named <strong>GameLiftUser</strong> and attach the following policy:</p>
+
+
+              <div className="command-container">
+                <p className="command">
+                  <FontAwesomeIcon  className= "clipboard"
+                    icon={faClipboard} 
+                    onClick={() => copyToClipboard(SETOPENSSLPATHSBAT())}
+                  /> {SETOPENSSLPATHSBAT()}
+                </p> 
+              </div>
+              <pre>
+              {`
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Sid": "GameLiftFullAccess",
+                    "Effect": "Allow",
+                    "Action": "gamelift:*",
+                    "Resource": "*"
+                  }
+                ]
+              `}
+              </pre>
+
+              <p>After that, generate the user's <strong>Access Key</strong> and <strong>Secret Key</strong> for command-line access.</p>
+
+              <p>Run the following command to configure AWS CLI:</p>
+              <pre>
+              aws configure
+              </pre>
+
+              <p>Enter your Access Key, Secret Key, Region, and set the output format to <code>json</code>.</p>
+
+              <p>To verify the configuration, run the following command:</p>
+              <pre>
+              aws sts get-caller-identity
+              </pre>
+
+              after windows serverbuild is done and you have the server files ready you can upload them to AWS GameLift using the following command bar jsut replace with your information:
+              <div className="command-container">
+                <p className="command">
+                  <FontAwesomeIcon  className= "clipboard"
+                    icon={faClipboard} 
+                    onClick={() => copyToClipboard(UPLOADSERVERBAT())}
+                  /> {UPLOADSERVERBAT()}
+                </p> 
+              </div>
+
+
+
+            </li>
+
+
+              {/* <li>
+              <h2>Step 6:</h2>  */}
+
+            {/* TEST
+            <br/>
+            before uploading to AWS GameLift, you can test your server build locally using GameLift Local.
+            <p>Run the GameLift Local server to test your server build locally.</p>
+
+
+create aws acccount and im user rola with all acces to s3 polices then generate ypourt kweys also install aws cli
+
+
+aws configure
+
+then
+
+$env:AWS_REGION="us-west-2"
+$env:AWS_ACCESS_KEY_ID="your_access_key"
+$env:AWS_SECRET_ACCESS_KEY="your_secret_key"
+
+            download GameLiftLocal-1.0.5 is inside GameLift-Cpp-ServerSDK-3.4.2.zip from aws website
+            <a href="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/cpp/GameLift-Cpp-ServerSDK-3.4.2.zip" target="_blank" rel="noreferrer"> Download SDK</a>
+
+
+            get java 11 from here:
+            <a href="https://adoptium.net/temurin/releases/?version=11" target="_blank" rel="noreferrer"> JAVA 11 </a>
+
+          
+
+            <div class="command-container">
+              <p class="command">
+                <FontAwesomeIcon 
+                  className="clipboard"
+                  icon={faClipboard} 
+                  onClick={() => copyToClipboard("java -jar GameLiftLocal.jar -p 9080")} 
+                /> java -jar GameLiftLocal.jar -p 9080
+                
+              </p> 
+            </div>
+          
+          </li> */}
 
 
        
 
-          <li><b>Step 5:</b> Create a new GameLift Build.<br />
+          {/* <li><b>Step 5:</b> Create a new GameLift Build.<br />
             <p>Use the appropriate commands or create a deploy build script (.bat).</p>
             <p>You will also need an AWS account with access permissions to use AWS GameLift. See the documentation on <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Setting up programmatic access with long-term credentials</a> for more details.</p>
             <p>You’ll need a server target build and output. This will take some time. After the build is complete, proceed to add installation files and some OpenSSL .dll files.</p>
-          </li>
+          </li> */}
 
           <li><b>Step 6:</b> Create a new GameLift Fleet.<br />
+          Using the build files, you can create a new fleet in the AWS GameLift console. EC2 instances will be created, and the server build will be deployed to them. Select your build, give it a name and description, and then choose the instance type and the number of instances you want to create.<br />
+
+          Next, add the runtime executable path. It should be inside your server build project folder, under the "binaries" folder, then "win64," and finally the .exe file.<br />
+
+          Add UDP port 7777 with the IP address range of 0.0.0.0/0.<br />
+
+          Afterward, click "Deploy." This will provide you with the IP address to connect to your server. You can use the IP in the "open" command from your game client’s command prompt to establish the connection.
           </li>
 
-          <li><b>Step 7:</b> Create a new GameLift Alias.<br />
-          </li>
         </ul>
       </div>
     </div>
@@ -570,7 +714,15 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
 
   const post2 = () => {
     return (
+
+
+
+
       <>more posts comming soon</>
+
+
+
+
     );
   };
 
@@ -588,9 +740,9 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
           <h5>AI Tree Link</h5>
         </div>
 
-        <div className='download-button'>
-          <h5> ...</h5>
-        </div>
+        <div className='download-button' onClick={() => setSelectedGuide('3D Cool Animations')}>
+          <h5> 3D Cool Animations</h5>
+        </div> 
 
         <div className='download-button'>
           <h5> ...</h5>
@@ -601,6 +753,7 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
       <div className="container rt-video-container">
         {selectedGuide === 'AWS GameLift Guide' && post1()}
         {selectedGuide === 'AI Tree Link' && <AITools />}
+        {selectedGuide === '3D Cool Animations' && <CoolAnimation/>}
       </div>
 
       {isModalOpen && (

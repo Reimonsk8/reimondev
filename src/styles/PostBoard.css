@@ -91,7 +91,7 @@ html, body {
   }
   @media (max-width: 600px) {
     .circle-container {
-      transform: scale(0.6);
+      transform: scale(0.5);
     }
   }
   
