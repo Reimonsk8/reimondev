@@ -1,165 +1,260 @@
 html, body {
-    height: 100%;
-    overflow: auto;  /* Ensures scrolling is enabled */
-  }
-  
-  .PostBoard .container {
-    max-width: 85vw;
-    margin: 0 auto;
-    height: 70vh;
+  height: 100%;
+  overflow: auto; /* Ensures scrolling is enabled */
+}
 
-  }
-  
-  .guide-box {
-    /* border: solid 1px red; */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+.PostBoard .container {
+  max-width: 85vw;
+  margin: 0 auto;
+  height: 70vh;
+}
 
-  .guide-box > p{
-    /* border: solid 1px red; */
-    padding: 20px;
-  }
-  
-  .PostBoard .flex-grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-  }
-  
-  .PostBoard .steps li {
-    margin: 15px;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #88888833;
-    box-shadow: 0 4px 6px rgba(128, 128, 128, 0.1);
-    text-align: left;
-    list-style-type: none;
-    overflow: hidden;  /* Prevents overflow inside individual list items */
-  }
-  
-  /* Style for the small centered images */
+.guide-box {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.guide-box > p {
+  padding: 20px;
+}
+
+.PostBoard .flex-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.PostBoard .steps li {
+  margin: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #88888833;
+  box-shadow: 0 4px 6px rgba(128, 128, 128, 0.1);
+  text-align: left;
+  list-style-type: none;
+  overflow: hidden;
+}
+
+/* Small centered images */
 .image-container {
-    margin: 10px;
-    cursor: pointer;
-    display: inline-block;
-    transition: transform 0.3s ease;
-  }
-  
-  .image-container img {
-    text-align: center;
-    width: 300px; /* Smaller size */
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  /* Zoom effect on hover */
-  .image-container:hover {
-    transform: scale(1.1);
-  }
-  
-  /* Modal style */
-  .modal {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal img {
-    width: 100%;
-    max-width: 80vw;
-    max-height: 90vh;
-  }
-  
+  margin: 10px;
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.image-container img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Zoom effect on hover */
+.image-container:hover {
+  transform: scale(1.1);
+}
+
+/* Modal style */
+.modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal img {
+  width: 100%;
+  max-width: 80vw;
+  max-height: 90vh;
+}
+
+/* Circle container */
+.circle-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 180px;
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
   .circle-container {
-    padding-top: 180px;
-    position: relative;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin: auto;
+    transform: scale(0.5);
   }
-  @media (max-width: 600px) {
-    .circle-container {
-      transform: scale(0.5);
-    }
-  }
-  
-  a.circle-button {
-    text-align: center;
-    position: absolute;
-    width: 160px;
-    height: 160px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #969696;
-    border-radius: 50%;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-    color: black;
-    transition: transform 0.2s;
-  }
-  
-  a.circle-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    background: #ffffff;
+}
+
+/* Circle buttons */
+a.circle-button {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #969696;
+  border-radius: 50%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  color: black;
+  text-decoration: none;
+  transition: transform 0.3s ease, background 0.2s, box-shadow 0.2s;
+}
+
+a.circle-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  background: #ffffff;
+}
+
+.circle-button:hover {
+  background: #e0e0ff; /* Slightly different hover background for non-anchor buttons */
+}
+
+.circle-text {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Copy button */
+.copy-button {
+  background-color: #007acc;
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.copy-button:hover {
+  background-color: #005f99;
+}
+
+.copy-button:active {
+  background-color: #004c7a;
+}
+
+/* Clipboard */
+.clipboard {
+  cursor: pointer;
+}
+
+.clipboard:hover {
+  color: rgb(255, 255, 255);
+}
+
+/* Command style */
+.command {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #3e3e3e;
+  padding: 10px;
+  border-radius: 4px;
+  color: #4ec9b0;
+  margin: 0;
+}
+
+/* Link styles */
+a {
+  color: rgb(255, 51, 255);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: rgb(75, 144, 233);
+}
+
+/* Bold text */
+b {
+  color: rgb(87, 216, 87);
+}
+
+/* AI Stats Section */
+.ai-stats {
+  margin: 4rem auto 2rem auto;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  bottom: 0;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.ai-stats h2 {
+  font-size: 1.75rem;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.ai-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.ai-table thead {
+  background-color: #dfe6f51e;
+}
+
+.ai-table th, .ai-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ai-table th {
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
+.ai-table td {
+  border-bottom: 1px solid #eee;
+}
+
+.ai-table tr:hover {
+  background-color: #f0f4ff;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .ai-table {
+    font-size: 0.75rem;
   }
 
-  .copy-button:hover {
-    background-color: #005f99;
+  .ai-stats {
+    padding: 1rem;
   }
 
-  .copy-button:active {
-    background-color: #004c7a;
+  .ai-stats h2 {
+    font-size: 1.25rem;
   }
+}
 
-  .command {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #3e3e3e;
-    padding: 10px;
-    border-radius: 4px;
-    color: #4ec9b0;
-    margin: 0;
-  }
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-  .copy-button {
-    background-color: #007acc;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-  }
-
-  .clipboard{
-    /* border: solid 1px #888; */
-    cursor: pointer;
-  }
-  .clipboard:hover{
-    color: rgb(255, 255, 255);
-  }
-
-  a{
-    color: rgb(255, 51, 255);
-  }
-  a:hover{
-    color: rgb(75, 144, 233);
-  }
-  b{
-    color: rgb(87, 216, 87);
-  }
+/* AITools section */
+.AITools {
+  text-align: center;
+  padding: 2rem;
+}
