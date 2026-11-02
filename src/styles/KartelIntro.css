@@ -4,7 +4,7 @@
 }
 #intro-shop{
     margin: auto;
-    background-image: url("../../public/kartel-bg.png");
+    /* background-image is set from JS so it can use PUBLIC_URL + WebP */
     background-size: 100vw;
     background-position: center;
     background-repeat: no-repeat;

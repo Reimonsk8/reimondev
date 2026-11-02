@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../styles/KartelShop.css';
-import bannerTop from '../../res/banner.png';
-import logo from '../../res/Logo.png';
-import item1 from '../../res/item1.png';
-import item2 from '../../res/item3.png';
-import item3 from '../../res/item5.png';
-import item1side from '../../res/item2.png';
-import item2side from '../../res/item4.png';
-import item3side from '../../res/item6.png';
 import iconToggleCart from '../../res/shopping-cart.png';
 import iconLeftArrow from '../../res/left-arrow.png';
-import iconRightArrow from '../../res/right-arrow.png'; // Changed to FontAwesome icon
+import iconRightArrow from '../../res/right-arrow.png';
 import iconAddCart from '../../res/add-cart.png';
 import iconDelete from '../../res/trash-can.png';
 import iconInstagram from '../../res/instagram.png';
@@ -19,6 +10,17 @@ import iconFacebook from '../../res/facebook.png';
 import iconWhatsapp from '../../res/whatsapp.png';
 import iconClose from '../../res/close.png';
 import iconHome from '../../res/home.png';
+
+// Images live in public/img as WebP (CRA 5 cannot import .webp from src).
+const PUBLIC_URL = process.env.PUBLIC_URL;
+const bannerTop = `${PUBLIC_URL}/img/banner.webp`;
+const logo = `${PUBLIC_URL}/img/logo.webp`;
+const item1 = `${PUBLIC_URL}/img/item1.webp`;
+const item2 = `${PUBLIC_URL}/img/item3.webp`;
+const item3 = `${PUBLIC_URL}/img/item5.webp`;
+const item1side = `${PUBLIC_URL}/img/item2.webp`;
+const item2side = `${PUBLIC_URL}/img/item4.webp`;
+const item3side = `${PUBLIC_URL}/img/item6.webp`;
 
 
 const products = [
@@ -116,7 +118,7 @@ const KartelShop = ({ setShowParticles }) => {
           <div className='horizontal-list'>
             {products.map(product => (
               <div key={product.id} className="product-item">
-                <img src={product.picture_side} alt={product.name} className="product-img" /> {/* Added line */}
+                <img src={product.picture_side} alt={product.name} className="product-img" loading="lazy" decoding="async" />
                 <h3>{product.name}</h3>
                 <div onClick={() => addToCart(product)} className='price-tag'>
                   <span>${product.price} </span>

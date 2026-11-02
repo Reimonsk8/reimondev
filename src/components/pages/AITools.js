@@ -5,7 +5,6 @@ import {
   faCommentDots, faQuestionCircle, faLightbulb
 } from "@fortawesome/free-solid-svg-icons";
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { motion } from "framer-motion";
 import "../../styles/PostBoard.css";
 
 const aiOptions = [
@@ -15,7 +14,9 @@ const aiOptions = [
   { icon: faGem, label: "Gemini", link: "https://gemini.google.com/app" },
   { icon: faCommentDots, label: "Claude", link: "https://claude.ai/new" },
   { icon: faXTwitter, label: "Grok (xAI)", link: "https://x.ai/" },
-  { icon: faQuestionCircle, label: "Perplexity", link: "https://www.perplexity.ai/" }
+  { icon: faQuestionCircle, label: "Perplexity", link: "https://www.perplexity.ai/" },
+  { icon: faLightbulb, label: "Qwen", link: "https://chat.qwen.ai/" },
+  { icon: faQuestionCircle, label: "MiniMax", link: "https://chat.minimax.io/" }
 ];
 
 const aiStats1 = [
@@ -81,6 +82,24 @@ const aiStats1 = [
     "File Uploads": "❌",
     "Image Generation": "❌",
     "Image Input": "❌"
+  },
+  {
+    "Tool": "Qwen",
+    "Free Access": "✅",
+    "Best Model": "Qwen-72B",
+    "Context Length": "128k",
+    "File Uploads": "✅",
+    "Image Generation": "✅",
+    "Image Input": "✅"
+  },
+  {
+    "Tool": "MiniMax",
+    "Free Access": "✅",
+    "Best Model": "MiniMax-abab5.5",
+    "Context Length": "100k",
+    "File Uploads": "✅",
+    "Image Generation": "❌",
+    "Image Input": "✅"
   }
 ];
 
@@ -147,6 +166,24 @@ const aiStats2 = [
     "Speed": "Fast",
     "Source Citations": "❌",
     "Custom Instructions": "❌"
+  },
+  {
+    "Web Access": "✅",
+    "Memory / Recall": "❌",
+    "Code Interpreter": "✅",
+    "Voice I/O": "❌",
+    "Speed": "Fast",
+    "Source Citations": "✅",
+    "Custom Instructions": "❌"
+  },
+  {
+    "Web Access": "✅",
+    "Memory / Recall": "❌",
+    "Code Interpreter": "❌",
+    "Voice I/O": "❌",
+    "Speed": "Fast",
+    "Source Citations": "❌",
+    "Custom Instructions": "❌"
   }
 ];
 
@@ -166,11 +203,13 @@ const AITools = () => {
           const total = aiOptions.length;
           const angle = (index / total) * 2 * Math.PI;
           const radius = 200;
-          const x = Math.cos(angle) * radius + 200;
-          const y = Math.sin(angle) * radius + 200;
+          // Dynamically center based on number of tools
+          const center = 220;
+          const x = Math.cos(angle) * radius + center;
+          const y = Math.sin(angle) * radius + center;
 
           return (
-            <motion.a
+            <a
               key={option.label}
               href={option.link}
               target="_blank"
@@ -183,7 +222,7 @@ const AITools = () => {
             >
               <FontAwesomeIcon icon={option.icon} size="lg" />
               <div className="circle-text">{option.label}</div>
-            </motion.a>
+            </a>
           );
         })}
 

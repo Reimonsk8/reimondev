@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import '../../styles/ReimonTube.css';
-import { PixelStreamingWrapper } from "../PixelStreamingWrapper";
+
+// The pixel-streaming client is ~207 KB minified; only load it when the
+// visitor actually asks for the broadcast.
+const PixelStreamingWrapper = lazy(() =>
+  import("../PixelStreamingWrapper").then((m) => ({ default: m.PixelStreamingWrapper }))
+);
 
 //201.171.78.239
 //default ws://127.0.0.1:8888
@@ -25,16 +30,18 @@ const ReimonTube = () => {
         {showBroadcast ?
           <>
             <div className="bg-filler"></div>
-            <PixelStreamingWrapper
-            initialSettings={{
-                AutoPlayVideo: true,
-                AutoConnect: true,
-                // ss: 'ws://192.168.1.69',
-                ss: 'wss://192.168.1.69:90',
-                StartVideoMuted: true,
-                HoveringMouse: true,
-                WaitForStreamer: true
-            }}/>
+            <Suspense fallback={<div className="page-loading" role="status">Connecting…</div>}>
+              <PixelStreamingWrapper
+              initialSettings={{
+                  AutoPlayVideo: true,
+                  AutoConnect: true,
+                  // ss: 'ws://192.168.1.69',
+                  ss: 'wss://192.168.1.69:90',
+                  StartVideoMuted: true,
+                  HoveringMouse: true,
+                  WaitForStreamer: true
+              }}/>
+            </Suspense>
           </>
           :
           <>
