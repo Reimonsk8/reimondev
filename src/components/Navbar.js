@@ -44,6 +44,12 @@ function Navbar() {
       cName: 'nav-text'
     },
     {
+      title: 'Games',
+      path: '/games/',
+      icon: <FaIcons.FaGamepad />,
+      cName: 'nav-text'
+    },
+    {
       title: 'Support Me',
       path: '/supportme',
       icon: <FaIcons.FaCartPlus />,
