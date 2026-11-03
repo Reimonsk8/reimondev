@@ -1,0 +1,19 @@
+{
+  "slug": "holy-smite",
+  "id": "holy/smite",
+  "name": "Smite",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/smite.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 35,
+  "frameWidth": 224,
+  "frameHeight": 176,
+  "fps": 12,
+  "loop": false,
+  "durationMs": 2917,
+  "pivot": [
+    112,
+    148
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

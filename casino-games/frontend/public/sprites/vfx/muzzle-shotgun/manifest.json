@@ -1,0 +1,19 @@
+{
+  "slug": "muzzle-shotgun",
+  "id": "projectiles/muzzle-shotgun",
+  "name": "Shotgun blast",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/projectiles/muzzle-shotgun.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 49,
+  "frameWidth": 160,
+  "frameHeight": 88,
+  "fps": 15,
+  "loop": false,
+  "durationMs": 3267,
+  "pivot": [
+    44,
+    82
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

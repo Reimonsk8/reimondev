@@ -1,0 +1,19 @@
+{
+  "slug": "thunder-strike",
+  "id": "lightning/lightning-strike",
+  "name": "Lightning strike",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/lightning/lightning-strike.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 34,
+  "frameWidth": 240,
+  "frameHeight": 264,
+  "fps": 11,
+  "loop": false,
+  "durationMs": 3091,
+  "pivot": [
+    120,
+    228
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

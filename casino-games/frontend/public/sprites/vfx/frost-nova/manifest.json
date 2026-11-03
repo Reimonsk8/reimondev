@@ -1,0 +1,19 @@
+{
+  "slug": "frost-nova",
+  "id": "ice/frost-nova",
+  "name": "Frost nova",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/ice/frost-nova.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 28,
+  "frameWidth": 288,
+  "frameHeight": 192,
+  "fps": 8,
+  "loop": false,
+  "durationMs": 3500,
+  "pivot": [
+    144,
+    150
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

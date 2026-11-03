@@ -1,0 +1,19 @@
+{
+  "slug": "ground-slam",
+  "id": "impacts/ground-slam",
+  "name": "Ground slam",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/ground-slam.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 27,
+  "frameWidth": 288,
+  "frameHeight": 208,
+  "fps": 8,
+  "loop": false,
+  "durationMs": 3375,
+  "pivot": [
+    144,
+    164
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

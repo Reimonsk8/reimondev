@@ -27,7 +27,10 @@
     "sprites:compose": "node scripts/sprite-gen.mjs compose-atlas",
     "sprites:prepare": "node scripts/sprite-gen.mjs prepare",
     "build:sprites": "node scripts/copy-sprites.mjs && vite build",
-    "sprites:pixellab": "node scripts/sprite-gen/pixellab.mjs"
+    "sprites:pixellab": "node scripts/sprite-gen/pixellab.mjs",
+    "vfx": "node scripts/vfx/export.mjs",
+    "vfx:list": "node vendor/pixelfx/tools/list.mjs",
+    "vfx:preview": "node vendor/pixelfx/tools/render.mjs"
   },
   "dependencies": {
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.114.1-alpha.0",

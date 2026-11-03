@@ -1,0 +1,19 @@
+{
+  "slug": "heal-aoe",
+  "id": "holy/heal-aoe",
+  "name": "Healing ring",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/heal-aoe.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 30,
+  "frameWidth": 256,
+  "frameHeight": 136,
+  "fps": 10,
+  "loop": false,
+  "durationMs": 3000,
+  "pivot": [
+    128,
+    104
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

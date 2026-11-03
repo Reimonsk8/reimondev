@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useSquareOfShadows } from '../../hooks/useSquareOfShadows';
 import { attackLinkFor } from './attackLink';
+import { SOS_PIXEL_FX, sosPixelFxStyle } from './pixelFx';
 import {
   KILL_SHAKE_BONUS,
   hitStopMsFor,
@@ -5938,18 +5939,28 @@ export default function SquareOfShadows({
                 {spellFx.filter((fx) => inBoardView(fx.x, fx.y)).map((fx) => {
                   const vfxSprite = VFX_SPRITE_FOR[fx.ability];
                   const vfxGif = VFX_GIF_FOR[fx.ability];
+                  // Generated pixelfx strips win over the hand-drawn art for
+                  // every ability listed in SOS_PIXEL_FX.
+                  const pixelFx = SOS_PIXEL_FX[fx.ability];
                   return (
                     <span
                       key={fx.id}
-                      className={`sos-spellfx is-${fx.ability.toLowerCase()}${vfxGif ? ' has-pixel-vfx' : ''}`}
+                      className={`sos-spellfx is-${fx.ability.toLowerCase()}${vfxGif ? ' has-pixel-vfx' : ''}${pixelFx ? ' has-pixelfx' : ''}`}
                       style={{
                         left: `${viewLeftPct(fx.x)}%`,
                         top: `${viewTopPct(fx.y)}%`,
                       }}
                     >
-                      <i className="sos-spellfx-core" />
-                      <i className="sos-spellfx-ring" />
-                      {vfxGif ? (
+                      {/* The old core/ring burst would double up with the strip. */}
+                      {!pixelFx && <i className="sos-spellfx-core" />}
+                      {!pixelFx && <i className="sos-spellfx-ring" />}
+                      {pixelFx ? (
+                        <span
+                          className="sos-spellfx-pixel"
+                          style={sosPixelFxStyle(pixelFx)}
+                          aria-hidden="true"
+                        />
+                      ) : vfxGif ? (
                         <img
                           className="sos-spellfx-gif"
                           src={vfxGif.src}

@@ -1,0 +1,19 @@
+{
+  "slug": "holy-pillar",
+  "id": "holy/holy-pillar",
+  "name": "Holy pillar",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/holy-pillar.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 43,
+  "frameWidth": 192,
+  "frameHeight": 232,
+  "fps": 12,
+  "loop": false,
+  "durationMs": 3583,
+  "pivot": [
+    96,
+    204
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

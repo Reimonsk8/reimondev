@@ -1,0 +1,19 @@
+{
+  "slug": "hit-spark",
+  "id": "impacts/hit-spark",
+  "name": "Hit spark",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/hit-spark.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 11,
+  "frameWidth": 136,
+  "frameHeight": 80,
+  "fps": 20,
+  "loop": false,
+  "durationMs": 550,
+  "pivot": [
+    44,
+    64
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

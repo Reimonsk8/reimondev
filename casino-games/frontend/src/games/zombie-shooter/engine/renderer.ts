@@ -44,6 +44,8 @@ import {
 import { PaperdollActor, type PaperdollDebugInfo } from './paperdoll';
 import { paintProceduralAsphaltTile } from './ground';
 import { createObstacleNode, createPropNode, createRoofNode, propSprite } from './propFactory';
+import { PixelFxLayer } from '../vfx/pixelFx';
+import type { PixelFxSlug } from '../../pixelFx.generated';
 import {
   MAX_HEAVY_SHAKE_PX,
   computeRecoilVector,
@@ -61,11 +63,35 @@ import type {
   WorldMap,
   WorldState,
   ZombieState,
+  WeaponId,
 } from './types';
 import { threatTierAt } from './world';
 
 // Directive 1: Enforce strict Nearest-Neighbor Texture Filtering globally on module load
 enforceNearestNeighborFiltering();
+
+/**
+ * Which generated muzzle flash each weapon uses. Weapons without an entry fall
+ * back to the pistol flash rather than showing nothing.
+ */
+const MUZZLE_FX_FOR_WEAPON: Partial<Record<WeaponId, PixelFxSlug>> = {
+  pistol: 'muzzle-pistol',
+  shotgun: 'muzzle-shotgun',
+  smg: 'muzzle-smg',
+  rifle: 'muzzle-smg',
+  sniper: 'muzzle-pistol',
+  heavy: 'muzzle-shotgun',
+};
+
+/** Preloaded at construct time so the first shot does not pop in late. */
+const PRELOAD_FX: PixelFxSlug[] = [
+  'muzzle-pistol',
+  'muzzle-shotgun',
+  'muzzle-smg',
+  'bullet-impact',
+  'hit-spark',
+  'crit-hit',
+];
 
 const PROP_WIDTH_PX: Partial<Record<SpriteKey, number>> = {
   crate: 26, // ~0.95m
@@ -136,6 +162,7 @@ export class OutlandsRenderer {
   private decalLayer = new PIXI.Container();
   private entityLayer = new PIXI.Container();
   private fxLayer = new PIXI.Graphics();
+  private pixelFx = new PixelFxLayer();
   private indoorFogLayer = new PIXI.Graphics();
   private interiorPortalLayer = new PIXI.Container();
   private exteriorDoorLayer = new PIXI.Graphics();
@@ -226,6 +253,8 @@ export class OutlandsRenderer {
     this.worldRoot.addChild(this.entityLayer);
     this.worldRoot.addChild(this.exteriorDoorLayer);
     this.worldRoot.addChild(this.fxLayer);
+    this.worldRoot.addChild(this.pixelFx.container);
+    this.pixelFx.preload(PRELOAD_FX);
 
     this.app.stage.addChild(this.worldRoot);
     this.lightingPipeline.init(width, height);
@@ -667,7 +696,16 @@ export class OutlandsRenderer {
           this.muzzleFlashTimer = MUZZLE_FLASH_DURATION_SEC;
         }
 
-        for (const t of ev.weapon === 'melee' ? [] : ev.traces) {
+        const shotTraces = ev.weapon === 'melee' ? [] : ev.traces;
+        if (shotTraces.length > 0) {
+          // Muzzle flash sits at the barrel end, not the survivor's feet.
+          const muzzle = worldToScreen(shotTraces[0].x1, shotTraces[0].y1);
+          this.pixelFx.play(MUZZLE_FX_FOR_WEAPON[ev.weapon] ?? 'muzzle-pistol', muzzle.x, muzzle.y, {
+            scale: ev.weapon === 'shotgun' || ev.weapon === 'heavy' ? 0.5 : 0.55,
+          });
+        }
+
+        for (const [index, t] of shotTraces.entries()) {
           if (this.traces.length >= MAX_TRACES) break;
           const from = worldToScreen(t.x1, t.y1);
           const to = worldToScreen(t.x2, t.y2);
@@ -680,6 +718,14 @@ export class OutlandsRenderer {
             crit: t.crit,
             ttl: t.headshot ? 0.14 : 0.08,
           });
+          // Cap impact sprites: a shotgun sends several traces and each one
+          // would otherwise spawn a full-size sheet.
+          if (index < 4) {
+            this.pixelFx.play(t.headshot || t.crit ? 'crit-hit' : 'bullet-impact', to.x, to.y - 10, {
+              scale: t.headshot || t.crit ? 0.42 : 0.34,
+              flipX: t.x2 < t.x1,
+            });
+          }
         }
       } else if (ev.type === 'zombie_hit') {
         const seeds = goreBurstFor(
@@ -696,6 +742,10 @@ export class OutlandsRenderer {
           rng,
         );
         const screen = worldToScreen(ev.x, ev.y);
+        this.pixelFx.play(ev.headshot || ev.crit ? 'crit-hit' : 'hit-spark', screen.x, screen.y - 10, {
+          scale: ev.headshot ? 0.46 : 0.36,
+          flipX: Math.cos(ev.angle) < 0,
+        });
         for (const s of seeds) {
           if (this.particles.length >= MAX_PARTICLES) break;
           this.particles.push({
@@ -1406,6 +1456,7 @@ export class OutlandsRenderer {
     this.destroyed = true;
     this.resizeObserver?.disconnect();
     this.playerPaperdoll?.destroy();
+    this.pixelFx.destroy();
     for (const entry of this.remoteActors.values()) {
       entry.actor.destroy();
     }

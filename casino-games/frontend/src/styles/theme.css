@@ -3592,6 +3592,7 @@ h3 {
 .sos-board.is-hitstop .sos-linkfx-sprite,
 .sos-board.is-hitstop .sos-spellfx,
 .sos-board.is-hitstop .sos-spellfx-sprite,
+.sos-board.is-hitstop .sos-spellfx-pixel,
 .sos-board.is-hitstop .sos-floater {
   animation-play-state: paused;
 }
@@ -4337,6 +4338,27 @@ h3 {
 }
 
 /* ── Pixel-Art VFX & Projectile Sprite Strips (slash, fireball, thunder, ice, heal, trap, arrow, firebolt) ── */
+
+/*
+ * Generated pixelfx strips (scripts/vfx/). One horizontal sheet per effect; the
+ * frame count, size, pivot and duration all come from inline style, so adding an
+ * effect never means touching this file. `steps()` keeps the atlas on whole
+ * frames instead of interpolating neighbouring frames into view.
+ */
+.sos-spellfx-pixel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@keyframes sos-pixelfx-strip {
+  from { background-position: 0% center; }
+  to { background-position: 100% center; }
+}
 
 .sos-spellfx-sprite {
   position: absolute;

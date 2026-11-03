@@ -1,0 +1,19 @@
+{
+  "slug": "muzzle-smg",
+  "id": "projectiles/muzzle-smg",
+  "name": "SMG burst",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/projectiles/muzzle-smg.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 24,
+  "frameWidth": 112,
+  "frameHeight": 72,
+  "fps": 24,
+  "loop": true,
+  "durationMs": 1000,
+  "pivot": [
+    56,
+    66
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

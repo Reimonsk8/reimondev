@@ -1,0 +1,19 @@
+{
+  "slug": "curse",
+  "id": "shadow/curse",
+  "name": "Curse",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/shadow/curse.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 55,
+  "frameWidth": 112,
+  "frameHeight": 124,
+  "fps": 16,
+  "loop": false,
+  "durationMs": 3438,
+  "pivot": [
+    56,
+    108
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

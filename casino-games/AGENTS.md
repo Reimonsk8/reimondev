@@ -50,6 +50,12 @@ CDK bundles each lambda via `Code.fromAsset('lambdas/<dir>')` — whatever is in
 - `Modal.jsx` builds its overlay as `custom-container-${variant}`; the `variant` prop (`game`/`players`/`default`/`notification`/`chat`) maps to a `.custom-container-<name>` class in App.css. New modal styles = add the class in App.css, don't inline-style modals.
 - DashboardView uses `is-mobile`/`is-fullscreen` modifier classes for responsive lobby layout (defined in App.css) — extend those, not inline `style={{}}`.
 
+## VFX (pixelfx)
+
+- All new game VFX is generated with the vendored [pixelfx](https://github.com/patch-gg/pixelfx) at `vendor/pixelfx` (MIT, no runtime dependency). Full guide: `docs/VFX_PIPELINE.md`.
+- `npm run vfx` renders every effect in `scripts/vfx/effects.mjs` into `frontend/public/sprites/vfx/<slug>/` (one horizontal `strip.png` + `manifest.json`), rewrites `sprites/vfx/index.json`, and regenerates `frontend/src/games/pixelFx.generated.ts`. `npm run vfx -- <slug>` exports a single effect. Never hand-edit generated files.
+- SOS plays strips with CSS `steps()` via `SOS_PIXEL_FX` in `games/squareofshadows/pixelFx.ts`; Outlands slices them into PIXI textures through `games/zombie-shooter/vfx/pixelFx.ts` (`PixelFxLayer.play`), hooked into `engine/renderer.ts` `consumeEvents`.
+
 ## Frontend endpoints are hardcoded
 
 - `frontend/src/utils/api.js:1` — `API_BASE` is a hardcoded prod REST URL.

@@ -1,0 +1,19 @@
+{
+  "slug": "divine-shield",
+  "id": "holy/divine-shield",
+  "name": "Divine shield",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/divine-shield.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 38,
+  "frameWidth": 88,
+  "frameHeight": 84,
+  "fps": 16,
+  "loop": true,
+  "durationMs": 2375,
+  "pivot": [
+    44,
+    68
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}
