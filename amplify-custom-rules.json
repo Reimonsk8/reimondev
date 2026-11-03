@@ -1,0 +1,15 @@
+[
+  {"source":"/games/assets/<*>","target":"/games/assets/<*>","status":"200"},
+  {"source":"/games/sprites/<*>","target":"/games/sprites/<*>","status":"200"},
+  {"source":"/games/audio/<*>","target":"/games/audio/<*>","status":"200"},
+  {"source":"/games/video/<*>","target":"/games/video/<*>","status":"200"},
+  {"source":"/games/manifest.webmanifest","target":"/games/manifest.webmanifest","status":"200"},
+  {"source":"/games/icon-192.png","target":"/games/icon-192.png","status":"200"},
+  {"source":"/games/icon-512.png","target":"/games/icon-512.png","status":"200"},
+  {"source":"/games/sw.js","target":"/games/sw.js","status":"200"},
+  {"source":"/games","target":"/games/index.html","status":"200"},
+  {"source":"/games/","target":"/games/index.html","status":"200"},
+  {"source":"/games/<*>","target":"/games/index.html","status":"200"},
+  {"source":"/<*>","target":"/index.html","status":"404-200"},
+  {"source":"</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>","target":"/index.html","status":"200"}
+]

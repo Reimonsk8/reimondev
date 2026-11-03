@@ -22,13 +22,23 @@ cp -R casino-games/dist/games/. build/games/
 Amplify runs the same sequence and publishes the root `build/` folder, which
 contains both the existing site and the game library.
 
-## Before enabling an Amplify build
+## Amplify rewrites and asset routing
 
-Do not replace the existing site's routing rules. The Amplify app now has a
-`/games/<*>` SPA rewrite to `/games/index.html` before the existing generic
-root SPA fallback; both original root rules are retained. Before public
-announcement, verify `/games/`, a nested game route, and a hashed asset URL on
-the deployed site; an asset request must return the asset, not `index.html`.
+The Amplify app's routing rules are stored in `amplify-custom-rules.json`.
+Apply them in account `721926878294` (region `us-east-1`) with:
+
+```sh
+aws amplify update-app --app-id dhs5x061p2ycv \
+  --custom-rules file://amplify-custom-rules.json --region us-east-1
+```
+
+Keep the `/games/assets/`, `/games/sprites/`, `/games/audio/`, and
+`/games/video/` pass-through rules before the `/games/<*>` SPA rewrite. Without
+them, Amplify can return `index.html` with HTTP 200 for JavaScript and CSS URLs,
+which leaves the games page blank. Keep both existing root SPA fallback rules.
+After changing routing, verify that `/games/` and a nested game route return
+the games HTML, while a hashed JS asset returns `Content-Type: text/javascript`
+and contains the bundle (not HTML).
 
 The Cognito client allows
 `https://reimondev.com/games/oauth2/callback` and sign-out URL
@@ -37,11 +47,8 @@ authorization-code grant. The Google provider maps `email`, `name`, and
 `picture` to the corresponding Cognito attributes. The frontend's endpoint and
 OAuth fallbacks are configured for the target account.
 
-## Current deployment boundary
+## Current deployment
 
-The Amplify app already owns `reimondev.com` and automatically builds its
-`deploy` branch. The backend stack and Amplify route rule have been updated;
-frontend files remain on local branch `integrate/deploy-games` until pushed.
-Pushing to the watched `deploy` branch triggers a live Amplify deployment, so
-confirm the final integration diff and the user's approval immediately before
-that push.
+Amplify app `dhs5x061p2ycv` in account `721926878294` automatically builds the
+`deploy` production branch. The CasinoInfraStack is deployed in `us-east-2` in
+that same account. Changes pushed to `deploy` trigger a live build.
