@@ -47,8 +47,7 @@ const Welcome = () => {
 
   return (
     <div id="WelcomeComponentBody" className={getBackgroundStyle()}>
-      <div className="intro-aurora" aria-hidden="true">
-      </div>
+      <div className="intro-aurora" aria-hidden="true" />
       {/* Enter button container*/}
       <div className="bottom-container">
         <div className="skip" onClick={onIntroFinished}>

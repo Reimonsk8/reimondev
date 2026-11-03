@@ -30,8 +30,7 @@ canvas{
 #particles-js{
   z-index: -1; 
   background-image:
-    radial-gradient(ellipse 30% 100% at top center, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0.171) 60%, rgb(0, 0, 0) 100%),
-    linear-gradient(120deg, rgba(12, 0, 80, 0.15) 0%, rgba(5, 0, 80, 0.15) 100%);
+    radial-gradient(ellipse 30% 100% at top center, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0.171) 60%, rgb(0, 0, 0) 100%);
   background-color: #202020;
 	/* background-image: radial-gradient(35% 100% ellipse at top center, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 100%); */
 	transition: background-color 4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -42,6 +41,28 @@ canvas{
   background-size: cover; 
   background-position: 50% 50%; 
 } 
+
+#particles-js::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(ellipse 30% 100% at top center, transparent 0%, rgba(255, 255, 255, 0.16) 60%, transparent 100%);
+  transform: scale(0.96, 0.94);
+  transform-origin: 50% 0;
+  opacity: 0.45;
+  will-change: transform, opacity;
+  animation: site-white-breathe 12s ease-in-out infinite alternate;
+}
+
+@keyframes site-white-breathe {
+  from { transform: scale(0.96, 0.94); opacity: 0.3; }
+  to { transform: scale(1.08, 1.04); opacity: 0.62; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #particles-js::before { animation: none; }
+}
 /* ---- stats.js ---- */ 
 .count-particles{ 
   /*background: #000022;*/ 
