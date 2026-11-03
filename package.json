@@ -28,6 +28,7 @@
     "react-hooks-lib": "*",
     "react-icons": "*",
     "react-pdf": "*",
+    "react-refresh": "0.11.0",
     "react-router-dom": "*",
     "react-scripts": "*",
     "styled-components": "^6.1.13",
