@@ -1,0 +1,38 @@
+{
+  "id": "a7e8090c-c8d5-4030-ac05-c2e056594669",
+  "name": "hooded inquisitor confessor, tattered black cassoc...",
+  "state_name": "Idle",
+  "prompt": "hooded inquisitor confessor, tattered black cassock with bone trim, golden censer on chains trailing ember smoke, featureless reliquary mask, dark holy inquisitor, Blasphemous style, gothic horror, low top-down 3/4 view, single colour black outline",
+  "size": {
+    "width": 68,
+    "height": 68
+  },
+  "directions": 4,
+  "created_at": "2026-10-18T03:40:43.670296+00:00",
+  "updated_at": "2026-10-18T03:41:31.406895+00:00",
+  "animation_count": 0,
+  "template_id": "mannequin",
+  "view": "low top-down",
+  "status": "completed",
+  "rotation_urls": {
+    "south": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/a7e8090c-c8d5-4030-ac05-c2e056594669/rotations/south.png?t=1792294891",
+    "west": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/a7e8090c-c8d5-4030-ac05-c2e056594669/rotations/west.png?t=1792294891",
+    "east": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/a7e8090c-c8d5-4030-ac05-c2e056594669/rotations/east.png?t=1792294891",
+    "north": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/a7e8090c-c8d5-4030-ac05-c2e056594669/rotations/north.png?t=1792294891",
+    "south-east": null,
+    "north-east": null,
+    "north-west": null,
+    "south-west": null
+  },
+  "style_settings": {
+    "detail": "medium detail",
+    "outline": "single color black outline",
+    "shading": "basic shading"
+  },
+  "guidance": null,
+  "ai_freedom": null,
+  "tags": [],
+  "group_id": "23e40826-24eb-4376-9259-8776ae265732",
+  "skeletons": null,
+  "animations": []
+}

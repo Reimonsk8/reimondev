@@ -1,0 +1,2342 @@
+/* Outlands — quarantine HUD over the Pixi canvas. Scoped to the route. */
+
+/* Forced landscape: rotate the Outlands shell 90° when a phone is held portrait.
+   Scoped to .outlands-root — rotating `body` used to be global, so leaving the
+   route kept the entire casino rotated until a full reload. */
+@media (orientation: portrait) and (max-width: 900px) {
+  .outlands-root {
+    --ol-view-w: 100vh;
+    --ol-view-w: 100dvh;
+    --ol-view-h: 100vw;
+    --ol-view-h: 100dvw;
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: auto;
+    width: var(--ol-view-w);
+    height: var(--ol-view-h);
+    transform: translateX(100vw) rotate(90deg);
+    transform-origin: top left;
+    overflow: hidden;
+  }
+}
+
+.outlands-root {
+  position: fixed;
+  inset: 0;
+  --ol-bg: #050807;
+  /* Logical viewport size. Swapped when the shell is force-rotated so HUD
+     panels size against the landscape box, not the physical portrait screen. */
+  --ol-view-w: 100vw;
+  --ol-view-h: 100vh;
+  --ol-view-h: 100dvh;
+  --ol-safe-x: max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --ol-safe-y: max(env(safe-area-inset-top, 0px), env(safe-area-inset-bottom, 0px));
+  --ol-panel: rgba(22, 27, 34, 0.94);
+  --ol-line: #2b3844;
+  --ol-line-hot: rgba(137, 255, 199, 0.46);
+  --ol-green: #7dffc8;
+  --ol-green-deep: #2a8f69;
+  --ol-amber: #f0c96e;
+  --ol-rust: #cf7b4a;
+  --ol-blood: #e05252;
+  --ol-text: #e8f3ec;
+  --ol-muted: #8ca398;
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background: #050807;
+  color: var(--ol-text);
+  font-family: 'Poppins', 'Inter', sans-serif;
+  isolation: isolate;
+  user-select: none;
+}
+
+.outlands-stage {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+  cursor: none;
+}
+
+.outlands-stage canvas {
+  display: block;
+}
+
+.outlands-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 52%, transparent 18%, rgba(0, 0, 0, 0.24) 54%, rgba(0, 0, 0, 0.78) 100%),
+    linear-gradient(180deg, rgba(4, 10, 8, 0.7) 0%, transparent 18%, transparent 78%, rgba(4, 10, 8, 0.85) 100%);
+}
+
+.outlands-topbar {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 4px;
+  padding: 4px 8px;
+  pointer-events: none;
+  background: rgba(10, 14, 20, 0.85);
+  border: 1px solid #1a2130;
+  font-size: 11px;
+}
+
+.outlands-topbar > * {
+  pointer-events: auto;
+}
+
+.outlands-back,
+.outlands-icon-btn,
+.outlands-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 3px;
+  background: var(--ol-panel);
+  border: 1px solid var(--ol-line);
+  color: var(--ol-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 140ms ease, transform 140ms ease, background 140ms ease;
+}
+
+.outlands-back:hover,
+.outlands-icon-btn:hover,
+.outlands-nav-btn:hover,
+.outlands-nav-btn.is-active {
+  border-color: var(--ol-line-hot);
+  background: rgba(18, 42, 33, 0.92);
+  transform: translateY(-1px);
+}
+
+.outlands-nav-btn kbd {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(125, 255, 200, 0.14);
+  color: var(--ol-green);
+  font-size: 0.68rem;
+}
+
+.outlands-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.outlands-zone-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border-radius: 3px;
+  background: var(--ol-panel);
+  border: 1px solid color-mix(in srgb, var(--outlands-tier, #7dffc8) 52%, transparent);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.46);
+  font-size: 0.76rem;
+}
+
+.outlands-zone-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--outlands-tier, #7dffc8);
+  box-shadow: 0 0 12px var(--outlands-tier, #7dffc8);
+}
+
+.outlands-zone-sub {
+  color: var(--ol-muted);
+  font-size: 0.72rem;
+}
+
+.outlands-feedback-dock {
+  position: absolute;
+  left: 50%;
+  bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  z-index: 102;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: min(560px, calc(var(--ol-view-w) - 24px));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.outlands-feedback-dock > * {
+  flex: 0 0 auto;
+  pointer-events: auto;
+}
+
+.outlands-banner {
+  position: relative;
+  inset: auto;
+  transform: none;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(560px, calc(100% - 24px));
+  padding: 7px 16px;
+  border-radius: 3px;
+  background: rgba(9, 24, 19, 0.92);
+  border: 1px solid var(--ol-line-hot);
+  color: var(--ol-green);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+  text-align: center;
+  animation: outlands-toast-lifecycle 3s ease-in-out both;
+}
+
+@keyframes outlands-toast-lifecycle {
+  0% { opacity: 0; transform: translateY(8px); }
+  10%, 78% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+.outlands-container-prompt {
+  position: relative;
+  inset: auto;
+  transform: none;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: min(450px, calc(var(--ol-view-w) - 24px));
+  height: 48px;
+  gap: 8px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(10, 14, 20, 0.9);
+  border: 1px solid #1a2130;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.38);
+  font-size: 11px;
+}
+
+.outlands-prompt-icon {
+  flex: 0 0 auto;
+  color: var(--ol-green);
+}
+
+.outlands-prompt-copy {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.outlands-prompt-title {
+  overflow: hidden;
+  color: var(--ol-text);
+  font-size: 11px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.outlands-container-prompt .outlands-prompt-progress {
+  overflow: hidden;
+  color: var(--ol-muted);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.outlands-container-prompt .outlands-prompt-action {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+  padding: 4px 8px;
+  border-color: #2c3948;
+  background: rgba(20, 29, 39, 0.94);
+  color: #e5edf4;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.outlands-container-prompt > .outlands-btn:not(.outlands-prompt-action) {
+  flex: 0 0 auto;
+  height: 40px;
+  min-height: 40px;
+  padding: 4px 7px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.outlands-bottombar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--ol-view-w);
+  height: var(--ol-view-h);
+  background: transparent !important;
+  pointer-events: none;
+  z-index: 100;
+  display: block;
+}
+
+.outlands-bottombar > * {
+  pointer-events: auto;
+  position: absolute;
+}
+
+.outlands-vitals-card {
+  left: 12px;
+  bottom: 12px;
+  width: clamp(230px, 26vw, 320px);
+}
+
+.outlands-weapons-card {
+  right: 8px;
+  bottom: 8px;
+  padding: 2px 4px;
+}
+
+.outlands-loot-card {
+  right: 12px;
+  top: 56px;
+  width: clamp(180px, 20vw, 260px);
+}
+
+.outlands-vitals-card,
+.outlands-weapons-card,
+.outlands-loot-card {
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: rgba(9, 14, 19, 0.94);
+  border: 1px solid #2b3844;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 26px rgba(0, 0, 0, 0.6);
+}
+
+.outlands-vital-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 0.72rem;
+  margin-bottom: 4px;
+}
+
+.outlands-vital-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ol-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.outlands-vital-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.outlands-bio-infected {
+  color: #76ff3b;
+}
+
+.outlands-mini-group {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.outlands-mini-btn {
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 1px solid #2b3844;
+  background: rgba(9, 14, 19, 0.88);
+  color: #7dffc8;
+  font-size: 0.66rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-shadow: 0 0 3px rgba(125, 255, 200, 0.4);
+}
+
+.outlands-mini-btn.is-bio {
+  border-color: rgba(118, 255, 59, 0.55);
+  color: #76ff3b;
+  text-shadow: 0 0 3px rgba(118, 255, 59, 0.4);
+}
+
+.outlands-bar {
+  height: 8px;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.11) 0px,
+      rgba(255, 255, 255, 0.11) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    rgba(5, 8, 13, 0.82);
+  overflow: hidden;
+  margin-bottom: 6px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+.outlands-bar-slim {
+  height: 5px;
+  margin-bottom: 5px;
+}
+
+.outlands-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 90ms linear;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.outlands-bar-health {
+  background: linear-gradient(90deg, #cf2b2b, #ff4b4b);
+  box-shadow: 0 0 6px #ff4b4b;
+}
+
+.outlands-bar-armor {
+  background: linear-gradient(90deg, #2a6fdb, #5ac8fa);
+  box-shadow: 0 0 6px #5ac8fa;
+}
+
+.outlands-weapons-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 7px;
+  min-width: 0;
+}
+
+.outlands-weapon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.74rem;
+}
+
+.outlands-weapon strong {
+  color: var(--ol-green);
+  font-size: 0.82rem;
+}
+
+.outlands-weapon span {
+  color: var(--ol-muted);
+  font-size: 0.68rem;
+}
+
+.outlands-weapons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.outlands-weapon-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2px;
+  min-height: 46px;
+  padding: 5px 7px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--ol-text);
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.outlands-weapon-slot > div {
+  min-width: 0;
+  width: 100%;
+}
+
+.outlands-weapon-slot.is-active {
+  background: rgba(125, 255, 200, 0.14);
+  border-color: var(--ol-line-hot);
+}
+
+.outlands-weapon-slot strong {
+  display: block;
+  font-size: 0.68rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.outlands-weapon-slot span {
+  font-size: 0.62rem;
+  color: var(--ol-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.outlands-weapon-key {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.09);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.outlands-ammo-readout {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ol-green);
+}
+
+.outlands-loot-card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 10px;
+  align-items: center;
+}
+
+.outlands-loot-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.outlands-loot-card span {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ol-muted);
+}
+
+.outlands-loot-card strong {
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.outlands-loot-card strong.is-hot {
+  color: var(--ol-amber);
+}
+
+/* Dead Frontier Rectangular City Block Minimap */
+.outlands-minimap {
+  position: absolute;
+  top: 62px;
+  right: 16px;
+  z-index: 6;
+  width: 176px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background: var(--ol-panel);
+  border: 1px solid var(--ol-line-hot);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.56);
+  cursor: pointer;
+}
+
+.outlands-minimap-head {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6px;
+  font-size: 0.64rem;
+}
+
+.outlands-minimap-head span {
+  color: var(--ol-green);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.outlands-minimap-head strong {
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.outlands-minimap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 36px);
+  gap: 3px;
+}
+
+.outlands-minimap-cell {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--ol-muted);
+}
+
+.outlands-minimap-cell.tier-0,
+.outlands-minimap-cell.is-safe {
+  border-color: rgba(125, 255, 200, 0.55);
+  background: rgba(42, 143, 105, 0.24);
+  color: var(--ol-green);
+}
+
+.outlands-minimap-cell.tier-1 {
+  border-color: rgba(216, 196, 107, 0.35);
+  background: rgba(216, 196, 107, 0.09);
+}
+
+.outlands-minimap-cell.tier-2 {
+  border-color: rgba(232, 154, 84, 0.4);
+  background: rgba(232, 154, 84, 0.11);
+}
+
+.outlands-minimap-cell.tier-3 {
+  border-color: rgba(224, 82, 82, 0.55);
+  background: rgba(224, 82, 82, 0.16);
+  color: #ff9e9e;
+}
+
+.outlands-minimap-cell.is-current {
+  box-shadow: inset 0 0 0 1.5px #ffffff;
+  color: #ffffff;
+}
+
+.outlands-minimap-dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 8px var(--ol-green);
+  transform: translate(-50%, -50%);
+}
+
+/* Sector Block Atlas inside Drawer */
+.outlands-sector-atlas {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.outlands-atlas-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.74rem;
+}
+
+.outlands-atlas-cell.is-safe {
+  border-color: var(--ol-line-hot);
+  background: rgba(26, 70, 52, 0.36);
+}
+
+.outlands-atlas-cell.is-current {
+  box-shadow: inset 0 0 0 1.5px var(--ol-green);
+}
+
+.outlands-atlas-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.outlands-atlas-cell p {
+  margin: 0;
+  color: var(--ol-muted);
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.outlands-atlas-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--ol-muted);
+}
+
+.outlands-atlas-here {
+  color: var(--ol-green);
+}
+
+/* Tactical Drawer */
+.outlands-drawer {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(940px, calc(var(--ol-view-w) - 32px));
+  max-height: calc(var(--ol-view-h) - 200px);
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  background: rgba(6, 14, 11, 0.96);
+  border: 1px solid var(--ol-line-hot);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.78);
+  overflow: hidden;
+  cursor: default;
+}
+
+.outlands-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--ol-line);
+  background: rgba(12, 26, 20, 0.8);
+}
+
+.outlands-drawer-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.outlands-drawer-tabs button,
+.outlands-drawer-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 3px;
+  border: 1px solid var(--ol-line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ol-text);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.outlands-drawer-tabs button.is-active {
+  background: rgba(125, 255, 200, 0.16);
+  border-color: var(--ol-line-hot);
+  color: var(--ol-green);
+}
+
+.outlands-drawer-body {
+  padding: 14px 16px;
+  overflow-y: auto;
+}
+
+.outlands-cols-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.outlands-section-note {
+  font-size: 0.78rem;
+  color: var(--ol-muted);
+  margin-bottom: 10px;
+}
+
+.outlands-grid-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols, 6), minmax(95px, 1fr));
+  grid-template-rows: repeat(var(--grid-rows, 4), 78px);
+  gap: 6px;
+  padding: 8px;
+  border-radius: 4px;
+  background: rgba(3, 8, 6, 0.85);
+  border: 1px solid var(--ol-line);
+}
+
+.outlands-grid-cell {
+  border-radius: 3px;
+  border: 1px dashed rgba(125, 255, 200, 0.14);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.outlands-grid-item {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 3px;
+  background: rgba(17, 38, 30, 0.94);
+  border: 1px solid var(--ol-line-hot);
+  font-size: 0.7rem;
+  overflow: hidden;
+}
+
+.outlands-grid-item.rarity-military {
+  border-color: #f0c96e;
+  background: rgba(42, 34, 16, 0.94);
+}
+
+.outlands-grid-item.rarity-bio {
+  border-color: #76ff3b;
+  background: rgba(20, 42, 16, 0.94);
+}
+
+.outlands-grid-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.outlands-grid-item p {
+  margin: 2px 0;
+  font-size: 0.63rem;
+  color: var(--ol-muted);
+  line-height: 1.25;
+}
+
+.outlands-grid-item-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.outlands-grid-item-actions button {
+  padding: 2px 7px;
+  border-radius: 5px;
+  border: 1px solid var(--ol-line);
+  background: rgba(125, 255, 200, 0.14);
+  color: var(--ol-text);
+  font-size: 0.64rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.outlands-subpanel {
+  padding: 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--ol-line);
+}
+
+.outlands-subpanel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.outlands-subpanel-head h3,
+.outlands-subhead {
+  margin: 0;
+  font-size: 0.86rem;
+}
+
+.outlands-subhead {
+  margin: 12px 0 6px;
+}
+
+.outlands-badge {
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(125, 255, 200, 0.14);
+  color: var(--ol-green);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.outlands-profession-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  font-size: 0.74rem;
+}
+
+.outlands-chip {
+  padding: 3px 9px;
+  border-radius: 3px;
+  border: 1px solid var(--ol-line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ol-text);
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.outlands-chip.is-active {
+  border-color: var(--ol-line-hot);
+  background: rgba(125, 255, 200, 0.18);
+  color: var(--ol-green);
+}
+
+.outlands-stat-list,
+.outlands-market-list,
+.outlands-quest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.outlands-stat-row,
+.outlands-market-row,
+.outlands-quest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 9px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.74rem;
+}
+
+.outlands-stat-row div,
+.outlands-market-row div,
+.outlands-quest-row div {
+  display: flex;
+  flex-direction: column;
+}
+
+.outlands-stat-row small,
+.outlands-market-row small,
+.outlands-quest-row small {
+  color: var(--ol-muted);
+  font-size: 0.66rem;
+}
+
+.outlands-stat-row button,
+.outlands-market-row button,
+.outlands-quest-row button {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--ol-line-hot);
+  background: rgba(125, 255, 200, 0.14);
+  color: var(--ol-green);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.outlands-stat-row button:disabled,
+.outlands-market-row button:disabled,
+.outlands-quest-row button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.outlands-outpost-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.outlands-outpost-card {
+  padding: 6px 8px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 0.7rem;
+}
+
+.outlands-outpost-card.is-active {
+  border-color: var(--ol-line-hot);
+  background: rgba(125, 255, 200, 0.1);
+}
+
+.outlands-outpost-card strong {
+  display: block;
+}
+
+.outlands-outpost-card span {
+  font-size: 0.62rem;
+  color: var(--ol-muted);
+}
+
+.outlands-service-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.outlands-service-buttons button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 10px;
+  border-radius: 3px;
+  border: 1px solid var(--ol-line);
+  background: rgba(125, 255, 200, 0.1);
+  color: var(--ol-text);
+  font-size: 0.71rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.outlands-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(3, 7, 5, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.outlands-modal {
+  max-width: 560px;
+  width: 100%;
+  padding: 26px 28px;
+  border-radius: 4px;
+  background: linear-gradient(165deg, rgba(11, 24, 19, 0.96), rgba(6, 12, 10, 0.96));
+  border: 1px solid var(--ol-line-hot);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.68);
+}
+
+.outlands-main-screen {
+  max-width: 420px;
+}
+
+.outlands-main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.outlands-main-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: rgba(9, 14, 19, 0.94);
+  border: 1px solid #2b3844;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.outlands-main-label {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ol-muted);
+}
+
+.outlands-main-value {
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ol-green);
+}
+
+.outlands-main-sub {
+  font-size: 0.72rem;
+  color: var(--ol-muted);
+}
+
+.outlands-safezone-map {
+  max-width: 560px;
+}
+
+.outlands-safezone-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.outlands-safezone-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: rgba(9, 14, 19, 0.94);
+  border: 1px solid #2b3844;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.outlands-safezone-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.outlands-safezone-code {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ol-muted);
+}
+
+.outlands-safezone-tier {
+  font-size: 0.7rem;
+  color: var(--ol-amber);
+}
+
+.outlands-safezone-players {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: var(--ol-green);
+}
+
+.outlands-safezone-desc {
+  font-size: 0.7rem;
+  color: var(--ol-muted);
+  line-height: 1.3;
+}
+
+.outlands-modal-dead {
+  border-color: rgba(224, 82, 82, 0.55);
+}
+
+.outlands-modal-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  background: rgba(125, 255, 200, 0.1);
+  color: var(--ol-green);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.outlands-modal-dead .outlands-modal-eyebrow {
+  background: rgba(224, 82, 82, 0.14);
+  color: var(--ol-blood);
+}
+
+.outlands-modal h1,
+.outlands-modal h2 {
+  margin: 12px 0 8px;
+  font-size: 1.75rem;
+  line-height: 1.15;
+}
+
+.outlands-briefing-stats {
+  margin: 0 0 10px !important;
+  padding: 6px 11px;
+  border-radius: 3px;
+  background: rgba(125, 255, 200, 0.08);
+  border: 1px solid var(--ol-line);
+  color: var(--ol-text) !important;
+  font-size: 0.78rem !important;
+}
+
+.outlands-modal p {
+  margin: 0 0 18px;
+  color: var(--ol-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.outlands-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-bottom: 20px;
+}
+
+.outlands-controls-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.outlands-controls-grid kbd {
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ol-green);
+}
+
+.outlands-controls-grid span {
+  font-size: 0.73rem;
+  color: var(--ol-muted);
+}
+
+.outlands-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.outlands-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 46px;
+  padding: 10px 18px;
+  border-radius: 3px;
+  border: 1px solid var(--ol-line);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ol-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.outlands-btn-compact {
+  padding: 6px 12px;
+  font-size: 0.74rem;
+}
+
+.outlands-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--ol-line-hot);
+}
+
+.outlands-btn-primary {
+  background: linear-gradient(135deg, #2a8f69, #1f6b4e);
+  border-color: var(--ol-green);
+  color: #f4fff9;
+}
+
+@media (max-width: 980px) {
+  .outlands-topbar {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    height: 48px;
+    min-height: 48px;
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+  .outlands-top-actions .outlands-nav-btn,
+  .outlands-top-actions .outlands-icon-btn {
+    flex: 0 0 44px;
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+  }
+  .outlands-banner {
+    max-width: calc(var(--ol-view-w) - 24px);
+  }
+  .outlands-nav-btn span,
+  .outlands-nav-btn kbd {
+    display: none;
+  }
+  .outlands-vitals-card {
+    left: 8px;
+    bottom: 8px;
+    transform: scale(0.75);
+    transform-origin: bottom left;
+  }
+  .outlands-loot-card {
+    right: 8px;
+    top: 48px;
+    transform: scale(0.75);
+    transform-origin: top right;
+  }
+  .outlands-weapons-card {
+    right: 8px;
+    bottom: 8px;
+  }
+  .outlands-vitals-card,
+  .outlands-loot-card,
+  .outlands-minimap {
+    display: none;
+  }
+  .outlands-sector-atlas {
+    grid-template-columns: 1fr;
+  }
+  .outlands-weapons-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .outlands-weapon span {
+    display: none;
+  }
+  .outlands-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  .outlands-zone-sub {
+    display: none;
+  }
+  .outlands-modal-backdrop {
+    padding: 12px;
+    overflow-y: auto;
+  }
+  .outlands-modal {
+    padding: 18px 16px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .outlands-controls-grid {
+    grid-template-columns: 1fr;
+  }
+  /* Hug the three hotbar slots and sit on the right, leaving the corner to the stick. */
+  .outlands-root.is-touch .outlands-weapons-card {
+    top: 50%;
+    right: max(8px, env(safe-area-inset-right, 0px));
+    bottom: auto;
+    z-index: 5;
+    width: max-content;
+    transform: translateY(-50%);
+  }
+}
+
+/* Tactical Dark Metal Scanline HUD & 32x32 Pixel Hotbar */
+.outlands-metal-frame {
+  border-radius: 4px !important;
+  border: 1px solid #2b3844 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 18px rgba(0, 0, 0, 0.72),
+    0 10px 26px rgba(0, 0, 0, 0.65) !important;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(180deg, rgba(16, 22, 28, 0.94), rgba(9, 13, 18, 0.96)) !important;
+}
+
+/* Directive 3: weathered tactical metal frame for the HUD footer */
+.outlands-tactical-metal {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(180deg, rgba(13, 18, 25, 0.95), rgba(9, 13, 17, 0.96));
+  border: 1px solid #1a1f27;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 24px rgba(0, 0, 0, 0.85);
+}
+
+/* Metal inner highlight on the top-bar chips */
+.outlands-back,
+.outlands-icon-btn,
+.outlands-nav-btn,
+.outlands-zone-pill {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* High-visibility vital warnings (critical hull, infection, starvation) */
+.outlands-vital-cell.is-critical {
+  margin: -2px -4px;
+  padding: 2px 4px;
+  border: 1px solid #ff4b4b;
+  border-radius: 2px;
+  background: rgba(120, 12, 12, 0.35);
+  animation: outlands-critical-blink 0.9s steps(2, jump-none) infinite;
+}
+
+.outlands-vital-cell.is-critical .outlands-vital-label,
+.outlands-vital-cell.is-critical .outlands-vital-value:not(.outlands-bio-infected) {
+  color: #ff6b6b;
+  text-shadow: 0 0 4px rgba(255, 75, 75, 0.7);
+}
+
+@keyframes outlands-critical-blink {
+  from { border-color: #ff4b4b; }
+  to { border-color: rgba(255, 75, 75, 0.25); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outlands-vital-cell.is-critical {
+    animation: none;
+  }
+}
+
+/* Directive 3: diegetic CRT scanline burn across the whole Outlands scene */
+.outlands-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.2) 0px,
+    rgba(0, 0, 0, 0.2) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.outlands-vital-compact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 10px;
+}
+
+.outlands-vital-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.outlands-vital-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 0.68rem;
+}
+
+.outlands-pixel-vital-svg {
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.outlands-hotbar-slots {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+}
+
+.outlands-hotbar-slot {
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 54px;
+  min-height: 44px;
+  padding: 4px !important;
+  border-radius: 3px !important;
+  border: 1px solid #2c3844 !important;
+  background: rgba(8, 12, 16, 0.92) !important;
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+  .outlands-hotbar-slot {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+.outlands-hotbar-slot.is-active {
+  border-color: #7dffc8 !important;
+  box-shadow: inset 0 0 10px rgba(125, 255, 200, 0.22);
+}
+
+.outlands-hotbar-icon-box {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outlands-hotbar-pixel-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+/* Keep these viewport tokens after the base shell declaration so the portrait
+   override wins the cascade and landscape-sized panels use the rotated width. */
+@media (orientation: portrait) and (max-width: 900px) {
+  .outlands-root {
+    --ol-view-w: 100vh;
+    --ol-view-w: 100dvh;
+    --ol-view-h: 100vw;
+    --ol-view-h: 100dvw;
+    /* CSS safe-area values remain in physical screen axes while the shell is
+       rotated; swap them so logical left/right and top/bottom stay protected. */
+    --ol-safe-x: max(env(safe-area-inset-top, 0px), env(safe-area-inset-bottom, 0px));
+    --ol-safe-y: max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  }
+}
+
+.outlands-hotbar-ammo-badge {
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.85);
+  background: rgba(5, 8, 17, 0.86);
+  padding: 1px 3px;
+  border-radius: 2px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+/* Touch twin-stick: left thumb drives the stick, right thumb drags the stage to aim + fire. */
+.outlands-touch-stick {
+  position: absolute;
+  left: 26px;
+  bottom: 26px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  opacity: 0.2;
+  min-width: 88px;
+  min-height: 88px;
+  transition: opacity 0.15s ease;
+  border-radius: 50%;
+  border: 1px solid rgba(125, 255, 200, 0.32);
+  background: radial-gradient(circle at 50% 50%, rgba(12, 20, 16, 0.5), rgba(5, 8, 7, 0.24));
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.6);
+  touch-action: none;
+}
+
+.outlands-touch-knob {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(125, 255, 200, 0.72);
+  background: radial-gradient(circle at 40% 35%, rgba(125, 255, 200, 0.5), rgba(31, 107, 78, 0.85));
+  box-shadow: 0 0 14px rgba(125, 255, 200, 0.32);
+  pointer-events: none;
+}
+
+/* Touch-only secondary actions (reload / bandage) stacked above the hotbar. */
+.outlands-touch-actions {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 4;
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.outlands-touch-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  opacity: 0.2;
+  transition: opacity 0.15s ease;
+  border-radius: 50%;
+  border: 1px solid rgba(125, 255, 200, 0.4);
+  background: rgba(9, 14, 19, 0.86);
+  color: var(--ol-green);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
+  touch-action: none;
+}
+
+/* Ghosted touch controls: brighten only while a thumb is on them. */
+.outlands-touch-stick:active,
+.outlands-touch-stick.is-active,
+.outlands-touch-action:active,
+.outlands-touch-action.is-active {
+  opacity: 0.6;
+}
+
+/* Loadout picker inside the Grid Pack drawer: two firearm slots, melee is fixed. */
+.outlands-loadout-grid {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 14px;
+}
+
+.outlands-loadout-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid #2b3844;
+  border-radius: 4px;
+  background: rgba(8, 12, 16, 0.8);
+  font-size: 0.78rem;
+}
+
+.outlands-loadout-row.is-slotted {
+  border-color: var(--ol-green);
+}
+
+.outlands-loadout-row small {
+  display: block;
+  color: var(--ol-muted);
+  font-size: 0.68rem;
+}
+
+.outlands-loadout-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.outlands-loadout-actions button {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  border: 1px solid #2b3844;
+  background: #0b1116;
+  color: var(--ol-text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.outlands-loadout-actions button.is-active {
+  border-color: var(--ol-green);
+  color: var(--ol-green);
+}
+
+.outlands-loadout-actions button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.outlands-minimap-hint {
+  font-size: 0.65rem;
+  color: var(--ol-muted);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* One compact control rail. Keep every group in the same row; the topbar's
+   empty space stays transparent to movement/aim input while its controls remain clickable. */
+.outlands-topbar {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 36px;
+  height: 36px;
+  padding: 3px 6px;
+  gap: 4px;
+  flex-flow: row nowrap;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.outlands-topbar > * {
+  min-width: 0;
+}
+
+.outlands-header-stats {
+  flex: 0 1 auto;
+  gap: 8px;
+}
+
+.outlands-header-stat {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 3px;
+}
+
+.outlands-back {
+  flex: 0 0 auto;
+  min-width: 0;
+  height: 28px;
+  padding: 3px 6px;
+  gap: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.outlands-zone-pill {
+  flex: 0 1 170px;
+  min-width: 34px;
+  max-width: 210px;
+  height: 26px;
+  box-sizing: border-box;
+  gap: 6px;
+  padding: 3px 7px;
+  overflow: hidden;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.outlands-zone-dot {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+}
+
+.outlands-zone-pill strong,
+.outlands-zone-sub {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.outlands-zone-pill strong {
+  flex: 0 1 auto;
+}
+
+.outlands-zone-sub {
+  flex: 1 1 auto;
+  font-size: 10px;
+}
+
+.outlands-header-stats {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  padding: 0 2px;
+  color: #a9b9c6;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.outlands-header-stats > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.outlands-header-stats strong {
+  color: #e2edf4;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.outlands-top-actions {
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 0;
+  align-items: center;
+  flex-flow: row nowrap;
+  gap: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.outlands-top-actions .outlands-nav-btn,
+.outlands-top-actions .outlands-icon-btn {
+  display: inline-flex;
+  flex: 0 0 26px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 26px;
+  min-width: 26px;
+  max-width: 26px;
+  height: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  padding: 3px;
+  gap: 0;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.outlands-top-actions .outlands-nav-btn > span,
+.outlands-top-actions .outlands-nav-btn kbd {
+  display: none;
+}
+
+.outlands-top-actions .outlands-minimap-hint {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  padding: 0 3px;
+  color: #c0d5d4;
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.outlands-header-stats-separator {
+  color: #536371;
+}
+
+@media (max-width: 600px) {
+  .outlands-topbar {
+    gap: 3px;
+    padding-inline: 4px;
+  }
+
+  .outlands-header-stats {
+    gap: 6px;
+    font-size: 9px;
+  }
+
+  .outlands-header-stats strong {
+    font-size: 10px;
+  }
+
+  .outlands-top-actions {
+    gap: 2px;
+  }
+
+  .outlands-top-actions .outlands-nav-btn,
+  .outlands-top-actions .outlands-icon-btn {
+    flex-basis: 24px;
+    width: 24px;
+    min-width: 24px;
+    max-width: 24px;
+    height: 24px;
+    min-height: 24px;
+    max-height: 24px;
+  }
+}
+
+@media (max-width: 980px) and (max-height: 500px) {
+  .outlands-briefing > p:not(.outlands-briefing-stats) { display: none; }
+  .outlands-briefing .outlands-modal-eyebrow,
+  .outlands-briefing .outlands-safezone-players { display: none; }
+  .outlands-briefing h1 { margin-block: 4px; }
+  .outlands-briefing .outlands-safezone-grid { margin-top: 4px; }
+  .outlands-briefing .outlands-safezone-card { padding: 5px 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outlands-banner {
+    animation: none;
+  }
+}
+
+/* Manual landscape toggle (mobile rotate button). */
+.outlands-root.force-landscape {
+  --ol-view-w: 100vh;
+  --ol-view-w: 100dvh;
+  --ol-view-h: 100vw;
+  --ol-view-h: 100dvw;
+  top: 0;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  width: var(--ol-view-w);
+  height: var(--ol-view-h);
+  transform: translateX(100vw) rotate(90deg);
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+@media (orientation: landscape) {
+  .outlands-root {
+    width: 100vw;
+    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Low-profile three-slot tactical hotbar. Keep every weapon target at least
+   44px tall while limiting the complete dock to a 48px footprint. */
+.outlands-weapons-card.outlands-metal-frame {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: max-content;
+  height: 48px;
+  min-height: 48px;
+  max-height: 48px;
+  gap: 0;
+  padding: 1px !important;
+  overflow: hidden;
+  border: 1px solid #1a2130 !important;
+  border-radius: 3px !important;
+  background: rgba(10, 14, 20, 0.85) !important;
+  box-shadow: none !important;
+}
+
+.outlands-weapons-card .outlands-hotbar-slots {
+  display: flex !important;
+  flex: 0 0 auto;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 2px;
+}
+
+.outlands-weapons-card .outlands-hotbar-slot {
+  box-sizing: border-box;
+  flex: 0 0 48px;
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px;
+  padding: 0 !important;
+  border-radius: 2px !important;
+}
+
+/* Phone-first menu system: a full-screen sheet, compact navigation, and
+   one-column content keeps every action reachable without horizontal scrolling. */
+.outlands-mobile-inventory-list {
+  display: none;
+}
+
+.outlands-keybind-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 12px;
+  padding: 8px;
+}
+
+.outlands-keybind-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 0.76rem;
+}
+
+.outlands-keybind-row button {
+  min-width: 72px;
+  min-height: 40px;
+  padding: 4px 8px;
+  border: 1px solid #334155;
+  border-radius: 5px;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.outlands-keybind-row button.is-rebinding { background: #f59e0b; color: #111827; }
+.outlands-keybind-actions { display: flex; gap: 8px; padding: 8px; }
+.outlands-keybind-actions button { min-height: 44px; padding: 0 12px; }
+
+.outlands-character-summary {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.outlands-character-summary span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--ol-line);
+  border-radius: 5px;
+  background: rgba(125, 255, 200, 0.055);
+}
+.outlands-character-summary small { color: var(--ol-muted); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.outlands-character-summary strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; }
+.outlands-menu-search { display: flex; align-items: center; gap: 10px; margin: 4px 0 9px; color: var(--ol-muted); font-size: 0.72rem; }
+.outlands-menu-search input { width: 100%; min-width: 0; min-height: 42px; padding: 8px 10px; border: 1px solid var(--ol-line); border-radius: 5px; background: rgba(0, 0, 0, 0.34); color: var(--ol-text); font: inherit; }
+
+.outlands-root button:focus-visible {
+  outline: 2px solid #b8ffe0;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(125, 255, 200, 0.2);
+}
+
+.outlands-sell-confirm-backdrop { z-index: 12; }
+.outlands-sell-confirm { max-width: 420px; }
+.outlands-sell-confirm .outlands-modal-actions { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.outlands-sell-confirm .outlands-modal-actions button { min-height: 44px; }
+
+.outlands-root.is-touch .outlands-touch-stick { opacity: 0.48; }
+.outlands-root.is-touch .outlands-touch-action {
+  opacity: 0.58;
+  border-color: rgba(125, 255, 200, 0.72);
+  background: rgba(8, 16, 13, 0.94);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.55), inset 0 0 12px rgba(0, 0, 0, 0.45);
+}
+.outlands-root.is-touch .outlands-touch-action:active { opacity: 0.92; }
+
+@media (max-width: 980px) {
+  .outlands-drawer {
+    inset: 0;
+    top: 0;
+    left: 0;
+    width: var(--ol-view-w);
+    max-height: var(--ol-view-h);
+    transform: none;
+    border: 0;
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+    background: rgba(5, 12, 9, 0.985);
+  }
+
+  .outlands-drawer-header {
+    flex: 0 0 auto;
+    gap: 8px;
+    padding: 8px max(10px, env(safe-area-inset-left, 0px));
+  }
+
+  .outlands-drawer-tabs {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 5px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .outlands-drawer-tabs::-webkit-scrollbar { display: none; }
+
+  .outlands-drawer-tabs button,
+  .outlands-drawer-close {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 10px;
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+
+  .outlands-drawer-close { justify-content: center; }
+
+  .outlands-drawer-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 12px max(12px, env(safe-area-inset-left, 0px));
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .outlands-section-note { margin-bottom: 8px; font-size: 0.76rem; }
+  .outlands-cols-2 { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .outlands-subpanel { padding: 10px; }
+  .outlands-subpanel-head { align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+  .outlands-subpanel-head h3 { font-size: 0.9rem; }
+
+  .outlands-stat-row,
+  .outlands-market-row,
+  .outlands-quest-row {
+    min-height: 52px;
+    padding: 8px 10px;
+    gap: 10px;
+    font-size: 0.78rem;
+  }
+
+  .outlands-stat-row button,
+  .outlands-market-row button,
+  .outlands-quest-row button,
+  .outlands-service-buttons button,
+  .outlands-grid-item-actions button {
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 0.76rem;
+  }
+
+  .outlands-profession-row { flex-wrap: wrap; gap: 8px; }
+  .outlands-chip { min-height: 44px; padding: 0 12px; }
+  .outlands-outpost-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .outlands-service-buttons { grid-template-columns: minmax(0, 1fr); }
+
+  .outlands-sector-atlas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .outlands-atlas-cell { min-width: 0; padding: 7px; }
+  .outlands-atlas-head { align-items: flex-start; flex-direction: column; }
+  .outlands-atlas-cell p,
+  .outlands-atlas-foot > span { display: none; }
+  .outlands-atlas-head strong { font-size: 0.68rem; }
+  .outlands-atlas-cell .outlands-badge { font-size: 0.56rem; }
+
+  .outlands-desktop-inventory-grid { display: none; }
+  .outlands-mobile-inventory-list { display: flex; flex-direction: column; gap: 7px; }
+  .outlands-mobile-inventory-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 58px;
+    padding: 7px 8px 7px 10px;
+    border: 1px solid var(--ol-line);
+    border-left: 3px solid var(--ol-green);
+    border-radius: 5px;
+    background: rgba(16, 28, 23, 0.9);
+  }
+  .outlands-mobile-inventory-item.rarity-military { border-left-color: #f0c96e; }
+  .outlands-mobile-inventory-item.rarity-bio { border-left-color: #76ff3b; }
+  .outlands-mobile-inventory-copy { display: flex; flex: 1 1 auto; flex-direction: column; min-width: 0; gap: 3px; }
+  .outlands-mobile-inventory-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; }
+  .outlands-mobile-inventory-copy span { overflow: hidden; color: var(--ol-muted); text-overflow: ellipsis; white-space: nowrap; font-size: 0.64rem; }
+  .outlands-mobile-inventory-item .outlands-grid-item-actions { flex: 0 0 auto; }
+  .outlands-empty-state { margin: 10px 0; color: var(--ol-muted); text-align: center; }
+
+  .outlands-modal-backdrop {
+    place-items: start center;
+    padding: max(10px, env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) max(10px, env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px));
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .outlands-modal {
+    max-height: calc(var(--ol-view-h) - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    padding: 16px;
+    border-radius: 10px;
+  }
+  .outlands-briefing {
+    width: min(760px, 100%);
+    max-height: calc(var(--ol-view-h) - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 14px;
+  }
+  .outlands-briefing h1 { margin: 6px 0 5px; font-size: 1.25rem; }
+  .outlands-briefing .outlands-modal-eyebrow { padding: 3px 8px; font-size: 0.64rem; }
+  .outlands-briefing .outlands-briefing-stats {
+    margin-bottom: 5px !important;
+    padding: 4px 8px;
+    font-size: 0.68rem !important;
+  }
+  .outlands-briefing > p:not(.outlands-briefing-stats) {
+    margin-bottom: 7px;
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+  .outlands-briefing-actions { margin-bottom: 6px !important; }
+  .outlands-briefing .outlands-safezone-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin: 7px 0 0;
+  }
+  .outlands-briefing .outlands-safezone-card { gap: 3px; padding: 7px; }
+  .outlands-briefing .outlands-safezone-desc { display: none; }
+  .outlands-modal h1, .outlands-modal h2 { font-size: 1.35rem; }
+  .outlands-modal p { font-size: 0.82rem; line-height: 1.4; }
+  .outlands-safezone-grid { grid-template-columns: minmax(0, 1fr); gap: 7px; }
+  .outlands-safezone-card { gap: 4px; padding: 9px 10px; }
+  .outlands-safezone-desc { margin-bottom: 2px !important; }
+  .outlands-safezone-card .outlands-btn,
+  .outlands-modal-actions .outlands-btn { min-height: 44px; }
+  .outlands-controls-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .outlands-keybind-grid { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 0; }
+  .outlands-keybind-row { padding: 4px 2px; }
+  .outlands-keybind-row button { min-width: 84px; min-height: 44px; }
+}
+
+@media (max-width: 600px) {
+  .outlands-topbar { padding-inline: 6px; gap: 6px; }
+  .outlands-header-stats { flex: 0 0 auto; }
+  .outlands-top-actions { gap: 3px; }
+  .outlands-top-actions .outlands-nav-btn,
+  .outlands-top-actions .outlands-icon-btn {
+    flex: 0 0 44px;
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+  }
+  .outlands-briefing { padding: 9px 10px; }
+  .outlands-briefing > p:not(.outlands-briefing-stats) { display: none; }
+  .outlands-briefing .outlands-modal-eyebrow,
+  .outlands-briefing .outlands-safezone-players { display: none; }
+  .outlands-briefing .outlands-safezone-card { gap: 2px; padding: 5px; }
+  .outlands-briefing .outlands-safezone-head strong { font-size: 0.72rem; line-height: 1.05; }
+  .outlands-briefing .outlands-safezone-tier { font-size: 0.62rem; }
+  .outlands-drawer-header { align-items: stretch; flex-direction: column-reverse; }
+  .outlands-drawer-close { align-self: flex-end; min-height: 40px; }
+  .outlands-drawer-tabs button { min-width: 58px; justify-content: center; flex-direction: column; gap: 2px; padding: 4px 7px; font-size: 0.6rem; }
+  .outlands-subpanel-head .outlands-badge { max-width: 100%; white-space: normal; }
+  .outlands-character-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .outlands-menu-search { align-items: stretch; flex-direction: column; gap: 4px; }
+  .outlands-market-row,
+  .outlands-quest-row { align-items: stretch; flex-direction: column; }
+  .outlands-market-row button,
+  .outlands-quest-row button { width: 100%; }
+  .outlands-controls-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.outlands-weapons-card .outlands-weapon-key {
+  position: absolute;
+  top: 1px;
+  left: 3px;
+  z-index: 1;
+  padding: 0 2px;
+  background: rgba(5, 8, 12, 0.78);
+  color: #aebbc6;
+  font-size: 8px !important;
+  line-height: 11px;
+}
+
+@media (max-width: 980px) {
+  .outlands-topbar {
+    height: 48px;
+    min-height: 48px;
+    justify-content: center;
+  }
+  .outlands-top-actions .outlands-nav-btn,
+  .outlands-top-actions .outlands-icon-btn {
+    flex-basis: 44px;
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+  }
+}
+
+.outlands-weapons-card .outlands-hotbar-icon-box,
+.outlands-weapons-card .outlands-hotbar-pixel-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.outlands-weapons-card .outlands-hotbar-ammo-badge {
+  right: 1px;
+  bottom: 1px;
+  padding: 1px 2px;
+  font-size: 8px;
+}
+
+/* Reserve the bottom-right touch-action column; the weapon strip sits directly
+   to its left, aligned to the same bottom edge. */
+.outlands-root.is-touch .outlands-weapons-card {
+  top: auto;
+  right: calc(52px + max(8px, var(--ol-safe-x)));
+  bottom: calc(8px + var(--ol-safe-y));
+  z-index: 5;
+  transform: none;
+}
+
+/* iPhone/iPad viewport-fit: use the visual viewport dimensions (including
+   Safari's collapsing browser chrome) and keep thumb/UI controls inside the
+   actual safe drawing area. These late declarations intentionally win over
+   legacy breakpoint rules above. */
+.outlands-root {
+  --ol-safe-x: max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --ol-safe-y: max(env(safe-area-inset-top, 0px), env(safe-area-inset-bottom, 0px));
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+  .outlands-root {
+    --ol-view-w: 100vh;
+    --ol-view-w: 100dvh;
+    --ol-view-h: 100vw;
+    --ol-view-h: 100dvw;
+    --ol-safe-x: max(env(safe-area-inset-top, 0px), env(safe-area-inset-bottom, 0px));
+    --ol-safe-y: max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+    transform: translateX(100vw) rotate(90deg);
+  }
+}
+
+.outlands-feedback-dock {
+  bottom: calc(56px + var(--ol-safe-y));
+}
+
+.outlands-topbar {
+  left: max(4px, var(--ol-safe-x));
+  right: max(4px, var(--ol-safe-x));
+  top: max(4px, var(--ol-safe-y));
+}
+
+.outlands-root.is-touch .outlands-touch-stick {
+  left: calc(16px + var(--ol-safe-x));
+  bottom: calc(16px + var(--ol-safe-y));
+  width: clamp(88px, 20vmin, 96px);
+  height: clamp(88px, 20vmin, 96px);
+  min-width: clamp(88px, 20vmin, 96px);
+  min-height: clamp(88px, 20vmin, 96px);
+}
+
+.outlands-root.is-touch .outlands-touch-actions {
+  right: max(8px, var(--ol-safe-x));
+  bottom: calc(8px + var(--ol-safe-y));
+  gap: clamp(6px, 2vmin, 10px);
+}
+
+.outlands-root.is-touch .outlands-touch-action {
+  flex: 0 0 44px;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+
+.outlands-drawer {
+  max-height: calc(var(--ol-view-h) - 2 * var(--ol-safe-y));
+}
+
+.outlands-modal-backdrop {
+  padding-top: max(10px, var(--ol-safe-y));
+  padding-bottom: max(10px, var(--ol-safe-y));
+  padding-left: max(10px, var(--ol-safe-x));
+  padding-right: max(10px, var(--ol-safe-x));
+}
+
+@media (max-width: 980px) {
+  .outlands-topbar {
+    left: max(6px, var(--ol-safe-x));
+    right: max(6px, var(--ol-safe-x));
+    top: max(6px, var(--ol-safe-y));
+  }
+
+  .outlands-drawer {
+    padding-top: var(--ol-safe-y);
+    padding-bottom: var(--ol-safe-y);
+  }
+
+  .outlands-drawer-header {
+    padding-left: max(10px, var(--ol-safe-x));
+    padding-right: max(10px, var(--ol-safe-x));
+  }
+
+  .outlands-drawer-body {
+    padding-left: max(12px, var(--ol-safe-x));
+    padding-right: max(12px, var(--ol-safe-x));
+  }
+
+  .outlands-sector-atlas { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .outlands-topbar {
+    gap: clamp(2px, 0.6vmin, 5px);
+    padding-left: max(4px, var(--ol-safe-x));
+    padding-right: max(4px, var(--ol-safe-x));
+  }
+
+  .outlands-header-stats { gap: clamp(3px, 1vmin, 6px); }
+  .outlands-sector-atlas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

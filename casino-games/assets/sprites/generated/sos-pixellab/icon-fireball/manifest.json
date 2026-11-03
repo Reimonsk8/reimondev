@@ -1,0 +1,9 @@
+{
+  "game_input": "sos",
+  "generator": "pixellab create-image-pixflux",
+  "prompt": "pixel art game ability icon, a fireball bursting in flame, orange and gold, bold readable silhouette",
+  "usage": {
+    "type": "generations",
+    "generations": 1
+  }
+}

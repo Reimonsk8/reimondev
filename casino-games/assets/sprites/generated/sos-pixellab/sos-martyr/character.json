@@ -1,0 +1,38 @@
+{
+  "id": "fd77d6bd-4e22-44d9-9be3-ae32efa60081",
+  "name": "weeping saint martyr, bloodied white shroud, broke...",
+  "state_name": "Idle",
+  "prompt": "weeping saint martyr, bloodied white shroud, broken halo of twisted gold, candles burning on the shoulders, iron nail scars, dark religious martyr, Blasphemous style, gothic horror, low top-down 3/4 view, single colour black outline",
+  "size": {
+    "width": 68,
+    "height": 68
+  },
+  "directions": 4,
+  "created_at": "2026-10-18T03:41:37.094198+00:00",
+  "updated_at": "2026-10-18T03:42:18.762226+00:00",
+  "animation_count": 0,
+  "template_id": "mannequin",
+  "view": "low top-down",
+  "status": "completed",
+  "rotation_urls": {
+    "south": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/fd77d6bd-4e22-44d9-9be3-ae32efa60081/rotations/south.png?t=1792294938",
+    "west": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/fd77d6bd-4e22-44d9-9be3-ae32efa60081/rotations/west.png?t=1792294938",
+    "east": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/fd77d6bd-4e22-44d9-9be3-ae32efa60081/rotations/east.png?t=1792294938",
+    "north": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/fd77d6bd-4e22-44d9-9be3-ae32efa60081/rotations/north.png?t=1792294938",
+    "south-east": null,
+    "north-east": null,
+    "north-west": null,
+    "south-west": null
+  },
+  "style_settings": {
+    "detail": "medium detail",
+    "outline": "single color black outline",
+    "shading": "basic shading"
+  },
+  "guidance": null,
+  "ai_freedom": null,
+  "tags": [],
+  "group_id": "e5149445-a18a-4eb9-8e5f-83f09e552061",
+  "skeletons": null,
+  "animations": []
+}

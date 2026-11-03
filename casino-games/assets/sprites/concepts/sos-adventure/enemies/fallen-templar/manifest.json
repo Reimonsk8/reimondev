@@ -1,0 +1,11 @@
+{
+  "source": "PixelLab standard character",
+  "character_id": "123b1b93-dd93-4421-b648-3efab0447cb2",
+  "directions": [
+    "south",
+    "east",
+    "north",
+    "west"
+  ],
+  "animation": "none; static concept until Adventure units are specified"
+}

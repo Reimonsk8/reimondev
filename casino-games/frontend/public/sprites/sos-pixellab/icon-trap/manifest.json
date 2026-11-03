@@ -1,0 +1,8 @@
+{
+  "game_input": "sos",
+  "prompt": "trap",
+  "usage": {
+    "type": "generations",
+    "generations": 1
+  }
+}

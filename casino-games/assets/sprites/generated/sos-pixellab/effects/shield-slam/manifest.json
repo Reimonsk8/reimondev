@@ -1,0 +1,175 @@
+{
+ "app": "PixelLab VFX Creator",
+ "name": "Shield Slam \u2014 Blood-Riven Shockwave",
+ "fps": 14,
+ "frame_ms": 71,
+ "frames": 10,
+ "loop": false,
+ "canvas": {
+  "w": 106,
+  "h": 46
+ },
+ "anchor": {
+  "kind": "origin",
+  "x": 53,
+  "y": 23
+ },
+ "clips": [
+  {
+   "name": "whole",
+   "title": "the whole effect, no sprite",
+   "depth": "both",
+   "loop": false,
+   "start_frame": 0,
+   "frames": 9,
+   "frame": {
+    "w": 100,
+    "h": 40
+   },
+   "sheets": [
+    {
+     "file": "whole.png",
+     "first_frame": 0,
+     "frames": 9,
+     "columns": 3,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -50,
+    "y": -20
+   }
+  },
+  {
+   "name": "behind",
+   "title": "everything behind the sprite",
+   "depth": "behind",
+   "loop": false,
+   "start_frame": 0,
+   "frames": 9,
+   "frame": {
+    "w": 100,
+    "h": 40
+   },
+   "sheets": [
+    {
+     "file": "behind.png",
+     "first_frame": 0,
+     "frames": 9,
+     "columns": 3,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -50,
+    "y": -20
+   }
+  },
+  {
+   "name": "front",
+   "title": "everything in front of the sprite",
+   "depth": "front",
+   "loop": false,
+   "start_frame": 0,
+   "frames": 8,
+   "frame": {
+    "w": 73,
+    "h": 24
+   },
+   "sheets": [
+    {
+     "file": "front.png",
+     "first_frame": 0,
+     "frames": 8,
+     "columns": 3,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -36,
+    "y": -12
+   }
+  },
+  {
+   "name": "part-shockwave_ring",
+   "title": "the shockwave ring part",
+   "role": "impact",
+   "part": "shockwave_ring",
+   "depth": "both",
+   "loop": false,
+   "start_frame": 0,
+   "frames": 9,
+   "frame": {
+    "w": 100,
+    "h": 40
+   },
+   "sheets": [
+    {
+     "file": "part-shockwave_ring.png",
+     "first_frame": 0,
+     "frames": 9,
+     "columns": 3,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -50,
+    "y": -20
+   }
+  },
+  {
+   "name": "part-ground_cracks",
+   "title": "the ground cracks part",
+   "role": "impact",
+   "part": "ground_cracks",
+   "depth": "behind",
+   "loop": false,
+   "start_frame": 0,
+   "frames": 7,
+   "frame": {
+    "w": 54,
+    "h": 22
+   },
+   "sheets": [
+    {
+     "file": "part-ground_cracks.png",
+     "first_frame": 0,
+     "frames": 7,
+     "columns": 3,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -26,
+    "y": -12
+   }
+  },
+  {
+   "name": "part-slam_dust",
+   "title": "the slam dust part",
+   "role": "impact",
+   "part": "slam_dust",
+   "depth": "both",
+   "loop": false,
+   "start_frame": 0,
+   "frames": 9,
+   "frame": {
+    "w": 42,
+    "h": 31
+   },
+   "sheets": [
+    {
+     "file": "part-slam_dust.png",
+     "first_frame": 0,
+     "frames": 9,
+     "columns": 3,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -22,
+    "y": -19
+   }
+  }
+ ]
+}

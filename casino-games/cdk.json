@@ -1,0 +1,9 @@
+{
+  "app": "npx ts-node --prefer-ts-exts infra/bin/casino-infra.ts",
+  "context": {
+    "gamesBaseUrl": "https://reimondev.com/games",
+    "cognitoDomainPrefix": "reimondev",
+    "budgetEmail": "",
+    "budgetLimit": 30
+  }
+}

@@ -1,0 +1,96 @@
+{
+ "app": "PixelLab VFX Creator",
+ "name": "Sanctified Ground \u2014 Penitent Sigil",
+ "fps": 12,
+ "frame_ms": 83,
+ "frames": 12,
+ "loop": true,
+ "canvas": {
+  "w": 130,
+  "h": 54
+ },
+ "anchor": {
+  "kind": "origin",
+  "x": 65,
+  "y": 27
+ },
+ "clips": [
+  {
+   "name": "whole",
+   "title": "the whole effect, no sprite",
+   "depth": "both",
+   "loop": true,
+   "start_frame": 0,
+   "frames": 12,
+   "frame": {
+    "w": 124,
+    "h": 48
+   },
+   "sheets": [
+    {
+     "file": "whole.png",
+     "first_frame": 0,
+     "frames": 12,
+     "columns": 4,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -62,
+    "y": -24
+   }
+  },
+  {
+   "name": "behind",
+   "title": "everything behind the sprite",
+   "depth": "behind",
+   "loop": true,
+   "start_frame": 0,
+   "frames": 12,
+   "frame": {
+    "w": 124,
+    "h": 48
+   },
+   "sheets": [
+    {
+     "file": "behind.png",
+     "first_frame": 0,
+     "frames": 12,
+     "columns": 4,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -62,
+    "y": -24
+   }
+  },
+  {
+   "name": "part-rune_circle",
+   "title": "the rune circle part",
+   "role": "linger",
+   "part": "rune_circle",
+   "depth": "behind",
+   "loop": true,
+   "start_frame": 0,
+   "frames": 12,
+   "frame": {
+    "w": 124,
+    "h": 48
+   },
+   "sheets": [
+    {
+     "file": "part-rune_circle.png",
+     "first_frame": 0,
+     "frames": 12,
+     "columns": 4,
+     "rows": 3
+    }
+   ],
+   "offset": {
+    "x": -62,
+    "y": -24
+   }
+  }
+ ]
+}

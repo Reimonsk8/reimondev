@@ -1,0 +1,16 @@
+bj:kick server-authoritative kick + kick button (frontend + CSS + server routing)
+
+Server lambda (lambdas/websocket/blackjack.js):
+- New `bj:kick` handler: kicker must be seated; only kicks non-ready targets
+  in the queue phase (never mid-round); cannot kick self. Mirrors leave()
+  teardown: clearConnRoom + seat splice + spectators filter + resets + persist
+  + broadcast, then sends `bj:kicked` to the target so their client bails.
+
+Frontend (frontend/src/games/Blackjack.tsx):
+- Kick button on each non-self, non-ready seat while seated in the queue
+  phase: bjSend('bj:kick', { playerId }) — ghost amber pill under the seat
+  status. Only drawn when the kicker themselves are seated and the target
+  hasn't readied.
+
+Note: drink toast already DOM-layer only (no PIXI/atlas), map annex already
+rendered. Typecheck + build pass.

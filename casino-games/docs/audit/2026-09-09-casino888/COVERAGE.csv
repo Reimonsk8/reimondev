@@ -1,0 +1,12 @@
+area,module_or_route,owner,depth,status,base_revision,evidence,exclusions
+architecture,frontend-rest-ws-aws,auditor-arquitectura,static-deep,reviewed,67997b8,SYSTEM_MAP.md,live-drift
+canvas,frontend/src/components/CasinoMap.tsx,auditor-canvas,static-deep+live-baseline,corrected_pending_local_runtime,67997b8,FINDINGS.json MAP-001..006,screenshot-visual
+frontend,App.jsx and DashboardView.jsx,coordinator,static-medium,in_progress,67997b8,FINDINGS.json APP-001,full-accessibility
+auth,Cognito and OAuth,auditor-backend,static-deep,reviewed,67997b8,FINDINGS.json AUTH-001..002,penetration-test
+wallet,deposit withdraw profile delete-account,auditor-backend,static-deep,reviewed,67997b8,FINDINGS.json DATA-001..004,live-balance-tests
+games,placeBet and blackjack,auditor-backend,static-deep,reviewed,67997b8,FINDINGS.json GAME-001..003,formal-RNG-audit
+realtime,websocket handlers,auditor-backend,static-deep,reviewed,67997b8,FINDINGS.json RT-001..004,multi-client-load
+aws,lib/casino-infra-stack.ts,auditor-aws,static-deep,reviewed,67997b8,FINDINGS.json AWS-001..004,live-drift
+observability,alarms logs budget,auditor-aws,static-medium,reviewed,67997b8,FINDINGS.json OBS-001,live-metrics
+quality,CI manifests docs,auditor-aws,static-deep,reviewed,67997b8,FINDINGS.json QA-001..003,dependency-CVE-audit
+contracts,contracts/src,auditor-arquitectura,inventory,partial,67997b8,SYSTEM_MAP.md,bytecode-and-chain

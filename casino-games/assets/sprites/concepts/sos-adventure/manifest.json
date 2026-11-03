@@ -1,0 +1,52 @@
+{
+  "status": "concept art only; Adventure gameplay is not implemented",
+  "items": [
+    {
+      "slug": "saints-key",
+      "job_id": "d7d6003e-b318-46fd-a267-14d7f6fb0a78"
+    },
+    {
+      "slug": "martyrs-chalice",
+      "job_id": "da0ac7b7-9821-49c1-9a1f-3d03b8767379"
+    },
+    {
+      "slug": "blood-sealed-scroll",
+      "job_id": "74f3113d-4684-4786-9f29-9804180a62f2"
+    },
+    {
+      "slug": "reliquary-shard",
+      "job_id": "c91af7f2-ca2c-4ed7-9e19-54303940d8e4"
+    }
+  ],
+  "props": [
+    {
+      "slug": "penitent-altar",
+      "job_id": "e0f0b33d-5e7c-4afb-86db-c3e5cd692168"
+    },
+    {
+      "slug": "cathedral-gate",
+      "job_id": "6fa8ed08-46de-4d3a-a844-88f728182630"
+    },
+    {
+      "slug": "crypt-descent",
+      "job_id": "e2d22c0a-f2ee-486e-b91a-9e2b6b739298"
+    }
+  ],
+  "enemies": [
+    {
+      "name": "fallen-templar",
+      "character_id": "123b1b93-dd93-4421-b648-3efab0447cb2",
+      "directions": 4
+    },
+    {
+      "name": "bell-wraith",
+      "character_id": "84000d35-9559-48d7-9bc3-1147aea3247b",
+      "directions": 4
+    },
+    {
+      "name": "ashen-war-hound",
+      "character_id": "6bbfa6d7-998e-4741-86c1-ab961a856410",
+      "directions": 4
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm use 20
+        - npm ci --legacy-peer-deps --cache .npm --prefer-offline
+        - cd casino-games && npm ci --cache ../.npm --prefer-offline && cd ..
+    build:
+      commands:
+        - npm run build
+        - cd casino-games && VITE_BASE_PATH=/games/ VITE_USE_SPRITE_ATLAS=1 npm run build && cd ..
+        - mkdir -p build/games
+        - cp -R casino-games/dist/games/. build/games/
+  artifacts:
+    baseDirectory: build
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - .npm/**/*

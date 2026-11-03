@@ -1,0 +1,13 @@
+{
+  "name": "casino888-testnet-contracts",
+  "private": true,
+  "scripts": {
+    "build": "solcjs --base-path . --include-path node_modules --bin --abi src/Casino888TestToken.sol src/TestGameEscrow.sol -o build"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0"
+  },
+  "devDependencies": {
+    "solc": "^0.8.30"
+  }
+}

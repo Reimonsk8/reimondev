@@ -1,0 +1,48 @@
+{
+  "game_input": "sos",
+  "degraded_static_fallback": false,
+  "animation": {
+    "rows": {
+      "idle": {
+        "row": 0,
+        "frames": 4,
+        "fps": 12,
+        "loop": false
+      }
+    }
+  },
+  "frame_layout": {
+    "rows": {
+      "idle": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "x": 64,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        {
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ]
+    },
+    "sheetWidth": 128,
+    "sheetHeight": 32,
+    "cellWidth": 32,
+    "cellHeight": 32
+  }
+}
