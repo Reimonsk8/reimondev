@@ -31,7 +31,8 @@
     "react-router-dom": "*",
     "react-scripts": "*",
     "styled-components": "^6.1.13",
-    "three": "*"
+    "three": "*",
+    "typescript": "4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
