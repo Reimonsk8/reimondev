@@ -21,3 +21,13 @@ div .Section__container___3YYTG{
     background: linear-gradient(rgb(167, 167, 66), rgb(38, 36, 36));
     border: solid 0px red;
   }
+
+.card {
+  background: rgba(255,255,255,0.15);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 1.5rem;
+  margin: 1rem;
+}

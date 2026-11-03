@@ -10,10 +10,28 @@
     margin-bottom: 40vw;
 }
 
+
 .Resume {
     text-align: center;
   }
-  
+
+  .Resume .download-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #2f0745;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 3px;
+    text-shadow: none;
+
+  }
+
+  .Resume .download-button:hover {
+    background-color: #3f00b3;
+    cursor: pointer;
+    text-shadow: none;
+  }
   .container-pdf {
     overflow-y: auto;
   }

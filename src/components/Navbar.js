@@ -20,9 +20,21 @@ function Navbar() {
       cName: 'nav-text'
     },
     {
-      title: 'Resume',
-      path: '/resume',
-      icon: <IoIcons.IoIosPaper />,
+      title: 'Services',
+      path: '/services',
+      icon: <FaIcons.FaBusinessTime />,
+      cName: 'nav-text'
+    },
+    {
+      title: 'Post Board',
+      path: '/postboard',
+      icon: <FaIcons.FaEnvelopeOpenText />,
+      cName: 'nav-text'
+    },
+    {
+      title: 'AI Tools',
+      path: '/aitools',
+      icon: <FaIcons.FaBrain/>,
       cName: 'nav-text'
     },
     {
@@ -31,28 +43,29 @@ function Navbar() {
       icon: <IoIcons.IoMdPeople />,
       cName: 'nav-text'
     },
-    // {
-    //   title: 'Post Board',
-    //   path: '/postboard',
-    //   icon: <FaIcons.FaEnvelopeOpenText />,
-    //   cName: 'nav-text'
-    // },
     {
       title: 'Reimon Tube',
       path: '/reimontube',
       icon: <FaIcons.FaTv/>,
       cName: 'nav-text'
     },
+    
     {
-      title: 'Games',
-      path: '/games/',
-      icon: <FaIcons.FaGamepad />,
+      title: 'Resume',
+      path: '/resume',
+      icon: <IoIcons.IoIosPaper />,
       cName: 'nav-text'
     },
     {
       title: 'Support Me',
       path: '/supportme',
       icon: <FaIcons.FaCartPlus />,
+      cName: 'nav-text'
+    },
+    {
+      title: 'Games',
+      path: '/games/',
+      icon: <FaIcons.FaGamepad />,
       cName: 'nav-text'
     }
   ];

@@ -1,20 +1,61 @@
-import React from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import '../../styles/ReimonTube.css';
 
+// The pixel-streaming client is ~207 KB minified; only load it when the
+// visitor actually asks for the broadcast.
+const PixelStreamingWrapper = lazy(() =>
+  import("../PixelStreamingWrapper").then((m) => ({ default: m.PixelStreamingWrapper }))
+);
+
+//201.171.78.239
+//default ws://127.0.0.1:8888
 const ReimonTube = () => {
+
+  const [showBroadcast, setShowBroadcast] = useState(false);
+
   return (
-    <>
-      <h1 className="top-title"> ReimonTube </h1>
-      <div id="ReimonTube" className="video-container">
-        {videos.map((videoSrc) => (
-          <div key={videoSrc} className="video-item">
-            <video controls>
-              <source src={videoSrc} type="video/mp4" />
-            </video>
-          </div>
-        ))}
+    <div className="reimon-tube-page">
+      <div className="top-title"> 
+        <h1>ReimonTube </h1>
+        <div className='download-button' onClick={()=> setShowBroadcast(!showBroadcast)}>
+          {!showBroadcast ? "Show Broadcast" : "Show Videos"}
+        </div>
       </div>
-    </>
+
+
+
+      <div id="ReimonTube" className="rt-video-container">
+        <br/>
+        <br/>
+        {showBroadcast ?
+          <>
+            <div className="bg-filler"></div>
+            <Suspense fallback={<div className="page-loading" role="status">Connecting…</div>}>
+              <PixelStreamingWrapper
+              initialSettings={{
+                  AutoPlayVideo: true,
+                  AutoConnect: true,
+                  // ss: 'ws://192.168.1.69',
+                  ss: 'wss://192.168.1.69:90',
+                  StartVideoMuted: true,
+                  HoveringMouse: true,
+                  WaitForStreamer: true
+              }}/>
+            </Suspense>
+          </>
+          :
+          <>
+            {videos.map((videoSrc) => (
+            <div key={videoSrc} className="rt-video-item">
+              <video controls>
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+            </div>
+          ))}
+          </>
+        }
+      </div>
+    </div>
   );
 };
 

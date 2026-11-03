@@ -29,8 +29,11 @@ canvas{
 /* ---- particles.js container ---- */ 
 #particles-js{
   z-index: -1; 
+  background-image:
+    radial-gradient(ellipse 30% 100% at top center, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0.171) 60%, rgb(0, 0, 0) 100%),
+    linear-gradient(120deg, rgba(12, 0, 80, 0.15) 0%, rgba(5, 0, 80, 0.15) 100%);
   background-color: #202020;
-	background-image: radial-gradient(35% 100% ellipse at top center, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 100%);
+	/* background-image: radial-gradient(35% 100% ellipse at top center, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 100%); */
 	transition: background-color 4s cubic-bezier(0.19, 1, 0.22, 1);
   position:absolute; 
   width: 100%; 
@@ -90,7 +93,8 @@ canvas{
 .home{
   font-size: calc(10px + 2vmin);
   margin: auto;
-  padding: 20%;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 img.meme{
   max-width: 300px;
@@ -146,7 +150,18 @@ img.paypal{
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Adjust this value to change the spacing */
+  gap: 10px; /* Adjust this value to change the spacing */
+}
+@media (max-width: 600px) {
+  .social-icons {
+    gap: 5px; /* Reduce spacing */
+  }
+
+  .social-icons img, /* Assuming icons are images */
+  .social-icons svg { /* If icons are SVGs */
+    width: 20px; /* Make them smaller */
+    height: 20px;
+  }
 }
 .icon-3d {
   cursor: pointer;
@@ -154,14 +169,18 @@ img.paypal{
   -webkit-animation: icon3d 200ms 10;
   animation: icon3d 200ms 10;
 }
-.fa:hover{
+.social-icons a:hover{
   filter: invert(50%);
 }
 .game-1{
   height: fit-content !important;
 }
 
-
+.service-image{
+  text-align: center;
+  margin: 20px;
+  width: 40%;
+}
 
 
 
@@ -234,4 +253,53 @@ a.pi-h { background: #c8232c; }
   display: flex;
   justify-content: center;
   align-items: center;
+}
+/* Home page sword (SVG replacement for the old R3F canvas) */
+.sword-showcase {
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  overflow: hidden;
+}
+
+.sword-tilt {
+  transform: rotateZ(-8deg);
+}
+
+.sword-svg {
+  width: 180px;
+  height: 360px;
+  color: #fff;
+  transform-origin: 50% 50%;
+  animation: sword-spin 14s linear infinite;
+}
+
+@keyframes sword-spin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+/* Route-level Suspense fallback */
+.page-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  width: 100%;
+  color: #fff;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+  .sword-showcase { height: 300px; }
+  .sword-svg { width: 130px; height: 260px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sword-svg { animation: none; }
 }
