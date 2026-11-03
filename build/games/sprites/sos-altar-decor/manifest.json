@@ -1,0 +1,10 @@
+{
+  "game_input": "sos",
+  "source": "PixelLab 'epic dark fantasy ruined gothic' altar set, 16 objects",
+  "frames": 16,
+  "frame_size": "32x32",
+  "sheet": "512x32",
+  "source_native_size": "64x64",
+  "usage": "ADVENTURE map mode wall decoration, sparse",
+  "note": "drawn by the shared decor layer; frame offset is i/(count-1)"
+}

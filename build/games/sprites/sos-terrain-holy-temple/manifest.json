@@ -1,0 +1,240 @@
+{
+  "game_input": "sos",
+  "degraded_static_fallback": false,
+  "animation": {
+    "rows": {
+      "TILE_3_2": {
+        "row": 3,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_2_1": {
+        "row": 2,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_1_0": {
+        "row": 1,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_3_0": {
+        "row": 3,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_1_1": {
+        "row": 1,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_2_0": {
+        "row": 2,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_0_0": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_0_2": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_2_3": {
+        "row": 2,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_0_3": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_0_1": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_1_2": {
+        "row": 1,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_3_3": {
+        "row": 3,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_3_1": {
+        "row": 3,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_2_2": {
+        "row": 2,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "TILE_1_3": {
+        "row": 1,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      }
+    }
+  },
+  "frame_layout": {
+    "rows": {
+      "TILE_3_2": [
+        {
+          "x": 64,
+          "y": 96,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_2_1": [
+        {
+          "x": 32,
+          "y": 64,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_1_0": [
+        {
+          "x": 0,
+          "y": 32,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_3_0": [
+        {
+          "x": 0,
+          "y": 96,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_1_1": [
+        {
+          "x": 32,
+          "y": 32,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_2_0": [
+        {
+          "x": 0,
+          "y": 64,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_0_0": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_0_2": [
+        {
+          "x": 64,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_2_3": [
+        {
+          "x": 96,
+          "y": 64,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_0_3": [
+        {
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_0_1": [
+        {
+          "x": 32,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_1_2": [
+        {
+          "x": 64,
+          "y": 32,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_3_3": [
+        {
+          "x": 96,
+          "y": 96,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_3_1": [
+        {
+          "x": 32,
+          "y": 96,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_2_2": [
+        {
+          "x": 64,
+          "y": 64,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "TILE_1_3": [
+        {
+          "x": 96,
+          "y": 32,
+          "w": 32,
+          "h": 32
+        }
+      ]
+    },
+    "sheetWidth": 128,
+    "sheetHeight": 128,
+    "cellWidth": 32,
+    "cellHeight": 32
+  }
+}
