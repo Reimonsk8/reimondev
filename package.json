@@ -14,7 +14,7 @@
     "@mediapipe/tasks-vision": "^0.10.15",
     "@react-icons/all-files": "*",
     "@react-pdf/renderer": "*",
-    "@react-three/drei": "*",
+    "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "*",
     "@testing-library/jest-dom": "*",
     "@testing-library/react": "*",
