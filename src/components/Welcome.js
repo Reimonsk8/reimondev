@@ -48,12 +48,6 @@ const Welcome = () => {
   return (
     <div id="WelcomeComponentBody" className={getBackgroundStyle()}>
       <div className="intro-aurora" aria-hidden="true">
-        <span className="aurora-orb aurora-orb--mint" />
-        <span className="aurora-orb aurora-orb--blue" />
-        <span className="aurora-orb aurora-orb--violet" />
-        <span className="aurora-ribbon aurora-ribbon--one" />
-        <span className="aurora-ribbon aurora-ribbon--two" />
-        <span className="aurora-grain" />
       </div>
       {/* Enter button container*/}
       <div className="bottom-container">

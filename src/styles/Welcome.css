@@ -181,6 +181,22 @@ title{
   transition: opacity 1.8s ease, transform 2.4s cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
+.intro-aurora::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  opacity: 0.16;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 18% 55% at top center, #000 0, hsla(0, 0%, 100%, 0.171) 60%, #000 100%),
+    linear-gradient(120deg, #0c005026, #05005026);
+  transform: scale(0.96, 0.92);
+  transform-origin: 50% 0;
+  will-change: transform, opacity;
+  animation: white-aurora-breathe 12s ease-in-out infinite alternate;
+}
+
 .aurora-orb {
   position: absolute;
   display: block;
@@ -209,15 +225,6 @@ title{
   animation: aurora-blue-drift 27s ease-in-out infinite alternate;
 }
 
-.aurora-orb--violet {
-  right: 8%;
-  bottom: -38%;
-  width: clamp(34rem, 67vw, 86rem);
-  height: clamp(22rem, 44vh, 42rem);
-  background: radial-gradient(ellipse at center, rgba(185, 93, 255, 0.48) 0%, rgba(117, 81, 238, 0.22) 38%, rgba(45, 82, 178, 0.1) 60%, transparent 76%);
-  animation: aurora-violet-drift 30s ease-in-out infinite alternate;
-}
-
 .aurora-ribbon {
   position: absolute;
   left: -22%;
@@ -235,7 +242,7 @@ title{
 
 .aurora-ribbon--one {
   top: 15%;
-  background: linear-gradient(108deg, transparent 7%, rgba(70, 246, 205, 0.08) 19%, rgba(87, 223, 218, 0.62) 34%, rgba(89, 135, 255, 0.5) 49%, rgba(158, 100, 255, 0.32) 63%, rgba(92, 236, 228, 0.22) 78%, transparent 94%);
+  background: linear-gradient(108deg, transparent 7%, rgba(70, 246, 205, 0.08) 19%, rgba(87, 223, 218, 0.62) 34%, rgba(89, 135, 255, 0.5) 53%, rgba(74, 186, 255, 0.28) 67%, rgba(92, 236, 228, 0.22) 78%, transparent 94%);
   transform: rotate(-13deg) skewY(-7deg);
   animation: aurora-ribbon-flow 19s ease-in-out infinite alternate;
 }
@@ -244,7 +251,7 @@ title{
   top: 32%;
   height: clamp(10rem, 24vh, 24rem);
   opacity: 0.28;
-  background: linear-gradient(105deg, transparent 4%, rgba(71, 174, 255, 0.14) 20%, rgba(76, 237, 215, 0.46) 38%, rgba(154, 107, 255, 0.42) 58%, rgba(67, 121, 255, 0.2) 78%, transparent 95%);
+  background: linear-gradient(105deg, transparent 4%, rgba(71, 174, 255, 0.14) 20%, rgba(76, 237, 215, 0.46) 38%, rgba(83, 153, 255, 0.34) 58%, rgba(67, 121, 255, 0.2) 78%, transparent 95%);
   transform: rotate(-18deg) skewY(5deg) translateX(4%);
   animation: aurora-ribbon-flow-two 25s ease-in-out infinite alternate;
 }
@@ -320,12 +327,6 @@ title{
   100% { transform: translate3d(-4%, 3%, 0) scale(1.02) rotate(3deg); }
 }
 
-@keyframes aurora-violet-drift {
-  0% { transform: translate3d(8%, 2%, 0) scale(0.92) rotate(5deg); }
-  50% { transform: translate3d(-12%, -15%, 0) scale(1.16) rotate(-6deg); }
-  100% { transform: translate3d(-3%, -5%, 0) scale(1.03) rotate(2deg); }
-}
-
 @keyframes aurora-ribbon-flow {
   0% { transform: translate3d(-4%, -9%, 0) rotate(-13deg) skewY(-7deg) scaleY(0.86); }
   50% { transform: translate3d(8%, 10%, 0) rotate(-9deg) skewY(-3deg) scaleY(1.12); }
@@ -336,6 +337,11 @@ title{
   0% { transform: translate3d(4%, 7%, 0) rotate(-18deg) skewY(5deg) scaleY(0.95); }
   50% { transform: translate3d(-7%, -8%, 0) rotate(-12deg) skewY(1deg) scaleY(1.12); }
   100% { transform: translate3d(2%, 2%, 0) rotate(-20deg) skewY(6deg) scaleY(0.9); }
+}
+
+@keyframes white-aurora-breathe {
+  from { opacity: 0.11; transform: scale(0.96, 0.92); }
+  to { opacity: 0.23; transform: scale(1.08, 1.04); }
 }
 
 @media (max-width: 640px) {
@@ -354,7 +360,7 @@ title{
 
   .aurora-orb--mint { transform: translate3d(7%, 2%, 0) scale(1.02); }
   .aurora-orb--blue { transform: translate3d(-4%, 3%, 0) scale(1.02); }
-  .aurora-orb--violet { transform: translate3d(-3%, -5%, 0) scale(1.03); }
   .aurora-ribbon--one { transform: rotate(-13deg) skewY(-7deg); }
   .aurora-ribbon--two { transform: rotate(-18deg) skewY(5deg) translateX(4%); }
+  .intro-aurora::before { animation: none; opacity: 0.16; transform: none; }
 }
