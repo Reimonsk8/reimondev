@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Each lambda folder carries its own package.json (committed) because CDK
+      # bundles each one from its own directory, and the Node 20 runtime does not
+      # ship the AWS SDK. Without these installs two steps fail for reasons that
+      # have nothing to do with the code under test:
+      #   - `npm test` -> lambdas/walletLink/walletLink.test.js requires `viem`
+      #   - `cdk synth` -> lambdas/delete-account cannot resolve
+      #     @aws-sdk/client-cognito-identity-provider
+      - name: Install lambda dependencies
+        run: |
+          for dir in lambdas/*/; do
+            if [ -f "$dir/package.json" ]; then
+              echo "::group::$dir"
+              (cd "$dir" && npm ci --no-audit --no-fund)
+              echo "::endgroup::"
+            fi
+          done
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: CDK typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+      - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+
+      - name: Square of Shadows browser smoke
+        env:
+          PUPPETEER_EXECUTABLE_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run test:sos:smoke
+
+      - name: CDK synth
+        run: npx cdk synth --quiet

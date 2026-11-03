@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+contracts/build/
+cdk.out/
+*.zip
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+rootkey.csv
+.netlify/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test & debug files
+test_*.js
+test_*.html
+*_test.js
+*_debug.html
+temp_*.js
+context.txt
+
+# Sprite-gen (local vendor + ephemeral runs)
+tools/sprite-gen/.git/
+tools/sprite-gen/.venv/
+assets/sprites/runs/
+assets/sprites/generated/.cache/
+*.exe
+
+# Python bytecode / tool artifacts (never track)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Audio source & editor files
+*.wav
+*.asd
+
+# Browser tool artifacts (MCP screenshots/logs)
+.playwright-mcp/
+
+# Local AWS exports may contain private data and credentials
+AWS_BACKUP_*/

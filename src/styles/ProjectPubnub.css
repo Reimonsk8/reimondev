@@ -1,0 +1,168 @@
+.project-pubnub-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: rgba(30, 32, 40, 0.85);
+  padding: 20px;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.opciones-panel {
+  background: rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 750px;
+  min-height: 50px;
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  color: white;
+}
+
+.opciones-panel input[type="number"] {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.pantalla-panel {
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 750px;
+  min-height: 600px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  text-align: center;
+  vertical-align: top;
+  font-size: 15px;
+  padding: 20px;
+  overflow-x: auto;
+  color: #e0e0e0;
+}
+
+.layout-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .layout-table {
+    display: table;
+  }
+}
+
+.layout-td {
+  background: transparent;
+  text-align: center;
+  vertical-align: top;
+  font-size: 15px;
+  padding: 10px;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .layout-td {
+    display: table-cell;
+  }
+}
+
+.butt {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 15px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  transition: transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.butt:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.butt:active {
+  transform: translateY(0);
+}
+
+.log-container {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 250px;
+  height: 300px;
+  overflow-y: auto;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ccc;
+  font-size: 13px;
+  padding: 10px;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+/* Scrollbar styling for log container */
+.log-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.log-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.log-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.log-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+
+@media (min-width: 768px) {
+  .log-container {
+    height: 600px;
+  }
+}
+
+.canvas-chart {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  min-height: 300px;
+  text-align: left;
+  background: transparent;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  /* Removed border as the canvas drawing likely handles edges, 
+     but added nice shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 768px) {
+  .canvas-chart {
+    height: 600px;
+  }
+}

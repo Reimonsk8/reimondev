@@ -1,0 +1,20 @@
+{
+  "game_input": "sprite-sheet-alpha.png",
+  "degraded_static_fallback": false,
+  "animation": {
+    "rows": {
+      "idle": { "row": 0, "frames": 1, "fps": 8, "loop": true }
+    }
+  },
+  "frame_layout": {
+    "rows": {
+      "idle": [{ "x": 0, "y": 0, "w": 256, "h": 256 }]
+    },
+    "sheetWidth": 256,
+    "sheetHeight": 256,
+    "cellWidth": 256,
+    "cellHeight": 256
+  },
+  "curation_applied": false,
+  "frame_variant": "canonical"
+}

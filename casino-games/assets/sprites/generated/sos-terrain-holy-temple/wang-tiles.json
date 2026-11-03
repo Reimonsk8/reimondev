@@ -1,0 +1,319 @@
+{
+  "theme": "holy-temple",
+  "tile_size": 32,
+  "columns": 4,
+  "rows": 4,
+  "tiles": [
+    {
+      "name": "wang_13",
+      "atlas_index": 14,
+      "atlas_position": {
+        "row": 3,
+        "col": 2
+      },
+      "original_position": {
+        "row": 4,
+        "col": 2
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "upper",
+        "SW": "lower",
+        "SE": "upper"
+      }
+    },
+    {
+      "name": "wang_10",
+      "atlas_index": 9,
+      "atlas_position": {
+        "row": 2,
+        "col": 1
+      },
+      "original_position": {
+        "row": 2,
+        "col": 6
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "lower",
+        "SW": "upper",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_4",
+      "atlas_index": 4,
+      "atlas_position": {
+        "row": 1,
+        "col": 0
+      },
+      "original_position": {
+        "row": 4,
+        "col": 1
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "upper",
+        "SW": "lower",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_12",
+      "atlas_index": 12,
+      "atlas_position": {
+        "row": 3,
+        "col": 0
+      },
+      "original_position": {
+        "row": 3,
+        "col": 5
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "upper",
+        "SW": "lower",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_6",
+      "atlas_index": 5,
+      "atlas_position": {
+        "row": 1,
+        "col": 1
+      },
+      "original_position": {
+        "row": 5,
+        "col": 2
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "upper",
+        "SW": "upper",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_8",
+      "atlas_index": 8,
+      "atlas_position": {
+        "row": 2,
+        "col": 0
+      },
+      "original_position": {
+        "row": 3,
+        "col": 6
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "lower",
+        "SW": "lower",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_0",
+      "atlas_index": 0,
+      "atlas_position": {
+        "row": 0,
+        "col": 0
+      },
+      "original_position": {
+        "row": 6,
+        "col": 3
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "lower",
+        "SW": "lower",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_1",
+      "atlas_index": 2,
+      "atlas_position": {
+        "row": 0,
+        "col": 2
+      },
+      "original_position": {
+        "row": 1,
+        "col": 1
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "lower",
+        "SW": "lower",
+        "SE": "upper"
+      }
+    },
+    {
+      "name": "wang_11",
+      "atlas_index": 11,
+      "atlas_position": {
+        "row": 2,
+        "col": 3
+      },
+      "original_position": {
+        "row": 2,
+        "col": 3
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "lower",
+        "SW": "upper",
+        "SE": "upper"
+      }
+    },
+    {
+      "name": "wang_3",
+      "atlas_index": 3,
+      "atlas_position": {
+        "row": 0,
+        "col": 3
+      },
+      "original_position": {
+        "row": 1,
+        "col": 2
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "lower",
+        "SW": "upper",
+        "SE": "upper"
+      }
+    },
+    {
+      "name": "wang_2",
+      "atlas_index": 1,
+      "atlas_position": {
+        "row": 0,
+        "col": 1
+      },
+      "original_position": {
+        "row": 1,
+        "col": 3
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "lower",
+        "SW": "upper",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_5",
+      "atlas_index": 6,
+      "atlas_position": {
+        "row": 1,
+        "col": 2
+      },
+      "original_position": {
+        "row": 2,
+        "col": 1
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "upper",
+        "SW": "lower",
+        "SE": "upper"
+      }
+    },
+    {
+      "name": "wang_15",
+      "atlas_index": 15,
+      "atlas_position": {
+        "row": 3,
+        "col": 3
+      },
+      "original_position": {
+        "row": 2,
+        "col": 2
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "upper",
+        "SW": "upper",
+        "SE": "upper"
+      }
+    },
+    {
+      "name": "wang_14",
+      "atlas_index": 13,
+      "atlas_position": {
+        "row": 3,
+        "col": 1
+      },
+      "original_position": {
+        "row": 3,
+        "col": 4
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "upper",
+        "SW": "upper",
+        "SE": "lower"
+      }
+    },
+    {
+      "name": "wang_9",
+      "atlas_index": 10,
+      "atlas_position": {
+        "row": 2,
+        "col": 2
+      },
+      "original_position": {
+        "row": 4,
+        "col": 4
+      },
+      "corners": {
+        "NW": "upper",
+        "NE": "lower",
+        "SW": "lower",
+        "SE": "upper"
+      }
+    },
+    {
+      "name": "wang_7",
+      "atlas_index": 7,
+      "atlas_position": {
+        "row": 1,
+        "col": 3
+      },
+      "original_position": {
+        "row": 2,
+        "col": 4
+      },
+      "corners": {
+        "NW": "lower",
+        "NE": "upper",
+        "SW": "upper",
+        "SE": "upper"
+      }
+    }
+  ],
+  "metadata": {
+    "edge_types": [
+      "lower",
+      "upper"
+    ],
+    "terrain_prompts": {
+      "lower": "cracked soot-black limestone and charcoal marble floor with a broken tarnished-brass sun-and-sword mosaic fragment, layered dried-blood stains, and scattered bone flecks rendered in stark flat solid tones",
+      "upper": "ruined Templar church masonry wall of heavy black limestone blocks featuring a chipped carved relief, dried crimson splatters, and dull brass accents drawn with crisp flat edges and no gradients"
+    },
+    "terrain_ids": {
+      "lower": "d694e211-4496-4b83-bfb3-b2f52544f427",
+      "upper": "092299b9-31cb-4847-b880-881db4cd8d5c"
+    },
+    "transition_size": 0,
+    "view": "high top-down",
+    "generation_parameters": {
+      "tile_strength": 1.2,
+      "tileset_adherence": 160,
+      "text_guidance_scale": 9,
+      "tileset_adherence_freedom": 400
+    },
+    "created_at": "2026-10-18T21:36:04.534683+00:00"
+  }
+}

@@ -1,0 +1,1482 @@
+'Log files:
+C:\Users\User\AppData\Local\Temp\opencode\reimondev-site-review\.npm\_logs\2026-11-02T22_57_29_517Z-debug-0.log
+
+# npm resolution error report
+
+While resolving: react-hooks-lib@0.6.0
+Found: react@18.3.1
+node_modules/react
+  peer react@"^16.14.0 || ^17.0 || ^18.0" from @aws-amplify/ui-react@6.2.0
+  node_modules/@aws-amplify/ui-react
+    @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.14.0 || ^17.0 || ^18.0" from @aws-amplify/ui-react-core@3.0.18
+  node_modules/@aws-amplify/ui-react-core
+    @aws-amplify/ui-react-core@"3.0.18" from @aws-amplify/ui-react@6.2.0
+    node_modules/@aws-amplify/ui-react
+      @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@">=16.8.0" from @floating-ui/react-dom@0.7.2
+  node_modules/@floating-ui/react-dom
+    @floating-ui/react-dom@"0.7.2" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@">=16.3" from @fortawesome/react-fontawesome@0.2.2
+  node_modules/@fortawesome/react-fontawesome
+    @fortawesome/react-fontawesome@"*" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-arrow@1.0.0
+  node_modules/@radix-ui/react-arrow
+    @radix-ui/react-arrow@"1.0.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-collection@1.0.0
+  node_modules/@radix-ui/react-collection
+    @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-compose-refs@1.0.0
+  node_modules/@radix-ui/react-compose-refs
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-collection@1.0.0
+    node_modules/@radix-ui/react-collection
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+    node_modules/@radix-ui/react-dismissable-layer
+      @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+    node_modules/@radix-ui/react-dropdown-menu
+      @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-focus-scope@1.0.0
+    node_modules/@radix-ui/react-focus-scope
+      @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-presence@1.0.0
+    node_modules/@radix-ui/react-presence
+      @radix-ui/react-presence@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-compose-refs@"1.0.0" from @radix-ui/react-slot@1.0.0
+    node_modules/@radix-ui/react-slot
+      @radix-ui/react-slot@"1.0.0" from @radix-ui/react-collection@1.0.0
+      node_modules/@radix-ui/react-collection
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+        node_modules/@radix-ui/react-roving-focus
+          @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+        node_modules/@radix-ui/react-slider
+          @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-slot@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-slot@"1.0.0" from @radix-ui/react-primitive@1.0.0
+      node_modules/@radix-ui/react-primitive
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-arrow@1.0.0
+        node_modules/@radix-ui/react-arrow
+          @radix-ui/react-arrow@"1.0.0" from @radix-ui/react-popper@1.0.0
+          node_modules/@radix-ui/react-popper
+            @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+            node_modules/@radix-ui/react-menu
+              @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+              node_modules/@radix-ui/react-dropdown-menu
+                @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+                node_modules/@aws-amplify/ui-react
+                  @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-collection@1.0.0
+        node_modules/@radix-ui/react-collection
+          @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+          @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+          node_modules/@radix-ui/react-roving-focus
+            @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+            node_modules/@radix-ui/react-menu
+              @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+              node_modules/@radix-ui/react-dropdown-menu
+                @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+                node_modules/@aws-amplify/ui-react
+                  @aws-amplify/ui-react@"^6.2.0" from the root project
+          @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+          node_modules/@radix-ui/react-slider
+            @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+        node_modules/@radix-ui/react-dismissable-layer
+          @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-focus-scope@1.0.0
+        node_modules/@radix-ui/react-focus-scope
+          @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-popper@1.0.0
+        node_modules/@radix-ui/react-popper
+          @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-portal@1.0.0
+        node_modules/@radix-ui/react-portal
+          @radix-ui/react-portal@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+        node_modules/@radix-ui/react-roving-focus
+          @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-slider@1.0.0
+        node_modules/@radix-ui/react-slider
+          @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-context@1.0.0
+  node_modules/@radix-ui/react-context
+    @radix-ui/react-context@"1.0.0" from @radix-ui/react-collection@1.0.0
+    node_modules/@radix-ui/react-collection
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-context@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+    node_modules/@radix-ui/react-dropdown-menu
+      @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-context@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-context@"1.0.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-context@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-context@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-direction@1.0.0
+  node_modules/@radix-ui/react-direction
+    @radix-ui/react-direction@"1.0.0" from @aws-amplify/ui-react@6.2.0
+    node_modules/@aws-amplify/ui-react
+      @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-direction@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-direction@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-direction@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-dismissable-layer@1.0.0
+  node_modules/@radix-ui/react-dismissable-layer
+    @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-dropdown-menu@1.0.0
+  node_modules/@radix-ui/react-dropdown-menu
+    @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+    node_modules/@aws-amplify/ui-react
+      @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-focus-guards@1.0.0
+  node_modules/@radix-ui/react-focus-guards
+    @radix-ui/react-focus-guards@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-focus-scope@1.0.0
+  node_modules/@radix-ui/react-focus-scope
+    @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-id@1.0.0
+  node_modules/@radix-ui/react-id
+    @radix-ui/react-id@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+    node_modules/@radix-ui/react-dropdown-menu
+      @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-id@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-id@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-menu@1.0.0
+  node_modules/@radix-ui/react-menu
+    @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+    node_modules/@radix-ui/react-dropdown-menu
+      @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-popper@1.0.0
+  node_modules/@radix-ui/react-popper
+    @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-portal@1.0.0
+  node_modules/@radix-ui/react-portal
+    @radix-ui/react-portal@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-presence@1.0.0
+  node_modules/@radix-ui/react-presence
+    @radix-ui/react-presence@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-primitive@1.0.0
+  node_modules/@radix-ui/react-primitive
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-arrow@1.0.0
+    node_modules/@radix-ui/react-arrow
+      @radix-ui/react-arrow@"1.0.0" from @radix-ui/react-popper@1.0.0
+      node_modules/@radix-ui/react-popper
+        @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-collection@1.0.0
+    node_modules/@radix-ui/react-collection
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+    node_modules/@radix-ui/react-dismissable-layer
+      @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+    node_modules/@radix-ui/react-dropdown-menu
+      @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-focus-scope@1.0.0
+    node_modules/@radix-ui/react-focus-scope
+      @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-portal@1.0.0
+    node_modules/@radix-ui/react-portal
+      @radix-ui/react-portal@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-roving-focus@1.0.0
+  node_modules/@radix-ui/react-roving-focus
+    @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-slider@1.0.0
+  node_modules/@radix-ui/react-slider
+    @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+    node_modules/@aws-amplify/ui-react
+      @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-slot@1.0.0
+  node_modules/@radix-ui/react-slot
+    @radix-ui/react-slot@"1.0.0" from @radix-ui/react-collection@1.0.0
+    node_modules/@radix-ui/react-collection
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-slot@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-slot@"1.0.0" from @radix-ui/react-primitive@1.0.0
+    node_modules/@radix-ui/react-primitive
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-arrow@1.0.0
+      node_modules/@radix-ui/react-arrow
+        @radix-ui/react-arrow@"1.0.0" from @radix-ui/react-popper@1.0.0
+        node_modules/@radix-ui/react-popper
+          @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-collection@1.0.0
+      node_modules/@radix-ui/react-collection
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+        node_modules/@radix-ui/react-roving-focus
+          @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+        node_modules/@radix-ui/react-slider
+          @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+      node_modules/@radix-ui/react-dismissable-layer
+        @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-focus-scope@1.0.0
+      node_modules/@radix-ui/react-focus-scope
+        @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-popper@1.0.0
+      node_modules/@radix-ui/react-popper
+        @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-portal@1.0.0
+      node_modules/@radix-ui/react-portal
+        @radix-ui/react-portal@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-use-callback-ref@1.0.0
+  node_modules/@radix-ui/react-use-callback-ref
+    @radix-ui/react-use-callback-ref@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+    node_modules/@radix-ui/react-dismissable-layer
+      @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-callback-ref@"1.0.0" from @radix-ui/react-focus-scope@1.0.0
+    node_modules/@radix-ui/react-focus-scope
+      @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-callback-ref@"1.0.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-callback-ref@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-callback-ref@"1.0.0" from @radix-ui/react-use-controllable-state@1.0.0
+    node_modules/@radix-ui/react-use-controllable-state
+      @radix-ui/react-use-controllable-state@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-use-controllable-state@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-use-controllable-state@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-callback-ref@"1.0.0" from @radix-ui/react-use-escape-keydown@1.0.0
+    node_modules/@radix-ui/react-use-escape-keydown
+      @radix-ui/react-use-escape-keydown@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+      node_modules/@radix-ui/react-dismissable-layer
+        @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-use-controllable-state@1.0.0
+  node_modules/@radix-ui/react-use-controllable-state
+    @radix-ui/react-use-controllable-state@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+    node_modules/@radix-ui/react-dropdown-menu
+      @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-controllable-state@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-controllable-state@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-use-escape-keydown@1.0.0
+  node_modules/@radix-ui/react-use-escape-keydown
+    @radix-ui/react-use-escape-keydown@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+    node_modules/@radix-ui/react-dismissable-layer
+      @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-use-layout-effect@1.0.0
+  node_modules/@radix-ui/react-use-layout-effect
+    @radix-ui/react-use-layout-effect@"1.0.0" from @radix-ui/react-id@1.0.0
+    node_modules/@radix-ui/react-id
+      @radix-ui/react-id@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-id@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-id@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-layout-effect@"1.0.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-layout-effect@"1.0.0" from @radix-ui/react-presence@1.0.0
+    node_modules/@radix-ui/react-presence
+      @radix-ui/react-presence@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-layout-effect@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-layout-effect@"1.0.0" from @radix-ui/react-use-size@1.0.0
+    node_modules/@radix-ui/react-use-size
+      @radix-ui/react-use-size@"1.0.0" from @radix-ui/react-popper@1.0.0
+      node_modules/@radix-ui/react-popper
+        @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-use-size@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-use-previous@1.0.0
+  node_modules/@radix-ui/react-use-previous
+    @radix-ui/react-use-previous@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-use-rect@1.0.0
+  node_modules/@radix-ui/react-use-rect
+    @radix-ui/react-use-rect@"1.0.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-use-size@1.0.0
+  node_modules/@radix-ui/react-use-size
+    @radix-ui/react-use-size@"1.0.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    @radix-ui/react-use-size@"1.0.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"*" from @react-icons/all-files@4.1.0
+  node_modules/@react-icons/all-files
+    @react-icons/all-files@"*" from the root project
+  peer react@"*" from @react-native/virtualized-lists@0.75.2
+  node_modules/@react-native/virtualized-lists
+    @react-native/virtualized-lists@"0.75.2" from react-native@0.75.2
+    node_modules/react-native
+      peer react-native@"*" from @react-native/virtualized-lists@0.75.2
+      peerOptional react-native@">=0.64" from @react-three/fiber@8.17.6
+      node_modules/@react-three/fiber
+        @react-three/fiber@"*" from the root project
+        peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+        node_modules/@react-spring/three
+          @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+          node_modules/@react-three/drei
+            @react-three/drei@"*" from the root project
+        peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-pdf/renderer@3.4.4
+  node_modules/@react-pdf/renderer
+    @react-pdf/renderer@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/animated@9.6.1
+  node_modules/@react-spring/animated
+    @react-spring/animated@"~9.6.1" from @react-spring/core@9.6.1
+    node_modules/@react-spring/core
+      @react-spring/core@"~9.6.1" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+    @react-spring/animated@"~9.6.1" from @react-spring/three@9.6.1
+    node_modules/@react-spring/three
+      @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/core@9.6.1
+  node_modules/@react-spring/core
+    @react-spring/core@"~9.6.1" from @react-spring/three@9.6.1
+    node_modules/@react-spring/three
+      @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/shared@9.6.1
+  node_modules/@react-spring/shared
+    @react-spring/shared@"~9.6.1" from @react-spring/animated@9.6.1
+    node_modules/@react-spring/animated
+      @react-spring/animated@"~9.6.1" from @react-spring/core@9.6.1
+      node_modules/@react-spring/core
+        @react-spring/core@"~9.6.1" from @react-spring/three@9.6.1
+        node_modules/@react-spring/three
+          @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+          node_modules/@react-three/drei
+            @react-three/drei@"*" from the root project
+      @react-spring/animated@"~9.6.1" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+    @react-spring/shared@"~9.6.1" from @react-spring/core@9.6.1
+    node_modules/@react-spring/core
+      @react-spring/core@"~9.6.1" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+    @react-spring/shared@"~9.6.1" from @react-spring/three@9.6.1
+    node_modules/@react-spring/three
+      @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @react-spring/three@9.6.1
+  node_modules/@react-spring/three
+    @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+    node_modules/@react-three/drei
+      @react-three/drei@"*" from the root project
+  peer react@">=18.0" from @react-three/drei@9.111.5
+  node_modules/@react-three/drei
+    @react-three/drei@"*" from the root project
+  peer react@">=18.0" from @react-three/fiber@8.17.6
+  node_modules/@react-three/fiber
+    @react-three/fiber@"*" from the root project
+    peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+    node_modules/@react-spring/three
+      @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+    peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+    node_modules/@react-three/drei
+      @react-three/drei@"*" from the root project
+  peer react@"^18.0.0" from @testing-library/react@16.0.1
+  node_modules/@testing-library/react
+    @testing-library/react@"*" from the root project
+  peer react@">= 16.8.0" from @use-gesture/react@10.3.1
+  node_modules/@use-gesture/react
+    @use-gesture/react@"^10.2.24" from @react-three/drei@9.111.5
+    node_modules/@react-three/drei
+      @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from @xstate/react@3.2.2
+  node_modules/@xstate/react
+    @xstate/react@"^3.2.2" from @aws-amplify/ui-react@6.2.0
+    node_modules/@aws-amplify/ui-react
+      @aws-amplify/ui-react@"^6.2.0" from the root project
+    @xstate/react@"^3.2.2" from @aws-amplify/ui-react-core@3.0.18
+    node_modules/@aws-amplify/ui-react-core
+      @aws-amplify/ui-react-core@"3.0.18" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@">=18.0" from its-fine@1.2.5
+  node_modules/its-fine
+    its-fine@"^1.0.6" from @react-three/fiber@8.17.6
+    node_modules/@react-three/fiber
+      @react-three/fiber@"*" from the root project
+      peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+      peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peer react@"^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0" from react-composer@5.0.3
+  node_modules/react-composer
+    react-composer@"^5.0.3" from @react-three/drei@9.111.5
+    node_modules/@react-three/drei
+      @react-three/drei@"*" from the root project
+  peer react@"^18.3.1" from react-dom@18.3.1
+  node_modules/react-dom
+    react-dom@"*" from the root project
+    peer react-dom@"^16.14.0 || ^17.0 || ^18.0" from @aws-amplify/ui-react@6.2.0
+    node_modules/@aws-amplify/ui-react
+      @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@">=16.8.0" from @floating-ui/react-dom@0.7.2
+    node_modules/@floating-ui/react-dom
+      @floating-ui/react-dom@"0.7.2" from @radix-ui/react-popper@1.0.0
+      node_modules/@radix-ui/react-popper
+        @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-arrow@1.0.0
+    node_modules/@radix-ui/react-arrow
+      @radix-ui/react-arrow@"1.0.0" from @radix-ui/react-popper@1.0.0
+      node_modules/@radix-ui/react-popper
+        @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-collection@1.0.0
+    node_modules/@radix-ui/react-collection
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-dismissable-layer@1.0.0
+    node_modules/@radix-ui/react-dismissable-layer
+      @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-dropdown-menu@1.0.0
+    node_modules/@radix-ui/react-dropdown-menu
+      @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-focus-scope@1.0.0
+    node_modules/@radix-ui/react-focus-scope
+      @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-popper@1.0.0
+    node_modules/@radix-ui/react-popper
+      @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-portal@1.0.0
+    node_modules/@radix-ui/react-portal
+      @radix-ui/react-portal@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-presence@1.0.0
+    node_modules/@radix-ui/react-presence
+      @radix-ui/react-presence@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-primitive@1.0.0
+    node_modules/@radix-ui/react-primitive
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-arrow@1.0.0
+      node_modules/@radix-ui/react-arrow
+        @radix-ui/react-arrow@"1.0.0" from @radix-ui/react-popper@1.0.0
+        node_modules/@radix-ui/react-popper
+          @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-collection@1.0.0
+      node_modules/@radix-ui/react-collection
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+        node_modules/@radix-ui/react-roving-focus
+          @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+          node_modules/@radix-ui/react-menu
+            @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+            node_modules/@radix-ui/react-dropdown-menu
+              @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+              node_modules/@aws-amplify/ui-react
+                @aws-amplify/ui-react@"^6.2.0" from the root project
+        @radix-ui/react-collection@"1.0.0" from @radix-ui/react-slider@1.0.0
+        node_modules/@radix-ui/react-slider
+          @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dismissable-layer@1.0.0
+      node_modules/@radix-ui/react-dismissable-layer
+        @radix-ui/react-dismissable-layer@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-focus-scope@1.0.0
+      node_modules/@radix-ui/react-focus-scope
+        @radix-ui/react-focus-scope@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-popper@1.0.0
+      node_modules/@radix-ui/react-popper
+        @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-portal@1.0.0
+      node_modules/@radix-ui/react-portal
+        @radix-ui/react-portal@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-roving-focus@1.0.0
+      node_modules/@radix-ui/react-roving-focus
+        @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+      @radix-ui/react-primitive@"1.0.0" from @radix-ui/react-slider@1.0.0
+      node_modules/@radix-ui/react-slider
+        @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-roving-focus@1.0.0
+    node_modules/@radix-ui/react-roving-focus
+      @radix-ui/react-roving-focus@"1.0.0" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    peer react-dom@"^16.8 || ^17.0 || ^18.0" from @radix-ui/react-slider@1.0.0
+    node_modules/@radix-ui/react-slider
+      @radix-ui/react-slider@"1.0.0" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+    peerOptional react-dom@">=18.0" from @react-three/drei@9.111.5
+    node_modules/@react-three/drei
+      @react-three/drei@"*" from the root project
+    peerOptional react-dom@">=18.0" from @react-three/fiber@8.17.6
+    node_modules/@react-three/fiber
+      @react-three/fiber@"*" from the root project
+      peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+      peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+    peer react-dom@"^18.0.0" from @testing-library/react@16.0.1
+    node_modules/@testing-library/react
+      @testing-library/react@"*" from the root project
+    peer react-dom@"^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" from react-pdf@9.1.0
+    node_modules/react-pdf
+      react-pdf@"*" from the root project
+    peer react-dom@">=16.8" from react-router-dom@6.26.1
+    node_modules/react-router-dom
+      react-router-dom@"*" from the root project
+    peer react-dom@">= 16.8.0" from styled-components@6.1.13
+    node_modules/styled-components
+      styled-components@"^6.1.13" from the root project
+  peer react@"^16.8.0 || ^17 || ^18 || ^19" from react-hook-form@7.53.0
+  node_modules/react-hook-form
+    react-hook-form@"^7.43.5" from @aws-amplify/ui-react-core@3.0.18
+    node_modules/@aws-amplify/ui-react-core
+      @aws-amplify/ui-react-core@"3.0.18" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"*" from react-icons@5.3.0
+  node_modules/react-icons
+    react-icons@"*" from the root project
+  peer react@"^18.2.0" from react-native@0.75.2
+  node_modules/react-native
+    peer react-native@"*" from @react-native/virtualized-lists@0.75.2
+    peerOptional react-native@">=0.64" from @react-three/fiber@8.17.6
+    node_modules/@react-three/fiber
+      @react-three/fiber@"*" from the root project
+      peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+      peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" from react-pdf@9.1.0
+  node_modules/react-pdf
+    react-pdf@"*" from the root project
+  peer react@"^18.0.0" from react-reconciler@0.27.0
+  node_modules/react-reconciler
+    react-reconciler@"^0.27.0" from @react-three/fiber@8.17.6
+    node_modules/@react-three/fiber
+      @react-three/fiber@"*" from the root project
+      peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+      peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from react-remove-scroll@2.5.4
+  node_modules/react-remove-scroll
+    react-remove-scroll@"2.5.4" from @radix-ui/react-menu@1.0.0
+    node_modules/@radix-ui/react-menu
+      @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+      node_modules/@radix-ui/react-dropdown-menu
+        @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from react-remove-scroll-bar@2.3.6
+  node_modules/react-remove-scroll-bar
+    react-remove-scroll-bar@"^2.3.3" from react-remove-scroll@2.5.4
+    node_modules/react-remove-scroll
+      react-remove-scroll@"2.5.4" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@">=16.8" from react-router@6.26.1
+  node_modules/react-router
+    react-router@"6.26.1" from react-router-dom@6.26.1
+    node_modules/react-router-dom
+      react-router-dom@"*" from the root project
+  peer react@">=16.8" from react-router-dom@6.26.1
+  node_modules/react-router-dom
+    react-router-dom@"*" from the root project
+  peer react@">= 16" from react-scripts@5.0.1
+  node_modules/react-scripts
+    react-scripts@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from react-style-singleton@2.2.1
+  node_modules/react-style-singleton
+    react-style-singleton@"^2.2.1" from react-remove-scroll@2.5.4
+    node_modules/react-remove-scroll
+      react-remove-scroll@"2.5.4" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+    react-style-singleton@"^2.2.1" from react-remove-scroll-bar@2.3.6
+    node_modules/react-remove-scroll-bar
+      react-remove-scroll-bar@"^2.3.3" from react-remove-scroll@2.5.4
+      node_modules/react-remove-scroll
+        react-remove-scroll@"2.5.4" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@">= 16.8.0" from styled-components@6.1.13
+  node_modules/styled-components
+    styled-components@"^6.1.13" from the root project
+  peer react@">=17.0" from suspend-react@0.1.3
+  node_modules/suspend-react
+    suspend-react@"^0.1.3" from @react-three/drei@9.111.5
+    node_modules/@react-three/drei
+      @react-three/drei@"*" from the root project
+    suspend-react@"^0.1.3" from @react-three/fiber@8.17.6
+    node_modules/@react-three/fiber
+      @react-three/fiber@"*" from the root project
+      peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+      peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peerOptional react@">=16.8" from zustand@4.5.5
+  node_modules/tunnel-rat/node_modules/zustand
+    zustand@"^4.3.2" from tunnel-rat@0.1.2
+    node_modules/tunnel-rat
+      tunnel-rat@"^0.1.2" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from use-callback-ref@1.3.2
+  node_modules/use-callback-ref
+    use-callback-ref@"^1.3.0" from react-remove-scroll@2.5.4
+    node_modules/react-remove-scroll
+      react-remove-scroll@"2.5.4" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from use-isomorphic-layout-effect@1.1.2
+  node_modules/use-isomorphic-layout-effect
+    use-isomorphic-layout-effect@"^1.1.1" from @floating-ui/react-dom@0.7.2
+    node_modules/@floating-ui/react-dom
+      @floating-ui/react-dom@"0.7.2" from @radix-ui/react-popper@1.0.0
+      node_modules/@radix-ui/react-popper
+        @radix-ui/react-popper@"1.0.0" from @radix-ui/react-menu@1.0.0
+        node_modules/@radix-ui/react-menu
+          @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+          node_modules/@radix-ui/react-dropdown-menu
+            @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+            node_modules/@aws-amplify/ui-react
+              @aws-amplify/ui-react@"^6.2.0" from the root project
+    use-isomorphic-layout-effect@"^1.1.2" from @xstate/react@3.2.2
+    node_modules/@xstate/react
+      @xstate/react@"^3.2.2" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+      @xstate/react@"^3.2.2" from @aws-amplify/ui-react-core@3.0.18
+      node_modules/@aws-amplify/ui-react-core
+        @aws-amplify/ui-react-core@"3.0.18" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from use-sidecar@1.1.2
+  node_modules/use-sidecar
+    use-sidecar@"^1.1.2" from react-remove-scroll@2.5.4
+    node_modules/react-remove-scroll
+      react-remove-scroll@"2.5.4" from @radix-ui/react-menu@1.0.0
+      node_modules/@radix-ui/react-menu
+        @radix-ui/react-menu@"1.0.0" from @radix-ui/react-dropdown-menu@1.0.0
+        node_modules/@radix-ui/react-dropdown-menu
+          @radix-ui/react-dropdown-menu@"1.0.0" from @aws-amplify/ui-react@6.2.0
+          node_modules/@aws-amplify/ui-react
+            @aws-amplify/ui-react@"^6.2.0" from the root project
+  peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from use-sync-external-store@1.2.2
+  node_modules/use-sync-external-store
+    use-sync-external-store@"^1.0.0" from @xstate/react@3.2.2
+    node_modules/@xstate/react
+      @xstate/react@"^3.2.2" from @aws-amplify/ui-react@6.2.0
+      node_modules/@aws-amplify/ui-react
+        @aws-amplify/ui-react@"^6.2.0" from the root project
+      @xstate/react@"^3.2.2" from @aws-amplify/ui-react-core@3.0.18
+      node_modules/@aws-amplify/ui-react-core
+        @aws-amplify/ui-react-core@"3.0.18" from @aws-amplify/ui-react@6.2.0
+        node_modules/@aws-amplify/ui-react
+          @aws-amplify/ui-react@"^6.2.0" from the root project
+    use-sync-external-store@"1.2.2" from zustand@4.5.5
+    node_modules/tunnel-rat/node_modules/zustand
+      zustand@"^4.3.2" from tunnel-rat@0.1.2
+      node_modules/tunnel-rat
+        tunnel-rat@"^0.1.2" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+  peerOptional react@">=16.8" from zustand@3.7.2
+  node_modules/zustand
+    zustand@"^3.7.1" from @react-three/drei@9.111.5
+    node_modules/@react-three/drei
+      @react-three/drei@"*" from the root project
+    zustand@"^3.7.1" from @react-three/fiber@8.17.6
+    node_modules/@react-three/fiber
+      @react-three/fiber@"*" from the root project
+      peer @react-three/fiber@">=6.0" from @react-spring/three@9.6.1
+      node_modules/@react-spring/three
+        @react-spring/three@"~9.6.1" from @react-three/drei@9.111.5
+        node_modules/@react-three/drei
+          @react-three/drei@"*" from the root project
+      peer @react-three/fiber@">=8.0" from @react-three/drei@9.111.5
+      node_modules/@react-three/drei
+        @react-three/drei@"*" from the root project
+
+Could not resolve dependency:
+peer react@"^16.8.0" from react-hooks-lib@0.6.0
+node_modules/react-hooks-lib
+  react-hooks-lib@"*" from the root project
+
+Conflicting peer dependency: react@16.14.0
+node_modules/react
+  peer react@"^16.8.0" from react-hooks-lib@0.6.0
+  node_modules/react-hooks-lib
+    react-hooks-lib@"*" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.

@@ -1,0 +1,157 @@
+{
+  "game_input": "sos",
+  "degraded_static_fallback": false,
+  "source": "PixelLab Pixen gothic Templar aftermath prop set",
+  "animation": {
+    "rows": {
+      "BONE_RUBBLE": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "RELIQUARY": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "FALLEN_HELM": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "ROSE_GLASS": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "WAR_BANNER": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "SWORD_ROSARY": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "WAR_PSALTER": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "CENSER": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "SAINT_HEAD": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      },
+      "SUPPLY_CHEST": {
+        "row": 0,
+        "frames": 1,
+        "fps": 1,
+        "loop": false
+      }
+    }
+  },
+  "frame_layout": {
+    "rows": {
+      "BONE_RUBBLE": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "RELIQUARY": [
+        {
+          "x": 32,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "FALLEN_HELM": [
+        {
+          "x": 64,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "ROSE_GLASS": [
+        {
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "WAR_BANNER": [
+        {
+          "x": 128,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "SWORD_ROSARY": [
+        {
+          "x": 160,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "WAR_PSALTER": [
+        {
+          "x": 192,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "CENSER": [
+        {
+          "x": 224,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "SAINT_HEAD": [
+        {
+          "x": 256,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ],
+      "SUPPLY_CHEST": [
+        {
+          "x": 288,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        }
+      ]
+    },
+    "sheetWidth": 320,
+    "sheetHeight": 32,
+    "cellWidth": 32,
+    "cellHeight": 32
+  }
+}

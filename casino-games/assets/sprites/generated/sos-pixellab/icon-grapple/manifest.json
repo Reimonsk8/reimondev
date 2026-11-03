@@ -1,0 +1,8 @@
+{
+  "game_input": "sos",
+  "prompt": "grapple",
+  "usage": {
+    "type": "generations",
+    "generations": 1
+  }
+}

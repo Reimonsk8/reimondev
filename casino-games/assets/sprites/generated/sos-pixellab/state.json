@@ -1,0 +1,643 @@
+{
+  "characters": {
+    "warrior": {
+      "character_id": "225b07ad-3914-4418-a35d-c50935f3a950",
+      "background_job_id": "43d2ea3d-7ba5-4b56-8087-944158e7bc9d",
+      "status": "processing",
+      "queued": "2026-10-17T23:44:01.951Z"
+    },
+    "wizard": {
+      "character_id": "5c215552-1b10-4e96-9df4-91bd5c5a84b0",
+      "background_job_id": "3fb3f871-142c-474d-997f-f6802b60b738",
+      "status": "processing",
+      "queued": "2026-10-17T23:45:55.349Z"
+    },
+    "cleric": {
+      "character_id": "13cb21c8-9719-42b9-b4f2-0ddd984ea246",
+      "background_job_id": "6694a19c-16f3-4758-b4f1-d83d9ee1024d",
+      "status": "processing",
+      "queued": "2026-10-17T23:48:20.379Z"
+    },
+    "ranger": {
+      "character_id": "6f6f2f76-9199-4043-959b-171a3708ab2b",
+      "background_job_id": "5f828777-8cb9-4dde-aebb-04ed4f689f13",
+      "status": "processing",
+      "queued": "2026-10-17T23:50:05.518Z"
+    },
+    "templar": {
+      "character_id": "523f6586-1739-4f18-92fd-6b557185691d",
+      "background_job_id": "877f48aa-65d1-4d2f-8fbc-5dbd7d4bdf0d",
+      "status": "processing",
+      "queued": "2026-10-18T03:39:54.248Z"
+    },
+    "confessor": {
+      "character_id": "a7e8090c-c8d5-4030-ac05-c2e056594669",
+      "background_job_id": "6924f6a4-3ed8-447a-acb5-948c4c643f6f",
+      "status": "processing",
+      "queued": "2026-10-18T03:40:45.209Z"
+    },
+    "martyr": {
+      "character_id": "fd77d6bd-4e22-44d9-9be3-ae32efa60081",
+      "background_job_id": "691f2091-7118-47af-8a42-842ddcfe37d0",
+      "status": "processing",
+      "queued": "2026-10-18T03:41:38.638Z"
+    },
+    "penitent": {
+      "character_id": "5f24ac82-897e-492e-a1ba-111d77482581",
+      "background_job_id": "74055338-a27e-44db-ac39-31d2b5b2b054",
+      "status": "processing",
+      "queued": "2026-10-18T03:42:32.056Z"
+    }
+  },
+  "done": {
+    "warrior/idle": {
+      "animation_group_id": "7e060321-f101-407e-a1a8-e34a9871ab4d",
+      "background_job_ids": [
+        "7b43b573-2820-47ab-be86-c7cdfb38e1c7"
+      ],
+      "queued": "2026-10-17T23:59:56.919Z"
+    },
+    "warrior/attack": {
+      "animation_group_id": "4f2042e7-7c0c-4e51-ab2e-2f1f5cfcfff9",
+      "background_job_ids": [
+        "baae64b8-f898-4d51-9658-939f04abb44e"
+      ],
+      "queued": "2026-10-17T23:52:37.523Z"
+    },
+    "warrior/cast": {
+      "animation_group_id": "4a209609-6b47-48a1-a7d9-c45530ee6049",
+      "background_job_ids": [
+        "fca6ebb6-aaa3-4d8e-a486-e1d72655309f"
+      ],
+      "queued": "2026-10-18T03:44:06.045Z"
+    },
+    "warrior/death": {
+      "animation_group_id": "9e2a9f89-f1e1-495b-92a4-661ee85c620e",
+      "background_job_ids": [
+        "be071706-4529-4648-b616-065fba63d8dd"
+      ],
+      "queued": "2026-10-18T03:45:54.257Z"
+    },
+    "wizard/idle": {
+      "animation_group_id": "361c4d98-2647-43b5-9124-cc26afb0bc6d",
+      "background_job_ids": [
+        "fcd82465-ba12-42fb-837e-b652f7ea90b0"
+      ],
+      "queued": "2026-10-18T03:49:29.048Z"
+    },
+    "wizard/attack": {
+      "animation_group_id": "f121ddf3-101f-4173-91f5-ea866e3ceff8",
+      "background_job_ids": [
+        "f9e72b27-2acc-46f0-af13-d76306508584"
+      ],
+      "queued": "2026-10-18T03:52:09.079Z"
+    },
+    "wizard/cast": {
+      "animation_group_id": "22bd5095-f927-4667-9d60-8df69fe797e2",
+      "background_job_ids": [
+        "e278f517-7f0d-453c-ae3a-875acaa2aac4"
+      ],
+      "queued": "2026-10-18T03:53:48.315Z"
+    },
+    "wizard/death": {
+      "animation_group_id": "e37a5ec1-1ffe-47c0-8155-eca77f848063",
+      "background_job_ids": [
+        "ba6cec87-c2f8-4cfa-9713-d28fbd105816"
+      ],
+      "queued": "2026-10-18T03:55:27.592Z"
+    },
+    "cleric/idle": {
+      "animation_group_id": "35c961a4-7dfd-4893-9262-0476f3da7f92",
+      "background_job_ids": [
+        "83008e64-a98d-4bab-86e8-20c7797b1db1"
+      ],
+      "queued": "2026-10-17T17:03:53.436244"
+    },
+    "cleric/attack": {
+      "animation_group_id": "21ea86c1-8c2b-46ec-85d6-d583a84a7afe",
+      "background_job_ids": [
+        "7ec1a7c1-0d65-4617-bbf4-352777e5f8db"
+      ],
+      "queued": "2026-10-18T03:58:47.889Z"
+    },
+    "cleric/cast": {
+      "animation_group_id": "0c8ab41f-0703-4721-b1a6-805cf3df3dc6",
+      "background_job_ids": [
+        "667b2df6-2624-4670-b249-e57214e7d4ff"
+      ],
+      "queued": "2026-10-18T04:00:27.722Z"
+    },
+    "cleric/death": {
+      "animation_group_id": "cbcc38bc-c975-40e6-b554-7a6895527e90",
+      "background_job_ids": [
+        "8ba91fdd-c2a3-4721-8933-8efd4dafa4a0"
+      ],
+      "queued": "2026-10-18T04:02:07.496Z"
+    },
+    "ranger/idle": {
+      "animation_group_id": "af1c13b8-327a-4792-bb99-4479eaca623a",
+      "background_job_ids": [
+        "104a3071-dcfe-4c43-80b4-1c264435d9ae"
+      ],
+      "queued": "2026-10-18T04:05:27.624Z"
+    },
+    "ranger/attack": {
+      "animation_group_id": "352498a7-560a-4188-9c46-e371c51822e6",
+      "background_job_ids": [
+        "fbeb299d-4bd8-4287-93ff-afb4d364340c"
+      ],
+      "queued": "2026-10-18T04:07:07.200Z"
+    },
+    "ranger/cast": {
+      "animation_group_id": "cb7d17d6-c808-4a06-9207-d95e93eadfb7",
+      "background_job_ids": [
+        "f3575b92-e792-4f1b-92a5-5b17ce8ea57a"
+      ],
+      "queued": "2026-10-17T17:09:36.171188"
+    },
+    "ranger/death": {
+      "animation_group_id": "6d2fbfb0-8a1d-4936-a477-093019ece9c1",
+      "background_job_ids": [
+        "1b60f830-a361-4c8e-b4aa-a7aefaa55531"
+      ],
+      "queued": "2026-10-18T04:09:49.849Z"
+    },
+    "warrior/walk": {
+      "animation_group_id": "a957e249-df03-4183-9c01-2a476a1c1a25",
+      "background_job_ids": [
+        "f08ad5c1-6ea2-4af6-a1a2-06deb79a8bfe"
+      ],
+      "queued": "2026-10-18T03:48:35.892Z"
+    },
+    "wizard/walk": {
+      "animation_group_id": "a93041e3-046d-43fc-814e-587d8977bffe",
+      "background_job_ids": [
+        "2ed0da51-9497-426a-9ada-eacd06e19efd"
+      ],
+      "queued": "2026-10-18T03:57:06.684Z"
+    },
+    "cleric/walk": {
+      "animation_group_id": "a586bc5e-02e4-47b7-8263-52bca83ab56b",
+      "background_job_ids": [
+        "77d9404f-b1f0-47e2-846e-071b81a57594"
+      ],
+      "queued": "2026-10-18T04:03:47.675Z"
+    },
+    "ranger/walk": {
+      "animation_group_id": "a245694b-9cbd-46cf-a2f2-35e8327dc8e3",
+      "background_job_ids": [
+        "052fcd48-ae0b-4b2e-98dd-a8f1a70c95ef"
+      ],
+      "queued": "2026-10-18T04:11:29.195Z"
+    },
+    "templar/idle": {
+      "animation_group_id": "b755904a-2b76-404e-8cab-87b34683771a",
+      "background_job_ids": [
+        "0d60ca62-6160-4ef2-8aee-3c3b4e7c1102"
+      ],
+      "queued": "2026-10-18T04:13:08.427Z"
+    },
+    "templar/attack": {
+      "animation_group_id": "869c1018-1521-467d-b10a-ec949148163d",
+      "background_job_ids": [
+        "7e14ef88-ff37-4f40-a9fc-d4f3fefc298d"
+      ],
+      "queued": "2026-10-18T04:14:05.399Z"
+    },
+    "templar/cast": {
+      "animation_group_id": "e8030242-f281-4fef-a9fa-b64f59cb095c",
+      "background_job_ids": [
+        "6aca9bb9-0f67-461b-8527-4d4c7dc1823d"
+      ],
+      "queued": "2026-10-18T04:15:46.918Z"
+    },
+    "templar/death": {
+      "animation_group_id": "3b27352e-668e-4914-a404-9b3576bbde25",
+      "background_job_ids": [
+        "a9c1dce8-4d34-402a-bcd9-e0d1a50c7fe7"
+      ],
+      "queued": "2026-10-18T04:17:43.126Z"
+    },
+    "templar/walk": {
+      "animation_group_id": "285c2e02-7560-480c-aba0-430f72c0c99c",
+      "background_job_ids": [
+        "a641bef8-85c4-431a-bb44-b52a1f3c6f0f"
+      ],
+      "queued": "2026-10-18T04:19:23.117Z"
+    },
+    "confessor/idle": {
+      "animation_group_id": "322f925a-5e58-4e5a-8be3-e8d92e760a26",
+      "background_job_ids": [
+        "59e1e43a-de03-4b93-aff3-c9b572d1843f"
+      ],
+      "queued": "2026-10-18T04:20:17.647Z"
+    },
+    "confessor/attack": {
+      "animation_group_id": "0d0ef13c-b1d3-406e-9fd3-511555ddbf22",
+      "background_job_ids": [
+        "ee4663e2-fe9f-467d-9e1b-117e896124fa"
+      ],
+      "queued": "2026-10-18T04:21:57.242Z"
+    },
+    "confessor/cast": {
+      "animation_group_id": "615a4813-1b80-401d-b75b-a54cb6e48d52",
+      "background_job_ids": [
+        "06092c65-450d-4136-a230-8e23f84ab7b9"
+      ],
+      "queued": "2026-10-18T04:23:36.063Z"
+    },
+    "confessor/death": {
+      "animation_group_id": "2bd4cbc0-9e65-4754-8b24-c269ac4bc88c",
+      "background_job_ids": [
+        "7e577e1f-1baf-488c-83aa-53e38f962c63"
+      ],
+      "queued": "2026-10-18T04:25:15.953Z"
+    },
+    "confessor/walk": {
+      "animation_group_id": "0b43050e-eee4-4916-b96a-cd68e0ae8f50",
+      "background_job_ids": [
+        "c13d1a5d-fe6f-479e-89dc-0c55a560b0e8"
+      ],
+      "queued": "2026-10-18T04:27:55.992Z"
+    },
+    "martyr/idle": {
+      "animation_group_id": "0ca882e6-fb58-40d9-bae2-930f997958cd",
+      "background_job_ids": [
+        "789b6678-5885-4f74-b97f-1347b4f1bc03"
+      ],
+      "queued": "2026-10-18T04:28:50.784Z"
+    },
+    "martyr/attack": {
+      "animation_group_id": "1bd90f6c-cc6d-46d6-8dba-455af5dd501e",
+      "background_job_ids": [
+        "6a8d68dd-a0c1-4999-8928-5f2e472a8d95"
+      ],
+      "queued": "2026-10-18T04:29:43.308Z"
+    },
+    "martyr/cast": {
+      "animation_group_id": "0220b12f-d6de-4ad5-9b0a-c2b3ee691aaa",
+      "background_job_ids": [
+        "2efc9809-69a7-48b6-b3b8-cdb078f38d72"
+      ],
+      "queued": "2026-10-18T04:31:24.793Z"
+    },
+    "martyr/death": {
+      "animation_group_id": "a242c67c-1384-4a64-b8cb-d6d177ee177d",
+      "background_job_ids": [
+        "627500ad-641d-4a6e-a665-72d43375f6d8"
+      ],
+      "queued": "2026-10-18T04:33:04.442Z"
+    },
+    "martyr/walk": {
+      "animation_group_id": "a59e17af-a58d-4bd9-965e-d2b647314581",
+      "background_job_ids": [
+        "1efbe3b8-6772-4fb4-b95c-deb2c6964c68"
+      ],
+      "queued": "2026-10-18T04:34:44.992Z"
+    },
+    "penitent/idle": {
+      "animation_group_id": "7464eda7-7e18-44bc-87cd-0dc9e2c1a896",
+      "background_job_ids": [
+        "e0c63a61-91b0-4578-9d07-ef42a86b2bea"
+      ],
+      "queued": "2026-10-18T04:36:24.873Z"
+    },
+    "penitent/attack": {
+      "animation_group_id": "9b8f6eb0-ac76-4b1e-8738-4c7d71ef5d96",
+      "background_job_ids": [
+        "66d96c40-1c73-4b71-8486-6d61d04bb2ad"
+      ],
+      "queued": "2026-10-18T04:37:19.434Z"
+    },
+    "penitent/cast": {
+      "animation_group_id": "d438e44a-b8af-4af6-86c6-4f3531ba97d4",
+      "background_job_ids": [
+        "2abc4728-8958-4d7f-ac1d-88811d950004"
+      ],
+      "queued": "2026-10-18T04:38:58.912Z"
+    },
+    "penitent/death": {
+      "animation_group_id": "40e55b28-fde9-4a0d-aeb4-09505a1b4c73",
+      "background_job_ids": [
+        "5569e559-d370-4e58-8f24-1af4bde8b03d"
+      ],
+      "queued": "2026-10-18T04:40:40.013Z"
+    },
+    "penitent/walk": {
+      "animation_group_id": "b67d04e4-4c3a-4a93-aabb-a2570c2f9531",
+      "background_job_ids": [
+        "f5e1b32b-6049-4da7-83de-4d33bc6255e4"
+      ],
+      "queued": "2026-10-18T04:42:18.695Z"
+    }
+  },
+  "spent": 4,
+  "log": [
+    {
+      "at": "2026-10-17T21:43:32.174Z",
+      "label": "icon:fireball",
+      "generations": 1
+    },
+    {
+      "at": "2026-10-17T23:44:01.952Z",
+      "label": "class:warrior",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-17T23:45:55.350Z",
+      "label": "class:wizard",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-17T23:48:20.379Z",
+      "label": "class:cleric",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-17T23:50:05.518Z",
+      "label": "class:ranger",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-17T23:51:45.282Z",
+      "label": "anim:warrior/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-17T23:52:37.524Z",
+      "label": "anim:warrior/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-17T23:59:56.920Z",
+      "label": "anim:warrior/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T00:24:21.126Z",
+      "label": "icon:thunder-strike",
+      "generations": 1
+    },
+    {
+      "at": "2026-10-18T00:24:55.841Z",
+      "label": "icon:ice-wall",
+      "generations": 1
+    },
+    {
+      "at": "2026-10-18T00:25:26.305Z",
+      "label": "icon:bless-ground",
+      "generations": 1
+    },
+    {
+      "at": "2026-10-18T03:39:54.249Z",
+      "label": "class:templar",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:40:45.210Z",
+      "label": "class:confessor",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:41:38.639Z",
+      "label": "class:martyr",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:42:32.057Z",
+      "label": "class:penitent",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:44:06.046Z",
+      "label": "anim:warrior/cast",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:45:54.258Z",
+      "label": "anim:warrior/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:48:35.892Z",
+      "label": "anim:warrior/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:49:29.049Z",
+      "label": "anim:wizard/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:52:09.079Z",
+      "label": "anim:wizard/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:53:48.315Z",
+      "label": "anim:wizard/cast",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:55:27.593Z",
+      "label": "anim:wizard/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:57:06.685Z",
+      "label": "anim:wizard/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T03:58:47.889Z",
+      "label": "anim:cleric/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:00:27.722Z",
+      "label": "anim:cleric/cast",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:02:07.496Z",
+      "label": "anim:cleric/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:03:47.675Z",
+      "label": "anim:cleric/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:05:27.624Z",
+      "label": "anim:ranger/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:07:07.200Z",
+      "label": "anim:ranger/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:09:49.850Z",
+      "label": "anim:ranger/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:11:29.195Z",
+      "label": "anim:ranger/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:13:08.427Z",
+      "label": "anim:templar/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:14:05.399Z",
+      "label": "anim:templar/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:15:46.919Z",
+      "label": "anim:templar/cast",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:17:43.127Z",
+      "label": "anim:templar/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:19:23.118Z",
+      "label": "anim:templar/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:20:17.647Z",
+      "label": "anim:confessor/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:21:57.242Z",
+      "label": "anim:confessor/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:23:36.063Z",
+      "label": "anim:confessor/cast",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:25:15.955Z",
+      "label": "anim:confessor/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:27:55.992Z",
+      "label": "anim:confessor/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:28:50.784Z",
+      "label": "anim:martyr/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:29:43.309Z",
+      "label": "anim:martyr/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:31:24.793Z",
+      "label": "anim:martyr/cast",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:33:04.443Z",
+      "label": "anim:martyr/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:34:44.992Z",
+      "label": "anim:martyr/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:36:24.874Z",
+      "label": "anim:penitent/idle",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:37:19.435Z",
+      "label": "anim:penitent/attack",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:38:58.913Z",
+      "label": "anim:penitent/cast",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:40:40.013Z",
+      "label": "anim:penitent/death",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:42:18.696Z",
+      "label": "anim:penitent/walk",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:46:24.520Z",
+      "label": "icon:attack-warrior",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:47:00.866Z",
+      "label": "icon:attack-wizard",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:47:39.600Z",
+      "label": "icon:attack-cleric",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:48:20.257Z",
+      "label": "icon:attack-ranger",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:48:58.746Z",
+      "label": "icon:shield-slam",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:49:43.761Z",
+      "label": "icon:class-warrior",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:50:23.276Z",
+      "label": "icon:class-wizard",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:50:56.364Z",
+      "label": "icon:class-cleric",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:51:26.719Z",
+      "label": "icon:class-ranger",
+      "generations": 0
+    },
+    {
+      "at": "2026-10-18T04:52:06.570Z",
+      "label": "icon:move",
+      "generations": 0
+    }
+  ],
+  "allowance": 40
+}

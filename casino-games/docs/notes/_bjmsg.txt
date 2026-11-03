@@ -1,0 +1,8 @@
+bj server-authoritative kick + DOM-only drink FX + map widen/smoking annex
+
+- bj:kick routed (kickSeat): queue-phase only, non-ready target, no self-cut.
+  Kicked seat is torn down like leave() + bj:kicked + persist + broadcast.
+- VIP-bar drink beat is now pure DOM (golden toast + rising bubbles + WebAudio
+  clink) — same safe layer as the piano hint, never PIXI/atlas. Refs consolidated
+  + corrupted tokens repaired (typecheck clean).
+- MAP_W widened (2900) with exterior smoking annex; VIP annex solid walls.

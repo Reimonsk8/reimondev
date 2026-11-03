@@ -1,0 +1,859 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.20.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\User\AppData\Local\Temp\opencode\reimondev-site-review\.npmrc
+5 silly config load:file:C:\Users\User\.npmrc
+6 silly config load:file:C:\Users\User\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm ci
+8 verbose argv "ci" "--dry-run" "--ignore-scripts" "--cache" ".npm" "--prefer-offline"
+9 verbose logfile logs-max:10 dir:C:\Users\User\AppData\Local\Temp\opencode\reimondev-site-review\.npm\_logs\2026-11-02T23_18_09_848Z-
+10 verbose logfile C:\Users\User\AppData\Local\Temp\opencode\reimondev-site-review\.npm\_logs\2026-11-02T23_18_09_848Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly fetch manifest @fortawesome/fontawesome-svg-core@~1 || ~6
+15 silly packumentCache full:https://registry.npmjs.org/@fortawesome%2ffontawesome-svg-core cache-miss
+16 http fetch GET 200 https://registry.npmjs.org/@fortawesome%2ffontawesome-svg-core 433ms (cache miss)
+17 silly packumentCache full:https://registry.npmjs.org/@fortawesome%2ffontawesome-svg-core set size:undefined disposed:false
+18 silly placeDep ROOT @fortawesome/fontawesome-svg-core@6.7.2 OK for: @fortawesome/react-fontawesome@0.2.2 want: ~1 || ~6
+19 silly fetch manifest @testing-library/dom@>=7.21.4
+20 silly packumentCache full:https://registry.npmjs.org/@testing-library%2fdom cache-miss
+21 http fetch GET 200 https://registry.npmjs.org/@testing-library%2fdom 242ms (cache miss)
+22 silly packumentCache full:https://registry.npmjs.org/@testing-library%2fdom set size:undefined disposed:false
+23 silly placeDep ROOT @testing-library/dom@10.4.2 OK for: @testing-library/user-event@13.5.0 want: >=7.21.4
+24 silly fetch manifest typescript@>= 2.7
+25 silly packumentCache full:https://registry.npmjs.org/typescript cache-miss
+26 http fetch GET 200 https://registry.npmjs.org/typescript 497ms (cache miss)
+27 silly packumentCache full:https://registry.npmjs.org/typescript set size:undefined disposed:false
+28 silly placeDep ROOT typescript@7.0.2 OK for: fork-ts-checker-webpack-plugin@6.5.3 want: >= 2.7
+29 silly fetch manifest @typescript/typescript-aix-ppc64@7.0.2
+30 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-aix-ppc64 cache-miss
+31 silly fetch manifest @typescript/typescript-linux-arm@7.0.2
+32 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-arm cache-miss
+33 silly fetch manifest @typescript/typescript-linux-x64@7.0.2
+34 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-x64 cache-miss
+35 silly fetch manifest @typescript/typescript-sunos-x64@7.0.2
+36 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-sunos-x64 cache-miss
+37 silly fetch manifest @typescript/typescript-win32-x64@7.0.2
+38 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-win32-x64 cache-miss
+39 silly fetch manifest @typescript/typescript-darwin-x64@7.0.2
+40 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-darwin-x64 cache-miss
+41 silly fetch manifest @typescript/typescript-netbsd-x64@7.0.2
+42 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-netbsd-x64 cache-miss
+43 silly fetch manifest @typescript/typescript-freebsd-x64@7.0.2
+44 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-freebsd-x64 cache-miss
+45 silly fetch manifest @typescript/typescript-linux-arm64@7.0.2
+46 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-arm64 cache-miss
+47 silly fetch manifest @typescript/typescript-linux-ppc64@7.0.2
+48 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-ppc64 cache-miss
+49 silly fetch manifest @typescript/typescript-linux-s390x@7.0.2
+50 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-s390x cache-miss
+51 silly fetch manifest @typescript/typescript-openbsd-x64@7.0.2
+52 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-openbsd-x64 cache-miss
+53 silly fetch manifest @typescript/typescript-win32-arm64@7.0.2
+54 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-win32-arm64 cache-miss
+55 silly fetch manifest @typescript/typescript-darwin-arm64@7.0.2
+56 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-darwin-arm64 cache-miss
+57 silly fetch manifest @typescript/typescript-netbsd-arm64@7.0.2
+58 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-netbsd-arm64 cache-miss
+59 silly fetch manifest @typescript/typescript-freebsd-arm64@7.0.2
+60 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-freebsd-arm64 cache-miss
+61 silly fetch manifest @typescript/typescript-linux-loong64@7.0.2
+62 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-loong64 cache-miss
+63 silly fetch manifest @typescript/typescript-linux-riscv64@7.0.2
+64 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-riscv64 cache-miss
+65 silly fetch manifest @typescript/typescript-openbsd-arm64@7.0.2
+66 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-openbsd-arm64 cache-miss
+67 silly fetch manifest @typescript/typescript-linux-mips64el@7.0.2
+68 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-mips64el cache-miss
+69 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-aix-ppc64 122ms (cache miss)
+70 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-aix-ppc64 set size:undefined disposed:false
+71 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-freebsd-arm64 208ms (cache miss)
+72 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-freebsd-arm64 set size:undefined disposed:false
+73 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-loong64 295ms (cache miss)
+74 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-loong64 set size:undefined disposed:false
+75 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-ppc64 372ms (cache miss)
+76 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-ppc64 set size:undefined disposed:false
+77 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-s390x 394ms (cache miss)
+78 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-s390x set size:undefined disposed:false
+79 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-sunos-x64 401ms (cache miss)
+80 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-sunos-x64 set size:undefined disposed:false
+81 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-freebsd-x64 404ms (cache miss)
+82 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-freebsd-x64 set size:undefined disposed:false
+83 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-netbsd-arm64 404ms (cache miss)
+84 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-netbsd-arm64 set size:undefined disposed:false
+85 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-openbsd-x64 407ms (cache miss)
+86 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-openbsd-x64 set size:undefined disposed:false
+87 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-riscv64 412ms (cache miss)
+88 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-riscv64 set size:undefined disposed:false
+89 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-darwin-x64 421ms (cache miss)
+90 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-darwin-x64 set size:undefined disposed:false
+91 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-netbsd-x64 428ms (cache miss)
+92 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-netbsd-x64 set size:undefined disposed:false
+93 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-arm 437ms (cache miss)
+94 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-arm set size:undefined disposed:false
+95 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-win32-x64 440ms (cache miss)
+96 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-win32-x64 set size:undefined disposed:false
+97 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-x64 448ms (cache miss)
+98 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-x64 set size:undefined disposed:false
+99 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-win32-arm64 446ms (cache miss)
+100 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-win32-arm64 set size:undefined disposed:false
+101 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-darwin-arm64 452ms (cache miss)
+102 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-darwin-arm64 set size:undefined disposed:false
+103 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-mips64el 457ms (cache miss)
+104 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-mips64el set size:undefined disposed:false
+105 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-linux-arm64 472ms (cache miss)
+106 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-linux-arm64 set size:undefined disposed:false
+107 http fetch GET 200 https://registry.npmjs.org/@typescript%2ftypescript-openbsd-arm64 641ms (cache miss)
+108 silly packumentCache full:https://registry.npmjs.org/@typescript%2ftypescript-openbsd-arm64 set size:undefined disposed:false
+109 silly fetch manifest typescript@^3.2.1 || ^4
+110 silly packumentCache full:https://registry.npmjs.org/typescript cache-miss
+111 http cache https://registry.npmjs.org/typescript 64ms (cache hit)
+112 silly packumentCache full:https://registry.npmjs.org/typescript set size:15881990 disposed:false
+113 silly placeDep ROOT typescript@4.9.5 REPLACE for: react-scripts@5.0.1 want: ^3.2.1 || ^4
+114 silly fetch manifest react-native@*
+115 silly packumentCache full:https://registry.npmjs.org/react-native cache-miss
+116 http fetch GET 200 https://registry.npmjs.org/react-native 541ms (cache miss)
+117 silly packumentCache full:https://registry.npmjs.org/react-native set size:undefined disposed:false
+118 silly fetch manifest @types/react@^19.1.1
+119 silly packumentCache full:https://registry.npmjs.org/@types%2freact cache-miss
+120 http cache https://registry.npmjs.org/@types%2freact 19ms (cache hit)
+121 silly packumentCache full:https://registry.npmjs.org/@types%2freact set size:2642195 disposed:false
+122 silly fetch manifest react@^19.3.0
+123 silly packumentCache full:https://registry.npmjs.org/react cache-miss
+124 http fetch GET 200 https://registry.npmjs.org/react 33ms (cache stale)
+125 silly packumentCache full:https://registry.npmjs.org/react set size:7107539 disposed:false
+126 silly placeDep node_modules/pubnub react-native@0.88.1 OK for: react-native-url-polyfill@2.0.0 want: *
+127 silly placeDep node_modules/pubnub react@19.3.1 OK for: react-native@0.88.1 want: ^19.3.0
+128 silly placeDep node_modules/pubnub @types/react@19.3.0 OK for: react-native@0.88.1 want: ^19.1.1
+129 silly fetch manifest anser@^1.4.9
+130 silly packumentCache full:https://registry.npmjs.org/anser cache-miss
+131 silly fetch manifest yargs@^17.6.2
+132 silly packumentCache full:https://registry.npmjs.org/yargs cache-miss
+133 silly fetch manifest invariant@^2.2.4
+134 silly packumentCache full:https://registry.npmjs.org/invariant cache-miss
+135 silly fetch manifest scheduler@0.28.0
+136 silly packumentCache full:https://registry.npmjs.org/scheduler cache-miss
+137 silly fetch manifest nullthrows@^1.1.1
+138 silly packumentCache full:https://registry.npmjs.org/nullthrows cache-miss
+139 silly fetch manifest tinyglobby@^0.2.15
+140 silly packumentCache full:https://registry.npmjs.org/tinyglobby cache-miss
+141 silly fetch manifest flow-parser@0.327.0
+142 silly packumentCache full:https://registry.npmjs.org/flow-parser cache-miss
+143 silly fetch manifest memoize-one@^5.0.0
+144 silly packumentCache full:https://registry.npmjs.org/memoize-one cache-miss
+145 silly fetch manifest metro-runtime@^0.87.1
+146 silly packumentCache full:https://registry.npmjs.org/metro-runtime cache-miss
+147 silly fetch manifest pretty-format@^29.7.0
+148 silly packumentCache full:https://registry.npmjs.org/pretty-format cache-miss
+149 silly fetch manifest react-refresh@^0.14.0
+150 silly packumentCache full:https://registry.npmjs.org/react-refresh cache-miss
+151 silly fetch manifest hermes-compiler@260318099.0.5
+152 silly packumentCache full:https://registry.npmjs.org/hermes-compiler cache-miss
+153 silly fetch manifest metro-source-map@^0.87.1
+154 silly packumentCache full:https://registry.npmjs.org/metro-source-map cache-miss
+155 silly fetch manifest stacktrace-parser@^0.1.10
+156 silly packumentCache full:https://registry.npmjs.org/stacktrace-parser cache-miss
+157 silly fetch manifest flow-enums-runtime@^0.0.6
+158 silly packumentCache full:https://registry.npmjs.org/flow-enums-runtime cache-miss
+159 silly fetch manifest react-devtools-core@^6.1.5
+160 silly packumentCache full:https://registry.npmjs.org/react-devtools-core cache-miss
+161 silly fetch manifest regenerator-runtime@^0.13.2
+162 silly packumentCache full:https://registry.npmjs.org/regenerator-runtime cache-miss
+163 silly fetch manifest @react-native/codegen@0.88.1
+164 silly packumentCache full:https://registry.npmjs.org/@react-native%2fcodegen cache-miss
+165 silly fetch manifest @react-native/asset-utils@0.88.1
+166 silly packumentCache full:https://registry.npmjs.org/@react-native%2fasset-utils cache-miss
+167 silly fetch manifest @react-native/gradle-plugin@0.88.1
+168 silly packumentCache full:https://registry.npmjs.org/@react-native%2fgradle-plugin cache-miss
+169 silly fetch manifest @react-native/normalize-colors@0.88.1
+170 silly packumentCache full:https://registry.npmjs.org/@react-native%2fnormalize-colors cache-miss
+171 silly fetch manifest @react-native/virtualized-lists@0.88.1
+172 silly packumentCache full:https://registry.npmjs.org/@react-native%2fvirtualized-lists cache-miss
+173 silly fetch manifest @react-native/community-cli-plugin@0.88.1
+174 silly packumentCache full:https://registry.npmjs.org/@react-native%2fcommunity-cli-plugin cache-miss
+175 http fetch GET 200 https://registry.npmjs.org/invariant 146ms (cache miss)
+176 silly packumentCache full:https://registry.npmjs.org/invariant set size:undefined disposed:false
+177 http fetch GET 200 https://registry.npmjs.org/tinyglobby 146ms (cache miss)
+178 silly packumentCache full:https://registry.npmjs.org/tinyglobby set size:undefined disposed:false
+179 http fetch GET 200 https://registry.npmjs.org/nullthrows 150ms (cache miss)
+180 silly packumentCache full:https://registry.npmjs.org/nullthrows set size:undefined disposed:false
+181 http fetch GET 200 https://registry.npmjs.org/regenerator-runtime 146ms (cache miss)
+182 silly packumentCache full:https://registry.npmjs.org/regenerator-runtime set size:undefined disposed:false
+183 http fetch GET 200 https://registry.npmjs.org/anser 162ms (cache miss)
+184 silly packumentCache full:https://registry.npmjs.org/anser set size:undefined disposed:false
+185 http fetch GET 200 https://registry.npmjs.org/memoize-one 171ms (cache miss)
+186 silly packumentCache full:https://registry.npmjs.org/memoize-one set size:undefined disposed:false
+187 http fetch GET 200 https://registry.npmjs.org/flow-enums-runtime 256ms (cache miss)
+188 silly packumentCache full:https://registry.npmjs.org/flow-enums-runtime set size:undefined disposed:false
+189 http fetch GET 200 https://registry.npmjs.org/metro-source-map 293ms (cache miss)
+190 silly packumentCache full:https://registry.npmjs.org/metro-source-map set size:undefined disposed:false
+191 http fetch GET 200 https://registry.npmjs.org/stacktrace-parser 325ms (cache miss)
+192 silly packumentCache full:https://registry.npmjs.org/stacktrace-parser set size:undefined disposed:false
+193 http fetch GET 200 https://registry.npmjs.org/pretty-format 372ms (cache miss)
+194 silly packumentCache full:https://registry.npmjs.org/pretty-format set size:undefined disposed:false
+195 http fetch GET 200 https://registry.npmjs.org/hermes-compiler 386ms (cache miss)
+196 silly packumentCache full:https://registry.npmjs.org/hermes-compiler set size:undefined disposed:false
+197 http fetch GET 200 https://registry.npmjs.org/@react-native%2fasset-utils 388ms (cache miss)
+198 silly packumentCache full:https://registry.npmjs.org/@react-native%2fasset-utils set size:undefined disposed:false
+199 http fetch GET 200 https://registry.npmjs.org/react-devtools-core 470ms (cache miss)
+200 silly packumentCache full:https://registry.npmjs.org/react-devtools-core set size:undefined disposed:false
+201 http fetch GET 200 https://registry.npmjs.org/flow-parser 480ms (cache miss)
+202 silly packumentCache full:https://registry.npmjs.org/flow-parser set size:undefined disposed:false
+203 http fetch GET 200 https://registry.npmjs.org/metro-runtime 498ms (cache miss)
+204 silly packumentCache full:https://registry.npmjs.org/metro-runtime set size:undefined disposed:false
+205 http fetch GET 200 https://registry.npmjs.org/yargs 508ms (cache miss)
+206 silly packumentCache full:https://registry.npmjs.org/yargs set size:undefined disposed:false
+207 http fetch GET 200 https://registry.npmjs.org/@react-native%2fnormalize-colors 614ms (cache miss)
+208 silly packumentCache full:https://registry.npmjs.org/@react-native%2fnormalize-colors set size:undefined disposed:false
+209 http fetch GET 200 https://registry.npmjs.org/@react-native%2fgradle-plugin 634ms (cache miss)
+210 silly packumentCache full:https://registry.npmjs.org/@react-native%2fgradle-plugin set size:undefined disposed:false
+211 http fetch GET 200 https://registry.npmjs.org/@react-native%2fvirtualized-lists 681ms (cache miss)
+212 silly packumentCache full:https://registry.npmjs.org/@react-native%2fvirtualized-lists set size:undefined disposed:false
+213 http fetch GET 200 https://registry.npmjs.org/@react-native%2fcommunity-cli-plugin 725ms (cache miss)
+214 silly packumentCache full:https://registry.npmjs.org/@react-native%2fcommunity-cli-plugin set size:undefined disposed:false
+215 http fetch GET 200 https://registry.npmjs.org/@react-native%2fcodegen 771ms (cache miss)
+216 silly packumentCache full:https://registry.npmjs.org/@react-native%2fcodegen set size:undefined disposed:false
+217 http fetch GET 200 https://registry.npmjs.org/scheduler 881ms (cache miss)
+218 silly packumentCache full:https://registry.npmjs.org/scheduler set size:undefined disposed:false
+219 http fetch GET 200 https://registry.npmjs.org/react-refresh 929ms (cache miss)
+220 silly packumentCache full:https://registry.npmjs.org/react-refresh set size:undefined disposed:false
+221 silly fetch manifest react-native@0.88.1
+222 silly packumentCache full:https://registry.npmjs.org/react-native cache-miss
+223 http cache https://registry.npmjs.org/react-native 62ms (cache hit)
+224 silly packumentCache full:https://registry.npmjs.org/react-native set size:16090612 disposed:false
+225 silly fetch manifest @react-native-community/cli@*
+226 silly packumentCache full:https://registry.npmjs.org/@react-native-community%2fcli cache-miss
+227 http fetch GET 200 https://registry.npmjs.org/@react-native-community%2fcli 468ms (cache miss)
+228 silly packumentCache full:https://registry.npmjs.org/@react-native-community%2fcli set size:undefined disposed:false
+229 silly fetch manifest @react-native/metro-config@0.88.1
+230 silly packumentCache full:https://registry.npmjs.org/@react-native%2fmetro-config cache-miss
+231 http fetch GET 200 https://registry.npmjs.org/@react-native%2fmetro-config 576ms (cache miss)
+232 silly packumentCache full:https://registry.npmjs.org/@react-native%2fmetro-config set size:undefined disposed:false
+233 silly placeDep ROOT @react-native/asset-utils@0.88.1 OK for: react-native@0.88.1 want: 0.88.1
+234 silly placeDep ROOT @react-native/codegen@0.88.1 OK for: react-native@0.88.1 want: 0.88.1
+235 silly placeDep ROOT @react-native/community-cli-plugin@0.88.1 OK for: react-native@0.88.1 want: 0.88.1
+236 silly placeDep ROOT @react-native/gradle-plugin@0.88.1 OK for: react-native@0.88.1 want: 0.88.1
+237 silly placeDep ROOT @react-native/normalize-colors@0.88.1 OK for: react-native@0.88.1 want: 0.88.1
+238 silly placeDep node_modules/pubnub @react-native/virtualized-lists@0.88.1 OK for: react-native@0.88.1 want: 0.88.1
+239 silly placeDep ROOT anser@1.4.10 OK for: react-native@0.88.1 want: ^1.4.9
+240 silly placeDep ROOT flow-enums-runtime@0.0.6 OK for: react-native@0.88.1 want: ^0.0.6
+241 silly placeDep ROOT flow-parser@0.327.0 OK for: react-native@0.88.1 want: 0.327.0
+242 silly placeDep ROOT hermes-compiler@260318099.0.5 OK for: react-native@0.88.1 want: 260318099.0.5
+243 silly placeDep ROOT invariant@2.2.4 OK for: react-native@0.88.1 want: ^2.2.4
+244 silly placeDep ROOT memoize-one@5.2.1 OK for: react-native@0.88.1 want: ^5.0.0
+245 silly placeDep ROOT metro-runtime@0.87.2 OK for: react-native@0.88.1 want: ^0.87.1
+246 silly placeDep ROOT metro-source-map@0.87.2 OK for: react-native@0.88.1 want: ^0.87.1
+247 silly placeDep ROOT nullthrows@1.1.1 OK for: react-native@0.88.1 want: ^1.1.1
+248 silly placeDep node_modules/pubnub pretty-format@29.7.0 OK for: react-native@0.88.1 want: ^29.7.0
+249 silly placeDep ROOT react-devtools-core@6.1.5 OK for: react-native@0.88.1 want: ^6.1.5
+250 silly placeDep node_modules/pubnub react-refresh@0.14.2 OK for: react-native@0.88.1 want: ^0.14.0
+251 silly placeDep node_modules/pubnub regenerator-runtime@0.13.11 OK for: react-native@0.88.1 want: ^0.13.2
+252 silly placeDep node_modules/pubnub scheduler@0.28.0 OK for: react-native@0.88.1 want: 0.28.0
+253 silly placeDep ROOT stacktrace-parser@0.1.11 OK for: react-native@0.88.1 want: ^0.1.10
+254 silly placeDep ROOT tinyglobby@0.2.17 OK for: react-native@0.88.1 want: ^0.2.15
+255 silly placeDep node_modules/pubnub yargs@17.7.3 OK for: react-native@0.88.1 want: ^17.6.2
+256 silly fetch manifest @babel/parser@^7.29.0
+257 silly packumentCache full:https://registry.npmjs.org/@babel%2fparser cache-miss
+258 silly fetch manifest metro@^0.87.1
+259 silly packumentCache full:https://registry.npmjs.org/metro cache-miss
+260 silly fetch manifest commander@^12.0.0
+261 silly packumentCache full:https://registry.npmjs.org/commander cache-miss
+262 silly fetch manifest @react-native/dev-middleware@0.88.1
+263 silly packumentCache full:https://registry.npmjs.org/@react-native%2fdev-middleware cache-miss
+264 silly fetch manifest flow-estree@0.327.0
+265 silly packumentCache full:https://registry.npmjs.org/flow-estree cache-miss
+266 silly fetch manifest ob1@0.87.2
+267 silly packumentCache full:https://registry.npmjs.org/ob1 cache-miss
+268 silly fetch manifest source-map@^0.5.6
+269 silly packumentCache full:https://registry.npmjs.org/source-map cache-miss
+270 silly fetch manifest @babel/types@^7.29.8
+271 silly packumentCache full:https://registry.npmjs.org/@babel%2ftypes cache-miss
+272 silly fetch manifest @babel/traverse@^7.29.0
+273 silly packumentCache full:https://registry.npmjs.org/@babel%2ftraverse cache-miss
+274 silly fetch manifest metro-symbolicate@0.87.2
+275 silly packumentCache full:https://registry.npmjs.org/metro-symbolicate cache-miss
+276 silly fetch manifest react-is@^18.0.0
+277 silly packumentCache full:https://registry.npmjs.org/react-is cache-miss
+278 silly fetch manifest ansi-styles@^5.0.0
+279 silly packumentCache full:https://registry.npmjs.org/ansi-styles cache-miss
+280 silly fetch manifest type-fest@^0.7.1
+281 silly packumentCache full:https://registry.npmjs.org/type-fest cache-miss
+282 silly fetch manifest fdir@^6.5.0
+283 silly packumentCache full:https://registry.npmjs.org/fdir cache-miss
+284 silly fetch manifest picomatch@^4.0.4
+285 silly packumentCache full:https://registry.npmjs.org/picomatch cache-miss
+286 silly fetch manifest cliui@^8.0.1
+287 silly packumentCache full:https://registry.npmjs.org/cliui cache-miss
+288 silly fetch manifest yargs-parser@^21.1.1
+289 silly packumentCache full:https://registry.npmjs.org/yargs-parser cache-miss
+290 http fetch GET 200 https://registry.npmjs.org/flow-estree 155ms (cache miss)
+291 silly packumentCache full:https://registry.npmjs.org/flow-estree set size:undefined disposed:false
+292 http fetch GET 200 https://registry.npmjs.org/ansi-styles 164ms (cache miss)
+293 silly packumentCache full:https://registry.npmjs.org/ansi-styles set size:undefined disposed:false
+294 http fetch GET 200 https://registry.npmjs.org/cliui 168ms (cache miss)
+295 silly packumentCache full:https://registry.npmjs.org/cliui set size:undefined disposed:false
+296 http fetch GET 200 https://registry.npmjs.org/fdir 181ms (cache miss)
+297 silly packumentCache full:https://registry.npmjs.org/fdir set size:undefined disposed:false
+298 http fetch GET 200 https://registry.npmjs.org/source-map 205ms (cache miss)
+299 silly packumentCache full:https://registry.npmjs.org/source-map set size:undefined disposed:false
+300 http fetch GET 200 https://registry.npmjs.org/yargs-parser 212ms (cache miss)
+301 silly packumentCache full:https://registry.npmjs.org/yargs-parser set size:undefined disposed:false
+302 http fetch GET 200 https://registry.npmjs.org/commander 240ms (cache miss)
+303 silly packumentCache full:https://registry.npmjs.org/commander set size:undefined disposed:false
+304 http fetch GET 200 https://registry.npmjs.org/@babel%2ftypes 262ms (cache miss)
+305 silly packumentCache full:https://registry.npmjs.org/@babel%2ftypes set size:undefined disposed:false
+306 http fetch GET 200 https://registry.npmjs.org/type-fest 273ms (cache miss)
+307 silly packumentCache full:https://registry.npmjs.org/type-fest set size:undefined disposed:false
+308 http fetch GET 200 https://registry.npmjs.org/picomatch 284ms (cache miss)
+309 silly packumentCache full:https://registry.npmjs.org/picomatch set size:undefined disposed:false
+310 http fetch GET 200 https://registry.npmjs.org/@babel%2ftraverse 291ms (cache miss)
+311 silly packumentCache full:https://registry.npmjs.org/@babel%2ftraverse set size:undefined disposed:false
+312 http fetch GET 200 https://registry.npmjs.org/ob1 304ms (cache miss)
+313 silly packumentCache full:https://registry.npmjs.org/ob1 set size:undefined disposed:false
+314 http fetch GET 200 https://registry.npmjs.org/metro-symbolicate 307ms (cache miss)
+315 silly packumentCache full:https://registry.npmjs.org/metro-symbolicate set size:undefined disposed:false
+316 http fetch GET 200 https://registry.npmjs.org/@babel%2fparser 322ms (cache miss)
+317 silly packumentCache full:https://registry.npmjs.org/@babel%2fparser set size:undefined disposed:false
+318 http fetch GET 200 https://registry.npmjs.org/metro 338ms (cache miss)
+319 silly packumentCache full:https://registry.npmjs.org/metro set size:undefined disposed:false
+320 http fetch GET 200 https://registry.npmjs.org/react-is 444ms (cache miss)
+321 silly packumentCache full:https://registry.npmjs.org/react-is set size:undefined disposed:false
+322 http fetch GET 200 https://registry.npmjs.org/@react-native%2fdev-middleware 529ms (cache miss)
+323 silly packumentCache full:https://registry.npmjs.org/@react-native%2fdev-middleware set size:undefined disposed:false
+324 silly placeDep ROOT @babel/parser@7.29.12 REPLACE for: @react-native/codegen@0.88.1 want: ^7.29.0
+325 silly placeDep node_modules/@react-native/codegen yargs@17.7.3 OK for: @react-native/codegen@0.88.1 want: ^17.6.2
+326 silly fetch manifest @babel/types@^7.29.11
+327 silly packumentCache full:https://registry.npmjs.org/@babel%2ftypes cache-miss
+328 http cache https://registry.npmjs.org/@babel%2ftypes 12ms (cache hit)
+329 silly packumentCache full:https://registry.npmjs.org/@babel%2ftypes set size:516825 disposed:false
+330 silly placeDep ROOT @babel/types@7.29.11 REPLACE for: @babel/parser@7.29.12 want: ^7.29.11
+331 silly fetch manifest @babel/helper-string-parser@^7.29.11
+332 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-string-parser cache-miss
+333 silly fetch manifest @babel/helper-validator-identifier@^7.29.7
+334 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-validator-identifier cache-miss
+335 http fetch GET 200 https://registry.npmjs.org/@babel%2fhelper-string-parser 102ms (cache miss)
+336 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-string-parser set size:undefined disposed:false
+337 http fetch GET 200 https://registry.npmjs.org/@babel%2fhelper-validator-identifier 104ms (cache miss)
+338 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-validator-identifier set size:undefined disposed:false
+339 silly placeDep ROOT @babel/helper-string-parser@7.29.11 OK for: @babel/types@7.29.11 want: ^7.29.11
+340 silly placeDep ROOT @babel/helper-validator-identifier@7.29.7 REPLACE for: @babel/types@7.29.11 want: ^7.29.7
+341 silly placeDep ROOT @react-native/dev-middleware@0.88.1 OK for: @react-native/community-cli-plugin@0.88.1 want: 0.88.1
+342 silly placeDep node_modules/@react-native/community-cli-plugin commander@12.1.0 OK for: @react-native/community-cli-plugin@0.88.1 want: ^12.0.0
+343 silly placeDep ROOT metro@0.87.2 OK for: @react-native/community-cli-plugin@0.88.1 want: ^0.87.1
+344 silly fetch manifest connect@^3.6.5
+345 silly packumentCache full:https://registry.npmjs.org/connect cache-miss
+346 silly fetch manifest @isaacs/ttlcache@^1.4.1
+347 silly packumentCache full:https://registry.npmjs.org/@isaacs%2fttlcache cache-miss
+348 silly fetch manifest @react-native/debugger-shell@0.88.1
+349 silly packumentCache full:https://registry.npmjs.org/@react-native%2fdebugger-shell cache-miss
+350 silly fetch manifest @react-native/debugger-frontend@0.88.1
+351 silly packumentCache full:https://registry.npmjs.org/@react-native%2fdebugger-frontend cache-miss
+352 silly fetch manifest throat@^5.0.0
+353 silly packumentCache full:https://registry.npmjs.org/throat cache-miss
+354 silly fetch manifest accepts@^2.0.0
+355 silly packumentCache full:https://registry.npmjs.org/accepts cache-miss
+356 silly fetch manifest connect@^3.6.5
+357 silly packumentCache full:https://registry.npmjs.org/connect cache-miss
+358 silly fetch manifest metro-core@0.87.2
+359 silly packumentCache full:https://registry.npmjs.org/metro-core cache-miss
+360 silly fetch manifest mime-types@^3.0.1
+361 silly packumentCache full:https://registry.npmjs.org/mime-types cache-miss
+362 silly fetch manifest flow-parser@0.336.0
+363 silly packumentCache full:https://registry.npmjs.org/flow-parser cache-miss
+364 silly fetch manifest jest-worker@^29.7.0
+365 silly packumentCache full:https://registry.npmjs.org/jest-worker cache-miss
+366 silly fetch manifest metro-cache@0.87.2
+367 silly packumentCache full:https://registry.npmjs.org/metro-cache cache-miss
+368 silly fetch manifest jsc-safe-url@^0.2.2
+369 silly packumentCache full:https://registry.npmjs.org/jsc-safe-url cache-miss
+370 silly fetch manifest metro-config@0.87.2
+371 silly packumentCache full:https://registry.npmjs.org/metro-config cache-miss
+372 silly fetch manifest metro-file-map@0.87.2
+373 silly packumentCache full:https://registry.npmjs.org/metro-file-map cache-miss
+374 silly fetch manifest metro-resolver@0.87.2
+375 silly packumentCache full:https://registry.npmjs.org/metro-resolver cache-miss
+376 silly fetch manifest @babel/template@^7.28.6
+377 silly packumentCache full:https://registry.npmjs.org/@babel%2ftemplate cache-miss
+378 silly fetch manifest lodash.throttle@^4.1.1
+379 silly packumentCache full:https://registry.npmjs.org/lodash.throttle cache-miss
+380 silly fetch manifest metro-cache-key@0.87.2
+381 silly packumentCache full:https://registry.npmjs.org/metro-cache-key cache-miss
+382 silly fetch manifest serialize-error@^2.1.0
+383 silly packumentCache full:https://registry.npmjs.org/serialize-error cache-miss
+384 silly fetch manifest @babel/generator@^7.29.1
+385 silly packumentCache full:https://registry.npmjs.org/@babel%2fgenerator cache-miss
+386 silly fetch manifest @babel/code-frame@^7.29.0
+387 silly packumentCache full:https://registry.npmjs.org/@babel%2fcode-frame cache-miss
+388 silly fetch manifest metro-transform-worker@0.87.2
+389 silly packumentCache full:https://registry.npmjs.org/metro-transform-worker cache-miss
+390 silly fetch manifest metro-babel-transformer@0.87.2
+391 silly packumentCache full:https://registry.npmjs.org/metro-babel-transformer cache-miss
+392 silly fetch manifest metro-transform-plugins@0.87.2
+393 silly packumentCache full:https://registry.npmjs.org/metro-transform-plugins cache-miss
+394 http cache https://registry.npmjs.org/flow-parser 43ms (cache hit)
+395 silly packumentCache full:https://registry.npmjs.org/flow-parser set size:985823 disposed:false
+396 http fetch GET 200 https://registry.npmjs.org/jsc-safe-url 179ms (cache miss)
+397 silly packumentCache full:https://registry.npmjs.org/jsc-safe-url set size:undefined disposed:false
+398 http fetch GET 200 https://registry.npmjs.org/throat 184ms (cache miss)
+399 silly packumentCache full:https://registry.npmjs.org/throat set size:undefined disposed:false
+400 http fetch GET 200 https://registry.npmjs.org/@isaacs%2fttlcache 196ms (cache miss)
+401 silly packumentCache full:https://registry.npmjs.org/@isaacs%2fttlcache set size:undefined disposed:false
+402 http fetch GET 200 https://registry.npmjs.org/accepts 196ms (cache miss)
+403 silly packumentCache full:https://registry.npmjs.org/accepts set size:undefined disposed:false
+404 http fetch GET 200 https://registry.npmjs.org/mime-types 207ms (cache miss)
+405 silly packumentCache full:https://registry.npmjs.org/mime-types set size:undefined disposed:false
+406 http fetch GET 200 https://registry.npmjs.org/connect 248ms (cache miss)
+407 silly packumentCache full:https://registry.npmjs.org/connect set size:undefined disposed:false
+408 http fetch GET 200 https://registry.npmjs.org/metro-file-map 258ms (cache miss)
+409 silly packumentCache full:https://registry.npmjs.org/metro-file-map set size:undefined disposed:false
+410 http fetch GET 200 https://registry.npmjs.org/lodash.throttle 276ms (cache miss)
+411 silly packumentCache full:https://registry.npmjs.org/lodash.throttle set size:undefined disposed:false
+412 http fetch GET 200 https://registry.npmjs.org/metro-resolver 280ms (cache miss)
+413 silly packumentCache full:https://registry.npmjs.org/metro-resolver set size:undefined disposed:false
+414 http fetch GET 200 https://registry.npmjs.org/metro-cache 292ms (cache miss)
+415 silly packumentCache full:https://registry.npmjs.org/metro-cache set size:undefined disposed:false
+416 http fetch GET 200 https://registry.npmjs.org/connect 305ms (cache miss)
+417 silly packumentCache full:https://registry.npmjs.org/connect set size:undefined disposed:false
+418 http fetch GET 200 https://registry.npmjs.org/serialize-error 303ms (cache miss)
+419 silly packumentCache full:https://registry.npmjs.org/serialize-error set size:undefined disposed:false
+420 http fetch GET 200 https://registry.npmjs.org/metro-core 313ms (cache miss)
+421 silly packumentCache full:https://registry.npmjs.org/metro-core set size:undefined disposed:false
+422 http fetch GET 200 https://registry.npmjs.org/jest-worker 321ms (cache miss)
+423 silly packumentCache full:https://registry.npmjs.org/jest-worker set size:undefined disposed:false
+424 http fetch GET 200 https://registry.npmjs.org/@babel%2ftemplate 331ms (cache miss)
+425 silly packumentCache full:https://registry.npmjs.org/@babel%2ftemplate set size:undefined disposed:false
+426 http fetch GET 200 https://registry.npmjs.org/metro-cache-key 335ms (cache miss)
+427 silly packumentCache full:https://registry.npmjs.org/metro-cache-key set size:undefined disposed:false
+428 http fetch GET 200 https://registry.npmjs.org/metro-transform-plugins 339ms (cache miss)
+429 silly packumentCache full:https://registry.npmjs.org/metro-transform-plugins set size:undefined disposed:false
+430 http fetch GET 200 https://registry.npmjs.org/metro-transform-worker 345ms (cache miss)
+431 silly packumentCache full:https://registry.npmjs.org/metro-transform-worker set size:undefined disposed:false
+432 http fetch GET 200 https://registry.npmjs.org/metro-babel-transformer 350ms (cache miss)
+433 silly packumentCache full:https://registry.npmjs.org/metro-babel-transformer set size:undefined disposed:false
+434 http fetch GET 200 https://registry.npmjs.org/metro-config 360ms (cache miss)
+435 silly packumentCache full:https://registry.npmjs.org/metro-config set size:undefined disposed:false
+436 http fetch GET 200 https://registry.npmjs.org/@babel%2fcode-frame 369ms (cache miss)
+437 silly packumentCache full:https://registry.npmjs.org/@babel%2fcode-frame set size:undefined disposed:false
+438 http fetch GET 200 https://registry.npmjs.org/@babel%2fgenerator 375ms (cache miss)
+439 silly packumentCache full:https://registry.npmjs.org/@babel%2fgenerator set size:undefined disposed:false
+440 http fetch GET 200 https://registry.npmjs.org/@react-native%2fdebugger-shell 394ms (cache miss)
+441 silly packumentCache full:https://registry.npmjs.org/@react-native%2fdebugger-shell set size:undefined disposed:false
+442 http fetch GET 200 https://registry.npmjs.org/@react-native%2fdebugger-frontend 427ms (cache miss)
+443 silly packumentCache full:https://registry.npmjs.org/@react-native%2fdebugger-frontend set size:undefined disposed:false
+444 silly placeDep ROOT @isaacs/ttlcache@1.4.1 OK for: @react-native/dev-middleware@0.88.1 want: ^1.4.1
+445 silly placeDep ROOT @react-native/debugger-frontend@0.88.1 OK for: @react-native/dev-middleware@0.88.1 want: 0.88.1
+446 silly placeDep ROOT @react-native/debugger-shell@0.88.1 OK for: @react-native/dev-middleware@0.88.1 want: 0.88.1
+447 silly placeDep ROOT connect@3.7.0 OK for: @react-native/dev-middleware@0.88.1 want: ^3.6.5
+448 silly fetch manifest fb-dotslash@0.5.8
+449 silly packumentCache full:https://registry.npmjs.org/fb-dotslash cache-miss
+450 silly fetch manifest debug@2.6.9
+451 silly packumentCache full:https://registry.npmjs.org/debug cache-miss
+452 silly fetch manifest finalhandler@1.1.2
+453 silly packumentCache full:https://registry.npmjs.org/finalhandler cache-miss
+454 http fetch GET 200 https://registry.npmjs.org/fb-dotslash 105ms (cache miss)
+455 silly packumentCache full:https://registry.npmjs.org/fb-dotslash set size:undefined disposed:false
+456 http fetch GET 200 https://registry.npmjs.org/finalhandler 108ms (cache miss)
+457 silly packumentCache full:https://registry.npmjs.org/finalhandler set size:undefined disposed:false
+458 http fetch GET 200 https://registry.npmjs.org/debug 111ms (cache miss)
+459 silly packumentCache full:https://registry.npmjs.org/debug set size:undefined disposed:false
+460 silly placeDep ROOT fb-dotslash@0.5.8 OK for: @react-native/debugger-shell@0.88.1 want: 0.5.8
+461 silly placeDep node_modules/connect debug@2.6.9 OK for: connect@3.7.0 want: 2.6.9
+462 silly placeDep node_modules/connect finalhandler@1.1.2 OK for: connect@3.7.0 want: 1.1.2
+463 silly fetch manifest ms@2.0.0
+464 silly packumentCache full:https://registry.npmjs.org/ms cache-miss
+465 silly fetch manifest statuses@~1.5.0
+466 silly packumentCache full:https://registry.npmjs.org/statuses cache-miss
+467 silly fetch manifest encodeurl@~1.0.2
+468 silly packumentCache full:https://registry.npmjs.org/encodeurl cache-miss
+469 silly fetch manifest on-finished@~2.3.0
+470 silly packumentCache full:https://registry.npmjs.org/on-finished cache-miss
+471 http fetch GET 200 https://registry.npmjs.org/statuses 95ms (cache miss)
+472 silly packumentCache full:https://registry.npmjs.org/statuses set size:undefined disposed:false
+473 http fetch GET 200 https://registry.npmjs.org/encodeurl 96ms (cache miss)
+474 silly packumentCache full:https://registry.npmjs.org/encodeurl set size:undefined disposed:false
+475 http fetch GET 200 https://registry.npmjs.org/on-finished 102ms (cache miss)
+476 silly packumentCache full:https://registry.npmjs.org/on-finished set size:undefined disposed:false
+477 http fetch GET 200 https://registry.npmjs.org/ms 105ms (cache miss)
+478 silly packumentCache full:https://registry.npmjs.org/ms set size:undefined disposed:false
+479 silly placeDep ROOT flow-estree@0.327.0 OK for: flow-parser@0.327.0 want: 0.327.0
+480 silly placeDep ROOT @babel/code-frame@7.29.7 REPLACE for: metro@0.87.2 want: ^7.29.0
+481 silly placeDep ROOT @babel/generator@7.29.12 REPLACE for: metro@0.87.2 want: ^7.29.1
+482 silly placeDep ROOT @babel/template@7.29.7 REPLACE for: metro@0.87.2 want: ^7.28.6
+483 silly placeDep ROOT @babel/traverse@7.29.12 REPLACE for: metro@0.87.2 want: ^7.29.0
+484 silly placeDep node_modules/metro accepts@2.0.0 OK for: metro@0.87.2 want: ^2.0.0
+485 silly placeDep node_modules/metro flow-parser@0.336.0 OK for: metro@0.87.2 want: 0.336.0
+486 silly placeDep node_modules/metro jest-worker@29.7.0 OK for: metro@0.87.2 want: ^29.7.0
+487 silly placeDep ROOT jsc-safe-url@0.2.4 OK for: metro@0.87.2 want: ^0.2.2
+488 silly placeDep ROOT lodash.throttle@4.1.1 OK for: metro@0.87.2 want: ^4.1.1
+489 silly placeDep ROOT metro-babel-transformer@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+490 silly placeDep ROOT metro-cache@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+491 silly placeDep ROOT metro-cache-key@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+492 silly placeDep ROOT metro-config@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+493 silly placeDep ROOT metro-core@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+494 silly placeDep ROOT metro-file-map@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+495 silly placeDep ROOT metro-resolver@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+496 silly placeDep ROOT metro-symbolicate@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+497 silly placeDep ROOT metro-transform-plugins@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+498 silly placeDep ROOT metro-transform-worker@0.87.2 OK for: metro@0.87.2 want: 0.87.2
+499 silly placeDep node_modules/metro mime-types@3.0.2 OK for: metro@0.87.2 want: ^3.0.1
+500 silly placeDep ROOT serialize-error@2.1.0 OK for: metro@0.87.2 want: ^2.1.0
+501 silly placeDep node_modules/metro source-map@0.5.7 OK for: metro@0.87.2 want: ^0.5.6
+502 silly placeDep node_modules/metro throat@5.0.0 OK for: metro@0.87.2 want: ^5.0.0
+503 silly placeDep node_modules/metro yargs@17.7.3 OK for: metro@0.87.2 want: ^17.6.2
+504 silly fetch manifest @babel/helper-globals@^7.29.7
+505 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-globals cache-miss
+506 silly fetch manifest mime-types@^3.0.0
+507 silly packumentCache full:https://registry.npmjs.org/mime-types cache-miss
+508 silly fetch manifest negotiator@^1.0.0
+509 silly packumentCache full:https://registry.npmjs.org/negotiator cache-miss
+510 silly fetch manifest flow-estree@0.336.0
+511 silly packumentCache full:https://registry.npmjs.org/flow-estree cache-miss
+512 silly fetch manifest supports-color@^8.0.0
+513 silly packumentCache full:https://registry.npmjs.org/supports-color cache-miss
+514 silly fetch manifest https-proxy-agent@^7.0.5
+515 silly packumentCache full:https://registry.npmjs.org/https-proxy-agent cache-miss
+516 silly fetch manifest exponential-backoff@^3.1.1
+517 silly packumentCache full:https://registry.npmjs.org/exponential-backoff cache-miss
+518 silly fetch manifest jest-validate@^29.7.0
+519 silly packumentCache full:https://registry.npmjs.org/jest-validate cache-miss
+520 silly fetch manifest vlq@^1.0.0
+521 silly packumentCache full:https://registry.npmjs.org/vlq cache-miss
+522 silly fetch manifest metro-minify-terser@0.87.2
+523 silly packumentCache full:https://registry.npmjs.org/metro-minify-terser cache-miss
+524 silly fetch manifest mime-db@^1.54.0
+525 silly packumentCache full:https://registry.npmjs.org/mime-db cache-miss
+526 http cache https://registry.npmjs.org/mime-types 28ms (cache hit)
+527 silly packumentCache full:https://registry.npmjs.org/mime-types set size:139110 disposed:false
+528 http cache https://registry.npmjs.org/flow-estree 26ms (cache hit)
+529 silly packumentCache full:https://registry.npmjs.org/flow-estree set size:35900 disposed:false
+530 http fetch GET 200 https://registry.npmjs.org/vlq 108ms (cache miss)
+531 silly packumentCache full:https://registry.npmjs.org/vlq set size:undefined disposed:false
+532 http fetch GET 200 https://registry.npmjs.org/@babel%2fhelper-globals 118ms (cache miss)
+533 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-globals set size:undefined disposed:false
+534 http fetch GET 200 https://registry.npmjs.org/exponential-backoff 115ms (cache miss)
+535 silly packumentCache full:https://registry.npmjs.org/exponential-backoff set size:undefined disposed:false
+536 http fetch GET 200 https://registry.npmjs.org/https-proxy-agent 118ms (cache miss)
+537 silly packumentCache full:https://registry.npmjs.org/https-proxy-agent set size:undefined disposed:false
+538 http fetch GET 200 https://registry.npmjs.org/negotiator 126ms (cache miss)
+539 silly packumentCache full:https://registry.npmjs.org/negotiator set size:undefined disposed:false
+540 http fetch GET 200 https://registry.npmjs.org/supports-color 125ms (cache miss)
+541 silly packumentCache full:https://registry.npmjs.org/supports-color set size:undefined disposed:false
+542 http fetch GET 200 https://registry.npmjs.org/mime-db 127ms (cache miss)
+543 silly packumentCache full:https://registry.npmjs.org/mime-db set size:undefined disposed:false
+544 http fetch GET 200 https://registry.npmjs.org/jest-validate 141ms (cache miss)
+545 silly packumentCache full:https://registry.npmjs.org/jest-validate set size:undefined disposed:false
+546 http fetch GET 200 https://registry.npmjs.org/metro-minify-terser 210ms (cache miss)
+547 silly packumentCache full:https://registry.npmjs.org/metro-minify-terser set size:undefined disposed:false
+548 silly placeDep ROOT @babel/helper-globals@7.29.7 OK for: @babel/traverse@7.29.12 want: ^7.29.7
+549 silly placeDep node_modules/metro-babel-transformer flow-parser@0.336.0 OK for: metro-babel-transformer@0.87.2 want: 0.336.0
+550 silly placeDep ROOT exponential-backoff@3.1.3 OK for: metro-cache@0.87.2 want: ^3.1.1
+551 silly placeDep node_modules/metro-cache https-proxy-agent@7.0.6 OK for: metro-cache@0.87.2 want: ^7.0.5
+552 silly fetch manifest agent-base@^7.1.2
+553 silly packumentCache full:https://registry.npmjs.org/agent-base cache-miss
+554 http fetch GET 200 https://registry.npmjs.org/agent-base 99ms (cache miss)
+555 silly packumentCache full:https://registry.npmjs.org/agent-base set size:undefined disposed:false
+556 silly placeDep node_modules/metro-config jest-validate@29.7.0 OK for: metro-config@0.87.2 want: ^29.7.0
+557 silly placeDep node_modules/metro-file-map jest-worker@29.7.0 OK for: metro-file-map@0.87.2 want: ^29.7.0
+558 silly placeDep ROOT ob1@0.87.2 OK for: metro-source-map@0.87.2 want: 0.87.2
+559 silly placeDep node_modules/metro-source-map source-map@0.5.7 OK for: metro-source-map@0.87.2 want: ^0.5.6
+560 silly placeDep node_modules/metro-symbolicate source-map@0.5.7 OK for: metro-symbolicate@0.87.2 want: ^0.5.6
+561 silly placeDep ROOT vlq@1.0.1 OK for: metro-symbolicate@0.87.2 want: ^1.0.0
+562 silly placeDep ROOT metro-minify-terser@0.87.2 OK for: metro-transform-worker@0.87.2 want: 0.87.2
+563 silly placeDep node_modules/stacktrace-parser type-fest@0.7.1 OK for: stacktrace-parser@0.1.11 want: ^0.7.1
+564 silly placeDep node_modules/tinyglobby fdir@6.5.0 OK for: tinyglobby@0.2.17 want: ^6.5.0
+565 silly placeDep node_modules/tinyglobby picomatch@4.0.7 OK for: fdir@6.5.0 want: ^3 || ^4
+566 silly placeDep node_modules/@react-native/codegen cliui@8.0.1 OK for: yargs@17.7.3 want: ^8.0.1
+567 silly placeDep node_modules/@react-native/codegen yargs-parser@21.1.1 OK for: yargs@17.7.3 want: ^21.1.1
+568 silly placeDep node_modules/connect ms@2.0.0 OK for: debug@2.6.9 want: 2.0.0
+569 silly placeDep node_modules/connect encodeurl@1.0.2 OK for: finalhandler@1.1.2 want: ~1.0.2
+570 silly placeDep node_modules/connect on-finished@2.3.0 OK for: finalhandler@1.1.2 want: ~2.3.0
+571 silly placeDep node_modules/connect statuses@1.5.0 OK for: finalhandler@1.1.2 want: ~1.5.0
+572 silly placeDep node_modules/metro-babel-transformer flow-estree@0.336.0 OK for: flow-parser@0.336.0 want: 0.336.0
+573 silly placeDep node_modules/metro-cache agent-base@7.1.4 OK for: https-proxy-agent@7.0.6 want: ^7.1.2
+574 silly placeDep node_modules/metro-config pretty-format@29.7.0 OK for: jest-validate@29.7.0 want: ^29.7.0
+575 silly placeDep node_modules/metro-config ansi-styles@5.2.0 OK for: pretty-format@29.7.0 want: ^5.0.0
+576 silly placeDep node_modules/metro-config react-is@18.3.1 OK for: pretty-format@29.7.0 want: ^18.0.0
+577 silly placeDep node_modules/metro-file-map supports-color@8.1.1 OK for: jest-worker@29.7.0 want: ^8.0.0
+578 silly placeDep node_modules/metro negotiator@1.1.0 OK for: accepts@2.0.0 want: ^1.0.0
+579 silly fetch manifest content-type@^2.1.0
+580 silly packumentCache full:https://registry.npmjs.org/content-type cache-miss
+581 http fetch GET 200 https://registry.npmjs.org/content-type 93ms (cache miss)
+582 silly packumentCache full:https://registry.npmjs.org/content-type set size:undefined disposed:false
+583 silly placeDep node_modules/metro flow-estree@0.336.0 OK for: flow-parser@0.336.0 want: 0.336.0
+584 silly placeDep node_modules/metro supports-color@8.1.1 OK for: jest-worker@29.7.0 want: ^8.0.0
+585 silly placeDep node_modules/metro mime-db@1.54.0 OK for: mime-types@3.0.2 want: ^1.54.0
+586 silly placeDep node_modules/metro content-type@2.1.0 OK for: negotiator@1.1.0 want: ^2.1.0
+587 silly placeDep node_modules/metro cliui@8.0.1 OK for: yargs@17.7.3 want: ^8.0.1
+588 silly placeDep node_modules/metro yargs-parser@21.1.1 OK for: yargs@17.7.3 want: ^21.1.1
+589 silly placeDep node_modules/pubnub ansi-styles@5.2.0 OK for: pretty-format@29.7.0 want: ^5.0.0
+590 silly placeDep node_modules/pubnub react-is@18.3.1 OK for: pretty-format@29.7.0 want: ^18.0.0
+591 silly placeDep node_modules/pubnub cliui@8.0.1 OK for: yargs@17.7.3 want: ^8.0.1
+592 silly placeDep node_modules/pubnub yargs-parser@21.1.1 OK for: yargs@17.7.3 want: ^21.1.1
+593 verbose stack Error: 
+593 verbose stack `npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync. Please update your lock file with `npm install` before continuing.
+593 verbose stack
+593 verbose stack Missing: @fortawesome/fontawesome-svg-core@6.7.2 from lock file
+593 verbose stack Missing: @testing-library/dom@10.4.2 from lock file
+593 verbose stack Missing: typescript@4.9.5 from lock file
+593 verbose stack Missing: react-native@0.88.1 from lock file
+593 verbose stack Missing: react@19.3.1 from lock file
+593 verbose stack Missing: @types/react@19.3.0 from lock file
+593 verbose stack Missing: @react-native/asset-utils@0.88.1 from lock file
+593 verbose stack Missing: @react-native/codegen@0.88.1 from lock file
+593 verbose stack Missing: @react-native/community-cli-plugin@0.88.1 from lock file
+593 verbose stack Missing: @react-native/gradle-plugin@0.88.1 from lock file
+593 verbose stack Missing: @react-native/normalize-colors@0.88.1 from lock file
+593 verbose stack Missing: @react-native/virtualized-lists@0.88.1 from lock file
+593 verbose stack Missing: anser@1.4.10 from lock file
+593 verbose stack Missing: flow-enums-runtime@0.0.6 from lock file
+593 verbose stack Missing: flow-parser@0.327.0 from lock file
+593 verbose stack Missing: hermes-compiler@260318099.0.5 from lock file
+593 verbose stack Missing: invariant@2.2.4 from lock file
+593 verbose stack Missing: memoize-one@5.2.1 from lock file
+593 verbose stack Missing: metro-runtime@0.87.2 from lock file
+593 verbose stack Missing: metro-source-map@0.87.2 from lock file
+593 verbose stack Missing: nullthrows@1.1.1 from lock file
+593 verbose stack Missing: pretty-format@29.7.0 from lock file
+593 verbose stack Missing: react-devtools-core@6.1.5 from lock file
+593 verbose stack Missing: react-refresh@0.14.2 from lock file
+593 verbose stack Missing: regenerator-runtime@0.13.11 from lock file
+593 verbose stack Missing: scheduler@0.28.0 from lock file
+593 verbose stack Missing: stacktrace-parser@0.1.11 from lock file
+593 verbose stack Missing: tinyglobby@0.2.17 from lock file
+593 verbose stack Missing: yargs@17.7.3 from lock file
+593 verbose stack Invalid: lock file's @babel/parser@7.28.5 does not satisfy @babel/parser@7.29.12
+593 verbose stack Missing: yargs@17.7.3 from lock file
+593 verbose stack Invalid: lock file's @babel/types@7.28.5 does not satisfy @babel/types@7.29.11
+593 verbose stack Invalid: lock file's @babel/helper-string-parser@7.27.1 does not satisfy @babel/helper-string-parser@7.29.11
+593 verbose stack Invalid: lock file's @babel/helper-validator-identifier@7.28.5 does not satisfy @babel/helper-validator-identifier@7.29.7
+593 verbose stack Missing: @react-native/dev-middleware@0.88.1 from lock file
+593 verbose stack Missing: commander@12.1.0 from lock file
+593 verbose stack Missing: metro@0.87.2 from lock file
+593 verbose stack Missing: @isaacs/ttlcache@1.4.1 from lock file
+593 verbose stack Missing: @react-native/debugger-frontend@0.88.1 from lock file
+593 verbose stack Missing: @react-native/debugger-shell@0.88.1 from lock file
+593 verbose stack Missing: connect@3.7.0 from lock file
+593 verbose stack Missing: fb-dotslash@0.5.8 from lock file
+593 verbose stack Missing: debug@2.6.9 from lock file
+593 verbose stack Missing: finalhandler@1.1.2 from lock file
+593 verbose stack Missing: flow-estree@0.327.0 from lock file
+593 verbose stack Invalid: lock file's @babel/code-frame@7.27.1 does not satisfy @babel/code-frame@7.29.7
+593 verbose stack Invalid: lock file's @babel/generator@7.28.5 does not satisfy @babel/generator@7.29.12
+593 verbose stack Invalid: lock file's @babel/template@7.27.2 does not satisfy @babel/template@7.29.7
+593 verbose stack Invalid: lock file's @babel/traverse@7.25.6 does not satisfy @babel/traverse@7.29.12
+593 verbose stack Missing: accepts@2.0.0 from lock file
+593 verbose stack Missing: flow-parser@0.336.0 from lock file
+593 verbose stack Missing: jest-worker@29.7.0 from lock file
+593 verbose stack Missing: jsc-safe-url@0.2.4 from lock file
+593 verbose stack Missing: lodash.throttle@4.1.1 from lock file
+593 verbose stack Missing: metro-babel-transformer@0.87.2 from lock file
+593 verbose stack Missing: metro-cache@0.87.2 from lock file
+593 verbose stack Missing: metro-cache-key@0.87.2 from lock file
+593 verbose stack Missing: metro-config@0.87.2 from lock file
+593 verbose stack Missing: metro-core@0.87.2 from lock file
+593 verbose stack Missing: metro-file-map@0.87.2 from lock file
+593 verbose stack Missing: metro-resolver@0.87.2 from lock file
+593 verbose stack Missing: metro-symbolicate@0.87.2 from lock file
+593 verbose stack Missing: metro-transform-plugins@0.87.2 from lock file
+593 verbose stack Missing: metro-transform-worker@0.87.2 from lock file
+593 verbose stack Missing: mime-types@3.0.2 from lock file
+593 verbose stack Missing: serialize-error@2.1.0 from lock file
+593 verbose stack Missing: source-map@0.5.7 from lock file
+593 verbose stack Missing: throat@5.0.0 from lock file
+593 verbose stack Missing: yargs@17.7.3 from lock file
+593 verbose stack Missing: @babel/helper-globals@7.29.7 from lock file
+593 verbose stack Missing: flow-parser@0.336.0 from lock file
+593 verbose stack Missing: exponential-backoff@3.1.3 from lock file
+593 verbose stack Missing: https-proxy-agent@7.0.6 from lock file
+593 verbose stack Missing: jest-validate@29.7.0 from lock file
+593 verbose stack Missing: jest-worker@29.7.0 from lock file
+593 verbose stack Missing: ob1@0.87.2 from lock file
+593 verbose stack Missing: source-map@0.5.7 from lock file
+593 verbose stack Missing: source-map@0.5.7 from lock file
+593 verbose stack Missing: vlq@1.0.1 from lock file
+593 verbose stack Missing: metro-minify-terser@0.87.2 from lock file
+593 verbose stack Missing: type-fest@0.7.1 from lock file
+593 verbose stack Missing: fdir@6.5.0 from lock file
+593 verbose stack Missing: picomatch@4.0.7 from lock file
+593 verbose stack Missing: cliui@8.0.1 from lock file
+593 verbose stack Missing: yargs-parser@21.1.1 from lock file
+593 verbose stack Missing: ms@2.0.0 from lock file
+593 verbose stack Missing: encodeurl@1.0.2 from lock file
+593 verbose stack Missing: on-finished@2.3.0 from lock file
+593 verbose stack Missing: statuses@1.5.0 from lock file
+593 verbose stack Missing: flow-estree@0.336.0 from lock file
+593 verbose stack Missing: agent-base@7.1.4 from lock file
+593 verbose stack Missing: pretty-format@29.7.0 from lock file
+593 verbose stack Missing: ansi-styles@5.2.0 from lock file
+593 verbose stack Missing: react-is@18.3.1 from lock file
+593 verbose stack Missing: supports-color@8.1.1 from lock file
+593 verbose stack Missing: negotiator@1.1.0 from lock file
+593 verbose stack Missing: flow-estree@0.336.0 from lock file
+593 verbose stack Missing: supports-color@8.1.1 from lock file
+593 verbose stack Missing: mime-db@1.54.0 from lock file
+593 verbose stack Missing: content-type@2.1.0 from lock file
+593 verbose stack Missing: cliui@8.0.1 from lock file
+593 verbose stack Missing: yargs-parser@21.1.1 from lock file
+593 verbose stack Missing: ansi-styles@5.2.0 from lock file
+593 verbose stack Missing: react-is@18.3.1 from lock file
+593 verbose stack Missing: cliui@8.0.1 from lock file
+593 verbose stack Missing: yargs-parser@21.1.1 from lock file
+593 verbose stack
+593 verbose stack Clean install a project
+593 verbose stack
+593 verbose stack Usage:
+593 verbose stack npm ci
+593 verbose stack
+593 verbose stack Options:
+593 verbose stack [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+593 verbose stack [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+593 verbose stack [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+593 verbose stack [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+593 verbose stack [--no-bin-links] [--no-fund] [--dry-run]
+593 verbose stack [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+593 verbose stack [-ws|--workspaces] [--include-workspace-root] [--install-links]
+593 verbose stack
+593 verbose stack aliases: clean-install, ic, install-clean, isntall-clean
+593 verbose stack
+593 verbose stack Run "npm help ci" for more info
+593 verbose stack     at CI.usageError (C:\Program Files\nodejs\node_modules\npm\lib\base-cmd.js:111:26)
+593 verbose stack     at CI.exec (C:\Program Files\nodejs\node_modules\npm\lib\commands\ci.js:70:18)
+593 verbose stack     at async Npm.exec (C:\Program Files\nodejs\node_modules\npm\lib\npm.js:207:9)
+593 verbose stack     at async module.exports (C:\Program Files\nodejs\node_modules\npm\lib\cli\entry.js:74:5)
+594 error code EUSAGE
+595 error
+595 error `npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync. Please update your lock file with `npm install` before continuing.
+595 error
+595 error Missing: @fortawesome/fontawesome-svg-core@6.7.2 from lock file
+595 error Missing: @testing-library/dom@10.4.2 from lock file
+595 error Missing: typescript@4.9.5 from lock file
+595 error Missing: react-native@0.88.1 from lock file
+595 error Missing: react@19.3.1 from lock file
+595 error Missing: @types/react@19.3.0 from lock file
+595 error Missing: @react-native/asset-utils@0.88.1 from lock file
+595 error Missing: @react-native/codegen@0.88.1 from lock file
+595 error Missing: @react-native/community-cli-plugin@0.88.1 from lock file
+595 error Missing: @react-native/gradle-plugin@0.88.1 from lock file
+595 error Missing: @react-native/normalize-colors@0.88.1 from lock file
+595 error Missing: @react-native/virtualized-lists@0.88.1 from lock file
+595 error Missing: anser@1.4.10 from lock file
+595 error Missing: flow-enums-runtime@0.0.6 from lock file
+595 error Missing: flow-parser@0.327.0 from lock file
+595 error Missing: hermes-compiler@260318099.0.5 from lock file
+595 error Missing: invariant@2.2.4 from lock file
+595 error Missing: memoize-one@5.2.1 from lock file
+595 error Missing: metro-runtime@0.87.2 from lock file
+595 error Missing: metro-source-map@0.87.2 from lock file
+595 error Missing: nullthrows@1.1.1 from lock file
+595 error Missing: pretty-format@29.7.0 from lock file
+595 error Missing: react-devtools-core@6.1.5 from lock file
+595 error Missing: react-refresh@0.14.2 from lock file
+595 error Missing: regenerator-runtime@0.13.11 from lock file
+595 error Missing: scheduler@0.28.0 from lock file
+595 error Missing: stacktrace-parser@0.1.11 from lock file
+595 error Missing: tinyglobby@0.2.17 from lock file
+595 error Missing: yargs@17.7.3 from lock file
+595 error Invalid: lock file's @babel/parser@7.28.5 does not satisfy @babel/parser@7.29.12
+595 error Missing: yargs@17.7.3 from lock file
+595 error Invalid: lock file's @babel/types@7.28.5 does not satisfy @babel/types@7.29.11
+595 error Invalid: lock file's @babel/helper-string-parser@7.27.1 does not satisfy @babel/helper-string-parser@7.29.11
+595 error Invalid: lock file's @babel/helper-validator-identifier@7.28.5 does not satisfy @babel/helper-validator-identifier@7.29.7
+595 error Missing: @react-native/dev-middleware@0.88.1 from lock file
+595 error Missing: commander@12.1.0 from lock file
+595 error Missing: metro@0.87.2 from lock file
+595 error Missing: @isaacs/ttlcache@1.4.1 from lock file
+595 error Missing: @react-native/debugger-frontend@0.88.1 from lock file
+595 error Missing: @react-native/debugger-shell@0.88.1 from lock file
+595 error Missing: connect@3.7.0 from lock file
+595 error Missing: fb-dotslash@0.5.8 from lock file
+595 error Missing: debug@2.6.9 from lock file
+595 error Missing: finalhandler@1.1.2 from lock file
+595 error Missing: flow-estree@0.327.0 from lock file
+595 error Invalid: lock file's @babel/code-frame@7.27.1 does not satisfy @babel/code-frame@7.29.7
+595 error Invalid: lock file's @babel/generator@7.28.5 does not satisfy @babel/generator@7.29.12
+595 error Invalid: lock file's @babel/template@7.27.2 does not satisfy @babel/template@7.29.7
+595 error Invalid: lock file's @babel/traverse@7.25.6 does not satisfy @babel/traverse@7.29.12
+595 error Missing: accepts@2.0.0 from lock file
+595 error Missing: flow-parser@0.336.0 from lock file
+595 error Missing: jest-worker@29.7.0 from lock file
+595 error Missing: jsc-safe-url@0.2.4 from lock file
+595 error Missing: lodash.throttle@4.1.1 from lock file
+595 error Missing: metro-babel-transformer@0.87.2 from lock file
+595 error Missing: metro-cache@0.87.2 from lock file
+595 error Missing: metro-cache-key@0.87.2 from lock file
+595 error Missing: metro-config@0.87.2 from lock file
+595 error Missing: metro-core@0.87.2 from lock file
+595 error Missing: metro-file-map@0.87.2 from lock file
+595 error Missing: metro-resolver@0.87.2 from lock file
+595 error Missing: metro-symbolicate@0.87.2 from lock file
+595 error Missing: metro-transform-plugins@0.87.2 from lock file
+595 error Missing: metro-transform-worker@0.87.2 from lock file
+595 error Missing: mime-types@3.0.2 from lock file
+595 error Missing: serialize-error@2.1.0 from lock file
+595 error Missing: source-map@0.5.7 from lock file
+595 error Missing: throat@5.0.0 from lock file
+595 error Missing: yargs@17.7.3 from lock file
+595 error Missing: @babel/helper-globals@7.29.7 from lock file
+595 error Missing: flow-parser@0.336.0 from lock file
+595 error Missing: exponential-backoff@3.1.3 from lock file
+595 error Missing: https-proxy-agent@7.0.6 from lock file
+595 error Missing: jest-validate@29.7.0 from lock file
+595 error Missing: jest-worker@29.7.0 from lock file
+595 error Missing: ob1@0.87.2 from lock file
+595 error Missing: source-map@0.5.7 from lock file
+595 error Missing: source-map@0.5.7 from lock file
+595 error Missing: vlq@1.0.1 from lock file
+595 error Missing: metro-minify-terser@0.87.2 from lock file
+595 error Missing: type-fest@0.7.1 from lock file
+595 error Missing: fdir@6.5.0 from lock file
+595 error Missing: picomatch@4.0.7 from lock file
+595 error Missing: cliui@8.0.1 from lock file
+595 error Missing: yargs-parser@21.1.1 from lock file
+595 error Missing: ms@2.0.0 from lock file
+595 error Missing: encodeurl@1.0.2 from lock file
+595 error Missing: on-finished@2.3.0 from lock file
+595 error Missing: statuses@1.5.0 from lock file
+595 error Missing: flow-estree@0.336.0 from lock file
+595 error Missing: agent-base@7.1.4 from lock file
+595 error Missing: pretty-format@29.7.0 from lock file
+595 error Missing: ansi-styles@5.2.0 from lock file
+595 error Missing: react-is@18.3.1 from lock file
+595 error Missing: supports-color@8.1.1 from lock file
+595 error Missing: negotiator@1.1.0 from lock file
+595 error Missing: flow-estree@0.336.0 from lock file
+595 error Missing: supports-color@8.1.1 from lock file
+595 error Missing: mime-db@1.54.0 from lock file
+595 error Missing: content-type@2.1.0 from lock file
+595 error Missing: cliui@8.0.1 from lock file
+595 error Missing: yargs-parser@21.1.1 from lock file
+595 error Missing: ansi-styles@5.2.0 from lock file
+595 error Missing: react-is@18.3.1 from lock file
+595 error Missing: cliui@8.0.1 from lock file
+595 error Missing: yargs-parser@21.1.1 from lock file
+595 error
+595 error Clean install a project
+595 error
+595 error Usage:
+595 error npm ci
+595 error
+595 error Options:
+595 error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+595 error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+595 error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+595 error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts] [--no-audit]
+595 error [--no-bin-links] [--no-fund] [--dry-run]
+595 error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+595 error [-ws|--workspaces] [--include-workspace-root] [--install-links]
+595 error
+595 error aliases: clean-install, ic, install-clean, isntall-clean
+595 error
+595 error Run "npm help ci" for more info
+596 verbose cwd C:\Users\User\AppData\Local\Temp\opencode\reimondev-site-review
+597 verbose os Windows_NT 10.0.26100
+598 verbose node v22.20.0
+599 verbose npm  v10.9.3
+600 verbose exit 1
+601 verbose code 1
+602 error A complete log of this run can be found in: C:\Users\User\AppData\Local\Temp\opencode\reimondev-site-review\.npm\_logs\2026-11-02T23_18_09_848Z-debug-0.log

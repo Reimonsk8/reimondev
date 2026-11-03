@@ -1,0 +1,38 @@
+{
+  "id": "5f24ac82-897e-492e-a1ba-111d77482581",
+  "name": "cowled flagellant penitent, chained hood hiding th...",
+  "state_name": "Idle",
+  "prompt": "cowled flagellant penitent, chained hood hiding the face, iron hook and barbed rope whip, torn grey habits, grotesque holy zealot, Blasphemous style, gothic horror, low top-down 3/4 view, single colour black outline",
+  "size": {
+    "width": 68,
+    "height": 68
+  },
+  "directions": 4,
+  "created_at": "2026-10-18T03:42:30.513994+00:00",
+  "updated_at": "2026-10-18T03:43:26.327009+00:00",
+  "animation_count": 0,
+  "template_id": "mannequin",
+  "view": "low top-down",
+  "status": "completed",
+  "rotation_urls": {
+    "south": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/5f24ac82-897e-492e-a1ba-111d77482581/rotations/south.png?t=1792295006",
+    "west": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/5f24ac82-897e-492e-a1ba-111d77482581/rotations/west.png?t=1792295006",
+    "east": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/5f24ac82-897e-492e-a1ba-111d77482581/rotations/east.png?t=1792295006",
+    "north": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/5f24ac82-897e-492e-a1ba-111d77482581/rotations/north.png?t=1792295006",
+    "south-east": null,
+    "north-east": null,
+    "north-west": null,
+    "south-west": null
+  },
+  "style_settings": {
+    "detail": "medium detail",
+    "outline": "single color black outline",
+    "shading": "basic shading"
+  },
+  "guidance": null,
+  "ai_freedom": null,
+  "tags": [],
+  "group_id": "d835d1d3-bcf9-4d99-9915-38c04a77cec7",
+  "skeletons": null,
+  "animations": []
+}

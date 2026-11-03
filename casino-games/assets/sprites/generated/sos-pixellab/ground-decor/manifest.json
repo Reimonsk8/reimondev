@@ -1,0 +1,46 @@
+{
+  "source": "PixelLab Pixen",
+  "size": 32,
+  "assets": [
+    {
+      "slug": "stone-reliquary",
+      "job_id": "40bd8f8e-f26c-4c4f-b65c-d432cdcf084a"
+    },
+    {
+      "slug": "war-banner",
+      "job_id": "a92ca237-0dc4-4ede-ba7a-e6fa6e566651"
+    },
+    {
+      "slug": "censer",
+      "job_id": "09ee8e7b-8287-4a07-a7b6-201e2edcbe3b"
+    },
+    {
+      "slug": "fallen-helm",
+      "job_id": "380f6aa3-d11e-4761-ac7d-54d7b751683a"
+    },
+    {
+      "slug": "rose-glass",
+      "job_id": "bea1aa0b-8150-4045-a23a-1c2a26acbf9d"
+    },
+    {
+      "slug": "war-psalter",
+      "job_id": "be1a68f6-eb2a-448c-8229-1b4972991a55"
+    },
+    {
+      "slug": "sword-rosary",
+      "job_id": "ff4147d3-1cbc-4f0a-8660-16137d4fd296"
+    },
+    {
+      "slug": "saint-head",
+      "job_id": "81c14e9b-22e8-42c9-8088-6c40b1a17a3e"
+    },
+    {
+      "slug": "supply-chest",
+      "job_id": "7e1bd568-8acc-4571-93e8-0754a842ccbd"
+    },
+    {
+      "slug": "bone-rubble",
+      "job_id": "710fb92d-aa9f-4d99-97d7-dde1ae202502"
+    }
+  ]
+}

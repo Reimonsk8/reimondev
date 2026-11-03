@@ -1,0 +1,38 @@
+{
+  "id": "523f6586-1739-4f18-92fd-6b557185691d",
+  "name": "dark inquisition templar, thorned iron plate armor...",
+  "state_name": "Idle",
+  "prompt": "dark inquisition templar, thorned iron plate armor over ash-grey tabard, great helm reliquary with cracked gold leaf, iron thorns coiled around a heavy flail, penitent crusader, Blasphemous style, gothic horror, low top-down 3/4 view, single colour black outline",
+  "size": {
+    "width": 68,
+    "height": 68
+  },
+  "directions": 4,
+  "created_at": "2026-10-18T03:39:51.757052+00:00",
+  "updated_at": "2026-10-18T03:40:26.832731+00:00",
+  "animation_count": 0,
+  "template_id": "mannequin",
+  "view": "low top-down",
+  "status": "completed",
+  "rotation_urls": {
+    "south": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/523f6586-1739-4f18-92fd-6b557185691d/rotations/south.png?t=1792294826",
+    "west": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/523f6586-1739-4f18-92fd-6b557185691d/rotations/west.png?t=1792294826",
+    "east": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/523f6586-1739-4f18-92fd-6b557185691d/rotations/east.png?t=1792294826",
+    "north": "https://backblaze.pixellab.ai/file/pixellab-characters/08f73993-c129-4bc6-8130-10b29203f393/523f6586-1739-4f18-92fd-6b557185691d/rotations/north.png?t=1792294826",
+    "south-east": null,
+    "north-east": null,
+    "north-west": null,
+    "south-west": null
+  },
+  "style_settings": {
+    "detail": "medium detail",
+    "outline": "single color black outline",
+    "shading": "basic shading"
+  },
+  "guidance": null,
+  "ai_freedom": null,
+  "tags": [],
+  "group_id": "ecd0ec06-a41d-42cf-a1be-5bb064d71850",
+  "skeletons": null,
+  "animations": []
+}
