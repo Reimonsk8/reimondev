@@ -66,6 +66,7 @@ function Navbar() {
       title: 'Games',
       path: '/games/',
       icon: <FaIcons.FaGamepad />,
+      external: true,
       cName: 'nav-text'
     }
   ];
@@ -88,10 +89,17 @@ function Navbar() {
             {SidebarData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
-                  <Link to={item.path}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
+                  {item.external ? (
+                    <a href={item.path}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </a>
+                  ) : (
+                    <Link to={item.path}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </Link>
+                  )}
                 </li>
               );
             })}
