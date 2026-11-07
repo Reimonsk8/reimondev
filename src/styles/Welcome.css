@@ -198,21 +198,14 @@ title{
   pointer-events: none;
 }
 
+/* Same placement as the TSX Welcome.css: 80vh down, horizontally centred. */
 .bottom-container {
-  position: absolute;
+  position: relative;
   z-index: 2;
-  top: auto;
-  right: 0;
-  bottom: max(7vh, 2.5rem);
-  left: 0;
-  padding: 0 1rem;
+  top: 80vh;
 }
 
 .entersite-background #IntroParticleCanvas {
   opacity: 0;
   transition: opacity 1.8s ease;
-}
-
-@media (max-width: 640px) {
-  .bottom-container { bottom: max(6vh, 2rem); }
 }

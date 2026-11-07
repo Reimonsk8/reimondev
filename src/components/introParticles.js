@@ -106,24 +106,9 @@ export const createIntroParticles = (canvas) => {
       };
     };
 
-    // Matches the TSX line ratio (25vw / 13.25vw).
-    const LINE_RATIO = 0.53;
-    const probeTop = measureLine('REIMON', 100);
-    const probeBottom = measureLine('DEVELOPMENT', 100);
-
-    // The TSX sizes are a touch wider than the viewport in Varela Round and the
-    // old x = 5 inset left the block off-centre, so fit both lines to a side
-    // margin and centre them instead.
-    const maxWidth = width * 0.94;
-    const sizeTop = Math.min(
-      width * 0.25,
-      (maxWidth / probeTop.width) * 100,
-      ((maxWidth / probeBottom.width) * 100) / LINE_RATIO
-    );
-    const sizeBottom = sizeTop * LINE_RATIO;
-
-    let fontSizeTop = sizeTop;
-    let fontSizeBottom = sizeBottom;
+    // Exactly the TSX sizes: 25vw and 13.25vw.
+    let fontSizeTop = width * 0.25;
+    let fontSizeBottom = width * 0.1325;
     let gap = height * 0.025;
     let topMetrics = measureLine('REIMON', fontSizeTop);
     let bottomMetrics = measureLine('DEVELOPMENT', fontSizeBottom);
@@ -131,15 +116,20 @@ export const createIntroParticles = (canvas) => {
       topMetrics.ascent + topMetrics.descent + gap +
       bottomMetrics.ascent + bottomMetrics.descent;
 
-    // Keep the block clear of the Enter button on short/ultra-wide viewports.
-    // The button sits at max(7vh, 2.5rem) from the bottom and is ~60px tall.
-    const buttonReserve = Math.max(height * 0.07, 40) + 60;
+    // The Enter button sits at 80vh (the TSX .bottom-container rule), and the
+    // TSX 25vw line is a touch wider than the viewport in Varela Round, so only
+    // shrink when needed: 98% width margin and clearance above the button.
+    const maxWidth = width * 0.98;
+    const inkWidth = Math.max(
+      topMetrics.inkLeft + topMetrics.inkRight,
+      bottomMetrics.inkLeft + bottomMetrics.inkRight
+    );
     const maxHeight = Math.max(
       height * 0.4,
-      Math.min(height * 0.82, height - 2 * buttonReserve - 48)
+      (height * 0.8 - 24 - height / 2) * 2
     );
-    if (blockHeight > maxHeight) {
-      const shrink = maxHeight / blockHeight;
+    const shrink = Math.min(1, maxWidth / inkWidth, maxHeight / blockHeight);
+    if (shrink < 1) {
       fontSizeTop *= shrink;
       fontSizeBottom *= shrink;
       gap *= shrink;
