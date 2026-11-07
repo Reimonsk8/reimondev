@@ -26,42 +26,162 @@ canvas{
   display: block; 
   vertical-align: bottom; 
 } 
-/* ---- particles.js container ---- */ 
+/* ---- alien aurora container ---- */
 #particles-js{
-  z-index: -1; 
-  background-image:
-    radial-gradient(ellipse 30% 100% at top center, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0.171) 60%, rgb(0, 0, 0) 100%);
-  background-color: #202020;
-	/* background-image: radial-gradient(35% 100% ellipse at top center, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 100%); */
-	transition: background-color 4s cubic-bezier(0.19, 1, 0.22, 1);
-  position:absolute; 
-  width: 100%; 
-  height: 100%; 
-  background-repeat: no-repeat; 
-  background-size: cover; 
-  background-position: 50% 50%; 
-} 
-
-#particles-js::before {
+  z-index: -1;
   position: absolute;
-  inset: 0;
-  content: "";
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   pointer-events: none;
-  background: radial-gradient(ellipse 30% 100% at top center, transparent 0%, rgba(255, 255, 255, 0.16) 60%, transparent 100%);
-  transform: scale(0.96, 0.94);
-  transform-origin: 50% 0;
-  opacity: 0.45;
-  will-change: transform, opacity;
-  animation: site-white-breathe 12s ease-in-out infinite alternate;
+  contain: layout paint;
+  background-color: #080808;
 }
 
-@keyframes site-white-breathe {
-  from { transform: scale(0.96, 0.94); opacity: 0.3; }
-  to { transform: scale(1.08, 1.04); opacity: 0.62; }
+/* Three aurora layers + a breathing core. No blur filters: the softness is
+   baked into the gradient stops, which is far cheaper to composite. */
+#particles-js::before,
+#particles-js::after,
+#particles-js .aurora-c{
+  position: absolute;
+  inset: -4%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  transform-origin: 50% 0%;
+  transition: opacity 5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#particles-js::before,
+#particles-js::after{
+  content: "";
+}
+
+/* Phase A — silver ribbons over the pale beam. */
+#particles-js::before{
+  z-index: 1;
+  opacity: 1;
+  background-image:
+    radial-gradient(ellipse 40% 18% at 34% -2%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(ellipse 38% 16% at 68% -4%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 62%),
+    radial-gradient(ellipse 50% 20% at top center, rgba(0, 0, 0, 0.786) 5%, rgba(255, 255, 255, 0.096) 25%, rgba(0, 0, 0, 0.959) 100%),
+    linear-gradient(120deg, rgba(30, 30, 30, 0.15) 0%, rgba(18, 18, 18, 0.15) 100%);
+  animation: aurora-drift-a 21s ease-in-out infinite;
+}
+
+/* Phase B — deep monochrome singularity swallowing the top of the frame. */
+#particles-js::after{
+  z-index: 2;
+  opacity: 0;
+  background-image:
+    radial-gradient(ellipse 45% 30% at 50% -6%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 65%),
+    radial-gradient(ellipse 35% 100% at top center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+  animation: aurora-drift-b 27s ease-in-out infinite;
+}
+
+/* Phase C — the holy donut ring: a bright halo around a dark core, kept
+   sharper than the others and held longer so the ring can be appreciated. */
+#particles-js .aurora-c{
+  z-index: 3;
+  opacity: 0;
+  background-image:
+    radial-gradient(ellipse 58% 26% at 50% 8%,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.55) 12%,
+      rgba(255, 255, 255, 0.26) 21%,
+      rgba(255, 255, 255, 0.08) 34%,
+      rgba(0, 0, 0, 0.55) 60%,
+      rgba(0, 0, 0, 0.96) 100%),
+    linear-gradient(120deg, rgba(30, 30, 30, 0.15) 0%, rgba(18, 18, 18, 0.15) 100%);
+  animation: aurora-drift-c 16s ease-in-out infinite;
+}
+
+/* Phase switching: A is the default, B and C add data-phase on the container. */
+#particles-js[data-phase="b"]::before{ opacity: 0; }
+#particles-js[data-phase="b"]::after{ opacity: 1; }
+
+#particles-js[data-phase="c"]::before{ opacity: 0; }
+#particles-js[data-phase="c"]::after{ opacity: 0; }
+#particles-js[data-phase="c"] .aurora-c{ opacity: 1; }
+
+/* Only the phase on screen animates. Hidden layers freeze behind the crossfade
+   instead of burning compositor time every frame. */
+#particles-js:not([data-phase="b"])::after,
+#particles-js:not([data-phase="c"]) .aurora-c,
+#particles-js[data-phase="b"]::before,
+#particles-js[data-phase="c"]::before{
+  animation-play-state: paused;
+}
+
+/* Breathing core — pulse only, no blur/blend. */
+#particles-js .aurora-core{
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: -22vmax;
+  width: 70vmax;
+  height: 48vmax;
+  background: radial-gradient(ellipse at center,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(210, 210, 210, 0.22) 30%,
+    rgba(150, 150, 150, 0.10) 55%,
+    rgba(0, 0, 0, 0) 72%);
+  transform: translate3d(-50%, 0, 0);
+  pointer-events: none;
+  animation: aurora-core-breathe 9s ease-in-out infinite;
+  transition: opacity 1.5s ease;
+}
+
+/* Let the ring breathe alone: dim the core while phase C is on screen. */
+#particles-js[data-phase="c"] .aurora-core{
+  animation: none;
+  opacity: 0.12;
+  transform: translate3d(-50%, 0, 0);
+}
+
+/* Stop all aurora work while the tab is in the background. */
+#particles-js.is-paused::before,
+#particles-js.is-paused::after,
+#particles-js.is-paused .aurora-c,
+#particles-js.is-paused .aurora-core{
+  animation-play-state: paused;
+}
+
+@keyframes aurora-drift-a{
+  0%, 100%{ transform: translate3d(-2.5%, 0, 0) scale(1.02) rotate(-1.2deg); }
+  50%     { transform: translate3d(2.5%, -1.5%, 0) scale(1.10) rotate(1.4deg); }
+}
+
+@keyframes aurora-drift-b{
+  0%, 100%{ transform: translate3d(2%, 0.5%, 0) scale(1.06) rotate(1deg); }
+  50%     { transform: translate3d(-2%, -1%, 0) scale(1.01) rotate(-1.4deg); }
+}
+
+/* The ring slowly swells so you can watch the halo open and close. */
+@keyframes aurora-drift-c{
+  0%, 100%{ transform: translate3d(0, 0, 0) scale(0.98); }
+  50%     { transform: translate3d(0, 2%, 0) scale(1.12); }
+}
+
+@keyframes aurora-core-breathe{
+  0%, 100%{ opacity: 0.12; transform: translate3d(-50%, 0, 0) scale(0.82, 0.90); }
+  45%     { opacity: 0.55; transform: translate3d(-50%, 2%, 0) scale(1.10, 1.04); }
+  60%     { opacity: 0.40; transform: translate3d(-50%, 1%, 0) scale(1.03, 1.00); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #particles-js::before { animation: none; }
+  #particles-js::before,
+  #particles-js::after,
+  #particles-js .aurora-c {
+    animation: none;
+    transition-duration: 0.01ms;
+  }
+  #particles-js .aurora-c { opacity: 0; }
+  #particles-js .aurora-core {
+    animation: none;
+    opacity: 0.3;
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 /* ---- stats.js ---- */ 
 .count-particles{ 
