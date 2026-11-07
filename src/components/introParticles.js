@@ -1,8 +1,9 @@
 /**
  * Particle intro engine (refactored).
  *
- * Visual: deep-black hero with a subtle top-center vignette glow, elegant
- * serif "REIMON DEVELOPMENT" mask and a dense, bright white point cloud.
+ * Visual: deep-black hero with a subtle top-center vignette glow, the rounded
+ * "REIMON DEVELOPMENT" webfont mask optically centred in the viewport, and a
+ * dense, bright white point cloud.
  *
  * Performance: particle state lives in contiguous Float32Arrays (no per-frame
  * object allocation / GC spikes), the mask is sampled offscreen at ~1/3
@@ -29,7 +30,8 @@ const CONNECTION_MIN_SQ = 15 * 15;
 const CONNECTION_MAX_SQ = 50 * 50;
 const CONNECTION_BUCKETS = 4;
 
-// Varela Round matches the Reimon TSX intro and .skip button type.
+// Varela Round is self-hosted (see src/index.css) so this is the same face the
+// Reimon TSX intro and .skip button use, even on machines without it installed.
 const FONT_STACK = '"Varela Round", "Trebuchet MS", Arial, sans-serif';
 
 const isSmallViewport = () => window.innerWidth * window.innerHeight < 500000;
@@ -90,15 +92,78 @@ export const createIntroParticles = (canvas) => {
     maskCtx.clearRect(0, 0, width, height);
     maskCtx.fillStyle = '#fff';
     maskCtx.textBaseline = 'alphabetic';
+    maskCtx.textAlign = 'center';
 
-    const ch = height / 2;
-    const titleVspace = height > width ? 9 : 5;
+    const measureLine = (text, fontSize) => {
+      maskCtx.font = `${fontSize}px ${FONT_STACK}`;
+      const metrics = maskCtx.measureText(text);
+      return {
+        ascent: metrics.actualBoundingBoxAscent || fontSize * 0.72,
+        descent: metrics.actualBoundingBoxDescent || 0,
+        width: metrics.width,
+        inkLeft: metrics.actualBoundingBoxLeft || 0,
+        inkRight: metrics.actualBoundingBoxRight || metrics.width,
+      };
+    };
 
-    maskCtx.font = `${Math.round(width * 0.25)}px ${FONT_STACK}`;
-    maskCtx.fillText('REIMON', 5, ch - ch / titleVspace);
+    // Matches the TSX line ratio (25vw / 13.25vw).
+    const LINE_RATIO = 0.53;
+    const probeTop = measureLine('REIMON', 100);
+    const probeBottom = measureLine('DEVELOPMENT', 100);
 
-    maskCtx.font = `${Math.round(width * 0.1325)}px ${FONT_STACK}`;
-    maskCtx.fillText('DEVELOPMENT', 5, ch + ch / titleVspace);
+    // The TSX sizes are a touch wider than the viewport in Varela Round and the
+    // old x = 5 inset left the block off-centre, so fit both lines to a side
+    // margin and centre them instead.
+    const maxWidth = width * 0.94;
+    const sizeTop = Math.min(
+      width * 0.25,
+      (maxWidth / probeTop.width) * 100,
+      ((maxWidth / probeBottom.width) * 100) / LINE_RATIO
+    );
+    const sizeBottom = sizeTop * LINE_RATIO;
+
+    let fontSizeTop = sizeTop;
+    let fontSizeBottom = sizeBottom;
+    let gap = height * 0.025;
+    let topMetrics = measureLine('REIMON', fontSizeTop);
+    let bottomMetrics = measureLine('DEVELOPMENT', fontSizeBottom);
+    let blockHeight =
+      topMetrics.ascent + topMetrics.descent + gap +
+      bottomMetrics.ascent + bottomMetrics.descent;
+
+    // Keep the block clear of the Enter button on short/ultra-wide viewports.
+    // The button sits at max(7vh, 2.5rem) from the bottom and is ~60px tall.
+    const buttonReserve = Math.max(height * 0.07, 40) + 60;
+    const maxHeight = Math.max(
+      height * 0.4,
+      Math.min(height * 0.82, height - 2 * buttonReserve - 48)
+    );
+    if (blockHeight > maxHeight) {
+      const shrink = maxHeight / blockHeight;
+      fontSizeTop *= shrink;
+      fontSizeBottom *= shrink;
+      gap *= shrink;
+      topMetrics = measureLine('REIMON', fontSizeTop);
+      bottomMetrics = measureLine('DEVELOPMENT', fontSizeBottom);
+      blockHeight =
+        topMetrics.ascent + topMetrics.descent + gap +
+        bottomMetrics.ascent + bottomMetrics.descent;
+    }
+
+    // Centre on the actual ink box (not on the baseline, which sat high).
+    const blockTop = (height - blockHeight) / 2;
+    const baselineTop = blockTop + topMetrics.ascent;
+    const baselineBottom =
+      baselineTop + topMetrics.descent + gap + bottomMetrics.ascent;
+    // Side bearings make the advance box and the ink box differ by a few px,
+    // so align the ink (what the eye sees) rather than the advance width.
+    const inkCentreX = (m) => width / 2 - (m.inkRight - m.inkLeft) / 2;
+
+    maskCtx.font = `${fontSizeTop}px ${FONT_STACK}`;
+    maskCtx.fillText('REIMON', inkCentreX(topMetrics), baselineTop);
+
+    maskCtx.font = `${fontSizeBottom}px ${FONT_STACK}`;
+    maskCtx.fillText('DEVELOPMENT', inkCentreX(bottomMetrics), baselineBottom);
 
     const data = maskCtx.getImageData(0, 0, mw, mh).data;
 
@@ -337,6 +402,18 @@ export const createIntroParticles = (canvas) => {
   document.addEventListener('visibilitychange', onVisibilityChange);
 
   applySize();
+
+  // The hero face is a webfont. If it hasn't decoded yet the first mask uses
+  // the fallback, so rebuild once Varela Round is actually available (the
+  // particles glide into the real letterforms instead of staying on a serif).
+  if (document.fonts && document.fonts.load) {
+    document.fonts
+      .load(`16px ${FONT_STACK}`)
+      .then(() => {
+        if (!destroyed) applySize();
+      })
+      .catch(() => {});
+  }
 
   return {
     start,
