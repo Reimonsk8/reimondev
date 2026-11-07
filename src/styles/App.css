@@ -62,10 +62,33 @@ canvas{
   z-index: 1;
   opacity: 1;
   background-image:
-    radial-gradient(ellipse 40% 18% at 34% -2%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 60%),
-    radial-gradient(ellipse 38% 16% at 68% -4%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 62%),
-    radial-gradient(ellipse 50% 20% at top center, rgba(0, 0, 0, 0.786) 5%, rgba(255, 255, 255, 0.096) 25%, rgba(0, 0, 0, 0.959) 100%),
+    radial-gradient(ellipse var(--a-b1w, 30%) var(--a-b1h, 18%) at var(--a-b1x, 32%) var(--a-b1y, -2%),
+      rgba(255, 255, 255, var(--a-b1o, 0.10)) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(ellipse var(--a-b2w, 30%) var(--a-b2h, 16%) at var(--a-b2x, 68%) var(--a-b2y, -4%),
+      rgba(255, 255, 255, var(--a-b2o, 0.08)) 0%, rgba(255, 255, 255, 0) 62%),
+    radial-gradient(ellipse var(--a-bw, 50%) var(--a-bh, 20%) at var(--a-bx, 50%) var(--a-by, 0%),
+      rgba(0, 0, 0, 0.786) 5%, rgba(255, 255, 255, 0.096) 25%, rgba(0, 0, 0, 0.959) 100%),
     linear-gradient(120deg, rgba(30, 30, 30, 0.15) 0%, rgba(18, 18, 18, 0.15) 100%);
+  /* oklch interpolation + extra mid stops: perceptually even falloff in the
+     dark end, so the beam stops showing concentric bands. */
+  background-image:
+    radial-gradient(ellipse var(--a-b1w, 30%) var(--a-b1h, 18%) at var(--a-b1x, 32%) var(--a-b1y, -2%),
+      oklch(1 0 0 / var(--a-b1o, 0.10)) 0%,
+      oklch(1 0 0 / calc(var(--a-b1o, 0.10) * 0.42)) 32%,
+      oklch(1 0 0 / 0) 68%),
+    radial-gradient(ellipse var(--a-b2w, 30%) var(--a-b2h, 16%) at var(--a-b2x, 68%) var(--a-b2y, -4%),
+      oklch(1 0 0 / var(--a-b2o, 0.08)) 0%,
+      oklch(1 0 0 / calc(var(--a-b2o, 0.08) * 0.42)) 32%,
+      oklch(1 0 0 / 0) 70%),
+    radial-gradient(ellipse var(--a-bw, 50%) var(--a-bh, 20%) at var(--a-bx, 50%) var(--a-by, 0%),
+      oklch(0 0 0 / 0.786) 4%,
+      oklch(0.30 0 0 / 0.38) 14%,
+      oklch(1 0 0 / 0.096) 25%,
+      oklch(0.55 0 0 / 0.10) 38%,
+      oklch(0.30 0 0 / 0.32) 56%,
+      oklch(0.12 0 0 / 0.62) 76%,
+      oklch(0 0 0 / 0.959) 100%),
+    linear-gradient(120deg, oklch(0.28 0 0 / 0.15) 0%, oklch(0.22 0 0 / 0.15) 100%);
   animation: aurora-drift-a 21s ease-in-out infinite;
 }
 
@@ -74,8 +97,22 @@ canvas{
   z-index: 2;
   opacity: 0;
   background-image:
-    radial-gradient(ellipse 45% 30% at 50% -6%, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 65%),
-    radial-gradient(ellipse 35% 100% at top center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+    radial-gradient(ellipse var(--b-gw, 45%) var(--b-gh, 30%) at var(--b-gx, 50%) var(--b-gy, -6%),
+      rgba(255, 255, 255, var(--b-go, 0.10)) 0%, rgba(255, 255, 255, 0) 65%),
+    radial-gradient(ellipse var(--b-vw, 35%) var(--b-vh, 100%) at var(--b-vx, 50%) var(--b-vy, 0%),
+      rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+  /* oklch + tapered stops keep the vignette edge from banding. */
+  background-image:
+    radial-gradient(ellipse var(--b-gw, 45%) var(--b-gh, 30%) at var(--b-gx, 50%) var(--b-gy, -6%),
+      oklch(1 0 0 / var(--b-go, 0.10)) 0%,
+      oklch(1 0 0 / calc(var(--b-go, 0.10) * 0.40)) 34%,
+      oklch(1 0 0 / 0) 72%),
+    radial-gradient(ellipse var(--b-vw, 35%) var(--b-vh, 100%) at var(--b-vx, 50%) var(--b-vy, 0%),
+      oklch(0 0 0 / 0) 0%,
+      oklch(0.25 0 0 / 0.20) 30%,
+      oklch(0.12 0 0 / 0.52) 62%,
+      oklch(0.04 0 0 / 0.84) 84%,
+      oklch(0 0 0 / 1) 100%);
   animation: aurora-drift-b 27s ease-in-out infinite;
 }
 
@@ -85,14 +122,26 @@ canvas{
   z-index: 3;
   opacity: 0;
   background-image:
-    radial-gradient(ellipse 58% 26% at 50% 8%,
+    radial-gradient(ellipse var(--c-rw, 58%) var(--c-rh, 26%) at var(--c-x, 50%) var(--c-y, 8%),
       rgba(0, 0, 0, 0.92) 0%,
       rgba(0, 0, 0, 0.55) 12%,
-      rgba(255, 255, 255, 0.26) 21%,
+      rgba(255, 255, 255, var(--c-o, 0.26)) 21%,
       rgba(255, 255, 255, 0.08) 34%,
       rgba(0, 0, 0, 0.55) 60%,
       rgba(0, 0, 0, 0.96) 100%),
     linear-gradient(120deg, rgba(30, 30, 30, 0.15) 0%, rgba(18, 18, 18, 0.15) 100%);
+  /* oklch keeps the halo's dark inner/outer falloff smooth. */
+  background-image:
+    radial-gradient(ellipse var(--c-rw, 58%) var(--c-rh, 26%) at var(--c-x, 50%) var(--c-y, 8%),
+      oklch(0 0 0 / 0.92) 0%,
+      oklch(0 0 0 / 0.55) 12%,
+      oklch(1 0 0 / var(--c-o, 0.26)) 21%,
+      oklch(1 0 0 / 0.08) 34%,
+      oklch(0.22 0 0 / 0.14) 47%,
+      oklch(0 0 0 / 0.55) 60%,
+      oklch(0.04 0 0 / 0.84) 82%,
+      oklch(0 0 0 / 0.96) 100%),
+    linear-gradient(120deg, oklch(0.28 0 0 / 0.15) 0%, oklch(0.22 0 0 / 0.15) 100%);
   animation: aurora-drift-c 16s ease-in-out infinite;
 }
 
@@ -126,6 +175,14 @@ canvas{
     rgba(210, 210, 210, 0.22) 30%,
     rgba(150, 150, 150, 0.10) 55%,
     rgba(0, 0, 0, 0) 72%);
+  background: radial-gradient(ellipse at center,
+    oklch(1 0 0 / 0.42) 0%,
+    oklch(0.82 0 0 / 0.30) 15%,
+    oklch(0.82 0 0 / 0.22) 30%,
+    oklch(0.59 0 0 / 0.14) 45%,
+    oklch(0.59 0 0 / 0.10) 55%,
+    oklch(0.30 0 0 / 0.04) 65%,
+    oklch(0 0 0 / 0) 78%);
   transform: translate3d(-50%, 0, 0);
   pointer-events: none;
   animation: aurora-core-breathe 9s ease-in-out infinite;
@@ -145,6 +202,20 @@ canvas{
 #particles-js.is-paused .aurora-c,
 #particles-js.is-paused .aurora-core{
   animation-play-state: paused;
+}
+
+/* Static film grain: one rasterised feTurbulence tile at ~3.5% opacity. It is
+   never animated, so it adds no per-frame cost — it only breaks up gradient
+   banding by dithering neighbouring pixels. */
+#particles-js .aurora-grain{
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  background-repeat: repeat;
 }
 
 @keyframes aurora-drift-a{

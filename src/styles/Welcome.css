@@ -114,42 +114,54 @@ title{
 	background-size: cover;
 }*/
 
+
 .intro-background{
   width: 100vw;
   height: 100vh;
   background-color: #202020;
-  /* background-image:
-    radial-gradient(ellipse 60% 60% at top center, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0.171) 60%, rgb(0, 0, 0) 100%),
-    linear-gradient(120deg, rgba(12, 0, 80, 0.15) 0%, rgba(5, 0, 80, 0.15) 100%); */
-    background-color: #000000; /* Start black */
-    transition: background-color 2s linear;
-
+  background-image: radial-gradient(35% 100% ellipse at top center, transparent, #000 100%);
+  /* oklch falloff + mid stops: no visible rings in the dark end. */
+  background-image: radial-gradient(35% 100% ellipse at top center,
+    oklch(0.23 0 0) 0%,
+    oklch(0.15 0 0) 42%,
+    oklch(0.07 0 0) 72%,
+    oklch(0 0 0) 100%);
+  opacity: 1;
 }
+
 .outro-background{
   background-color: none;
-  /* background-image: radial-gradient(35% 100% ellipse at top center,transparent,#000 100%); */
-  /* background-image:
-  radial-gradient(ellipse 30% 100% at top center, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0.171) 60%, rgb(0, 0, 0) 100%),
-  linear-gradient(120deg, rgba(12, 0, 80, 0.15) 0%, rgba(5, 0, 80, 0.15) 100%); */
-  background-color: #202020;
-  transition: background-color 2s linear;
-  /* visibility: hidden; */
-}
-.entersite-background{
-    background-color: none;
-    background-image: radial-gradient(35% 100% ellipse at top center,transparent,#000 100%);
-    /* background-image:
-    radial-gradient(ellipse 30% 100% at top center, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0.171) 60%, rgb(0, 0, 0) 100%),
-    linear-gradient(120deg, rgba(12, 0, 80, 0.15) 0%, rgba(5, 0, 80, 0.15) 100%); */
-  background-color: #202020;
-    opacity: 0;
-    -webkit-transition: all 2s linear;
-    -moz-transition: all 2s linear;
-    -o-transition: all 2s linear;
-    transition: all 2s linear;
+  background-image: radial-gradient(35% 100% ellipse at top center, transparent, #000 100%);
+  /* oklch falloff + mid stops: no visible rings in the dark end. */
+  background-image: radial-gradient(35% 100% ellipse at top center,
+    oklch(0.23 0 0) 0%,
+    oklch(0.15 0 0) 42%,
+    oklch(0.07 0 0) 72%,
+    oklch(0 0 0) 100%);
+  opacity: 1;
+  -webkit-transition: all 2s linear;
+  -moz-transition: all 2s linear;
+  -o-transition: all 2s linear;
+  transition: all 2s linear;
 }
 
-/* Keep the particle intro on its original plain, dark background. */
+.entersite-background{
+  background-color: none;
+  background-image: radial-gradient(35% 100% ellipse at top center, transparent, #000 100%);
+  /* oklch falloff + mid stops: no visible rings in the dark end. */
+  background-image: radial-gradient(35% 100% ellipse at top center,
+    oklch(0.23 0 0) 0%,
+    oklch(0.15 0 0) 42%,
+    oklch(0.07 0 0) 72%,
+    oklch(0 0 0) 100%);
+  opacity: 0;
+  -webkit-transition: all 2s linear;
+  -moz-transition: all 2s linear;
+  -o-transition: all 2s linear;
+  transition: all 2s linear;
+}
+
+/* Layout only: fill the viewport and clip the particle canvas. */
 .intro-background,
 .outro-background,
 .entersite-background {
@@ -159,24 +171,21 @@ title{
   height: 100%;
   min-height: 100vh;
   overflow: hidden;
-  isolation: isolate;
-  background: #050711;
 }
 
-.intro-background,
-.outro-background {
-  transition: background-color 2s linear;
-}
-
-.intro-aurora {
+/* Static grain overlay so the intro vignette doesn't band either. */
+.intro-background::after,
+.outro-background::after,
+.entersite-background::after {
+  content: "";
   position: absolute;
   z-index: 0;
-  inset: -12%;
-  overflow: hidden;
+  inset: 0;
   pointer-events: none;
-  background: #050505;
-  opacity: 1;
-  transition: opacity 1.8s ease, transform 2.4s cubic-bezier(0.2, 0.7, 0.1, 1);
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  background-repeat: repeat;
 }
 
 #IntroParticleCanvas {
@@ -197,32 +206,6 @@ title{
   bottom: max(7vh, 2.5rem);
   left: 0;
   padding: 0 1rem;
-}
-
-.skip {
-  border-color: rgba(199, 235, 255, 0.34);
-  border-radius: 999px;
-  padding: 0.8rem 1.35rem 0.9rem;
-  background: rgba(9, 16, 35, 0.42);
-  box-shadow: 0 0 34px rgba(83, 214, 232, 0.1), inset 0 0 20px rgba(117, 157, 255, 0.06);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.skip a {
-  color: rgba(233, 247, 255, 0.84);
-  font-size: 0.78em;
-  font-weight: 600;
-}
-
-.skip:hover {
-  border-color: rgba(178, 255, 245, 0.88);
-  box-shadow: 0 0 35px rgba(83, 232, 220, 0.3), inset 0 0 24px rgba(124, 162, 255, 0.12);
-}
-
-.entersite-background .intro-aurora {
-  opacity: 0;
-  transform: scale(1.12);
 }
 
 .entersite-background #IntroParticleCanvas {
