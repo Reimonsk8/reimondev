@@ -84,13 +84,14 @@
 }
 
 .butt {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 40px;
+  background: linear-gradient(135deg, #dfe2e9 0%, #9ca0aa 100%);
   font-size: 15px;
   padding: 8px 16px;
   cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 3px;
+  color: #101115;
   transition: transform 0.1s, box-shadow 0.2s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
@@ -98,7 +99,7 @@
 .butt:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #f1f2f5 0%, #b7bbc5 100%);
 }
 
 .butt:active {

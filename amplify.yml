@@ -9,7 +9,7 @@ frontend:
     build:
       commands:
         - npm run build
-        - cd casino-games && VITE_USE_SPRITE_ATLAS=1 npm run build && cd ..
+        - cd casino-games && npm run build && cd ..
         - mkdir -p build/games
         - cp -R casino-games/dist/. build/games/
   artifacts:

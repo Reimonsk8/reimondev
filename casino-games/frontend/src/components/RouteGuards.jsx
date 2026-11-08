@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { exchangeCodeForTokens } from '../utils/oauth';
+import { withAppBasePath } from '../utils/routeBase';
 
 const REDIRECT_KEY = 'c888_redirect';
 
 /**
- * Guards game routes: unauthenticated visitors are sent to the landing/login
- * at `/` while their intended path is remembered (sessionStorage, so it also
+ * Guards game routes: unauthenticated visitors are sent to `/login` while their
+ * intended path is remembered (sessionStorage, so it also
  * survives the full-page Google OAuth round trip).
  */
 export function RequireAuth({ userId, children }) {
@@ -20,7 +21,7 @@ export function RequireAuth({ userId, children }) {
     }
   }, [userId, location.pathname, location.search]);
 
-  if (!userId) return <Navigate to="/" replace />;
+  if (!userId) return <Navigate to="/login" replace />;
   return children;
 }
 
@@ -42,7 +43,7 @@ export function OAuthCallback({ showModal }) {
     if (oauthError) {
       const description = params.get('error_description') || 'Google sign-in was cancelled.';
       sessionStorage.removeItem(REDIRECT_KEY);
-      window.location.replace('/');
+      window.location.replace(withAppBasePath('/'));
       showModal?.('Login Failed', description, 'error');
       return;
     }
@@ -54,11 +55,11 @@ export function OAuthCallback({ showModal }) {
         localStorage.setItem('c888_refresh_token', tokens.refresh_token || '');
         const target = sessionStorage.getItem(REDIRECT_KEY) || '/';
         sessionStorage.removeItem(REDIRECT_KEY);
-        window.location.replace(target);
+        window.location.replace(withAppBasePath(target));
       })
       .catch((error) => {
         console.error('OAuth token exchange failed:', error);
-        window.location.replace('/');
+        window.location.replace(withAppBasePath('/'));
         showModal?.('Login Failed', 'Google sign-in failed. Please try again.', 'error');
       });
   }, [showModal]);

@@ -1,7 +1,6 @@
 /**
- * Platform-level configuration shared by the catalog homepage and the shared
- * platform navigation. Adding a game to the catalog is a one-line change here
- * plus a matching <Route> in frontend/src/App.jsx — no other refactor needed.
+ * Retained game inventory and platform identity. The main site renders game
+ * discovery in its unified /projects Work page; playable routes remain in App.
  */
 export interface CatalogGame {
   /** Stable id, also used for analytics/deep links. */
@@ -13,10 +12,8 @@ export interface CatalogGame {
   description: string;
   /** lucide-react icon name, resolved by the catalog card. */
   icon: string;
-  /** Design-system theme key for the game world ('casino' | 'sos' | 'arcade' | 'outlands'). */
+  /** Design-system theme key used to scope the game's styles. */
   theme: string;
-  /** Optional CabinetSprite art type shown on the library card (falls back to the icon). */
-  art?: string;
   /** Visual accent key, maps to a .home-card-<accent> class in App.css. */
   accent: string;
   status: 'live' | 'soon';
@@ -26,7 +23,7 @@ export const PLATFORM_NAME = 'ReimonDev Games';
 export const PLATFORM_SHORT = 'ReimonDev';
 /** Short monogram shown in the brand mark. */
 export const PLATFORM_MARK = 'RD';
-export const PLATFORM_TAGLINE = 'Play-money games. One account, every world.';
+export const PLATFORM_TAGLINE = 'Two worlds. One adventure.';
 
 export const GAMES: CatalogGame[] = [
   {
@@ -44,39 +41,13 @@ export const GAMES: CatalogGame[] = [
   {
     id: 'outlands',
     path: '/outlands',
-    title: 'Outlands',
+    title: 'Zombie Shooter',
     tagline: 'Isometric zombie survival',
     description:
       'Step outside the S-Zone into a quarantined city sector. Scavenge, fight escalating undead variants, bank what you can carry, and survive the trip home.',
     icon: 'Skull',
     theme: 'outlands',
     accent: 'toxic',
-    status: 'live',
-  },
-  {
-    id: 'casino',
-    path: '/casino',
-    title: 'Casino',
-    tagline: 'Live lobby & classic tables',
-    description:
-      'Step onto the casino floor: coin flip, blackjack, roulette, slots, dice and more, with a shared wallet and live lobby.',
-    icon: 'Spade',
-    theme: 'casino',
-    art: 'slots',
-    accent: 'gold',
-    status: 'live',
-  },
-  {
-    id: 'arcade',
-    path: '/arcade',
-    title: 'Arcade Gallery',
-    tagline: 'Cabinets & original score games',
-    description:
-      'A neon cabinet hall with quick-play originals like Neon Breaker, Hyperlane and Pulse Grid, plus links to the casino tables.',
-    icon: 'Gamepad2',
-    theme: 'arcade',
-    art: 'breaker',
-    accent: 'neon',
     status: 'live',
   },
 ];

@@ -1,7 +1,6 @@
 .App {
   position: fixed;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -30,8 +29,7 @@ canvas{
 #particles-js{
   z-index: -1;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   overflow: hidden;
   pointer-events: none;
   contain: layout paint;
@@ -49,7 +47,7 @@ canvas{
   background-size: cover;
   background-position: 50% 50%;
   transform-origin: 50% 0%;
-  transition: opacity 5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 8s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 #particles-js::before,
@@ -57,92 +55,198 @@ canvas{
   content: "";
 }
 
-/* Phase A — silver ribbons over the pale beam. */
+/* Phase A — fixed top-centre silver ribbons with variable outer spreads. */
 #particles-js::before{
+  --a-ribbon1-w: var(--a-b1w, 38%);
+  --a-ribbon1-h: var(--a-b1h, 15%);
+  --a-ribbon1-x: 40%;
+  --a-ribbon1-y: -2%;
+  --a-ribbon2-w: var(--a-b2w, 36%);
+  --a-ribbon2-h: var(--a-b2h, 14%);
+  --a-ribbon2-x: 60%;
+  --a-ribbon2-y: -1%;
+  --a-beam-w: var(--a-bw, 56%);
+  --a-beam-h: var(--a-bh, 24%);
+  --a-beam-y: -3%;
   z-index: 1;
   opacity: 1;
   background-image:
-    radial-gradient(ellipse var(--a-b1w, 30%) var(--a-b1h, 18%) at var(--a-b1x, 32%) var(--a-b1y, -2%),
-      rgba(255, 255, 255, var(--a-b1o, 0.10)) 0%, rgba(255, 255, 255, 0) 60%),
-    radial-gradient(ellipse var(--a-b2w, 30%) var(--a-b2h, 16%) at var(--a-b2x, 68%) var(--a-b2y, -4%),
-      rgba(255, 255, 255, var(--a-b2o, 0.08)) 0%, rgba(255, 255, 255, 0) 62%),
-    radial-gradient(ellipse var(--a-bw, 50%) var(--a-bh, 20%) at var(--a-bx, 50%) var(--a-by, 0%),
-      rgba(0, 0, 0, 0.786) 5%, rgba(255, 255, 255, 0.096) 25%, rgba(0, 0, 0, 0.959) 100%),
-    linear-gradient(120deg, rgba(30, 30, 30, 0.15) 0%, rgba(18, 18, 18, 0.15) 100%);
-  /* oklch interpolation + extra mid stops: perceptually even falloff in the
-     dark end, so the beam stops showing concentric bands. */
+    radial-gradient(ellipse var(--a-ribbon1-w) var(--a-ribbon1-h) at var(--a-ribbon1-x) var(--a-ribbon1-y),
+      rgba(255, 255, 255, var(--a-b1o, 0.06)) 0%, rgba(255, 255, 255, 0) 72%),
+    radial-gradient(ellipse var(--a-ribbon2-w) var(--a-ribbon2-h) at var(--a-ribbon2-x) var(--a-ribbon2-y),
+      rgba(255, 255, 255, var(--a-b2o, 0.05)) 0%, rgba(255, 255, 255, 0) 74%),
+    radial-gradient(ellipse var(--a-beam-w) var(--a-beam-h) at 50% var(--a-beam-y),
+      rgba(0, 0, 0, 0.72) 0%, rgba(20, 20, 20, 0.32) 20%,
+      rgba(255, 255, 255, var(--a-bo, 0.10)) 34%, rgba(150, 150, 150, 0.035) 52%,
+      rgba(8, 8, 8, 0.28) 70%, rgba(0, 0, 0, 0.92) 100%);
+  /* Perceptual grayscale stops soften the beam and its outer contours. */
   background-image:
-    radial-gradient(ellipse var(--a-b1w, 30%) var(--a-b1h, 18%) at var(--a-b1x, 32%) var(--a-b1y, -2%),
-      oklch(1 0 0 / var(--a-b1o, 0.10)) 0%,
-      oklch(1 0 0 / calc(var(--a-b1o, 0.10) * 0.42)) 32%,
-      oklch(1 0 0 / 0) 68%),
-    radial-gradient(ellipse var(--a-b2w, 30%) var(--a-b2h, 16%) at var(--a-b2x, 68%) var(--a-b2y, -4%),
-      oklch(1 0 0 / var(--a-b2o, 0.08)) 0%,
-      oklch(1 0 0 / calc(var(--a-b2o, 0.08) * 0.42)) 32%,
-      oklch(1 0 0 / 0) 70%),
-    radial-gradient(ellipse var(--a-bw, 50%) var(--a-bh, 20%) at var(--a-bx, 50%) var(--a-by, 0%),
-      oklch(0 0 0 / 0.786) 4%,
-      oklch(0.30 0 0 / 0.38) 14%,
-      oklch(1 0 0 / 0.096) 25%,
-      oklch(0.55 0 0 / 0.10) 38%,
-      oklch(0.30 0 0 / 0.32) 56%,
-      oklch(0.12 0 0 / 0.62) 76%,
-      oklch(0 0 0 / 0.959) 100%),
-    linear-gradient(120deg, oklch(0.28 0 0 / 0.15) 0%, oklch(0.22 0 0 / 0.15) 100%);
-  animation: aurora-drift-a 21s ease-in-out infinite;
+    radial-gradient(ellipse var(--a-ribbon1-w) var(--a-ribbon1-h) at var(--a-ribbon1-x) var(--a-ribbon1-y),
+      oklch(1 0 0 / var(--a-b1o, 0.06)) 0%, oklch(1 0 0 / 0) 72%),
+    radial-gradient(ellipse var(--a-ribbon2-w) var(--a-ribbon2-h) at var(--a-ribbon2-x) var(--a-ribbon2-y),
+      oklch(1 0 0 / var(--a-b2o, 0.05)) 0%, oklch(1 0 0 / 0) 74%),
+    radial-gradient(ellipse var(--a-beam-w) var(--a-beam-h) at 50% var(--a-beam-y),
+      oklch(0 0 0 / 0.72) 0%, oklch(0.18 0 0 / 0.32) 20%,
+      oklch(1 0 0 / var(--a-bo, 0.10)) 34%, oklch(0.65 0 0 / 0.035) 52%,
+      oklch(0.12 0 0 / 0.28) 70%, oklch(0 0 0 / 0.92) 100%);
+  animation: aurora-drift-a 29s ease-in-out infinite;
 }
 
-/* Phase B — deep monochrome singularity swallowing the top of the frame. */
+/* Phase B — charcoal singularity with a stable umbra and soft outer vignette. */
 #particles-js::after{
+  --b-glow-w: var(--b-gw, 54%);
+  --b-glow-h: var(--b-gh, 32%);
+  --b-shadow-w: var(--b-sw, 47%);
+  --b-shadow-h: var(--b-sh, 28%);
+  --b-vignette-w: var(--b-vw, 42%);
+  --b-vignette-h: var(--b-vh, 112%);
+  --b-corona1-w: var(--b-l1w, 32%);
+  --b-corona1-h: var(--b-l1h, 18%);
+  --b-corona1-x: 44%;
+  --b-corona2-w: var(--b-l2w, 30%);
+  --b-corona2-h: var(--b-l2h, 17%);
+  --b-corona2-x: 57%;
   z-index: 2;
   opacity: 0;
   background-image:
-    radial-gradient(ellipse var(--b-gw, 45%) var(--b-gh, 30%) at var(--b-gx, 50%) var(--b-gy, -6%),
-      rgba(255, 255, 255, var(--b-go, 0.10)) 0%, rgba(255, 255, 255, 0) 65%),
-    radial-gradient(ellipse var(--b-vw, 35%) var(--b-vh, 100%) at var(--b-vx, 50%) var(--b-vy, 0%),
-      rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
-  /* oklch + tapered stops keep the vignette edge from banding. */
+    radial-gradient(ellipse var(--b-glow-w) var(--b-glow-h) at 50% 8%,
+      rgba(255, 255, 255, var(--b-go, 0.06)) 0%, rgba(255, 255, 255, 0.025) 42%, rgba(255, 255, 255, 0) 82%),
+    radial-gradient(ellipse var(--b-shadow-w) var(--b-shadow-h) at 50% 8%,
+      rgba(0, 0, 0, var(--b-so, 0.72)) 0%, rgba(4, 4, 4, 0.58) 48%, rgba(8, 8, 8, 0.18) 78%, rgba(8, 8, 8, 0) 100%),
+    radial-gradient(ellipse var(--b-vignette-w) var(--b-vignette-h) at 50% 8%,
+      rgba(0, 0, 0, 0) 0%, rgba(5, 5, 5, 0.12) 38%, rgba(4, 4, 4, 0.44) 68%, rgba(0, 0, 0, 0.86) 100%),
+    radial-gradient(ellipse var(--b-corona1-w) var(--b-corona1-h) at var(--b-corona1-x) 6%,
+      rgba(210, 210, 210, var(--b-l1o, 0.04)) 0%, rgba(150, 150, 150, 0.018) 46%, rgba(255, 255, 255, 0) 82%),
+    radial-gradient(ellipse var(--b-corona2-w) var(--b-corona2-h) at var(--b-corona2-x) 11%,
+      rgba(210, 210, 210, var(--b-l2o, 0.035)) 0%, rgba(150, 150, 150, 0.015) 44%, rgba(255, 255, 255, 0) 80%);
+  /* The sRGB list remains as a fallback for browsers without oklch support. */
   background-image:
-    radial-gradient(ellipse var(--b-gw, 45%) var(--b-gh, 30%) at var(--b-gx, 50%) var(--b-gy, -6%),
-      oklch(1 0 0 / var(--b-go, 0.10)) 0%,
-      oklch(1 0 0 / calc(var(--b-go, 0.10) * 0.40)) 34%,
-      oklch(1 0 0 / 0) 72%),
-    radial-gradient(ellipse var(--b-vw, 35%) var(--b-vh, 100%) at var(--b-vx, 50%) var(--b-vy, 0%),
-      oklch(0 0 0 / 0) 0%,
-      oklch(0.25 0 0 / 0.20) 30%,
-      oklch(0.12 0 0 / 0.52) 62%,
-      oklch(0.04 0 0 / 0.84) 84%,
-      oklch(0 0 0 / 1) 100%);
-  animation: aurora-drift-b 27s ease-in-out infinite;
+    radial-gradient(ellipse var(--b-glow-w) var(--b-glow-h) at 50% 8%,
+      oklch(1 0 0 / var(--b-go, 0.06)) 0%, oklch(1 0 0 / 0.025) 42%, oklch(1 0 0 / 0) 82%),
+    radial-gradient(ellipse var(--b-shadow-w) var(--b-shadow-h) at 50% 8%,
+      oklch(0 0 0 / var(--b-so, 0.72)) 0%, oklch(0.03 0 0 / 0.58) 48%, oklch(0.05 0 0 / 0.18) 78%, oklch(0.05 0 0 / 0) 100%),
+    radial-gradient(ellipse var(--b-vignette-w) var(--b-vignette-h) at 50% 8%,
+      oklch(0 0 0 / 0) 0%, oklch(0.02 0 0 / 0.12) 38%, oklch(0.02 0 0 / 0.44) 68%, oklch(0 0 0 / 0.86) 100%),
+    radial-gradient(ellipse var(--b-corona1-w) var(--b-corona1-h) at var(--b-corona1-x) 6%,
+      oklch(0.86 0 0 / var(--b-l1o, 0.04)) 0%, oklch(0.62 0 0 / 0.018) 46%, oklch(1 0 0 / 0) 82%),
+    radial-gradient(ellipse var(--b-corona2-w) var(--b-corona2-h) at var(--b-corona2-x) 11%,
+      oklch(0.86 0 0 / var(--b-l2o, 0.035)) 0%, oklch(0.62 0 0 / 0.015) 44%, oklch(1 0 0 / 0) 80%);
+  animation: aurora-drift-b 34s ease-in-out infinite;
 }
 
-/* Phase C — the holy donut ring: a bright halo around a dark core, kept
-   sharper than the others and held longer so the ring can be appreciated. */
+/* Phase C — fixed umbra with a layered, softly irregular silver corona. */
 #particles-js .aurora-c{
+  --c-shadow-w: 36%;
+  --c-shadow-h: 16%;
+  --c-ring-w: var(--c-rw, 62%);
+  --c-ring-h: var(--c-rh, 32%);
+  --c-glow-w: var(--c-gw, 78%);
+  --c-glow-h: var(--c-gh, 48%);
+  --c-corona-1-w: var(--c-l1w, 36%);
+  --c-corona-1-h: var(--c-l1h, 16%);
+  --c-corona-1-x: 43%;
+  --c-corona-2-w: var(--c-l2w, 34%);
+  --c-corona-2-h: var(--c-l2h, 18%);
+  --c-corona-2-x: 57%;
+  --c-corona-3-w: var(--c-l3w, 44%);
+  --c-corona-3-h: var(--c-l3h, 13%);
   z-index: 3;
   opacity: 0;
   background-image:
-    radial-gradient(ellipse var(--c-rw, 58%) var(--c-rh, 26%) at var(--c-x, 50%) var(--c-y, 8%),
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.55) 12%,
-      rgba(255, 255, 255, var(--c-o, 0.26)) 21%,
-      rgba(255, 255, 255, 0.08) 34%,
-      rgba(0, 0, 0, 0.55) 60%,
-      rgba(0, 0, 0, 0.96) 100%),
-    linear-gradient(120deg, rgba(30, 30, 30, 0.15) 0%, rgba(18, 18, 18, 0.15) 100%);
-  /* oklch keeps the halo's dark inner/outer falloff smooth. */
+    radial-gradient(ellipse var(--c-shadow-w) var(--c-shadow-h) at 50% 8%,
+      rgba(0, 0, 0, 0.97) 0%, rgba(0, 0, 0, 0.94) 48%, rgba(3, 3, 3, 0.68) 65%, rgba(0, 0, 0, 0.25) 76%, rgba(0, 0, 0, 0) 90%),
+    radial-gradient(ellipse var(--c-ring-w) var(--c-ring-h) at 50% 8%,
+      rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.14) 38%, rgba(255, 255, 255, var(--c-ro, 0.076)) var(--c-rs, 45%),
+      rgba(255, 255, 255, var(--c-o, 0.20)) var(--c-rp, 52%), rgba(175, 175, 175, 0.075) 60%,
+      rgba(25, 25, 25, 0.12) 68%, rgba(0, 0, 0, 0) var(--c-re, 74%), rgba(0, 0, 0, 0) 100%),
+    radial-gradient(ellipse var(--c-glow-w) var(--c-glow-h) at 50% 8%,
+      rgba(220, 220, 220, var(--c-go, 0.04)) 0%, rgba(175, 175, 175, 0.018) 42%, rgba(255, 255, 255, 0) 82%),
+    radial-gradient(ellipse var(--c-corona-1-w) var(--c-corona-1-h) at var(--c-corona-1-x) 6%,
+      rgba(225, 225, 225, var(--c-l1o, 0.04)) 0%, rgba(175, 175, 175, 0.018) 40%, rgba(255, 255, 255, 0) 82%),
+    radial-gradient(ellipse var(--c-corona-2-w) var(--c-corona-2-h) at var(--c-corona-2-x) 11%,
+      rgba(220, 220, 220, var(--c-l2o, 0.035)) 0%, rgba(165, 165, 165, 0.016) 44%, rgba(255, 255, 255, 0) 84%),
+    radial-gradient(ellipse var(--c-corona-3-w) var(--c-corona-3-h) at 50% 18%,
+      rgba(190, 190, 190, var(--c-l3o, 0.03)) 0%, rgba(135, 135, 135, 0.012) 48%, rgba(255, 255, 255, 0) 86%);
+  /* The offset low-opacity lobes disturb only the corona edge, not its umbra. */
   background-image:
-    radial-gradient(ellipse var(--c-rw, 58%) var(--c-rh, 26%) at var(--c-x, 50%) var(--c-y, 8%),
-      oklch(0 0 0 / 0.92) 0%,
-      oklch(0 0 0 / 0.55) 12%,
-      oklch(1 0 0 / var(--c-o, 0.26)) 21%,
-      oklch(1 0 0 / 0.08) 34%,
-      oklch(0.22 0 0 / 0.14) 47%,
-      oklch(0 0 0 / 0.55) 60%,
-      oklch(0.04 0 0 / 0.84) 82%,
-      oklch(0 0 0 / 0.96) 100%),
-    linear-gradient(120deg, oklch(0.28 0 0 / 0.15) 0%, oklch(0.22 0 0 / 0.15) 100%);
-  animation: aurora-drift-c 16s ease-in-out infinite;
+    radial-gradient(ellipse var(--c-shadow-w) var(--c-shadow-h) at 50% 8%,
+      oklch(0 0 0 / 0.97) 0%, oklch(0 0 0 / 0.94) 48%, oklch(0.02 0 0 / 0.68) 65%, oklch(0 0 0 / 0.25) 76%, oklch(0 0 0 / 0) 90%),
+    radial-gradient(ellipse var(--c-ring-w) var(--c-ring-h) at 50% 8%,
+      oklch(0 0 0 / 0) 0%, oklch(0 0 0 / 0.14) 38%, oklch(1 0 0 / var(--c-ro, 0.076)) var(--c-rs, 45%),
+      oklch(1 0 0 / var(--c-o, 0.20)) var(--c-rp, 52%), oklch(0.74 0 0 / 0.075) 60%,
+      oklch(0.10 0 0 / 0.12) 68%, oklch(0 0 0 / 0) var(--c-re, 74%), oklch(0 0 0 / 0) 100%),
+    radial-gradient(ellipse var(--c-glow-w) var(--c-glow-h) at 50% 8%,
+      oklch(0.88 0 0 / var(--c-go, 0.04)) 0%, oklch(0.64 0 0 / 0.018) 42%, oklch(1 0 0 / 0) 82%),
+    radial-gradient(ellipse var(--c-corona-1-w) var(--c-corona-1-h) at var(--c-corona-1-x) 6%,
+      oklch(0.9 0 0 / var(--c-l1o, 0.04)) 0%, oklch(0.64 0 0 / 0.018) 40%, oklch(1 0 0 / 0) 82%),
+    radial-gradient(ellipse var(--c-corona-2-w) var(--c-corona-2-h) at var(--c-corona-2-x) 11%,
+      oklch(0.88 0 0 / var(--c-l2o, 0.035)) 0%, oklch(0.62 0 0 / 0.016) 44%, oklch(1 0 0 / 0) 84%),
+    radial-gradient(ellipse var(--c-corona-3-w) var(--c-corona-3-h) at 50% 18%,
+      oklch(0.78 0 0 / var(--c-l3o, 0.03)) 0%, oklch(0.54 0 0 / 0.012) 48%, oklch(1 0 0 / 0) 86%);
+  animation: aurora-drift-c 31s ease-in-out infinite;
+}
+
+/* On desktop, size the eclipse like a near-circle: no more than 550px wide
+   and no more than half the viewport height. Corona lobes stay inside that
+   envelope while their randomized opacity/stops keep the edge organic. */
+@media (min-width: 768px) {
+  #particles-js::before {
+    --a-ribbon1-w: min(110px, 10vh, 14vw);
+    --a-ribbon1-h: min(100px, 9vh, 12vw);
+    --a-ribbon1-x: calc(50% - min(120px, 7vw, 12vh));
+    --a-ribbon1-y: 8%;
+    --a-ribbon2-w: min(110px, 10vh, 14vw);
+    --a-ribbon2-h: min(100px, 9vh, 12vw);
+    --a-ribbon2-x: calc(50% + min(120px, 7vw, 12vh));
+    --a-ribbon2-y: 8%;
+    --a-beam-w: min(258px, 23.5vh, 30.7vw);
+    --a-beam-h: min(258px, 23.5vh, 30.7vw);
+    --a-beam-y: 8%;
+  }
+
+  #particles-js::after {
+    --b-glow-w: min(200px, 18vh, 24vw);
+    --b-glow-h: min(200px, 18vh, 24vw);
+    --b-shadow-w: min(260px, 23.7vh, 31vw);
+    --b-shadow-h: min(260px, 23.7vh, 31vw);
+    --b-vignette-w: min(260px, 23.7vh, 31vw);
+    --b-vignette-h: min(260px, 23.7vh, 31vw);
+    --b-corona1-w: min(105px, 9vh, 12vw);
+    --b-corona1-h: min(85px, 8vh, 11vw);
+    --b-corona1-x: calc(50% - min(110px, 6.5vw, 11vh));
+    --b-corona2-w: min(105px, 9vh, 12vw);
+    --b-corona2-h: min(85px, 8vh, 11vw);
+    --b-corona2-x: calc(50% + min(110px, 6.5vw, 11vh));
+  }
+
+  #particles-js .aurora-c {
+    --c-shadow-w: min(var(--c-desktop-shadow-size, 137px), 137px, 12.5vh);
+    --c-shadow-h: min(var(--c-desktop-shadow-size, 137px), 137px, 12.5vh);
+    --c-ring-w: min(var(--c-desktop-ring-size, 275px), 275px, 25vh);
+    --c-ring-h: min(var(--c-desktop-ring-size, 275px), 275px, 25vh);
+    --c-glow-w: min(var(--c-desktop-ring-size, 275px), 275px, 25vh);
+    --c-glow-h: min(var(--c-desktop-ring-size, 275px), 275px, 25vh);
+    --c-corona-1-w: min(var(--c-desktop-l1w, 100px), 10vh, 130px);
+    --c-corona-1-h: min(var(--c-desktop-l1h, 80px), 10vh, 110px);
+    --c-corona-1-x: calc(50% - min(140px, 8vw, 14vh));
+    --c-corona-2-w: min(var(--c-desktop-l2w, 100px), 10vh, 130px);
+    --c-corona-2-h: min(var(--c-desktop-l2h, 80px), 10vh, 110px);
+    --c-corona-2-x: calc(50% + min(140px, 8vw, 14vh));
+    --c-corona-3-w: min(var(--c-desktop-l3w, 120px), 12vh, 150px);
+    --c-corona-3-h: min(var(--c-desktop-l3h, 90px), 10vh, 120px);
+  }
+
+  #particles-js[data-phase="c"] .aurora-core {
+    width: min(550px, 50vh);
+    height: min(550px, 50vh);
+    top: calc(8% - min(275px, 25vh));
+  }
+
+  #particles-js:not([data-phase="c"]) .aurora-core {
+    width: min(530px, 48.5vh);
+    height: min(530px, 48.5vh);
+    top: calc(8% - min(265px, 24.25vh));
+  }
 }
 
 /* Phase switching: A is the default, B and C add data-phase on the container. */
@@ -162,37 +266,37 @@ canvas{
   animation-play-state: paused;
 }
 
-/* Breathing core — pulse only, no blur/blend. */
+/* Subtle top-centre light breathing; the phase-C corona remains dominant. */
 #particles-js .aurora-core{
   position: absolute;
   z-index: 4;
   left: 50%;
-  top: -22vmax;
+  top: -17vmax;
   width: 70vmax;
   height: 48vmax;
   background: radial-gradient(ellipse at center,
-    rgba(255, 255, 255, 0.42) 0%,
-    rgba(210, 210, 210, 0.22) 30%,
-    rgba(150, 150, 150, 0.10) 55%,
-    rgba(0, 0, 0, 0) 72%);
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(210, 210, 210, 0.15) 30%,
+    rgba(150, 150, 150, 0.065) 55%,
+    rgba(0, 0, 0, 0) 76%);
   background: radial-gradient(ellipse at center,
-    oklch(1 0 0 / 0.42) 0%,
-    oklch(0.82 0 0 / 0.30) 15%,
-    oklch(0.82 0 0 / 0.22) 30%,
-    oklch(0.59 0 0 / 0.14) 45%,
-    oklch(0.59 0 0 / 0.10) 55%,
-    oklch(0.30 0 0 / 0.04) 65%,
-    oklch(0 0 0 / 0) 78%);
+    oklch(1 0 0 / 0.26) 0%,
+    oklch(0.82 0 0 / 0.20) 16%,
+    oklch(0.82 0 0 / 0.15) 30%,
+    oklch(0.59 0 0 / 0.09) 48%,
+    oklch(0.59 0 0 / 0.065) 60%,
+    oklch(0.30 0 0 / 0.025) 70%,
+    oklch(0 0 0 / 0) 82%);
   transform: translate3d(-50%, 0, 0);
   pointer-events: none;
-  animation: aurora-core-breathe 9s ease-in-out infinite;
+  animation: aurora-core-breathe 19s ease-in-out infinite;
   transition: opacity 1.5s ease;
 }
 
 /* Let the ring breathe alone: dim the core while phase C is on screen. */
 #particles-js[data-phase="c"] .aurora-core{
   animation: none;
-  opacity: 0.12;
+  opacity: 0.055;
   transform: translate3d(-50%, 0, 0);
 }
 
@@ -211,6 +315,7 @@ canvas{
   position: absolute;
   z-index: 5;
   inset: 0;
+  margin: 0;
   pointer-events: none;
   opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
@@ -219,25 +324,25 @@ canvas{
 }
 
 @keyframes aurora-drift-a{
-  0%, 100%{ transform: translate3d(-2.5%, 0, 0) scale(1.02) rotate(-1.2deg); }
-  50%     { transform: translate3d(2.5%, -1.5%, 0) scale(1.10) rotate(1.4deg); }
+  0%, 100%{ transform: scale(1.015) rotate(-0.35deg); }
+  50%     { transform: scale(1.055) rotate(0.35deg); }
 }
 
 @keyframes aurora-drift-b{
-  0%, 100%{ transform: translate3d(2%, 0.5%, 0) scale(1.06) rotate(1deg); }
-  50%     { transform: translate3d(-2%, -1%, 0) scale(1.01) rotate(-1.4deg); }
+  0%, 100%{ transform: scale(1.015) rotate(0.18deg); }
+  50%     { transform: scale(1.045) rotate(-0.18deg); }
 }
 
-/* The ring slowly swells so you can watch the halo open and close. */
+/* Subtle scale-only motion keeps the corona's focal point anchored. */
 @keyframes aurora-drift-c{
-  0%, 100%{ transform: translate3d(0, 0, 0) scale(0.98); }
-  50%     { transform: translate3d(0, 2%, 0) scale(1.12); }
+  0%, 100%{ transform: scale(0.99); }
+  50%     { transform: scale(1.045); }
 }
 
 @keyframes aurora-core-breathe{
-  0%, 100%{ opacity: 0.12; transform: translate3d(-50%, 0, 0) scale(0.82, 0.90); }
-  45%     { opacity: 0.55; transform: translate3d(-50%, 2%, 0) scale(1.10, 1.04); }
-  60%     { opacity: 0.40; transform: translate3d(-50%, 1%, 0) scale(1.03, 1.00); }
+  0%, 100%{ opacity: 0.08; transform: translate3d(-50%, 0, 0) scale(0.96, 0.97); }
+  45%     { opacity: 0.28; transform: translate3d(-50%, 0, 0) scale(1.03, 1.02); }
+  60%     { opacity: 0.20; transform: translate3d(-50%, 0, 0) scale(1.01, 1.00); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -267,7 +372,7 @@ canvas{
   text-indent: 4px; 
   line-height: 14px; 
   padding-bottom: 2px; 
-  font-family: Helvetica, Arial, sans-serif; 
+  font-family: 'Times New Roman';
   font-weight: bold; 
 } 
 .js-count-particles{ 
@@ -302,7 +407,7 @@ canvas{
   height: calc(100% - 150px);
   width: 800px;
 }
-.home{
+.home {
   font-size: calc(10px + 2vmin);
   margin: auto;
   padding-left: 10vw;
@@ -466,31 +571,183 @@ a.pi-h { background: #c8232c; }
   justify-content: center;
   align-items: center;
 }
-/* Home page sword (SVG replacement for the old R3F canvas) */
+/* ReimonDev home hero: centered ornamental sword, restrained grayscale UI. */
+.home.home-landing {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: max(5rem, calc(5rem + env(safe-area-inset-top))) 1.5rem 2rem;
+  color: #f2f2f2;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.home-hero {
+  display: flex;
+  width: min(100%, 900px);
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+
+.home-social-label {
+  margin: 0;
+  color: #9a9a9a;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
 .sword-showcase {
-  height: 420px;
+  display: grid;
+  width: min(100%, 380px);
+  height: min(38svh, 380px);
+  place-items: center;
+  margin: 1rem auto 0.2rem;
+  overflow: visible;
+}
+
+.sword-emblem {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(22vw, 175px);
+  max-height: min(38svh, 380px);
+  object-fit: contain;
+  opacity: 0;
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.08));
+  animation: home-sword-emerge 1.2s cubic-bezier(0.2, 0.75, 0.25, 1) 0.28s both;
+}
+
+.home-title {
+  margin: 0.6rem 0 0;
+  color: #f5f5f5;
+  font-size: clamp(1.8rem, 4.8vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  line-height: 1.1;
+  opacity: 0;
+  animation: home-fade-up 0.75s cubic-bezier(0.2, 0.75, 0.25, 1) 0.92s both;
+}
+
+.home-intro {
+  max-width: 42ch;
+  margin: 0.5rem 0 0;
+  color: #c5c5c5;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.5;
+  opacity: 0;
+  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.18s both;
+}
+
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.35rem;
+  opacity: 0;
+  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.48s both;
+}
+
+.home-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid #555;
+  color: #ddd;
+  background: rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.home-action:hover {
+  transform: translateY(-2px);
+  border-color: #aaa;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.home-action:focus-visible,
+.home-landing .social-icons a:focus-visible {
+  outline: 2px solid #eee;
+  outline-offset: 4px;
+}
+
+.home-action-primary {
+  border-color: #aaa;
+  color: #111;
+  background: #ddd;
+}
+
+.home-action-primary:hover {
+  border-color: #fff;
+  color: #000;
+  background: #fff;
+}
+
+.home-social-block {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  margin-top: 1.3rem;
+  opacity: 0;
+  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.78s both;
+}
+
+.home-landing .social-icons {
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 900px;
-  overflow: hidden;
+  gap: clamp(0.9rem, 2.5vw, 1.35rem);
 }
 
-.sword-tilt {
-  transform: rotateZ(-8deg);
+.home-landing .social-icons a {
+  display: inline-grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  color: #aaa;
+  font-size: 1.35rem;
+  text-decoration: none;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
-.sword-svg {
-  width: 180px;
-  height: 360px;
+.home-landing .social-icons a:hover {
+  transform: translateY(-3px);
   color: #fff;
-  transform-origin: 50% 50%;
-  animation: sword-spin 14s linear infinite;
+  filter: none;
 }
 
-@keyframes sword-spin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
+.home-landing .social-icons svg {
+  width: 25px;
+  height: 25px;
+}
+
+@keyframes home-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes home-sword-emerge {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+#root:has(.home-landing) .navbar {
+  opacity: 0;
+  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 0.08s both;
 }
 
 /* Route-level Suspense fallback */
@@ -508,10 +765,31 @@ a.pi-h { background: #c8232c; }
 }
 
 @media (max-width: 600px) {
-  .sword-showcase { height: 300px; }
-  .sword-svg { width: 130px; height: 260px; }
+  .home.home-landing { padding: max(4.75rem, calc(4.75rem + env(safe-area-inset-top))) 1rem 1.5rem; }
+  .sword-showcase { height: min(36svh, 310px); margin-bottom: 0.2rem; }
+  .sword-emblem { max-width: min(34vw, 135px); max-height: min(36svh, 310px); }
+  .home-title { font-size: clamp(1.65rem, 7.5vw, 2.4rem); letter-spacing: 0.065em; }
+  .home-intro { max-width: 32ch; font-size: 1rem; }
+  .home-actions { gap: 0.55rem; margin-top: 1.1rem; }
+  .home-action { min-height: 44px; padding-inline: 0.8rem; }
+  .home-social-block { margin-top: 1.35rem; }
+  .home-landing .social-icons { gap: 0.45rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sword-svg { animation: none; }
+  #root:has(.home-landing) .navbar,
+  .home-landing .sword-emblem,
+  .home-landing .home-title,
+  .home-landing .home-intro,
+  .home-landing .home-actions,
+  .home-landing .home-social-block {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .home-action,
+  .home-landing .social-icons a {
+    transition: none;
+  }
 }

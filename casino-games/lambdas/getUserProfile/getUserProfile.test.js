@@ -31,7 +31,7 @@ describe('getUserProfile concurrency and privacy', () => {
         expect(send.mock.calls[0][0].constructor.name).toBe('GetItemCommand');
     });
 
-    it('returns only public fields for an existing foreign user', async () => {
+    it('returns only public identity fields for an existing foreign user', async () => {
         send.mockResolvedValueOnce({ Item: marshall({
             userId: 'other', email: 'private@example.com', currentBalance: 999,
             nickname: 'Other', totalGames: 2, totalWins: 1,
@@ -40,13 +40,14 @@ describe('getUserProfile concurrency and privacy', () => {
         const result = await handler(getEvent('other'));
 
         expect(result.statusCode).toBe(200);
-        expect(body(result)).toMatchObject({ userId: 'other', nickname: 'Other', winRate: '50.0' });
+        expect(body(result)).toMatchObject({ userId: 'other', nickname: 'Other' });
         expect(body(result)).not.toHaveProperty('email');
         expect(body(result)).not.toHaveProperty('currentBalance');
+        expect(body(result)).not.toHaveProperty('totalGames');
     });
 
     it('conditionally creates own profile and rereads winner after a race', async () => {
-        const winner = { userId: 'self', email: 'winner@example.com', nickname: 'Winner', currentBalance: 250 };
+        const winner = { userId: 'self', email: 'winner@example.com', nickname: 'Winner' };
         send.mockResolvedValueOnce({})
             .mockRejectedValueOnce(conditionalFailure())
             .mockResolvedValueOnce({ Item: marshall(winner) });
@@ -54,14 +55,15 @@ describe('getUserProfile concurrency and privacy', () => {
         const result = await handler(getEvent());
 
         expect(result.statusCode).toBe(200);
-        expect(body(result)).toMatchObject({ nickname: 'Winner', email: 'winner@example.com', currentBalance: 250 });
+        expect(body(result)).toMatchObject({ nickname: 'Winner', email: 'winner@example.com' });
+        expect(body(result)).not.toHaveProperty('currentBalance');
         expect(send.mock.calls[1][0].input.ConditionExpression).toBe('attribute_not_exists(userId)');
         expect(send.mock.calls[2][0].input.ConsistentRead).toBe(true);
     });
 
     it('backfills only missing profile fields and keeps concurrent customization', async () => {
-        const old = { userId: 'self', email: 'self@example.com', currentBalance: 321, totalGames: 9 };
-        const customized = { ...old, nickname: 'Custom', avatarImage: 'custom.png', currentBalance: 400, totalGames: 10 };
+        const old = { userId: 'self', email: 'self@example.com' };
+        const customized = { ...old, nickname: 'Custom', avatarImage: 'custom.png' };
         send.mockResolvedValueOnce({ Item: marshall(old) })
             .mockRejectedValueOnce(conditionalFailure())
             .mockResolvedValueOnce({ Item: marshall(customized) });
@@ -71,7 +73,7 @@ describe('getUserProfile concurrency and privacy', () => {
         }));
 
         expect(result.statusCode).toBe(200);
-        expect(body(result)).toMatchObject({ nickname: 'Custom', avatarImage: 'custom.png', currentBalance: 400, totalGames: 10 });
+        expect(body(result)).toMatchObject({ nickname: 'Custom', avatarImage: 'custom.png' });
         const update = send.mock.calls[1][0];
         expect(update.constructor.name).toBe('UpdateItemCommand');
         expect(update.input.UpdateExpression).toBe('SET #field = :value');
@@ -83,15 +85,15 @@ describe('getUserProfile concurrency and privacy', () => {
     });
 
     it('uses ALL_NEW from successful backfill without rewriting wallet fields', async () => {
-        const old = { userId: 'self', email: 'self@example.com', currentBalance: 321, totalGames: 9, nickname: 'Player' };
-        const updated = { ...old, avatarImage: 'google.png', currentBalance: 400, totalGames: 10 };
+        const old = { userId: 'self', email: 'self@example.com', nickname: 'Player' };
+        const updated = { ...old, avatarImage: 'google.png' };
         send.mockResolvedValueOnce({ Item: marshall(old) })
             .mockResolvedValueOnce({ Attributes: marshall(updated) });
 
         const result = await handler(getEvent(null, { sub: 'self', email: 'self@example.com', picture: 'google.png' }));
 
         expect(result.statusCode).toBe(200);
-        expect(body(result)).toMatchObject({ avatarImage: 'google.png', currentBalance: 400, totalGames: 10 });
+        expect(body(result)).toMatchObject({ avatarImage: 'google.png' });
         const update = send.mock.calls[1][0].input;
         expect(update.ReturnValues).toBe('ALL_NEW');
         expect(update.ConditionExpression).toContain('attribute_not_exists(avatarCustomized)');

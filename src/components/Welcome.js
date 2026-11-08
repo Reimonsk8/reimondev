@@ -10,18 +10,26 @@ const Welcome = () => {
 
   const [outro, setOutro] = useState(false);
   const [enterSite, setEnterSite] = useState(false);
+  const [renderer, setRenderer] = useState('webgl');
 
   useEffect(() => {
-    const engine = createIntroParticles(canvasRef.current);
+    const engine = createIntroParticles(canvasRef.current, renderer);
+    if (!engine) {
+      if (renderer === 'webgl') setRenderer('2d');
+      return undefined;
+    }
+
     engineRef.current = engine;
 
-    const outroTimer = setTimeout(() => setOutro(true), 1000);
-
     return () => {
-      clearTimeout(outroTimer);
-      engine?.destroy();
-      engineRef.current = null;
+      engine.destroy();
+      if (engineRef.current === engine) engineRef.current = null;
     };
+  }, [renderer]);
+
+  useEffect(() => {
+    const outroTimer = setTimeout(() => setOutro(true), 1000);
+    return () => clearTimeout(outroTimer);
   }, []);
 
   useEffect(() => {
@@ -49,16 +57,14 @@ const Welcome = () => {
     <div id="WelcomeComponentBody" className={getBackgroundStyle()}>
       {/* Enter button container*/}
       <div className="bottom-container">
-        <div className="skip" onClick={onIntroFinished}>
-          <a href={null}>
-            Enter
-            <span className="shift">›</span>
-          </a>
-          <div className="mask"></div>
-        </div>
+        <button type="button" className="skip" onClick={onIntroFinished}>
+          Enter
+          <span className="shift" aria-hidden="true">›</span>
+          <span className="mask" aria-hidden="true" />
+        </button>
       </div>
       {/* Particle intro canvas */}
-      <canvas id="IntroParticleCanvas" ref={canvasRef} />
+      <canvas id="IntroParticleCanvas" key={renderer} ref={canvasRef} />
     </div>
   );
 };

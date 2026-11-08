@@ -18,13 +18,8 @@ jobs:
 
       - run: npm ci
 
-      # Each lambda folder carries its own package.json (committed) because CDK
-      # bundles each one from its own directory, and the Node 20 runtime does not
-      # ship the AWS SDK. Without these installs two steps fail for reasons that
-      # have nothing to do with the code under test:
-      #   - `npm test` -> lambdas/walletLink/walletLink.test.js requires `viem`
-      #   - `cdk synth` -> lambdas/delete-account cannot resolve
-      #     @aws-sdk/client-cognito-identity-provider
+      # CDK bundles each Lambda folder as-is. Node 20 does not include the AWS
+      # SDK v3 packages used by the auth and WebSocket handlers.
       - name: Install lambda dependencies
         run: |
           for dir in lambdas/*/; do

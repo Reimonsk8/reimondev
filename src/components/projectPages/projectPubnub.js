@@ -93,9 +93,8 @@ const ProjectPubnub = () => {
 
         // Grid lines and Y-axis labels
         for (let i = 0; i <= 10; i++) {
-            let color = 25 * i;
-            // Warm gradient for rows
-            ctx.fillStyle = `rgba(255, ${color}, 100, 0.1)`;
+            // Soft grayscale bands keep the live chart within the eclipse palette.
+            ctx.fillStyle = `rgba(220, 224, 232, ${0.025 + (i % 2) * 0.012})`;
             ctx.fillRect(40, 0 + (i * 50), 400, 50);
 
             // Horizontal lines
@@ -116,8 +115,8 @@ const ProjectPubnub = () => {
 
             const barHeight = (10 * tempValue) + 10 + (8 * Math.pow(-1, i));
 
-            // Bar color - transparent white/blueish
-            ctx.fillStyle = "rgba(100, 200, 255, 0.2)";
+            // Restrained silver bars against the dark chart surface.
+            ctx.fillStyle = "rgba(205, 211, 222, 0.22)";
 
             ctx.fillRect(40 + (i * 10), 550 - (10 * tempValue), 4, barHeight);
 
@@ -139,8 +138,7 @@ const ProjectPubnub = () => {
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
 
-            // Draw point square - bright cyan/purple neon
-            ctx.fillStyle = '#00f2ff';
+            ctx.fillStyle = '#e4e7ee';
             ctx.fillRect(x - 2, y - 2, 4, 4);
         }
         ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";

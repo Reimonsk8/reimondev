@@ -1,13 +1,5 @@
 import React, { lazy, Suspense, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faRobot,
-  faBrain,
-  faSearch,
-  faGem,
-  faCommentDots,
-} from '@fortawesome/free-solid-svg-icons';
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons'; // Correct import
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'; // Add faClipboard
 import AITools from './AITools';
 import "../../styles/PostBoard.css";
@@ -15,91 +7,53 @@ import "../../styles/PostBoard.css";
 // three.js is only needed for this tab, so keep it out of the page bundle.
 const CoolAnimation = lazy(() => import('./CoolAnimation'));
 
+const GUIDE_TABS = [
+  { id: 'edgegap', value: 'Edgegap vs GameLift', label: 'Edgegap vs GameLift' },
+  { id: 'gamelift', value: 'AWS GameLift Guide', label: 'GameLift · older UE guide' },
+  { id: 'ai-tools', value: 'AI Tools', label: 'AI Tools' },
+  { id: 'animation', value: '3D Cool Animations', label: '3D Animation' },
+];
+
 const INSTALLBAT = () => `
   @echo off
-  set INSTALL_DIR=C:\\game
-  set LOG_FILE=%INSTALL_DIR%\\UEPrereqSetup_x64.log
-  set SERVER_EXE=%INSTALL_DIR%\\UnknownVoidOnline\\Binaries\\Win64\\UnknownVoidOnlineServer.exe
+  set "PREREQ=%~dp0Engine\\Extras\\Redist\\en-us\\UEPrereqSetup_x64.exe"
+  set "LOG_FILE=%~dp0UEPrereqSetup_x64.log"
 
-  REM Create installation directory if it doesn't exist
-  if not exist "%INSTALL_DIR%" mkdir "%INSTALL_DIR%"
+  if not exist "%PREREQ%" (
+      echo Unreal Engine prerequisites were not found at "%PREREQ%".
+      echo Update this path to match the packaged server build.
+      exit /b 1
+  )
 
   REM Install Unreal Engine prerequisites
   echo Installing Unreal Engine prerequisites...
-  start /wait Engine\\Extras\\Redist\\en-us\\UEPrereqSetup_x64.exe /install /quiet /norestart /log "%LOG_FILE%"
-  if %errorLevel% neq 0 (
+  start /wait "" "%PREREQ%" /install /quiet /norestart /log "%LOG_FILE%"
+  if errorlevel 1 (
       echo Failed to install Unreal Engine prerequisites. Check log: %LOG_FILE%
-      exit /b
+      exit /b 1
   )
 
+  REM This script installs prerequisites only. Configure the server executable in GameLift runtime settings.
   echo Installation completed successfully.
   exit /b
 `;
 
-const UPLOADSERVERBAT = () => `
-aws gamelift upload-build --name "{yourgamename}" --operating-system "WINDOWS_2016" --build-root "C:\Users\{yourusername}\Documents\Unreal Projects\{yourgamename}\WindowsServer" --build-version "1.0.0" --region {yourregion ex: us-west-1} --server-sdk-version 5.2.0
+const UPLOADBUILDCOMMAND = () => `
+aws gamelift upload-build --name "<build-name>" --operating-system "<supported-os>" --build-root "C:/path/to/WindowsServer" --build-version "<build-version>" --region "<aws-region>" --server-sdk-version "<matching-server-sdk-version>" --profile "<aws-profile>"
 `;
 
 
-const UPROJECTPLUGINCONFIGURATION = () => `
-  "Plugins": [
-    { "Name": "WebBrowserWidget", "Enabled": true },
-    { "Name": "HttpBlueprint", "Enabled": true }
-  ]
-`;
-
-
-const SETOPENSSLPATHSBAT = () => `
-@echo off
-setlocal EnableDelayedExpansion
-
-:: Set your OpenSSL installation path here
-set "OPENSSL_DIR=C:\\Program Files\\OpenSSL-Win64"
-
-:: Check if the path exists
-if not exist "%OPENSSL_DIR%" (
-    echo Error: The specified path does not exist. Please check the OPENSSL_DIR variable.
-    exit /b
-)
-
-:: Set environment variables
-setx OPENSSL_INCLUDE_DIR "%OPENSSL_DIR%\\include" /M
-setx OPENSSL_LIBRARIES "%OPENSSL_DIR%\\lib" /M
-setx OPENSSL_ROOT_DIR "%OPENSSL_DIR%\\OpenSSL" /M
-
-:: Append OpenSSL bin directory to PATH if not already present
-set "PATH_UPDATE=%OPENSSL_DIR%\\bin"
-for /f "tokens=2* delims= " %%a in ('reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" /v Path 2^>nul') do set "OLD_PATH=%%b"
-
-echo %OLD_PATH% | findstr /I /C:"%PATH_UPDATE%" >nul
-if errorlevel 1 (
-    setx PATH "%OLD_PATH%;%PATH_UPDATE%" /M
-    echo OpenSSL path added to system PATH.
-) else (
-    echo OpenSSL path is already in system PATH.
-)
-
-echo Environment variables set successfully!
-pause
-`;
-
-const GAMELIFTFULLACCESSPOLICY = () => `
-
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "GameLiftFullAccess",
-      "Effect": "Allow",
-      "Action": "gamelift:*",
-      "Resource": "*"
-    }
-  ]    
+const OPENSSL_SETUP = () => `
+$env:OPENSSL_ROOT_DIR = 'C:\\Program Files\\OpenSSL-Win64'
+$env:OPENSSL_INCLUDE_DIR = Join-Path $env:OPENSSL_ROOT_DIR 'include'
+$env:OPENSSL_LIBRARIES = Join-Path $env:OPENSSL_ROOT_DIR 'lib'
+$env:PATH = (Join-Path $env:OPENSSL_ROOT_DIR 'bin') + ';' + $env:PATH
 `;
 
 const PostBoard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expandedImageSrc, setExpandedImageSrc] = useState('');
-  const [selectedGuide, setSelectedGuide] = useState('Edgegap vs GameLift');
+  const [selectedGuide, setSelectedGuide] = useState(GUIDE_TABS[0].value);
 
   const handleImageClick = (src) => {
     setExpandedImageSrc(src);
@@ -109,6 +63,19 @@ const PostBoard = () => {
   const handleModalClose = () => {
     setIsModalOpen(false);
     setExpandedImageSrc('');
+  };
+
+  const handleTabKeyDown = (event, index) => {
+    let nextIndex;
+    if (event.key === 'ArrowRight') nextIndex = (index + 1) % GUIDE_TABS.length;
+    else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + GUIDE_TABS.length) % GUIDE_TABS.length;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = GUIDE_TABS.length - 1;
+    else return;
+
+    event.preventDefault();
+    setSelectedGuide(GUIDE_TABS[nextIndex].value);
+    document.getElementById(`postboard-tab-${GUIDE_TABS[nextIndex].id}`)?.focus();
   };
 
   function copyToClipboard(commandText) {
@@ -125,49 +92,49 @@ const PostBoard = () => {
   const post0 = () => {
     return (
       <div className='guide-box'>
-        <h1>Why Edgegap might be better than AWS GameLift</h1>
-        <p>A comparison between deploying game servers on Edgegap versus AWS GameLift.</p>
-
-        <h3>The Struggle with AWS GameLift</h3>
+        <h1>Edgegap and Amazon GameLift: different hosting approaches</h1>
         <p>
-          As highlighted in my previous guide, setting up AWS GameLift is <strong>hard</strong>.
-          It involves compiling custom engine builds, managing fleet state, understanding complex IAM policies,
-          and dealing with long iteration times for builds. It is a powerful enterprise tool, but for indie developers
-          or small teams, the overhead is massive.
+          This is a high-level comparison, not a benchmark or a universal recommendation. The right choice depends on
+          your server architecture, target regions, operations needs, and current pricing.
         </p>
 
-        <h3>Enter Edgegap</h3>
+        <h3>Different deployment models</h3>
         <p>
-          Edgegap offers a different approach based on orchestration and edge computing.
-          Instead of you managing fleets and queues, Edgegap simply asks for your containerized game server and
-          automatically deploys it to the location closest to your players on demand.
+          Amazon GameLift Servers provides managed game-server hosting options, including managed EC2 fleets, and
+          integrates with other AWS services. The amount of fleet, queue, and session management you own depends on
+          which GameLift features you choose.
+        </p>
+        <p>
+          Edgegap is centered on container-based orchestration and placement across its available locations. A game
+          server still needs to be packaged for the platform and integrated with its allocation/session workflow.
+          See <a href="https://edgegap.com/" target="_blank" rel="noreferrer">Edgegap’s current platform information</a>.
         </p>
 
-        <h3>Key Benefits of Edgegap</h3>
+        <h3>Tradeoffs to evaluate</h3>
         <ul className='steps text-left'>
           <li>
-            <strong>1. Simplicity:</strong>
-            <p>You don't need to rebuild Unreal Engine from source or manage EC2 instances. If you can containerize your dedicated server (Docker), you can deploy it.</p>
+            <strong>Packaging:</strong>
+            <p>Container-first deployment can fit teams already using Docker. GameLift’s managed EC2 workflow may fit a project that needs AWS fleet controls or existing AWS integration.</p>
           </li>
           <li>
-            <strong>2. Latency:</strong>
-            <p>Edgegap deploys servers to "edge" locations, which are physically closer to players than standard AWS Regions, potentially offering much lower ping.</p>
+            <strong>Latency:</strong>
+            <p>Nearby placement does not guarantee lower player latency. Compare the actual regions available to your audience and measure p95 connection and session latency.</p>
           </li>
           <li>
-            <strong>3. Instant Scaling:</strong>
-            <p>Servers spin up on demand in seconds, rather than waiting minutes for auto-scaling groups to warm up instances.</p>
+            <strong>Operations:</strong>
+            <p>Compare fleet/session setup, monitoring, logs, capacity behavior, deployment workflow, and the amount of platform-specific integration your team will maintain.</p>
           </li>
           <li>
-            <strong>4. No Vendor Lock-in:</strong>
-            <p>Since it uses standard containers, you aren't tied as deeply into a proprietary SDK ecosystem compared to GameLift.</p>
+            <strong>Cost and availability:</strong>
+            <p>Model costs for your expected concurrency, idle capacity, traffic, and regions using each provider’s current pricing. Container portability does not remove provider-specific APIs or operational tradeoffs.</p>
           </li>
         </ul>
 
-        <h3>Conclusion</h3>
+        <h3>Practical next step</h3>
         <p>
-          If you want total control and are building a massive AAA MMO, GameLift might still be the way to go.
-          However, for most session-based multiplayer games, Edgegap provides a superior developer experience
-          with better performance out of the box.
+          Deploy the same small server prototype to both options, then compare setup effort, cold-start behavior,
+          measured player latency, operational visibility, and total cost. Re-check current provider documentation
+          before committing to a production design.
         </p>
       </div>
     )
@@ -178,19 +145,23 @@ const PostBoard = () => {
     return (
       <div className='guide-box'>
 
-        <h1>How to Deploy to AWS GameLift Step by Step</h1>
-        <p>Guide to deploying an Unreal Engine Server to AWS GameLift.</p>
+        <h1>Unreal Engine dedicated-server walkthrough</h1>
+        <aside className="guide-notice" role="note">
+          <strong>Legacy, version-specific guide.</strong> The download examples below reference GameLift Server SDK
+          5.2.0 and plugin 2.0.1. They have not been verified against current AWS releases. Check the current AWS
+          Unreal integration guide and supported versions before following these steps; do not treat this as a
+          current, tested deployment recipe.
+        </aside>
         <p>
-          I created this guide out of pure frustration while struggling to find up-to-date information on integrating Unreal Engine with AWS GameLift.
-          The official documentation, readmes, and even a one-year-old YouTube video all left gaps that led to countless errors and roadblocks.
-          Despite following all the recommended steps, I repeatedly encountered issues that required additional troubleshooting and workarounds.
-          This guide is meant to document everything I learned through trial and error, making it easier for others to get GameLift running smoothly without wasting hours debugging problems that aren't clearly addressed in existing resources.
+          This page records an older Windows/Unreal workflow for building a dedicated server and connecting it to
+          Amazon GameLift Servers. Plugin APIs, Unreal packaging steps, supported operating systems, and SDK versions
+          change; use the linked AWS documentation as the source of truth.
         </p>
 
         <h5>Reference Links</h5>
-        <a href="https://github.com/aws/amazon-gamelift-plugin-unreal/blob/main/README.md" target="_blank"> Official GameLift Unreal Plugin Readme</a><br />
-        <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-setup-unreal.html" target="_blank"> AWS GameLift Unreal Engine Integration Guide</a><br />
-        <a href="https://www.youtube.com/watch?v=HzffxtyyIOA" target="_blank"> YouTube Guide on GameLift Integration</a><br />
+        <a href="https://github.com/aws/amazon-gamelift-plugin-unreal/blob/main/README.md" target="_blank" rel="noreferrer">Official GameLift Unreal Plugin README</a><br />
+        <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-setup-unreal.html" target="_blank" rel="noreferrer">AWS GameLift Unreal Engine Integration Guide</a><br />
+        <a href="https://www.youtube.com/watch?v=HzffxtyyIOA" target="_blank" rel="noreferrer">Third-party YouTube walkthrough (check its date/version)</a><br />
         <p>
           In the following sections, I'll cover step-by-step instructions, common pitfalls, and solutions to issues you might encounter while setting up GameLift with Unreal Engine.
           Let's dive in! 🚀
@@ -202,9 +173,9 @@ const PostBoard = () => {
                 So first, install Visual Studio 2022 and the necessary game development components for Unreal Engine development, Visual Studio tools, Windows 10 SDK, etc...&nbsp;
                 <a href="https://visualstudio.microsoft.com/downloads/" target="_blank" rel="noreferrer">Visual Studio 2022</a></p>
 
-              <div className="image-container" onClick={() => handleImageClick("https://s3.us-east-1.amazonaws.com/reimondev.com/vs2022components.JPG")}>
-                <img src="https://s3.us-east-1.amazonaws.com/reimondev.com/vs2022components.JPG" alt="Unreal Engine Source Code" />
-              </div>
+               <button type="button" className="image-container" aria-label="Enlarge Visual Studio components screenshot" onClick={() => handleImageClick("https://s3.us-east-1.amazonaws.com/reimondev.com/vs2022components.JPG")}>
+                <img src="https://s3.us-east-1.amazonaws.com/reimondev.com/vs2022components.JPG" alt="Visual Studio 2022 components required for an Unreal Engine source build" />
+              </button>
               <br />
               <p>Download Unreal Engine source code from GitHub:
                 <a href="https://github.com/EpicGames/UnrealEngine.git" target="_blank" rel="noreferrer"> Unreal Engine GitHub </a>
@@ -239,46 +210,37 @@ const PostBoard = () => {
                   /> .\GenerateProjectFiles.bat
                 </p>
               </div>
-              <p>Open the <code>.sln</code> file in Visual Studio 2022, set UE5 as the startup project, and build the solution. This step takes the most time because the build process requires a lot of memory and processing power. Make sure to use the Development Editor configuration; otherwise, you’ll have to redo the process.</p>
-              <p><b>NOTE:</b> The build process is very slow, especially on a hard disk drive (HDD). You need at least 300GB of free space, so it's highly recommended to use a high-speed NVMe M.2 SSD for better performance.</p>
+              <p>For this legacy Windows dedicated-server route, build the source engine version required by your project and GameLift plugin. Verify the current Unreal Engine instructions before starting; editor builds and server builds use different targets.</p>
+              <p><b>NOTE:</b> A source build needs substantial disk space and can take a long time. The exact requirement depends on engine version and configuration; use current Unreal documentation rather than treating the old 300 GB estimate as a guarantee.</p>
 
-              <div className="image-container" onClick={() => handleImageClick("https://s3.us-east-1.amazonaws.com/reimondev.com/unrealbuild.JPG")}>
-                <img src="https://s3.us-east-1.amazonaws.com/reimondev.com/unrealbuild.JPG" alt="Unreal Engine Source Code" />
-              </div>
+              <button type="button" className="image-container" aria-label="Enlarge Unreal Engine source build screenshot" onClick={() => handleImageClick("https://s3.us-east-1.amazonaws.com/reimondev.com/unrealbuild.JPG")}>
+                <img src="https://s3.us-east-1.amazonaws.com/reimondev.com/unrealbuild.JPG" alt="Unreal Engine source build in Visual Studio" />
+              </button>
               <br></br>
               Neat! Now you can run and modify your custom Unreal Engine build from source code. However, don’t change anything yet, because modifying the source code will trigger a rebuild of the engine.            <br></br>
 
             </li>
 
-            <li><h2>Step 2:</h2> Get the latest GameLift plugins and SDK from AWS.<br />
-              <p>Download the latest AWS SDK and GameLift plugin from the Unreal Engine Marketplace. You’ll need an AWS account and must be logged in to download the plugin.</p>
+            <li><h2>Step 2:</h2> Choose compatible GameLift plugin and Server SDK versions.<br />
+              <p>
+                The links in this legacy walkthrough are pinned to older releases. Verify compatibility with your
+                Unreal Engine version in the current AWS documentation before downloading; do not assume that a
+                repository's main branch and an older prebuilt SDK package can be mixed.
+              </p>
 
-              <p><i>NOTE:</i> Cloning the repository is not recommended as it requires deleting some files and folders to avoid conflicts. However, if you choose to clone it, make sure to follow the README instructions in the GitHub repository.</p>
+              <p><i>NOTE:</i> Follow the selected release's README and installation instructions. Avoid combining plugin and SDK files from different releases.</p>
 
-              <p>You can choose one of the following download options:</p>
-
-
-              <li><strong>GameLift Plugin</strong> from GitHub:
-                <a href="https://github.com/aws/amazon-gamelift-plugin-unreal" target="_blank" rel="noreferrer"> Unreal Engine GitHub Repository</a>&nbsp;
-                (<a href="https://github.com/aws/amazon-gamelift-plugin-unreal/archive/refs/heads/main.zip" target="_blank" rel="noreferrer">Direct ZIP Download</a>).
-              </li>
-              or
-              <li><strong>C++ Server SDK Plugin</strong> for Unreal from AWS:
-                <a href="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/unreal/GameLift-Cpp-ServerSDK-UnrealPlugin-5.2.0.zip" target="_blank" rel="noreferrer"> Download Server SDK Plugin </a>.
-              </li>
-
-              <p>Both options contain the same files, but using the plugin from the <a href="https://aws.amazon.com/gamelift/servers/getting-started/" target="_blank" rel="noreferrer"> official AWS GameLift release</a> is recommended to avoid potential issues.</p>
-              <p><strong>NOTE:</strong> Extract the downloaded files into the root directory to avoid "path is too long" errors.</p>
-              <p>Since the C++ SDK is not included in the plugin, we need to download the project separately and build it ourselves to obtain the missing <code>.dll</code> and <code>.lib</code> files required for our previously downloaded plugin.</p>
-
-              <li><strong>C++ SDK for Unreal</strong> from AWS:
-                <a href="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/cpp/GameLift-Cpp-ServerSDK-5.2.0.zip" target="_blank" rel="noreferrer"> Download SDK</a>
-              </li>
-              If all of this is too confusing, you can simply download it from this alternative source, which already includes both:
-              <li>The C++ Server SDK Plugin for Unreal project and the prebuilt C++ Server SDK:
-                <a href="https://github.com/aws/amazon-gamelift-plugin-unreal/releases/download/v2.0.1/amazon-gamelift-plugin-unreal-release-2.0.1.zip" target="_blank" rel="noreferrer"> Amazon GameLift Plugin Unreal Release 2.0.1</a>
-              </li>
-              <p>Go to your extracted <strong>GameLift-Cpp-ServerSDK-5.2.0</strong> folder and follow the README instructions. Here, we will only cover the steps for Windows:</p>
+              <p>Choose a supported plugin/SDK combination and follow its release-specific README:</p>
+              <ul>
+                <li><strong>Plugin source:</strong> <a href="https://github.com/aws/amazon-gamelift-plugin-unreal" target="_blank" rel="noreferrer">Amazon GameLift plugin for Unreal</a>.</li>
+                <li><strong>Legacy Unreal Server SDK plugin package (5.2.0):</strong> <a href="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/unreal/GameLift-Cpp-ServerSDK-UnrealPlugin-5.2.0.zip" target="_blank" rel="noreferrer">download package</a>.</li>
+                <li><strong>Legacy C++ Server SDK package (5.2.0):</strong> <a href="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/cpp/GameLift-Cpp-ServerSDK-5.2.0.zip" target="_blank" rel="noreferrer">download package</a>.</li>
+              </ul>
+              <p>These packages have different contents; one is not a substitute for the other.</p>
+              <p>Start with the <a href="https://aws.amazon.com/gamelift/servers/getting-started/" target="_blank" rel="noreferrer">official AWS GameLift getting-started guide</a> and confirm the current release before using any pinned download below.</p>
+              <p><strong>NOTE:</strong> Follow the selected package’s install layout. Keep paths short on Windows if your toolchain hits path-length limits.</p>
+              <p>An older bundled release is also available at <a href="https://github.com/aws/amazon-gamelift-plugin-unreal/releases/download/v2.0.1/amazon-gamelift-plugin-unreal-release-2.0.1.zip" target="_blank" rel="noreferrer">plugin release 2.0.1</a>; check its release notes and compatibility before using it.</p>
+              <p>For the pinned legacy example, follow the matching <strong>GameLift-Cpp-ServerSDK-5.2.0</strong> README. The remaining build steps are Windows-specific.</p>
               <p>Make sure you have all the required tools installed, including CMake, OpenSSL, and Python, before starting the Unreal SDK plugin packaging process.</p>
 
 
@@ -296,42 +258,28 @@ const PostBoard = () => {
 
               <p>
                 Once installed, navigate to the OpenSSL folder (for example: <code>C:\Program Files\OpenSSL-Win64</code>).<br></br>
-                <strong>COPY</strong> the following two DLLs and save them to a safe location for later use (such as your desktop).
+                If the SDK is dynamically linked, the runtime DLLs may need to ship with the server. Confirm dependencies for your build configuration.
               </p>
               <li><code>libssl-3-x64.dll</code></li>
               <li><code>libcrypto-3-x64.dll</code></li>
               <p>
-                <strong>These two DLLs must be included in your game server build when you upload it to Amazon GameLift.</strong>
+                Do not copy DLLs blindly; inspect the built server’s runtime dependencies and package only what it requires.
               </p>
-              <p>Copy the following script to your clipboard, paste it into a new text editor, and replace the OpenSSL installation path with your own. Save the file as a .bat script and run it to set the necessary environment variables.</p>
+              <p>Open PowerShell in the same terminal session you will use for CMake, update the OpenSSL path, and run this snippet. It changes only the current session.</p>
               <div className="command-container">
                 <p className="command">
                   <FontAwesomeIcon className="clipboard"
                     icon={faClipboard}
-                    onClick={() => copyToClipboard(SETOPENSSLPATHSBAT())}
-                  /> {SETOPENSSLPATHSBAT()}
+                    onClick={() => copyToClipboard(OPENSSL_SETUP())}
+                  /> {OPENSSL_SETUP()}
                 </p>
               </div>
-              <p>
-                You can also set them manually in the system variables:
-              </p>
-
-              <pre>
-                <strong>OPENSSL_INCLUDE_DIR</strong>
-                C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin
-
-                <strong>OPENSSL_LIBRARIES</strong>
-                C:\Program Files\OpenSSL-Win64\lib
-
-                <strong>OPENSSL_ROOT_DIR</strong>
-                C:\Program Files\OpenSSL-Win64
-              </pre>
-
-              Download Python if you don’t have them installed already:
+              <p>These values are temporary to this terminal session. Avoid changing machine-wide environment variables for this build.</p>
+              <p>Install Python if required by the selected SDK release’s build instructions:</p>
               <p>
                 <a href="https://www.python.org/downloads/" target="_blank" rel="noreferrer">Download Python</a>
               </p>
-              Thats it you already have the necessary tools to build the SDK. Now you can follow the README instructions to build the SDK and get the .dll and .lib files required for the plugin.
+              These variables are set for the current terminal only. Continue with the matching SDK README; outputs and required dependencies vary by release and build configuration.
             </li>
 
 
@@ -363,9 +311,9 @@ const PostBoard = () => {
               <p>
                 <strong>NOTE:</strong> Here's where it gets specific, as different flags are needed for different builds.
               </p>
-              <div className="image-container" onClick={() => handleImageClick(" https://s3.us-east-1.amazonaws.com/reimondev.com/buildconfigurations.JPG")}>
-                <img src="https://s3.us-east-1.amazonaws.com/reimondev.com/buildconfigurations.JPG" alt="Unreal Engine Source Code" />
-              </div><br></br>
+               <button type="button" className="image-container" aria-label="Enlarge GameLift CMake configuration screenshot" onClick={() => handleImageClick("https://s3.us-east-1.amazonaws.com/reimondev.com/buildconfigurations.JPG")}>
+                <img src="https://s3.us-east-1.amazonaws.com/reimondev.com/buildconfigurations.JPG" alt="CMake configuration options for building the GameLift C++ Server SDK" />
+              </button><br></br>
               <strong>Unreal Engine:</strong> To use GameLift with Unreal Engine, set <code>BUILD_FOR_UNREAL=1</code> and <code>BUILD_SHARED_LIBS=0</code> to create a single, self-contained library.<br></br>
               <strong>Standard C++ Projects (Non-Unreal):</strong> For standard C++ projects (not Unreal Engine), set <code>GAMELIFT_USE_STD=1</code> to use the standard C++ library.<br></br>
               <strong>Dynamic Linking:</strong> To use dynamic linking with shared libraries, set <code>BUILD_SHARED_LIBS=1</code>.<br></br>
@@ -375,9 +323,9 @@ const PostBoard = () => {
                   <FontAwesomeIcon
                     className="clipboard"
                     icon={faClipboard}
-                    onClick={() => copyToClipboard(`cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DBUILD_FOR_UNREAL=1 -DBUILD_SHARED_LIBS=0 -S . -B ./cmake-build`)}
+                    onClick={() => copyToClipboard(`cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DBUILD_FOR_UNREAL=1 -DBUILD_SHARED_LIBS=0 -DOPENSSL_ROOT_DIR="$env:OPENSSL_ROOT_DIR" -S . -B ./cmake-build`)}
                   />
-                  <code> cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DBUILD_FOR_UNREAL=1 -DBUILD_SHARED_LIBS=0 -S . -B ./cmake-build</code>
+                  <code> cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DBUILD_FOR_UNREAL=1 -DBUILD_SHARED_LIBS=0 -DOPENSSL_ROOT_DIR="$env:OPENSSL_ROOT_DIR" -S . -B ./cmake-build</code>
                 </p>
               </div>
               <p>Compile the solution for release.</p>
@@ -393,7 +341,7 @@ const PostBoard = () => {
                 </p>
               </div>
 
-              <p>Once the build is complete, you should have the necessary <b>.dll</b> and <b>.lib</b> files in the <b>cmake-build</b> directory. Follow these steps:</p>
+              <p>Once the build is complete, locate the generated files using the SDK README. The following copy path applies only to the pinned legacy plugin package; other releases may use a different layout.</p>
               <p>-Navigate to <b>C:\GameLift-Cpp-ServerSDK-5.2.0\cmake-build\prefix</b>.</p>
               <p>-Inside the <b>lib</b> folder, copy the <b>aws-cpp-sdk-gamelift-server.lib</b> file to a temporary directory.</p>
               <p>-Then Inside the <b>bin</b>, copy the <b>aws-cpp-sdk-gamelift-server.dll</b> file to the same temporary directory.</p>
@@ -404,20 +352,7 @@ const PostBoard = () => {
 
               <p><b>NOTE:</b> This works only in a C++ multiplayer game project with game code. Projects that use Blueprints only are not compatible with this plugin at this time.</p>
 
-              <p>Copy the plugin to the appropriate folder and verify it’s visible there. Copy the entire <b>GameLiftPlugin</b> folder with all contents inside and go to your Unreal C++ project. Create a folder named <b>Plugins</b> if one doesn't already exist.</p>
-
-              <p>Right-click on the <code>.uproject</code> file and add the plugin by selecting "Edit."</p>
-
-              <div class="command-container">
-                <p class="command">
-                  <FontAwesomeIcon
-                    className="clipboard"
-                    icon={faClipboard}
-                    onClick={() => copyToClipboard(UPROJECTPLUGINCONFIGURATION())}
-                  />
-                  {UPROJECTPLUGINCONFIGURATION()}
-                </p>
-              </div>
+              <p>Follow the selected plugin release’s README to install and enable it. The folder layout and <code>.uproject</code> plugin entry vary by release; this walkthrough does not provide a universal plugin configuration.</p>
 
               <p>
                 Navigate to the source code and locate the <b>Editor.Target.cs</b> file. Make a copy of it and rename the copy to <b>Server.Target.cs</b>.
@@ -434,14 +369,17 @@ const PostBoard = () => {
               <h2>Step 4: Add GameLift Code to the Visual Studio Project</h2>
               <p>
                 Add Amazon GameLift Servers server code to your Unreal project. Refer to the
-                <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-setup-unreal.html" target="_blank"> official AWS documentation</a> for more details.
+                <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-setup-unreal.html" target="_blank" rel="noreferrer">official AWS documentation</a> for more details.
               </p>
 
+              <p><strong>Version note:</strong> The code below is illustrative and follows the older Server SDK API. Match the headers, callback types, and process configuration to the SDK version you actually installed.</p>
+              <p><strong>Before using the sample:</strong> add your game’s session-start logic before activating the session, make the health check reflect real server readiness, call <code>ProcessEnding</code> and shut down cleanly on termination, and match the port/log path to your project and fleet configuration.</p>
+
               <h3>1. Add GameLift Dependency in Build.cs</h3>
-              <p>Launch your Unreal Engine project using Visual Studio. Navigate to your Unreal project source folder and open the <b>Your-application-name.Target.cs</b> file.</p>
-              <p>Modify the <b>.Build.cs</b> file to include the GameLift dependency:</p>
-              <div class="command-container">
-                <p class="command">
+              <p>Launch your Unreal Engine project using Visual Studio and navigate to the source folder for the game module.</p>
+              <p>Open the relevant module <b>.Build.cs</b> file (not the Target.cs file) and add the dependency required by your installed GameLift plugin version:</p>
+              <div className="command-container">
+                <p className="command">
                   <pre>
                     <code>
                       {`using UnrealBuildTool;
@@ -461,8 +399,8 @@ public class GameLiftUnrealApp : ModuleRules
               </div>
               <h3>2. Integrate Game Server with GameLift Modify GameMode Header File</h3>
               <p>Modify GameMode Header File, Edit the <b>Your-application-nameGameMode.h</b> file (e.g., <b>GameLiftUnrealAppGameMode.h</b>):</p>
-              <div class="command-container">
-                <p class="command">
+              <div className="command-container">
+                <p className="command">
                   <pre>
                     <code>
                       {`#pragma once
@@ -500,14 +438,14 @@ private:
               <p><b>NOTE:</b> It is very important that your server level uses this game mode as the default one; otherwise, it won’t call <code>INITSDK()</code> in <code>BeginPlay()</code>.</p>
               <p>Edit <b>Your-application-nameGameMode.cpp</b> (e.g., <b>GameLiftUnrealAppGameMode.cpp</b>) and ensure it follows this structure:</p>
 
-              <div class="command-container">
-                <p class="command">
+              <div className="command-container">
+                <p className="command">
                   <pre>
                     <code>
                       {`// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "AGameLiftUnrealAppGameMode.h"
-#include "AGameLiftUnrealAppCharacter.h"
+#include "GameLiftUnrealAppGameMode.h"
+#include "GameLiftUnrealAppCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "aws/gamelift/server/GameLiftServerAPI.h"
 
@@ -520,7 +458,7 @@ DEFINE_LOG_CATEGORY(GameServerLog);
 AGameLiftUnrealAppGameMode::AGameLiftUnrealAppGameMode()
 {
     // Set default pawn class to our Blueprinted character
-    DefaultPawnClass = AUnknownVoidOnlineCharacter::StaticClass();
+    DefaultPawnClass = AGameLiftUnrealAppCharacter::StaticClass();
 }
 
 void AGameLiftUnrealAppGameMode::BeginPlay()
@@ -561,7 +499,7 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
         };
     m_params.OnTerminate.BindLambda(onProcessTerminate);
 
-    // Callback: Perform Health Check (Amazon GameLift checks approximately every 60 seconds)
+    // Callback: report whether this server process is healthy.
     auto onHealthCheck = []() -> bool
         {
             UE_LOG(GameServerLog, Log, TEXT("Performing Health Check"));
@@ -570,10 +508,10 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
     m_params.OnHealthCheck.BindLambda(onHealthCheck);
 
     // Configure server settings
-    m_params.port = 7777;  // Port for incoming player connections
+    m_params.port = 7777;  // Example only: match the port your server actually listens on.
 
     // Define log file locations (GameLift will upload these for debugging)
-    m_params.logParameters = { TEXT("GameLift426Test/Saved/Logs/GameLift426Test.log") };
+    m_params.logParameters = { TEXT("YourProject/Saved/Logs/GameServer.log") };  // Replace with a real path in your package.
 
     // Notify GameLift that the process is ready to host game sessions
     UE_LOG(GameServerLog, Log, TEXT("Calling Process Ready"));
@@ -613,8 +551,8 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
                 Next, add the necessary files. In the root directory of your Windows server build, create a new <code>install.bat</code> file and insert the following lines:
               </p>
 
-              <div class="command-container">
-                <p class="command">
+              <div className="command-container">
+                <p className="command">
                   <FontAwesomeIcon
                     className="clipboard"
                     icon={faClipboard}
@@ -642,122 +580,45 @@ void AGameLiftUnrealAppGameMode::InitGameLift()
 
 
             <li>
-              <h2>Step 6:</h2> Create IAM users with full gamelift access policys and download aws cli .<br />
-              <p>Download the latest AWS SDK and GameLift plugin from the Unreal Engine Marketplace. You’ll need an AWS account and must be logged in to download the plugin.</p>
+              <h2>Step 6: Upload the build with temporary AWS credentials</h2>
+              <p>
+                Do not create an IAM user with long-lived access keys or attach wildcard <code>gamelift:*</code>
+                permissions for this walkthrough. Use your organization’s approved IAM Identity Center profile or
+                assumed role, and grant only the actions required by the current <code>upload-build</code> workflow.
+              </p>
+              <p>Sign in with your configured profile and confirm which AWS account it targets:</p>
+              <pre><code>{`aws sso login --profile my-profile\naws sts get-caller-identity --profile my-profile`}</code></pre>
 
-              <p>Log in to your AWS account and navigate to IAM (Identity and Access Management). Create a new user named <strong>GameLiftUser</strong> and attach the following policy:</p>
-
-
+              <p>
+                Replace every placeholder in this example. The operating-system and Server SDK values must be
+                supported by the current GameLift Servers documentation and match the packaged server build.
+              </p>
               <div className="command-container">
                 <p className="command">
-                  <FontAwesomeIcon className="clipboard"
+                  <FontAwesomeIcon
+                    className="clipboard"
                     icon={faClipboard}
-                    onClick={() => copyToClipboard(SETOPENSSLPATHSBAT())}
-                  /> {SETOPENSSLPATHSBAT()}
-                </p>
-              </div>
-              <pre>
-                {`
-                "Version": "2012-10-17",
-                "Statement": [
-                  {
-                    "Sid": "GameLiftFullAccess",
-                    "Effect": "Allow",
-                    "Action": "gamelift:*",
-                    "Resource": "*"
-                  }
-                ]
-              `}
-              </pre>
-
-              <p>After that, generate the user's <strong>Access Key</strong> and <strong>Secret Key</strong> for command-line access.</p>
-
-              <p>Run the following command to configure AWS CLI:</p>
-              <pre>
-                aws configure
-              </pre>
-
-              <p>Enter your Access Key, Secret Key, Region, and set the output format to <code>json</code>.</p>
-
-              <p>To verify the configuration, run the following command:</p>
-              <pre>
-                aws sts get-caller-identity
-              </pre>
-
-              after windows serverbuild is done and you have the server files ready you can upload them to AWS GameLift using the following command bar jsut replace with your information:
-              <div className="command-container">
-                <p className="command">
-                  <FontAwesomeIcon className="clipboard"
-                    icon={faClipboard}
-                    onClick={() => copyToClipboard(UPLOADSERVERBAT())}
-                  /> {UPLOADSERVERBAT()}
+                    onClick={() => copyToClipboard(UPLOADBUILDCOMMAND())}
+                  /> <code>{UPLOADBUILDCOMMAND()}</code>
                 </p>
               </div>
 
 
 
             </li>
-
-
-            {/* <li>
-              <h2>Step 6:</h2>  */}
-
-            {/* TEST
-            <br/>
-            before uploading to AWS GameLift, you can test your server build locally using GameLift Local.
-            <p>Run the GameLift Local server to test your server build locally.</p>
-
-
-create aws acccount and im user rola with all acces to s3 polices then generate ypourt kweys also install aws cli
-
-
-aws configure
-
-then
-
-$env:AWS_REGION="us-west-2"
-$env:AWS_ACCESS_KEY_ID="your_access_key"
-$env:AWS_SECRET_ACCESS_KEY="your_secret_key"
-
-            download GameLiftLocal-1.0.5 is inside GameLift-Cpp-ServerSDK-3.4.2.zip from aws website
-            <a href="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/cpp/GameLift-Cpp-ServerSDK-3.4.2.zip" target="_blank" rel="noreferrer"> Download SDK</a>
-
-
-            get java 11 from here:
-            <a href="https://adoptium.net/temurin/releases/?version=11" target="_blank" rel="noreferrer"> JAVA 11 </a>
-
-          
-
-            <div class="command-container">
-              <p class="command">
-                <FontAwesomeIcon 
-                  className="clipboard"
-                  icon={faClipboard} 
-                  onClick={() => copyToClipboard("java -jar GameLiftLocal.jar -p 9080")} 
-                /> java -jar GameLiftLocal.jar -p 9080
-                
-              </p> 
-            </div>
-          
-          </li> */}
-
-
-
-
-            {/* <li><b>Step 5:</b> Create a new GameLift Build.<br />
-            <p>Use the appropriate commands or create a deploy build script (.bat).</p>
-            <p>You will also need an AWS account with access permissions to use AWS GameLift. See the documentation on <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html">Setting up programmatic access with long-term credentials</a> for more details.</p>
-            <p>You’ll need a server target build and output. This will take some time. After the build is complete, proceed to add installation files and some OpenSSL .dll files.</p>
-          </li> */}
-
-            <li><b>Step 6:</b> Create a new GameLift Fleet.<br />
-              Using the build files, you can create a new fleet in the AWS GameLift console. EC2 instances will be created, and the server build will be deployed to them. Select your build, give it a name and description, and then choose the instance type and the number of instances you want to create.<br />
-
-              Next, add the runtime executable path. It should be inside your server build project folder, under the "binaries" folder, then "win64," and finally the .exe file.<br />
-
-              Add UDP port 7777 with the IP address range of 0.0.0.0/0.<br />
-
-              Afterward, click "Deploy." This will provide you with the IP address to connect to your server. You can use the IP in the "open" command from your game client’s command prompt to establish the connection.
+            <li>
+              <h2>Step 7: Configure a fleet and test connectivity</h2>
+              <p>
+                Create the fleet type supported by your design and select the uploaded build. Configure the server
+                runtime executable, process settings, ports, and health checks to match your packaged server. Do not
+                assume a fixed executable path, port, or open-to-the-world CIDR; use the values your game requires and
+                current AWS security guidance.
+              </p>
+              <p>
+                Before inviting players, verify that the process becomes healthy, sessions start and end cleanly, the
+                client connects through the assigned connection information, and logs are available for diagnosis.
+                Fleet creation and billing details vary by fleet type, so confirm them in the current AWS documentation.
+              </p>
             </li>
 
           </ul>
@@ -766,66 +627,57 @@ $env:AWS_SECRET_ACCESS_KEY="your_secret_key"
     );
   }
 
-  const post2 = () => {
-    return (
-
-
-
-
-      <>more posts comming soon</>
-
-
-
-
-    );
-  };
-
-
-
   return (
-    <div className='PostBoard'>
-      <h1>PostBoard</h1>
-      <div className='flex-grid-container'>
-        <div className='download-button' onClick={() => setSelectedGuide('Edgegap vs GameLift')}>
-          <h5>Edgegap vs GameLift</h5>
+    <main className="PostBoard">
+      <header className="postboard-heading">
+        <p className="postboard-eyebrow">NOTES & RESOURCES</p>
+        <h1>Postboard</h1>
+      </header>
+
+      <nav className="postboard-tabs" role="tablist" aria-label="Postboard topics">
+        {GUIDE_TABS.map((tab, index) => (
+          <button
+            key={tab.id}
+            id={`postboard-tab-${tab.id}`}
+            className={`postboard-tab${selectedGuide === tab.value ? ' is-active' : ''}`}
+            type="button"
+            role="tab"
+            aria-selected={selectedGuide === tab.value}
+            aria-controls="postboard-panel"
+            tabIndex={selectedGuide === tab.value ? 0 : -1}
+            onClick={() => setSelectedGuide(tab.value)}
+            onKeyDown={(event) => handleTabKeyDown(event, index)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </nav>
+
+      <section
+        className="container postboard-panel"
+        id="postboard-panel"
+        role="tabpanel"
+        aria-labelledby={`postboard-tab-${GUIDE_TABS.find((tab) => tab.value === selectedGuide)?.id}`}
+        tabIndex={0}
+      >
+        <div className="postboard-content">
+          {selectedGuide === 'Edgegap vs GameLift' && post0()}
+          {selectedGuide === 'AWS GameLift Guide' && post1()}
+          {selectedGuide === 'AI Tools' && <AITools />}
+          {selectedGuide === '3D Cool Animations' && (
+            <Suspense fallback={<div className="page-loading" role="status">Loading animation…</div>}>
+              <CoolAnimation />
+            </Suspense>
+          )}
         </div>
-
-        <div className='download-button' onClick={() => setSelectedGuide('AWS GameLift Guide')}>
-          <h5>AWS GameLift Guide</h5>
-        </div>
-
-        <div className='download-button' onClick={() => setSelectedGuide('AI Tree Link')}>
-          <h5>AI Tree Link</h5>
-        </div>
-
-        <div className='download-button' onClick={() => setSelectedGuide('3D Cool Animations')}>
-          <h5> 3D Cool Animations</h5>
-        </div>
-
-        <div className='download-button'>
-          <h5> ...</h5>
-        </div>
-
-      </div>
-
-      <div className="container rt-video-container">
-        {selectedGuide === 'Edgegap vs GameLift' && post0()}
-        {selectedGuide === 'AWS GameLift Guide' && post1()}
-        {selectedGuide === 'AI Tree Link' && <AITools />}
-        {selectedGuide === '3D Cool Animations' && (
-          <Suspense fallback={<div className="page-loading" role="status">Loading animation…</div>}>
-            <CoolAnimation />
-          </Suspense>
-        )}
-      </div>
+      </section>
 
       {isModalOpen && (
         <div className="modal" onClick={handleModalClose}>
           <img src={expandedImageSrc} alt="Expanded" />
         </div>
       )}
-
-    </div>
+    </main>
   );
 }
 

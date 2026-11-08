@@ -17,20 +17,14 @@ if (import.meta.env.DEV) {
 export const PREVIEW = import.meta.env.DEV && sessionStorage.getItem(KEY) === '1';
 
 /**
- * Canned responses for the few endpoints the platform chrome reads, so the
- * preview shows a populated balance and level instead of an empty shell.
+ * Canned response for the shared player-profile endpoint used by both games.
  * Anything not listed resolves to `{}`, which every caller already treats as
  * "no data".
  */
 export const PREVIEW_DATA = {
     '/wallet/profile': {
-        currentBalance: 1250,
         nickname: 'Preview Player',
         email: 'preview@gloom.local',
-        totalGames: 42,
-        totalWagered: 3200,
-        totalWins: 19,
-        totalWon: 2750,
-        biggestWin: 320,
+        avatarImage: '',
     },
 };

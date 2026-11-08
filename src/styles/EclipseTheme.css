@@ -1,0 +1,24 @@
+:root {
+  color-scheme: dark;
+  --eclipse-bg: #07080b;
+  --eclipse-surface: #101115;
+  --eclipse-surface-raised: #17181d;
+  --eclipse-border: rgba(225, 229, 238, 0.14);
+  --eclipse-text: #f0f1f4;
+  --eclipse-secondary: #c0c2c9;
+  --eclipse-muted: #8e919a;
+  --eclipse-silver: #dfe2e9;
+  --eclipse-serif: 'Times New Roman', Georgia, serif;
+  --eclipse-sans: Inter, 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  background: var(--eclipse-bg);
+  color: var(--eclipse-text);
+  font-family: var(--eclipse-sans);
+}
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--eclipse-silver);
+  outline-offset: 3px;
+}

@@ -205,7 +205,7 @@ try {
     void request.respond({ status: 200, headers: corsHeaders, body });
   });
 
-  await page.goto(`${base}/outlands`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${base}/games/outlands`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.outlands-briefing', { timeout: 15000 });
   results.shots.briefing = join(shotDir, 'outlands-briefing.png');
   await page.screenshot({ path: results.shots.briefing });
@@ -470,19 +470,20 @@ try {
   await page.waitForFunction(() => window.__outlands.server.state.phase === 'playing');
   results.checks.redeployStash = await page.evaluate(() => window.__outlands.server.state.player.stash);
 
-  // The catalog card is how most players will discover the game.
-  await page.goto(`${base}/`, { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('[data-game="outlands"]', { timeout: 10000 });
-  results.checks.catalog = await page.$eval('[data-game="outlands"]', (node) => ({
-    title: node.querySelector('h3')?.textContent,
-    badge: node.querySelector('.lib-card-badge')?.textContent,
-    href: node.getAttribute('href'),
+  // The main site's Work page owns the game catalog; /games/ must send players
+  // to its Games section rather than rendering the retired Vite library.
+  await page.goto(`${base}/games/`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(
+    () => window.location.pathname === '/projects' && window.location.hash === '#games',
+    { timeout: 10000 },
+  );
+  results.checks.workRedirect = await page.evaluate(() => ({
+    pathname: window.location.pathname,
+    hash: window.location.hash,
   }));
-  results.shots.catalog = join(shotDir, 'outlands-catalog.png');
-  await page.screenshot({ path: results.shots.catalog });
 
   await page.setViewport({ width: 375, height: 812, deviceScaleFactor: 1, hasTouch: true });
-  await page.goto(`${base}/outlands`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${base}/games/outlands`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.outlands-briefing', { timeout: 10000 });
   results.checks.mobileBriefing = await page.evaluate(() => {
     const shell = document.querySelector('.outlands-root')?.getBoundingClientRect();
@@ -633,10 +634,13 @@ try {
   results.shots.mobile = join(shotDir, 'outlands-mobile.png');
   await page.screenshot({ path: results.shots.mobile });
 
-  // The portrait rotation must not leak past the route: leaving /outlands used
-  // to keep the whole casino rotated until a reload.
-  await page.goto(`${base}/`, { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('[data-game="outlands"]', { timeout: 10000 });
+  // Leaving a game for the main site's Work page must not leak its portrait
+  // rotation styles into the destination.
+  await page.goto(`${base}/games/`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(
+    () => window.location.pathname === '/projects' && window.location.hash === '#games',
+    { timeout: 10000 },
+  );
   results.checks.rotationLeak = await page.evaluate(() => ({
     bodyTransform: getComputedStyle(document.body).transform,
     documentWidth: document.documentElement.scrollWidth,
@@ -645,7 +649,7 @@ try {
 
   // Landscape on a phone height is the layout the forced rotation targets.
   await page.setViewport({ width: 844, height: 390, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
-  await page.goto(`${base}/outlands`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${base}/games/outlands`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.outlands-briefing', { timeout: 10000 });
   await page.$eval('.outlands-briefing .outlands-deploy', (button) => button.click());
   await page.waitForSelector('.outlands-hud', { timeout: 8000 });
@@ -777,8 +781,8 @@ try {
   // exchanged once, then the remembered path and tokens must survive reload.
   await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
   await page.evaluate(() => sessionStorage.setItem('c888_redirect', '/outlands'));
-  await page.goto(`${base}/oauth2/callback?code=smoke-authorization-code`, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => window.location.pathname === '/outlands', { timeout: 8000 });
+  await page.goto(`${base}/games/oauth2/callback?code=smoke-authorization-code`, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => window.location.pathname === '/games/outlands', { timeout: 8000 });
   await page.waitForSelector('.outlands-briefing', { timeout: 8000 });
   results.checks.oauth = await page.evaluate(() => ({
     path: window.location.pathname,
@@ -833,8 +837,9 @@ try {
   }
   if (results.checks.deathOverlay !== 'Run terminated') failures.push('Death overlay did not appear.');
   if (results.checks.redeployStash !== 420) failures.push('Redeploy did not preserve the banked stash.');
-  if (results.checks.catalog?.title !== 'Outlands') failures.push('Catalog card missing or mislabelled.');
-  if (results.checks.catalog?.href !== '/outlands') failures.push('Catalog card points at the wrong route.');
+  if (results.checks.workRedirect?.pathname !== '/projects' || results.checks.workRedirect?.hash !== '#games') {
+    failures.push('The /games/ route did not redirect to the main Work page Games section.');
+  }
   if (results.checks.mobileBriefing?.documentWidth > results.checks.mobileBriefing?.width) failures.push('Mobile briefing causes horizontal overflow.');
   if (results.checks.mobileHud?.documentWidth > results.checks.mobileHud?.width) failures.push('Mobile HUD causes horizontal overflow.');
   for (const viewport of results.checks.iphoneViewportMatrix ?? []) {
@@ -926,7 +931,7 @@ try {
   if ((results.checks.touchStick?.touchActionOpacity ?? 0) < 0.4) failures.push('Touch action controls are too faint to see on a phone.');
   if ((results.checks.touchStick?.touchActionSize ?? 0) < 44) failures.push('Phone touch action target is smaller than 44px.');
   if (results.checks.landscape?.deployHeight > 0 && results.checks.landscape?.deployHeight < 44) failures.push('Landscape deploy target is smaller than 44px.');
-  if (results.checks.oauth?.path !== '/outlands') failures.push('OAuth callback did not restore the remembered route.');
+  if (results.checks.oauth?.path !== '/games/outlands') failures.push('OAuth callback did not restore the remembered game route.');
   if (!results.checks.oauth?.idTokenStored || results.checks.oauth?.accessToken !== 'smoke-access'
     || results.checks.oauth?.refreshToken !== 'smoke-refresh' || !results.checks.oauth?.redirectCleared) {
     failures.push('OAuth callback did not persist the returned tokens and clear its redirect state.');

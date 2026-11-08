@@ -1,7 +1,7 @@
 // Minimal PWA service worker. Network-first for navigations (so deploys go
 // live immediately), cache-first for hashed build assets. No cache-busting
 // footguns: only files that exist are cached at runtime.
-const CACHE = 'reimon-games-v2';
+const CACHE = 'reimon-games-v3';
 const INDEX_URL = new URL('index.html', self.registration.scope).href;
 
 self.addEventListener('install', () => {

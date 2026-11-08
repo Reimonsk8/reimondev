@@ -1,4 +1,4 @@
-import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
+import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy, SecretValue } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -39,11 +39,29 @@ export class CasinoInfraStack extends Stack {
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
     });
 
-    // The hosted domain and Google IdP were provisioned directly in the target
-    // account. Keep them externally managed here to avoid CDK attempting to
-    // create duplicate Cognito resources during stack reconciliation.
     const domainPrefix = this.node.tryGetContext('cognitoDomainPrefix') || 'reimondev';
     const gamesBaseUrl = this.node.tryGetContext('gamesBaseUrl') || 'https://reimondev.com/games';
+    // Keep the currently registered Netlify callback during the move to the
+    // integrated /games/ route; remove it only after that host is retired.
+    const legacyGamesBaseUrl = this.node.tryGetContext('legacyGamesBaseUrl') || 'https://chimerical-capybara-0b55e9.netlify.app';
+    const googleClientId = this.node.tryGetContext('googleClientId') || '221234650825-oadqmntesh3m240on8lqcnes5m2eotj3.apps.googleusercontent.com';
+    const googleClientSecretName = this.node.tryGetContext('googleClientSecretName') || '/casino888/google-client-secret';
+
+    const userPoolDomain = userPool.addDomain('CasinoDomain', { cognitoDomain: { domainPrefix } });
+    const googleIdP = new cognito.CfnUserPoolIdentityProvider(this, 'CasinoGoogleIdP', {
+      userPoolId: userPool.userPoolId,
+      providerName: 'Google',
+      providerType: 'Google',
+      providerDetails: {
+        client_id: googleClientId,
+        client_secret: SecretValue.secretsManager(googleClientSecretName).unsafeUnwrap(),
+        authorize_scopes: 'email openid profile',
+      },
+      attributeMapping: { email: 'email', name: 'name', picture: 'picture', username: 'sub' },
+    });
+    // Keep the deployed provider's logical id so CloudFormation updates it in
+    // place rather than deleting/recreating the Google identity integration.
+    googleIdP.overrideLogicalId('CasinoGoogleIdP0E725B4E');
 
     // 2. App Client sin secret
     const userPoolClient = userPool.addClient('CasinoUserPoolClient', {
@@ -59,34 +77,31 @@ export class CasinoInfraStack extends Stack {
           cognito.OAuthScope.OPENID,
           cognito.OAuthScope.EMAIL,
           cognito.OAuthScope.PROFILE,
-          cognito.OAuthScope.PHONE,
-          cognito.OAuthScope.COGNITO_ADMIN,
         ],
-        callbackUrls: [`${gamesBaseUrl}/oauth2/callback`],
-        logoutUrls: [`${gamesBaseUrl}/`],
+        callbackUrls: [...new Set([
+          `${gamesBaseUrl}/oauth2/callback`,
+          `${legacyGamesBaseUrl}/oauth2/callback`,
+        ])],
+        logoutUrls: [...new Set([
+          `${gamesBaseUrl}/`,
+          legacyGamesBaseUrl,
+        ])],
       },
       supportedIdentityProviders: [
         cognito.UserPoolClientIdentityProvider.COGNITO,
         cognito.UserPoolClientIdentityProvider.GOOGLE,
       ],
     });
+    userPoolClient.node.addDependency(googleIdP);
 
     // 3. DynamoDB Tables
-    // Users Table - stores wallet balance and user info
+    // Shared player identity/profile table. Its historical physical name is
+    // retained to preserve existing Cognito-user profile data.
     const usersTable = new dynamodb.Table(this, 'CasinoUsersTable', {
       tableName: 'casino-users',
       partitionKey: { name: 'userId', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.RETAIN,
-    });
-
-    // Preserve the target account's existing email lookup index. This table
-    // already contains data, so don't let CDK interpret the unmanaged GSI as
-    // something to remove during stack reconciliation.
-    usersTable.addGlobalSecondaryIndex({
-      indexName: 'email-index',
-      partitionKey: { name: 'email', type: dynamodb.AttributeType.STRING },
-      projectionType: dynamodb.ProjectionType.ALL,
     });
 
     // Players Table - tracks active player positions and states
@@ -115,24 +130,6 @@ export class CasinoInfraStack extends Stack {
       timeToLiveAttribute: 'ttl',
     });
 
-    // Transactions Table - stores all wallet transactions
-    const transactionsTable = new dynamodb.Table(this, 'CasinoTransactionsTable', {
-      tableName: 'casino-transactions',
-      partitionKey: { name: 'userId', type: dynamodb.AttributeType.STRING },
-      sortKey: { name: 'timestamp', type: dynamodb.AttributeType.NUMBER },
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.RETAIN,
-    });
-
-    // Multiplayer Blackjack room state (single global table; engine is server-authoritative)
-    const blackjackRoomsTable = new dynamodb.Table(this, 'BlackjackRoomsTable', {
-      tableName: 'blackjack-rooms',
-      partitionKey: { name: 'roomId', type: dynamodb.AttributeType.STRING },
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.RETAIN,
-      timeToLiveAttribute: 'ttl',
-    });
-
     // Square of Shadows online rooms. One item per invite code; holds the
     // serialized authoritative game state plus the current turn deadline.
     // TTL reaps abandoned lobbies so play-money DynamoDB cost stays flat.
@@ -142,22 +139,6 @@ export class CasinoInfraStack extends Stack {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.RETAIN,
       timeToLiveAttribute: 'ttl',
-    });
-
-    const gameRoundsTable = new dynamodb.Table(this, 'GameRoundsTable', {
-      tableName: 'casino-game-rounds',
-      partitionKey: { name: 'userId', type: dynamodb.AttributeType.STRING },
-      sortKey: { name: 'recordId', type: dynamodb.AttributeType.STRING },
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.RETAIN,
-    });
-
-    const walletLinksTable = new dynamodb.Table(this, 'WalletLinksTable', {
-      tableName: 'casino-wallet-links',
-      partitionKey: { name: 'recordId', type: dynamodb.AttributeType.STRING },
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.RETAIN,
-      timeToLiveAttribute: 'expiresAt',
     });
 
     // Rate-limit buckets (WS abuse throttle for chat/emotes). TTL cleans up keys
@@ -183,8 +164,6 @@ export class CasinoInfraStack extends Stack {
         USER_POOL_ID: userPool.userPoolId,
         USER_POOL_CLIENT_ID: userPoolClient.userPoolClientId,
         USERS_TABLE_NAME: usersTable.tableName,
-        TRANSACTIONS_TABLE_NAME: transactionsTable.tableName,
-        GAME_ROUNDS_TABLE_NAME: gameRoundsTable.tableName,
       },
     };
 
@@ -251,82 +230,15 @@ export class CasinoInfraStack extends Stack {
         ...commonLambdaProps.environment,
         PLAYERS_TABLE_NAME: playersTable.tableName,
         CONNECTIONS_TABLE_NAME: connectionsTable.tableName,
-        GAME_ROUNDS_TABLE_NAME: gameRoundsTable.tableName,
-        WALLET_LINKS_TABLE_NAME: walletLinksTable.tableName,
-        BLACKJACK_ROOMS_TABLE_NAME: blackjackRoomsTable.tableName,
+        SOS_ROOMS_TABLE_NAME: sosRoomsTable.tableName,
       },
     });
 
-    // Wallet Lambda Functions
     const getUserProfileLambda = new lambda.Function(this, 'GetUserProfileLambda', {
       ...commonLambdaProps,
       functionName: 'casino-get-user-profile',
       handler: 'index.handler',
       code: lambda.Code.fromAsset('lambdas/getUserProfile'),
-    });
-
-    const getTransactionHistoryLambda = new lambda.Function(this, 'GetTransactionHistoryLambda', {
-      ...commonLambdaProps,
-      functionName: 'casino-get-transaction-history',
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/getTransactionHistory'),
-    });
-
-    const depositFundsLambda = new lambda.Function(this, 'DepositFundsLambda', {
-      ...commonLambdaProps,
-      functionName: 'casino-deposit-funds',
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/depositFunds'),
-    });
-
-    const withdrawFundsLambda = new lambda.Function(this, 'WithdrawFundsLambda', {
-      ...commonLambdaProps,
-      functionName: 'casino-withdraw-funds',
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/withdrawFunds'),
-    });
-
-    const placeBetLambda = new lambda.Function(this, 'PlaceBetLambda', {
-      ...commonLambdaProps,
-      functionName: 'casino-place-bet',
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/placeBet'),
-    });
-
-    const walletLinkLambda = new lambda.Function(this, 'WalletLinkLambda', {
-      ...commonLambdaProps,
-      functionName: 'casino-wallet-link',
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/walletLink', { exclude: ['node_modules', 'source.js', '*.test.js', 'package*.json'] }),
-      environment: {
-        ...commonLambdaProps.environment,
-        WALLET_LINKS_TABLE_NAME: walletLinksTable.tableName,
-        APP_ORIGIN: new URL(gamesBaseUrl).origin,
-      },
-    });
-
-    const playersStatusLambda = new lambda.Function(this, 'PlayersStatusLambda', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/players/status'),
-      logRetention: logs.RetentionDays.ONE_WEEK,
-      environment: {
-        USERS_TABLE_NAME: usersTable.tableName,
-        CONNECTIONS_TABLE_NAME: connectionsTable.tableName,
-      },
-    });
-
-    // Leaderboard Lambda - returns top winners for each game
-    const leaderboardLambda = new lambda.Function(this, 'LeaderboardLambda', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset('lambdas/games/leaderboard'),
-
-      logRetention: logs.RetentionDays.ONE_WEEK,
-      environment: {
-        USERS_TABLE_NAME: usersTable.tableName,
-        TRANSACTIONS_TABLE_NAME: transactionsTable.tableName,
-      },
     });
 
     // PERMISOS CORRECTOS ✔
@@ -339,43 +251,19 @@ export class CasinoInfraStack extends Stack {
     userPool.grant(meLambda, 'cognito-idp:GetUser');
     userPool.grant(deleteAccountLambda, 'cognito-idp:AdminDeleteUser'); // para /auth/delete-account
 
-    // Grant DynamoDB permissions to wallet Lambdas
+    // Player identity/profile is shared by both retained games.
     usersTable.grantReadWriteData(getUserProfileLambda);
-    usersTable.grantReadWriteData(depositFundsLambda);
-    usersTable.grantReadWriteData(withdrawFundsLambda);
-    usersTable.grantReadWriteData(placeBetLambda);
-    usersTable.grantReadData(playersStatusLambda);
 
     // Delete-account needs full read/write across user-owned tables for cleanup
     usersTable.grantReadWriteData(deleteAccountLambda);
-    transactionsTable.grantReadWriteData(deleteAccountLambda);
     playersTable.grantReadWriteData(deleteAccountLambda);
     connectionsTable.grantReadWriteData(deleteAccountLambda);
-    gameRoundsTable.grantReadWriteData(deleteAccountLambda);
-    walletLinksTable.grantReadWriteData(deleteAccountLambda);
-    blackjackRoomsTable.grantReadWriteData(deleteAccountLambda);
-
-    transactionsTable.grantReadData(getTransactionHistoryLambda);
-    transactionsTable.grantWriteData(depositFundsLambda);
-    transactionsTable.grantWriteData(withdrawFundsLambda);
-    transactionsTable.grantWriteData(placeBetLambda);
-    gameRoundsTable.grantReadWriteData(placeBetLambda);
-    gameRoundsTable.grantReadWriteData(depositFundsLambda);
-    gameRoundsTable.grantReadWriteData(withdrawFundsLambda);
-    walletLinksTable.grantReadWriteData(walletLinkLambda);
-    usersTable.grantReadData(walletLinkLambda);
-    usersTable.grant(walletLinkLambda, 'dynamodb:ConditionCheckItem');
-
-    connectionsTable.grantReadData(playersStatusLambda);
-
-    // Grant permissions to leaderboard Lambda
-    usersTable.grantReadData(leaderboardLambda);
-    transactionsTable.grantReadData(leaderboardLambda);
+    sosRoomsTable.grantReadWriteData(deleteAccountLambda);
 
     // 5. API Gateway
     const api = new apigw.RestApi(this, 'CasinoAuthApi', {
       restApiName: 'casino-auth-api',
-      description: 'Auth API for casino login/signup',
+      description: 'Shared ReimonDev game identity API',
       deployOptions: {
         stageName: 'prod',
         throttlingRateLimit: 20,
@@ -443,10 +331,9 @@ export class CasinoInfraStack extends Stack {
         authorizationType: apigw.AuthorizationType.COGNITO,
       });
 
-    // Wallet endpoints - all protected by Cognito authorizer
-    const walletResource = api.root.addResource('wallet');
-
-    const walletProfileResource = walletResource.addResource('profile');
+    // Legacy path retained for the shared player profile endpoint. It no longer
+    // reads or writes wallet balances or game statistics.
+    const walletProfileResource = api.root.addResource('wallet').addResource('profile');
     walletProfileResource.addMethod('GET', new apigw.LambdaIntegration(getUserProfileLambda), {
         authorizer,
         authorizationType: apigw.AuthorizationType.COGNITO,
@@ -455,60 +342,6 @@ export class CasinoInfraStack extends Stack {
         authorizer,
         authorizationType: apigw.AuthorizationType.COGNITO,
       });
-
-    walletResource.addResource('transactions')
-      .addMethod('GET', new apigw.LambdaIntegration(getTransactionHistoryLambda), {
-        authorizer,
-        authorizationType: apigw.AuthorizationType.COGNITO,
-      });
-
-    walletResource.addResource('deposit')
-      .addMethod('POST', new apigw.LambdaIntegration(depositFundsLambda), {
-        authorizer,
-        authorizationType: apigw.AuthorizationType.COGNITO,
-      });
-
-    walletResource.addResource('withdraw')
-      .addMethod('POST', new apigw.LambdaIntegration(withdrawFundsLambda), {
-        authorizer,
-        authorizationType: apigw.AuthorizationType.COGNITO,
-      });
-
-    const walletBetResource = walletResource.addResource('bet');
-    walletBetResource.addMethod('POST', new apigw.LambdaIntegration(placeBetLambda), {
-        authorizer,
-        authorizationType: apigw.AuthorizationType.COGNITO,
-      });
-    walletBetResource.addMethod('GET', new apigw.LambdaIntegration(placeBetLambda), {
-      authorizer,
-      authorizationType: apigw.AuthorizationType.COGNITO,
-    });
-
-    const walletLinkResource = walletResource.addResource('link');
-    walletLinkResource.addMethod('GET', new apigw.LambdaIntegration(walletLinkLambda), {
-      authorizer,
-      authorizationType: apigw.AuthorizationType.COGNITO,
-    });
-    walletLinkResource.addMethod('POST', new apigw.LambdaIntegration(walletLinkLambda), {
-      authorizer,
-      authorizationType: apigw.AuthorizationType.COGNITO,
-    });
-    walletLinkResource.addResource('nonce').addMethod('POST', new apigw.LambdaIntegration(walletLinkLambda), {
-      authorizer,
-      authorizationType: apigw.AuthorizationType.COGNITO,
-    });
-
-    const playersResource = api.root.addResource('players');
-    playersResource.addResource('status')
-      .addMethod('GET', new apigw.LambdaIntegration(playersStatusLambda), {
-        authorizer,
-        authorizationType: apigw.AuthorizationType.COGNITO,
-      });
-
-    // Games endpoints
-    const gamesResource = api.root.addResource('games');
-    gamesResource.addResource('leaderboard')
-      .addMethod('GET', new apigw.LambdaIntegration(leaderboardLambda)); // Public endpoint, no auth required
 
     // Outputs
     new CfnOutput(this, 'ApiBaseUrl', {
@@ -524,7 +357,7 @@ export class CasinoInfraStack extends Stack {
     });
 
     new CfnOutput(this, 'CognitoDomain', {
-      value: `${domainPrefix}.auth.${this.region}.amazoncognito.com`,
+      value: userPoolDomain.domainName,
     });
 
     // =====================================
@@ -558,10 +391,6 @@ export class CasinoInfraStack extends Stack {
       environment: {
         CONNECTIONS_TABLE_NAME: connectionsTable.tableName,
         PLAYERS_TABLE_NAME: playersTable.tableName,
-        BLACKJACK_ROOMS_TABLE_NAME: blackjackRoomsTable.tableName,
-        USERS_TABLE_NAME: usersTable.tableName,
-        TRANSACTIONS_TABLE_NAME: transactionsTable.tableName,
-        GAME_ROUNDS_TABLE_NAME: gameRoundsTable.tableName,
         SOS_ROOMS_TABLE_NAME: sosRoomsTable.tableName,
       },
     });
@@ -576,13 +405,8 @@ export class CasinoInfraStack extends Stack {
       environment: {
         CONNECTIONS_TABLE_NAME: connectionsTable.tableName,
         PLAYERS_TABLE_NAME: playersTable.tableName,
-        BLACKJACK_ROOMS_TABLE_NAME: blackjackRoomsTable.tableName,
         SOS_ROOMS_TABLE_NAME: sosRoomsTable.tableName,
         RATE_LIMITS_TABLE_NAME: rateLimitsTable.tableName,
-        USERS_TABLE_NAME: usersTable.tableName,
-        TRANSACTIONS_TABLE_NAME: transactionsTable.tableName,
-        // Construct API Gateway REST URL dynamically
-        API_ENDPOINT: `https://${api.restApiId}.execute-api.${this.region}.amazonaws.com/prod`,
       },
     });
 
@@ -614,17 +438,11 @@ export class CasinoInfraStack extends Stack {
     usersTable.grantReadData(webSocketConnectFn);
     usersTable.grant(webSocketConnectFn, 'dynamodb:ConditionCheckItem');
 
-    blackjackRoomsTable.grantReadWriteData(webSocketMessageFn);
-    blackjackRoomsTable.grantReadWriteData(webSocketDisconnectFn);
-sosRoomsTable.grantReadWriteData(webSocketMessageFn);
-sosRoomsTable.grantReadWriteData(webSocketDisconnectFn);
-    usersTable.grantReadWriteData(webSocketDisconnectFn);
-    transactionsTable.grantWriteData(webSocketDisconnectFn);
-    gameRoundsTable.grantReadWriteData(webSocketDisconnectFn);
+    sosRoomsTable.grantReadWriteData(webSocketMessageFn);
+    sosRoomsTable.grantReadWriteData(webSocketDisconnectFn);
+    sosRoomsTable.grantReadWriteData(deleteAccountLambda);
 
     rateLimitsTable.grantReadWriteData(webSocketMessageFn);
-    usersTable.grantReadWriteData(webSocketMessageFn);
-    transactionsTable.grantWriteData(webSocketMessageFn);
 
     // --- WebSocket API ---
     const webSocketApi = new apigwv2.WebSocketApi(this, 'CasinoWebSocketApi', {
@@ -691,9 +509,6 @@ sosRoomsTable.grantReadWriteData(webSocketDisconnectFn);
     }
 
     const keyLambdas = [
-      ['PlaceBet', placeBetLambda],
-      ['Deposit', depositFundsLambda],
-      ['Withdraw', withdrawFundsLambda],
       ['Login', loginLambda],
       ['WsMessage', webSocketMessageFn],
       ['WsConnect', webSocketConnectFn],

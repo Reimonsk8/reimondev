@@ -8,7 +8,7 @@ import type {
 } from 'react';
 import {
   ArrowLeft, Shield, Sparkles, Cross, Crosshair, Swords, Copy, Volume2, VolumeX, Anchor,
-  Bot, Users, Globe, Hammer, ChevronsRight, ChevronsDown, Film, KeyRound, RotateCcw, Snowflake,
+  Bot, Users, Globe, Hammer, ChevronsRight, ChevronsDown, KeyRound, RotateCcw, Snowflake,
   Map as MapIcon, Music, Flame, Leaf, Eye, Skull,
 } from 'lucide-react';
 import { useSquareOfShadows } from '../../hooks/useSquareOfShadows';
@@ -65,7 +65,6 @@ import type { BoardViewSize } from './boardView';
 import { SosActionIcon } from './SosActionIcon';
 import { SosMinimap } from './SosMinimap';
 import type { LobbyPlayer, LobbyRoom } from './lobby';
-import IntroTrailer from './IntroTrailer';
 import VictoryCinematic from './VictoryCinematic';
 import { impactKindForAbility } from './highlight';
 import type { ImpactKind } from './highlight';
@@ -3512,11 +3511,6 @@ export default function SquareOfShadows({
     setOnlineWanted(false);
     setLobbyOpen(true);
   }, [leaveOnline]);
-  // Bumped by the main menu's "Play Intro" to bring the trailer back on demand.
-  // A counter rather than a boolean so a second press is a distinct request and
-  // can never be swallowed by a stale "already showing" check.
-  const [introReplayToken, setIntroReplayToken] = useState(0);
-
   const returnToGameMenu = useCallback(() => {
     if (lobbyOpen) {
       leaveLobby();
@@ -3641,13 +3635,13 @@ export default function SquareOfShadows({
         </button>
       )}
       <a
-        href="/"
+        href="/projects#games"
         className="sos-brand-mark"
-        aria-label="Home"
-        title="Home"
+        aria-label="Back to Work"
+        title="Back to Work"
         onClick={(event) => {
           event.preventDefault();
-          window.location.href = '/';
+          window.location.href = '/projects#games';
         }}
       >
         GG
@@ -3743,9 +3737,6 @@ export default function SquareOfShadows({
 
   return (
     <div className="sos-root" onPointerDownCapture={handleFirstGesture}>
-      {/* First-visit trailer. Self-contained and fail-safe: it decides for itself
-          whether to appear and always has a way out, so it needs no state here. */}
-      <IntroTrailer replayToken={introReplayToken} />
       <div className="sos-topbar">
         {!isPlayingMatch && (
           <div className="sos-topbar-left">{renderBrandControls()}</div>
@@ -3920,29 +3911,6 @@ export default function SquareOfShadows({
                     ? 'Connecting to the lobby…'
                     : 'Needs the lobby connection.'}
               </span>
-            </button>
-            {/*
-              Replay the trailer, last in the list.
-
-              The first-visit gate records that it was skipped, so without this a
-              player who skipped past the intro could never see it again. It sits
-              BELOW the three ways to play on purpose: it is not a way to play,
-              and putting it beside them would make four equally-weighted
-              choices where three are the real decision.
-            */}
-            <button
-              type="button"
-              className="sos-menu-entry is-secondary"
-              onClick={() => {
-                playSfx('select');
-                setLobbyOpen(false);
-                setIntroReplayToken((n) => n + 1);
-              }}
-              title="Replay the Square of Shadows intro trailer"
-            >
-              <Film size={22} aria-hidden="true" />
-              <span className="sos-menu-entry-label">Play Intro</span>
-              <span className="sos-menu-entry-hint">Replay the opening trailer.</span>
             </button>
           </nav>
 

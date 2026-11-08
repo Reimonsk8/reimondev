@@ -1,17 +1,9 @@
 const { docClient, PLAYER_ROOM, broadcast, listPlayers } = require('../utils');
-const { handleDisconnect } = require('../blackjack');
 const { handleDisconnect: handleSosDisconnect } = require('../sos');
 const { handleDisconnect: handleLobbyDisconnect } = require('../lobby');
 
 exports.handler = async (event) => {
   const connectionId = event.requestContext.connectionId;
-
-  // Remove this connection's seat from the blackjack table before cleanup
-  try {
-    await handleDisconnect(connectionId);
-  } catch (err) {
-    console.warn('Blackjack disconnect cleanup (non-fatal):', err.message);
-  }
 
   // Release any Square of Shadows seat so a closed tab cannot stall a duel
   try {

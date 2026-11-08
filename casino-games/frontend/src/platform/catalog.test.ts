@@ -6,11 +6,9 @@ describe('platform catalog', () => {
     expect(PLATFORM_NAME.length).toBeGreaterThan(0);
   });
 
-  it('lists the launch games', () => {
-    const ids = GAMES.map((game) => game.id);
-    expect(ids).toEqual(
-      expect.arrayContaining(['square-of-shadows', 'casino', 'arcade', 'outlands']),
-    );
+  it('lists only Square of Shadows and Zombie Shooter', () => {
+    expect(GAMES.map((game) => game.id)).toEqual(['square-of-shadows', 'outlands']);
+    expect(GAMES).toHaveLength(2);
   });
 
   it('uses unique ids and canonical absolute paths', () => {
@@ -23,14 +21,14 @@ describe('platform catalog', () => {
       expect(game.title.length).toBeGreaterThan(0);
       expect(game.icon.length).toBeGreaterThan(0);
       expect(game.accent.length).toBeGreaterThan(0);
-      expect(['casino', 'sos', 'arcade', 'outlands']).toContain(game.theme);
+      expect(['sos', 'outlands']).toContain(game.theme);
       expect(['live', 'soon']).toContain(game.status);
     }
   });
 
   it('resolves games by id and by path', () => {
-    expect(gameById('casino')?.path).toBe('/casino');
-    expect(gameByPath('/arcade')?.id).toBe('arcade');
+    expect(gameById('square-of-shadows')?.path).toBe('/square-of-shadows');
+    expect(gameByPath('/outlands')?.id).toBe('outlands');
     expect(gameById('does-not-exist')).toBeUndefined();
     expect(gameByPath('/nope')).toBeUndefined();
   });

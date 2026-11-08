@@ -2,7 +2,7 @@ import { PREVIEW, PREVIEW_DATA } from './preview';
 
 export const API_BASE =
   import.meta.env.VITE_API_URL ||
-  "https://pmeyof3qzi.execute-api.us-east-2.amazonaws.com/prod";
+  "https://n9jsje9d30.execute-api.us-east-2.amazonaws.com/prod";
 
 /**
  * @param {string} path

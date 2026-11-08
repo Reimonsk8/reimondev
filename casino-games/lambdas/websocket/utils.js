@@ -5,11 +5,8 @@ const jwt = require('jsonwebtoken');
 const { createPublicKey } = require('crypto');
 
 const dynamoClient = new DynamoDBClient({});
-// ponytail: removeUndefinedValues so the blackjack engine's round resets
-// (start()/newRound() set hands=undefined, etc.) don't crash the DynamoDB
-// marshaller — confirmed live in CloudWatch: "Pass options.removeUndefinedValues
-// =true to remove undefined values from map/array/set." Stripping undefined is
-// safe here; use null (not undefined) for any key you need written as NULL.
+// Ignore undefined values from partial player/profile updates. Use null (not
+// undefined) when an explicit DynamoDB NULL is required.
 const docClient = DynamoDBDocument.from(dynamoClient, {
   marshallOptions: { removeUndefinedValues: true },
 });

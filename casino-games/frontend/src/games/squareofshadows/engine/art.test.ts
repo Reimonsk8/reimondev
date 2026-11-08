@@ -391,13 +391,12 @@ describe('generated Square of Shadows art', () => {
     const source = `${ROOT}/sos-pixellab/effects/${effect}`;
     const gif = readFileSync(`${source}/animation.preview.gif`);
 
-    it('keeps the animated PixelLab preview and editable game pack in sync', () => {
+    it('keeps the animated PixelLab preview in sync with the runtime asset', () => {
       expect(gif.subarray(0, 6).toString('ascii')).toMatch(/^GIF8[79]a$/);
       expect(gif.length).toBeGreaterThan(1000);
       expect(gif).toEqual(
         readFileSync(`frontend/public/sprites/sos-pixellab/effects/${effect}/animation.preview.gif`),
       );
-      expect(readFileSync(`${source}/game-pack.zip`).subarray(0, 4).toString('hex')).toBe('504b0304');
     });
   });
 

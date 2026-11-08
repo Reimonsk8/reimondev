@@ -1,8 +1,8 @@
 // Google OAuth via Cognito Hosted UI.
 // COGNITO_CLIENT_ID is the Cognito app client ID (public, not a secret).
 // Override with VITE_COGNITO_CLIENT_ID, else the deployed client ID is used.
-export const COGNITO_DOMAIN = import.meta.env.VITE_COGNITO_DOMAIN || "reimondev.auth.us-east-2.amazoncognito.com";
-export const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID || "77ieg4fiv0dg7fo5g9uqb1n5rm";
+export const COGNITO_DOMAIN = import.meta.env.VITE_COGNITO_DOMAIN || "casino888.auth.us-east-2.amazoncognito.com";
+export const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID || "1vuv9q9um88odm8cgcct6p7705";
 const appBaseUrl = new URL(import.meta.env.BASE_URL || '/', window.location.origin);
 export const OAUTH_REDIRECT_URI = import.meta.env.VITE_OAUTH_REDIRECT || new URL('oauth2/callback', appBaseUrl).toString();
 

@@ -2,7 +2,7 @@
 
 /* Forced landscape: rotate the Outlands shell 90° when a phone is held portrait.
    Scoped to .outlands-root — rotating `body` used to be global, so leaving the
-   route kept the entire casino rotated until a full reload. */
+   route kept the entire game rotated until a full reload. */
 @media (orientation: portrait) and (max-width: 900px) {
   .outlands-root {
     --ol-view-w: 100vh;

@@ -4,13 +4,14 @@ import './styles/App.css';
 import MainMenu from './components/MainMenu';
 import { initialAuroraVars, randomAuroraVars } from './utils/aurora';
 
-// Ambient aurora cycle: A (silver ribbons) -> B (singularity) -> C (holy donut
-// ring) -> back to A. Each phase holds for its own duration, then cross-fades
-// over the 5s CSS transition. Phase C gets the longest hold so the ring reads.
+// Ambient eclipse cycle. Hold durations count from the end of the incoming
+// crossfade, so each state gets its intended fully-visible time.
+const AURORA_CROSSFADE_MS = 8000;
 const AURORA_PHASES = [
-  { phase: 'a', hold: 8000 },
-  { phase: 'b', hold: 7000 },
-  { phase: 'c', hold: 13000 },
+  { phase: 'a', hold: 11000 },
+  { phase: 'c', hold: 15000 },
+  { phase: 'b', hold: 10000 },
+  { phase: 'c', hold: 15000 },
 ];
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
       if (reduceMotion) return undefined;
 
       let index = 0;
+      let firstPhase = true;
       let timer = 0;
 
       const advance = () => {
@@ -47,8 +49,9 @@ const App = () => {
           // flip the phase in the same render so the new shape fades in.
           setAuroraVars((prev) => ({ ...prev, ...randomAuroraVars(next) }));
           setPhase(next);
+          firstPhase = false;
           advance();
-        }, AURORA_PHASES[index].hold);
+        }, AURORA_PHASES[index].hold + (firstPhase ? 0 : AURORA_CROSSFADE_MS));
       };
 
       advance();

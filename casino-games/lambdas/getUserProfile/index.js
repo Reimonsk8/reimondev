@@ -45,7 +45,7 @@ exports.handler = async (event) => {
                 return response(404, { error: "User not found" });
             }
 
-            // User doesn't exist yet, create with initial balance
+            // Create the shared player identity row on first sign-in.
             const claims = event.requestContext?.authorizer?.claims || {};
             const email = claims.email || '';
             const googleName = claims.name || '';
@@ -55,7 +55,6 @@ exports.handler = async (event) => {
                 email,
                 nickname: googleName || email.split('@')[0] || 'Player',
                 avatarImage: googlePicture || '',
-                currentBalance: 100.00,
                 createdAt: new Date().toISOString(),
             };
 
@@ -114,26 +113,15 @@ exports.handler = async (event) => {
             }
         }
 
-        const totalGames = Number.isFinite(user.totalGames) ? user.totalGames : 0;
-        const totalWins = Number.isFinite(user.totalWins) ? user.totalWins : 0;
         const responseData = {
             userId: user.userId,
             nickname: user.nickname || user.email?.split('@')[0] || 'Player',
             avatarImage: user.avatarImage || '',
-            // Lifetime Stats
-            totalGames,
-            totalWins,
-            totalWon: Number.isFinite(user.totalWon) ? user.totalWon : 0,
-            biggestWin: Number.isFinite(user.biggestWin) ? user.biggestWin : 0,
-            // Calculate win rate
-            winRate: totalGames > 0 ? ((totalWins / totalGames) * 100).toFixed(1) : 0,
-            totalWagered: Number.isFinite(user.totalWagered) ? user.totalWagered : 0, // Maybe sensitive? But usually public in casinos
         };
 
         // Only include private info if requesting own profile
         if (!isPublicRequest) {
             responseData.email = user.email;
-            responseData.currentBalance = Number.isFinite(user.currentBalance) ? user.currentBalance : 0;
         }
 
         return response(200, responseData);

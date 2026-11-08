@@ -5,6 +5,7 @@ import puppeteer from 'puppeteer-core';
 import { createServer } from 'vite';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const appBase = '/games';
 
 /*
  * Static guard, before any browser is launched.
@@ -90,18 +91,15 @@ try {
   browser = await puppeteer.launch({
     executablePath: browserPath,
     headless: true,
-    // The gate is the mechanism that unlocks the trailer's soundtrack, so the
-    // smoke run has to behave like a browser that has already had a gesture.
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--autoplay-policy=no-user-gesture-required'],
   });
   const page = await browser.newPage();
   const pageErrors = [];
   page.on('pageerror', (error) => pageErrors.push(error.message));
   await page.setViewport({ width: 1365, height: 900 });
-  // NOT `networkidle0`: the first-visit trailer is a 50MB stream that is still
-  // downloading long after the page is interactive, so the network never goes
-  // idle and the wait times out.
-  await page.goto(`http://127.0.0.1:${address.port}/__sos-smoke.html`, {
+  // Wait for the document only; the game starts loading remote media and large
+  // assets after this point, so waiting for network idle is unnecessarily slow.
+  await page.goto(`http://127.0.0.1:${address.port}${appBase}/__sos-smoke.html`, {
     waitUntil: 'domcontentloaded',
   });
   await page.waitForSelector('.sos-menu-entry');
@@ -146,79 +144,15 @@ try {
   });
   if (
     !titleScreen.flush || !titleScreen.unframed || !titleScreen.navOnLeft ||
-    !titleScreen.navBelowTitle || titleScreen.entries !== 4 || titleScreen.rosterOnMenu !== 0
+    !titleScreen.navBelowTitle || titleScreen.entries !== 3 || titleScreen.rosterOnMenu !== 0
   ) {
     throw new Error(`Main menu is not laid out as a title screen: ${JSON.stringify(titleScreen)}`);
   }
-  /*
-   * Three ways to PLAY, then one that is not one. "Play Intro" sits last and is
-   * marked secondary, so counting the nav alone would pass even with the trailer
-   * button promoted to equal weight — assert the label, the ordering and the
-   * secondary mark together.
-   */
-  const navLabels = await page.evaluate(() =>
-    Array.from(document.querySelectorAll('.sos-menu-entry')).map((b) => ({
-      label: b.querySelector('.sos-menu-entry-label')?.textContent?.trim() ?? '',
-      secondary: b.classList.contains('is-secondary'),
-    })),
+  const navLabels = await page.$$eval('.sos-menu-entry-label', (items) =>
+    items.map((item) => item.textContent?.trim() ?? ''),
   );
-  const playModes = navLabels.filter((e) => !e.secondary);
-  if (playModes.length !== 3) {
-    throw new Error(`Expected 3 ways to play, found ${playModes.length}: ${JSON.stringify(navLabels)}`);
-  }
-  const introEntry = navLabels.find((e) => e.label === 'Play Intro');
-  if (!introEntry || !introEntry.secondary) {
-    throw new Error(`"Play Intro" should be a secondary nav entry: ${JSON.stringify(navLabels)}`);
-  }
-  if (navLabels[navLabels.length - 1].label !== 'Play Intro') {
-    throw new Error(`"Play Intro" should be last in the nav: ${JSON.stringify(navLabels)}`);
-  }
-
-  /*
-   * The intro trailer is the first thing on screen and covers everything, so the
-   * journey has to get past it — but it gets its own assertions first, because a
-   * full-screen overlay that silently failed to mount (or, worse, failed to
-   * unmount) would make every click below it fail for an unrelated reason.
-   */
-  const intro = await page.evaluate(() => {
-    const root = document.querySelector('[data-testid="sos-intro"]');
-    const video = root?.querySelector('video');
-    return {
-      gateShown: !!document.querySelector('.sos-intro-gate'),
-      skipShown: !!document.querySelector('.sos-intro-skip'),
-      hasVideo: !!video,
-      // Sound is the point of the gate: a muted element would mean "Press to
-      // Begin" unlocks nothing.
-      unmuted: !!video && !video.muted && video.volume > 0,
-      // Fixed and full-bleed, or the game shows through around it.
-      coversViewport: !!root && getComputedStyle(root).position === 'fixed',
-    };
-  });
-  if (!intro.gateShown || !intro.skipShown || !intro.hasVideo || !intro.unmuted || !intro.coversViewport) {
-    throw new Error(`First-visit trailer did not present its gate correctly: ${JSON.stringify(intro)}`);
-  }
-
-  await page.click('.sos-intro-gate');
-  await page.waitForFunction(() => {
-    const v = document.querySelector('[data-testid="sos-intro"] video');
-    return !!v && !v.paused && v.currentTime > 0;
-  }, { timeout: 10000 });
-  const trailerPlays = await page.evaluate(() => {
-    const v = document.querySelector('[data-testid="sos-intro"] video');
-    return { playing: !v.paused, t: v.currentTime };
-  });
-
-  await page.click('.sos-intro-skip');
-  // The dissolve must finish and the overlay must be GONE — a stuck overlay is
-  // the one failure this component must never have.
-  await page.waitForFunction(() => !document.querySelector('[data-testid="sos-intro"]'), { timeout: 5000 });
-  const skipPersisted = await page.evaluate(
-    () => localStorage.getItem('c888_sos_intro_skipped') === '1',
-  );
-  if (!trailerPlays.playing || !skipPersisted) {
-    throw new Error(
-      `Trailer did not play or did not remember being skipped: ${JSON.stringify({ trailerPlays, skipPersisted })}`,
-    );
+  if (JSON.stringify(navLabels) !== JSON.stringify(['AI', 'Local Duel', 'Online Duel'])) {
+    throw new Error(`The title menu should offer AI, Local Duel, and Online Duel: ${JSON.stringify(navLabels)}`);
   }
 
   /*
@@ -260,8 +194,6 @@ try {
   await page.setViewport({ width: 1365, height: 900 });
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.sos-menu-entry');
-  await page.evaluate(() => document.querySelector('[data-testid="sos-intro"] .sos-intro-skip')?.click());
-  await page.waitForFunction(() => !document.querySelector('[data-testid="sos-intro"]'), { timeout: 5000 });
 
   const responsiveMenu = {};
   for (const viewport of [
@@ -272,8 +204,6 @@ try {
       width: viewport.width,
       height: viewport.height,
       deviceScaleFactor: 1,
-      isMobile: true,
-      hasTouch: true,
     });
     responsiveMenu[viewport.name] = await page.evaluate(() => {
       const rect = (selector) => {
@@ -321,7 +251,7 @@ try {
       box.left >= -1 && box.right <= viewport.width + 1
         && box.top >= -1 && box.bottom <= viewport.height + 1);
     if (!portraitOrder || !landscapeColumns || !contained || !layout.noHorizontalOverflow
-      || layout.buttonCount !== 4 || layout.minButtonHeight < 44
+      || layout.buttonCount !== 3 || layout.minButtonHeight < 44
       || layout.header.left > 12 || layout.header.audioTop > 12
       || layout.header.audioRight > viewport.width + 1) {
       throw new Error(`Responsive title menu failed in ${viewport.name}: ${JSON.stringify(layout)}`);
@@ -330,12 +260,12 @@ try {
   // Continue the existing desktop interaction checks at their original viewport.
   await page.setViewport({ width: 1365, height: 900, deviceScaleFactor: 1 });
 
-  const menuMusic = await page.evaluate(async () => {
+  const menuMusic = await page.evaluate(async (assetBase) => {
     const button = document.querySelector('.sos-sound-trigger');
     const audio = new Audio();
     const tracks = await Promise.all([
-      '/audio/square-of-shadows/menu-loop.mp3',
-      '/audio/square-of-shadows/battle-loop.mp3',
+      `${assetBase}/audio/square-of-shadows/menu-loop.mp3`,
+      `${assetBase}/audio/square-of-shadows/battle-loop.mp3`,
     ].map(async (src) => {
       const response = await fetch(src, { method: 'HEAD' });
       return { src, ok: response.ok, type: response.headers.get('content-type') };
@@ -349,7 +279,7 @@ try {
       canPlayMp3: !!audio.canPlayType('audio/mpeg'),
       tracks,
     };
-  });
+  }, appBase);
   if (!menuMusic.soundIconVisible || !menuMusic.rootBackArrowHidden || !menuMusic.canPlayMp3 || menuMusic.tracks.some((track) => !track.ok)) {
     throw new Error(`Default menu music or compressed tracks unavailable: ${JSON.stringify(menuMusic)}`);
   }
@@ -383,29 +313,6 @@ try {
   await page.click('.sos-sound-toggle[aria-label="Enable sound effects"]');
   await page.waitForFunction(() => document.querySelector('.sos-sound-toggle[aria-label="Mute sound effects"]')?.getAttribute('aria-pressed') === 'true');
   await page.click('.sos-sound-trigger');
-
-  /*
-   * "Play Intro" replays the trailer on demand.
-   *
-   * The first-visit gate records that it was skipped, so a player who skipped
-   * past the intro could never see it again without this. The trailer is already
-   * dismissed by now (the journey above skipped it), so clicking this has to
-   * bring the gate BACK — that is the whole feature, and it is exactly the part
-   * that would silently no-op if the replay token were wired up wrong.
-   */
-  const playIntroFound = await page.evaluate(() => {
-    const entry = Array.from(document.querySelectorAll('.sos-menu-entry')).find(
-      (b) => b.querySelector('.sos-menu-entry-label')?.textContent?.trim() === 'Play Intro',
-    );
-    if (!entry) return false;
-    entry.click();
-    return true;
-  });
-  if (!playIntroFound) throw new Error('The main menu has no "Play Intro" entry.');
-  await page.waitForSelector('[data-testid="sos-intro"] .sos-intro-gate', { timeout: 5000 });
-  // Dismiss it again so the rest of the journey is unaffected.
-  await page.click('[data-testid="sos-intro"] .sos-intro-skip');
-  await page.waitForFunction(() => !document.querySelector('[data-testid="sos-intro"]'), { timeout: 5000 });
 
   /*
    * The draft has a back arrow in the top bar, so a second "Leave match" control
@@ -536,8 +443,6 @@ try {
       width: viewport.width,
       height: viewport.height,
       deviceScaleFactor: 1,
-      isMobile: true,
-      hasTouch: true,
     });
     mobileChronicleDock[viewport.name] = await page.evaluate(() => {
       const box = (selector) => {
@@ -1183,7 +1088,7 @@ try {
     throw new Error(`Selecting a squad member did not restore the unit panel: ${JSON.stringify(reselected)}`);
   }
 
-  const decor = await page.evaluate(async () => {
+  const decor = await page.evaluate(async (assetBase) => {
     // Decoration dresses WALLS only. Asserting "some cell is decorated" would
     // pass just as happily if it were the floor, which is the mistake this
     // replaced — so the split is counted explicitly in both directions.
@@ -1197,10 +1102,10 @@ try {
     const decoratedFloors = decorated.filter((cell) => !cell.classList.contains('is-wall')).length;
     const decoratedWalls = decorated.length - decoratedFloors;
     const image = new Image();
-    image.src = '/sprites/sos-ground-decor/sprite-sheet-alpha.png';
+    image.src = `${assetBase}/sprites/sos-ground-decor/sprite-sheet-alpha.png`;
     await image.decode();
     return { decoratedCells: decorated.length, decoratedFloors, decoratedWalls, width: image.naturalWidth };
-  });
+  }, appBase);
   if (decor.width !== 320) {
     throw new Error(`Ground decoration sheet did not load: ${JSON.stringify(decor)}`);
   }
@@ -1442,12 +1347,12 @@ try {
   await page.setViewport({ width: 1365, height: 900 });
   await new Promise((resolve) => setTimeout(resolve, 250));
 
-  const pixelArt = await page.evaluate(async () => {
+  const pixelArt = await page.evaluate(async (assetBase) => {
     const paths = [
-      '/sprites/sos-pixellab/icon-heal/sprite-sheet-alpha.png',
-      '/sprites/sos-pixellab/icon-guard/sprite-sheet-alpha.png',
-      '/sprites/sos-pixellab/effects/sanctified-ground/animation.preview.gif',
-      '/sprites/sos-pixellab/effects/shield-slam/animation.preview.gif',
+      `${assetBase}/sprites/sos-pixellab/icon-heal/sprite-sheet-alpha.png`,
+      `${assetBase}/sprites/sos-pixellab/icon-guard/sprite-sheet-alpha.png`,
+      `${assetBase}/sprites/sos-pixellab/effects/sanctified-ground/animation.preview.gif`,
+      `${assetBase}/sprites/sos-pixellab/effects/shield-slam/animation.preview.gif`,
     ];
     return Promise.all(paths.map(async (src) => {
       const image = new Image();
@@ -1455,7 +1360,7 @@ try {
       await image.decode();
       return { src, width: image.naturalWidth, height: image.naturalHeight };
     }));
-  });
+  }, appBase);
   if (pixelArt.some((asset) => !asset.width || !asset.height)) {
     throw new Error(`PixelLab art failed to load: ${JSON.stringify(pixelArt)}`);
   }
@@ -1536,9 +1441,10 @@ try {
   }
   const activeTeamClass = turnLabel.includes('Smoke test') ? 'is-ally' : 'is-enemy';
 
-  // Select one active unit and verify the action controls and its generated art.
-  const firstWarrior = await page.$(`.sos-cell:has(.sos-unit.${activeTeamClass}[aria-label^="Warrior,"])`);
-  if (!firstWarrior) {
+  // The four-unit squad is randomized. Select one of the active player's units
+  // and verify that its class-specific action art and controls are available.
+  const firstActiveUnit = await page.$(`.sos-cell:has(.sos-unit.${activeTeamClass})`);
+  if (!firstActiveUnit) {
     const labels = await page.$$eval('.sos-cell', (cells) =>
       cells.map((cell) => cell.getAttribute('aria-label')).filter(Boolean),
     );
@@ -1547,16 +1453,16 @@ try {
       factionButtons: Array.from(document.querySelectorAll('.sos-faction-card')).map((b) => ({ text: b.innerText, disabled: b.disabled })),
       units: document.querySelectorAll('.sos-cell .sos-unit').length,
     }));
-    throw new Error(`The local Warrior is missing from the board: ${labels.join(' | ')}; ${JSON.stringify(details)}`);
+    throw new Error(`The active player's unit is missing from the board: ${labels.join(' | ')}; ${JSON.stringify(details)}`);
   }
   /*
    * A unit that can still act is pre-selected when the turn hands over, so the
    * board is never blank at the start of your move. Clicking an ALREADY-selected
    * unit toggles the selection off, so only click when nothing is selected yet.
    */
-  const alreadySelected = await firstWarrior.$('.sos-unit.is-selected');
+  const alreadySelected = await firstActiveUnit.$('.sos-unit.is-selected');
   if (!alreadySelected) {
-    await firstWarrior.click();
+    await firstActiveUnit.click();
   }
   await page.waitForSelector('.sos-selected-head strong');
   /*
@@ -1578,10 +1484,25 @@ try {
     );
   }
   await page.waitForFunction(() => {
-    const image = document.querySelector(
-      '.sos-skill[data-action="ATTACK"] .sos-skill-icon img.sos-pixel-icon',
-    );
-    return image?.complete && image.naturalWidth > 0 && image.src.includes('/icon-attack-warrior/');
+    const icon = document.querySelector('.sos-skill[data-action="ATTACK"] .sos-skill-icon');
+    const image = icon?.querySelector('img.sos-pixel-icon');
+    // Some classes have custom pixel art; other classes intentionally use the
+    // built-in SVG fallback. Accept either fully loaded representation.
+    return !!icon?.querySelector('svg') || (image?.complete && image.naturalWidth > 0);
+  }, { timeout: 8000 }).catch(async () => {
+    const details = await page.evaluate(() => {
+      const icon = document.querySelector('.sos-skill[data-action="ATTACK"] .sos-skill-icon');
+      const image = icon?.querySelector('img');
+      return {
+        unit: document.querySelector('.sos-selected-head strong')?.textContent?.trim() ?? '',
+        iconHtml: icon?.innerHTML ?? '',
+        src: image?.src ?? '',
+        complete: image?.complete ?? false,
+        naturalWidth: image?.naturalWidth ?? 0,
+        hasSvgFallback: !!icon?.querySelector('svg'),
+      };
+    });
+    throw new Error(`The selected unit's attack icon or fallback did not render: ${JSON.stringify(details)}`);
   });
 
   /*
@@ -1654,7 +1575,7 @@ try {
     if (!localDuel) throw new Error('Local Duel mode card is missing on the second pass.');
     localDuel.click();
   });
-  await page.waitForSelector('.sos-faction-card:not(:disabled)');
+  await page.waitForSelector('.sos-faction-carousel');
   const arenaMode = await page.evaluate(
     () => document.querySelector('.sos-map-mode-btn.is-active strong')?.textContent?.trim() ?? '',
   );
@@ -1765,7 +1686,7 @@ try {
   assertViewShape(await readBoardShape(), 10, 'Arena 10x10');
 
   if (pageErrors.length > 0) throw new Error(`Browser errors: ${pageErrors.join('; ')}`);
-  console.log('Square of Shadows browser smoke passed: touch scrolling, intro trailer gate/playback/skip, title-screen layout, menu music/mute, wall readability, terrain decor, faction draft, Warrior attack icon, action-range layers, hit-zone preview, legal move, 3/5/7/9/10/11 camera windows and two seeded altars in Adventure, live minimap free-nav (click/drag/board pan), and persisted 10x10 plus bounded 5x5 drag-pan in Arena.');
+  console.log('Square of Shadows browser smoke passed: title-screen layout and three game modes, touch scrolling, menu music/mute, wall readability, terrain decor, faction draft, class attack icon, action-range layers, hit-zone preview, legal move, 3/5/7/9/10/11 camera windows and two seeded altars in Adventure, live minimap free-nav (click/drag/board pan), and persisted 10x10 plus bounded 5x5 drag-pan in Arena.');
 } finally {
   if (browser) await browser.close();
   await server.close();

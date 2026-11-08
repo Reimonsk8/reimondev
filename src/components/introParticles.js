@@ -1,19 +1,24 @@
 /**
  * Particle intro engine (refactored).
  *
- * Visual: deep-black hero with a subtle top-center vignette glow, the rounded
- * "REIMON DEVELOPMENT" webfont mask optically centred in the viewport, and a
+ * Visual: deep-black hero with a subtle top-center vignette glow, the
+ * "REIMON DEVELOPMENT" Times New Roman mask, and a
  * dense, bright white point cloud.
  *
- * Performance: particle state lives in contiguous Float32Arrays (no per-frame
- * object allocation / GC spikes), the mask is sampled offscreen at ~1/3
- * resolution with a 2x stride, the particle budget is capped, the rAF loop is
- * throttled to ~60 fps and pauses via IntersectionObserver + visibilitychange.
+ * Performance: particle state lives in contiguous Float32Arrays, connection
+ * candidates are spatially indexed, and the rAF loop pauses when settled or
+ * hidden.
  */
-const TAU = Math.PI * 2;
+import {
+  createCanvas2DRenderer,
+  createWebGLRenderer,
+  LINE_BUCKETS,
+  MAX_CONNECTIONS,
+} from './introParticleRenderers';
+import { createAdaptiveQualityController, getInitialQualityIndex } from './introParticleQuality';
 
 const MASK_SCALE = 0.35;
-const MASK_STEP = 2;
+const MASK_STEP = 1;
 const MASK_ALPHA = 16;
 
 const MOUSE_RADIUS = 35;
@@ -23,24 +28,28 @@ const SPRING = 25;
 const RESIZE_DEBOUNCE = 180;
 const FRAME_MS = 1000 / 61;
 
-const MAX_PARTICLES_DESKTOP = 4000;
-const MAX_PARTICLES_MOBILE = 2000;
+const MAX_PARTICLES_DESKTOP = 5000;
+const MAX_PARTICLES_MOBILE = 2500;
 
 const CONNECTION_MIN_SQ = 15 * 15;
 const CONNECTION_MAX_SQ = 50 * 50;
-const CONNECTION_BUCKETS = 4;
+const CONNECTION_CELL_SIZE = 50;
+const METRICS_INTERVAL_MS = 250;
+const METRICS_HISTORY_SIZE = 120;
 
-// Varela Round is self-hosted (see src/index.css) so this is the same face the
-// Reimon TSX intro and .skip button use, even on machines without it installed.
-const FONT_STACK = '"Varela Round", "Trebuchet MS", Arial, sans-serif';
+// Match the site's global intro typography.
+const FONT_STACK = '"Times New Roman"';
 
 const isSmallViewport = () => window.innerWidth * window.innerHeight < 500000;
 
-export const createIntroParticles = (canvas) => {
+export const createIntroParticles = (canvas, rendererType = '2d', onMetrics = () => {}) => {
   if (!canvas) return null;
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return null;
+  const capacity = MAX_PARTICLES_DESKTOP;
+  const renderer = rendererType === 'webgl'
+    ? createWebGLRenderer(canvas, capacity)
+    : createCanvas2DRenderer(canvas);
+  if (!renderer) return null;
 
   const mask = document.createElement('canvas');
   const maskCtx = mask.getContext('2d', { willReadFrequently: true });
@@ -55,30 +64,55 @@ export const createIntroParticles = (canvas) => {
   let resizeTimer = 0;
   let lastMoveAt = -Infinity;
   let lastFrameAt = 0;
+  let minTargetX = 0;
+  let maxTargetX = 0;
+  let minTargetY = 0;
+  let maxTargetY = 0;
 
   const reduceMotion = window.matchMedia
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
     : false;
+  const qualityController = createAdaptiveQualityController(getInitialQualityIndex({
+    isMobile: isSmallViewport(),
+    hardwareConcurrency: navigator.hardwareConcurrency || 0,
+    deviceMemory: navigator.deviceMemory || 0,
+  }));
+  let quality = qualityController.level;
+  const basePixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
 
   // Contiguous particle buffers (Float32Array) to avoid GC in the frame loop.
-  const capacity = MAX_PARTICLES_DESKTOP;
   const xs = new Float32Array(capacity);
   const ys = new Float32Array(capacity);
   const baseXs = new Float32Array(capacity);
   const baseYs = new Float32Array(capacity);
   const sizes = new Float32Array(capacity);
   const densities = new Float32Array(capacity);
-  const dists = new Float32Array(capacity);
+  const displacementSq = new Float32Array(capacity);
+  const gridNext = new Int32Array(capacity);
+  const connectionData = new Float32Array(MAX_CONNECTIONS * 5);
+  const frameIntervals = new Float32Array(METRICS_HISTORY_SIZE);
+  const simulationTimes = new Float32Array(METRICS_HISTORY_SIZE);
+  const connectionTimes = new Float32Array(METRICS_HISTORY_SIZE);
+  const renderingTimes = new Float32Array(METRICS_HISTORY_SIZE);
+  const sortedFrameIntervals = new Float32Array(METRICS_HISTORY_SIZE);
+  let gridHeads = new Int32Array(0);
+  let gridColumns = 0;
+  let gridRows = 0;
   let count = 0;
+  let connectionCount = 0;
+  let metricsIndex = 0;
+  let metricsCount = 0;
+  let lastMetricsAt = 0;
+  let lastFrameTimestamp = 0;
 
   const initParticle = (i, baseX, baseY, startX, startY) => {
     baseXs[i] = baseX;
     baseYs[i] = baseY;
     xs[i] = startX;
     ys[i] = startY;
-    sizes[i] = Math.random() * 0.5 + (isSmallViewport() ? 1 : 2);
+    sizes[i] = Math.random() * 1 + (isSmallViewport() ? 2.2 : 3);
     densities[i] = Math.random() * 100 + 1;
-    dists[i] = 0;
+    displacementSq[i] = 0;
   };
 
   /** Render the two words into the small mask canvas and return target points. */
@@ -92,68 +126,16 @@ export const createIntroParticles = (canvas) => {
     maskCtx.clearRect(0, 0, width, height);
     maskCtx.fillStyle = '#fff';
     maskCtx.textBaseline = 'alphabetic';
-    maskCtx.textAlign = 'center';
+    maskCtx.textAlign = 'left';
 
-    const measureLine = (text, fontSize) => {
-      maskCtx.font = `${fontSize}px ${FONT_STACK}`;
-      const metrics = maskCtx.measureText(text);
-      return {
-        ascent: metrics.actualBoundingBoxAscent || fontSize * 0.72,
-        descent: metrics.actualBoundingBoxDescent || 0,
-        width: metrics.width,
-        inkLeft: metrics.actualBoundingBoxLeft || 0,
-        inkRight: metrics.actualBoundingBoxRight || metrics.width,
-      };
-    };
+    const ch = height / 2;
+    const titleVspace = height > width ? 9 : 5;
 
-    // Exactly the TSX sizes: 25vw and 13.25vw.
-    let fontSizeTop = width * 0.25;
-    let fontSizeBottom = width * 0.1325;
-    let gap = height * 0.025;
-    let topMetrics = measureLine('REIMON', fontSizeTop);
-    let bottomMetrics = measureLine('DEVELOPMENT', fontSizeBottom);
-    let blockHeight =
-      topMetrics.ascent + topMetrics.descent + gap +
-      bottomMetrics.ascent + bottomMetrics.descent;
+    maskCtx.font = `${Math.round(width * 0.25)}px ${FONT_STACK}`;
+    maskCtx.fillText('REIMON', 5, ch - ch / titleVspace);
 
-    // The Enter button sits at 80vh (the TSX .bottom-container rule), and the
-    // TSX 25vw line is a touch wider than the viewport in Varela Round, so only
-    // shrink when needed: 98% width margin and clearance above the button.
-    const maxWidth = width * 0.98;
-    const inkWidth = Math.max(
-      topMetrics.inkLeft + topMetrics.inkRight,
-      bottomMetrics.inkLeft + bottomMetrics.inkRight
-    );
-    const maxHeight = Math.max(
-      height * 0.4,
-      (height * 0.8 - 24 - height / 2) * 2
-    );
-    const shrink = Math.min(1, maxWidth / inkWidth, maxHeight / blockHeight);
-    if (shrink < 1) {
-      fontSizeTop *= shrink;
-      fontSizeBottom *= shrink;
-      gap *= shrink;
-      topMetrics = measureLine('REIMON', fontSizeTop);
-      bottomMetrics = measureLine('DEVELOPMENT', fontSizeBottom);
-      blockHeight =
-        topMetrics.ascent + topMetrics.descent + gap +
-        bottomMetrics.ascent + bottomMetrics.descent;
-    }
-
-    // Centre on the actual ink box (not on the baseline, which sat high).
-    const blockTop = (height - blockHeight) / 2;
-    const baselineTop = blockTop + topMetrics.ascent;
-    const baselineBottom =
-      baselineTop + topMetrics.descent + gap + bottomMetrics.ascent;
-    // Side bearings make the advance box and the ink box differ by a few px,
-    // so align the ink (what the eye sees) rather than the advance width.
-    const inkCentreX = (m) => width / 2 - (m.inkRight - m.inkLeft) / 2;
-
-    maskCtx.font = `${fontSizeTop}px ${FONT_STACK}`;
-    maskCtx.fillText('REIMON', inkCentreX(topMetrics), baselineTop);
-
-    maskCtx.font = `${fontSizeBottom}px ${FONT_STACK}`;
-    maskCtx.fillText('DEVELOPMENT', inkCentreX(bottomMetrics), baselineBottom);
+    maskCtx.font = `${Math.round(width * 0.1325)}px ${FONT_STACK}`;
+    maskCtx.fillText('DEVELOPMENT', 5, ch + ch / titleVspace);
 
     const data = maskCtx.getImageData(0, 0, mw, mh).data;
 
@@ -163,7 +145,8 @@ export const createIntroParticles = (canvas) => {
     }
     if (!filled) return [];
 
-    const max = isSmallViewport() ? MAX_PARTICLES_MOBILE : MAX_PARTICLES_DESKTOP;
+    const deviceMax = isSmallViewport() ? MAX_PARTICLES_MOBILE : MAX_PARTICLES_DESKTOP;
+    const max = Math.max(500, Math.floor(deviceMax * quality.particleScale));
     const step = Math.max(MASK_STEP, Math.ceil(Math.sqrt(filled / max)));
 
     const points = [];
@@ -182,65 +165,87 @@ export const createIntroParticles = (canvas) => {
   const retarget = (points) => {
     const newCount = points.length / 2;
     const targetCount = Math.min(newCount, capacity);
+    minTargetX = width;
+    minTargetY = height;
+    maxTargetX = 0;
+    maxTargetY = 0;
 
     for (let i = 0; i < targetCount; i++) {
       const baseX = points[i * 2];
       const baseY = points[i * 2 + 1];
+      minTargetX = Math.min(minTargetX, baseX);
+      minTargetY = Math.min(minTargetY, baseY);
+      maxTargetX = Math.max(maxTargetX, baseX);
+      maxTargetY = Math.max(maxTargetY, baseY);
       if (i < count) {
         baseXs[i] = baseX;
         baseYs[i] = baseY;
       } else {
+        // Match the reference intro: particles gather into the text from
+        // across the viewport, producing its connecting-line formation.
         initParticle(i, baseX, baseY, Math.random() * width, Math.random() * height);
       }
     }
     count = targetCount;
   };
 
-  const drawParticles = () => {
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    for (let i = 0; i < count; i++) {
-      const size = sizes[i];
-      ctx.moveTo(xs[i] + size, ys[i]);
-      ctx.arc(xs[i], ys[i], size, 0, TAU);
-    }
-    ctx.fill();
-  };
-
   const drawConnections = () => {
     const n = count;
-    const step = n > 2000 ? 6 : 5;
-    const paths = [];
-    for (let i = 0; i < CONNECTION_BUCKETS; i++) paths.push(new Path2D());
+    const step = quality.connectionStride;
+    gridColumns = Math.max(1, Math.ceil(width / CONNECTION_CELL_SIZE));
+    gridRows = Math.max(1, Math.ceil(height / CONNECTION_CELL_SIZE));
+    const gridSize = gridColumns * gridRows;
+    if (gridHeads.length !== gridSize) gridHeads = new Int32Array(gridSize);
+    gridHeads.fill(-1);
+
+    // Index points into a uniform spatial grid, so each particle only compares
+    // against nearby candidates instead of scanning the entire particle array.
+    for (let i = 0; i < n; i++) {
+      const cellX = Math.min(gridColumns - 1, Math.max(0, Math.floor(xs[i] / CONNECTION_CELL_SIZE)));
+      const cellY = Math.min(gridRows - 1, Math.max(0, Math.floor(ys[i] / CONNECTION_CELL_SIZE)));
+      const cell = cellY * gridColumns + cellX;
+      gridNext[i] = gridHeads[cell];
+      gridHeads[cell] = i;
+    }
+
+    const lines = connectionData;
+    let lineCount = 0;
 
     for (let a = 0; a < n; a += step) {
       const paX = xs[a];
       const paY = ys[a];
-      const paDist = dists[a];
+      const paDistSq = displacementSq[a];
 
+      if (paDistSq < 1) continue;
       const bucket = Math.min(
-        CONNECTION_BUCKETS - 1,
-        Math.floor((paDist / 50) * CONNECTION_BUCKETS)
+        LINE_BUCKETS - 1,
+        Math.floor((Math.sqrt(paDistSq) / 50) * LINE_BUCKETS)
       );
-      if (bucket <= 0) continue;
-      const path = paths[bucket];
-
-      for (let b = a + step; b < n; b += step) {
-        const dx = paX - xs[b];
-        const dy = paY - ys[b];
-        const d2 = dx * dx + dy * dy;
-        if (d2 > CONNECTION_MIN_SQ && d2 < CONNECTION_MAX_SQ) {
-          path.moveTo(paX, paY);
-          path.lineTo(xs[b], ys[b]);
+      const cellX = Math.min(gridColumns - 1, Math.max(0, Math.floor(paX / CONNECTION_CELL_SIZE)));
+      const cellY = Math.min(gridRows - 1, Math.max(0, Math.floor(paY / CONNECTION_CELL_SIZE)));
+      for (let y = Math.max(0, cellY - 1); y <= Math.min(gridRows - 1, cellY + 1); y++) {
+        for (let x = Math.max(0, cellX - 1); x <= Math.min(gridColumns - 1, cellX + 1); x++) {
+          for (let b = gridHeads[y * gridColumns + x]; b !== -1; b = gridNext[b]) {
+            if (b <= a || b % step !== 0) continue;
+            const dx = paX - xs[b];
+            const dy = paY - ys[b];
+            const d2 = dx * dx + dy * dy;
+            if (d2 > CONNECTION_MIN_SQ && d2 < CONNECTION_MAX_SQ && lineCount < quality.connectionLimit) {
+              const offset = lineCount * 5;
+              lines[offset] = paX;
+              lines[offset + 1] = paY;
+              lines[offset + 2] = xs[b];
+              lines[offset + 3] = ys[b];
+              lines[offset + 4] = bucket + 1;
+              lineCount++;
+            }
+          }
         }
       }
     }
 
-    ctx.lineWidth = 1;
-    for (let i = 1; i < CONNECTION_BUCKETS; i++) {
-      ctx.strokeStyle = `rgba(255, 255, 255, ${(i / CONNECTION_BUCKETS).toFixed(2)})`;
-      ctx.stroke(paths[i]);
-    }
+    renderer.drawLines(lines, lineCount);
+    return lineCount;
   };
 
   const tick = (now) => {
@@ -249,9 +254,14 @@ export const createIntroParticles = (canvas) => {
 
     if (now - lastFrameAt < FRAME_MS) return;
     lastFrameAt = now;
+    const frameInterval = lastFrameTimestamp ? now - lastFrameTimestamp : FRAME_MS;
+    lastFrameTimestamp = now;
 
-    ctx.clearRect(0, 0, width, height);
+    const renderingStart = performance.now();
+    renderer.clear(width, height);
+    let renderingMs = performance.now() - renderingStart;
 
+    const simulationStart = performance.now();
     let moving = false;
     for (let i = 0; i < count; i++) {
       const dx = mouse.x - xs[i];
@@ -271,18 +281,40 @@ export const createIntroParticles = (canvas) => {
       const bx = xs[i] - baseXs[i];
       const by = ys[i] - baseYs[i];
       const baseDistSq = bx * bx + by * by;
-      dists[i] = Math.sqrt(baseDistSq);
+      // Keep squared displacement for the pointer-connection buckets. Avoid a
+      // square root for every particle on every animation frame.
+      displacementSq[i] = baseDistSq;
       if (baseDistSq > 1) moving = true;
     }
+    const simulationMs = performance.now() - simulationStart;
 
-    drawParticles();
+    const particleDrawStart = performance.now();
+    renderer.drawParticles(xs, ys, sizes, count);
+    renderingMs += performance.now() - particleDrawStart;
 
-    const pointerActive = now - lastMoveAt < 1600;
-    if (moving || pointerActive) drawConnections();
+    const pointerActive = now - lastMoveAt < 900;
+    // Draw connection lines while the text is assembling, like the TSX intro,
+    // and while pointer movement is disturbing the settled particle field.
+    let connectionMs = 0;
+    connectionCount = 0;
+    if (moving || pointerActive) {
+      const connectionStart = performance.now();
+      connectionCount = drawConnections();
+      connectionMs = performance.now() - connectionStart;
+    }
+
+    saveFrameMetrics(frameInterval, simulationMs, connectionMs, renderingMs);
+    if (now - lastMetricsAt >= METRICS_INTERVAL_MS) {
+      lastMetricsAt = now;
+      const metrics = readMetrics(true);
+      onMetrics(metrics);
+      if (qualityController.observe(metrics.p95FrameMs)) applyQuality();
+    }
 
     if (!moving && !pointerActive) {
       running = false;
       cancelAnimationFrame(rafId);
+      emitMetrics(false);
     }
   };
 
@@ -290,6 +322,7 @@ export const createIntroParticles = (canvas) => {
     if (destroyed || running) return;
     running = true;
     lastFrameAt = 0;
+    lastFrameTimestamp = 0;
     rafId = requestAnimationFrame(tick);
   };
 
@@ -300,13 +333,65 @@ export const createIntroParticles = (canvas) => {
   };
 
   const drawStatic = () => {
-    ctx.clearRect(0, 0, width, height);
+    renderer.clear(width, height);
+    connectionCount = 0;
     for (let i = 0; i < count; i++) {
       xs[i] = baseXs[i];
       ys[i] = baseYs[i];
-      dists[i] = 0;
+      displacementSq[i] = 0;
     }
-    drawParticles();
+    renderer.drawParticles(xs, ys, sizes, count);
+  };
+
+  const readMetrics = (isRunning) => {
+    let frameTotal = 0;
+    let simulationTotal = 0;
+    let connectionTotal = 0;
+    let renderingTotal = 0;
+    for (let i = 0; i < metricsCount; i++) {
+      const interval = frameIntervals[i];
+      sortedFrameIntervals[i] = interval;
+      frameTotal += interval;
+      simulationTotal += simulationTimes[i];
+      connectionTotal += connectionTimes[i];
+      renderingTotal += renderingTimes[i];
+    }
+    sortedFrameIntervals.fill(Infinity, metricsCount);
+    sortedFrameIntervals.sort();
+    const averageFrameMs = metricsCount ? frameTotal / metricsCount : 0;
+    const p95Index = Math.max(0, Math.ceil(metricsCount * 0.95) - 1);
+    return {
+      fps: isRunning && averageFrameMs > 0 ? 1000 / averageFrameMs : 0,
+      averageFrameMs,
+      p95FrameMs: metricsCount ? sortedFrameIntervals[p95Index] : 0,
+      simulationMs: metricsCount ? simulationTotal / metricsCount : 0,
+      connectionMs: metricsCount ? connectionTotal / metricsCount : 0,
+      renderingMs: metricsCount ? renderingTotal / metricsCount : 0,
+      particleCount: count,
+      connectionCount,
+      renderer: rendererType === 'webgl' ? 'WebGL2' : 'Canvas 2D',
+      gpuStatus: renderer.gpuStatus,
+      gpuRenderer: renderer.gpuRenderer || 'browser-managed',
+      quality: quality.name,
+      qualityScale: quality.particleScale,
+      renderScale: quality.resolutionScale,
+      devicePixelRatio: window.devicePixelRatio || 1,
+      canvasPixelRatio: basePixelRatio * quality.resolutionScale,
+      running: isRunning,
+    };
+  };
+
+  const emitMetrics = (isRunning = running) => {
+    onMetrics(readMetrics(isRunning));
+  };
+
+  const saveFrameMetrics = (frameInterval, simulationMs, connectionMs, renderingMs) => {
+    frameIntervals[metricsIndex] = frameInterval;
+    simulationTimes[metricsIndex] = simulationMs;
+    connectionTimes[metricsIndex] = connectionMs;
+    renderingTimes[metricsIndex] = renderingMs;
+    metricsIndex = (metricsIndex + 1) % METRICS_HISTORY_SIZE;
+    metricsCount = Math.min(METRICS_HISTORY_SIZE, metricsCount + 1);
   };
 
   const applySize = () => {
@@ -318,8 +403,7 @@ export const createIntroParticles = (canvas) => {
 
     width = nextWidth;
     height = nextHeight;
-    canvas.width = Math.round(width);
-    canvas.height = Math.round(height);
+    renderer.resize(Math.round(width), Math.round(height), basePixelRatio * quality.resolutionScale);
 
     if (rx !== 1 || ry !== 1) {
       for (let i = 0; i < count; i++) {
@@ -334,11 +418,25 @@ export const createIntroParticles = (canvas) => {
 
     if (reduceMotion) {
       drawStatic();
+      emitMetrics(false);
       return;
     }
 
     lastMoveAt = -Infinity;
     start();
+  };
+
+  let applyQuality = () => {};
+  applyQuality = () => {
+    quality = qualityController.level;
+    renderer.resize(Math.round(width), Math.round(height), basePixelRatio * quality.resolutionScale);
+    retarget(buildTargets());
+    lastMoveAt = -Infinity;
+    mouse.x = -1e4;
+    mouse.y = -1e4;
+    drawStatic();
+    stop();
+    emitMetrics(false);
   };
 
   const onResize = () => {
@@ -350,6 +448,20 @@ export const createIntroParticles = (canvas) => {
   };
 
   const onPointerMove = (event) => {
+    const padding = MOUSE_RADIUS;
+    const insideTextBounds =
+      event.clientX >= minTargetX - padding &&
+      event.clientX <= maxTargetX + padding &&
+      event.clientY >= minTargetY - padding &&
+      event.clientY <= maxTargetY + padding;
+
+    if (!insideTextBounds) {
+      mouse.x = -1e4;
+      mouse.y = -1e4;
+      lastMoveAt = -Infinity;
+      return;
+    }
+
     mouse.x = event.clientX;
     mouse.y = event.clientY;
     lastMoveAt = performance.now();
@@ -393,18 +505,6 @@ export const createIntroParticles = (canvas) => {
 
   applySize();
 
-  // The hero face is a webfont. If it hasn't decoded yet the first mask uses
-  // the fallback, so rebuild once Varela Round is actually available (the
-  // particles glide into the real letterforms instead of staying on a serif).
-  if (document.fonts && document.fonts.load) {
-    document.fonts
-      .load(`16px ${FONT_STACK}`)
-      .then(() => {
-        if (!destroyed) applySize();
-      })
-      .catch(() => {});
-  }
-
   return {
     start,
     stop,
@@ -417,6 +517,7 @@ export const createIntroParticles = (canvas) => {
       document.removeEventListener('mouseleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       if (observer) observer.disconnect();
+      renderer.destroy();
       count = 0;
       mask.width = 0;
       mask.height = 0;

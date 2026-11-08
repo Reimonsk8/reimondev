@@ -1,9 +1,8 @@
 /**
  * Square of Shadows — server-authoritative online rooms.
  *
- * Mirrors the multiplayer blackjack room module (`./blackjack.js`): a DynamoDB
- * item per invite code holding the authoritative match state, written with an
- * optimistic-lock `revision` so two simultaneous commands cannot interleave.
+ * A DynamoDB item per invite code holds authoritative match state and is written
+ * with an optimistic-lock `revision` so simultaneous commands cannot interleave.
  *
  * Rules authority is the *frontend* engine, imported directly:
  *   frontend/src/games/squareofshadows/engine
@@ -55,7 +54,7 @@ const __setTransport = (transport) => {
 const identityOf = async (connectionId) => realDeps.identityOf(connectionId, getPlayer);
 
 /**
- * The rules authority is the *frontend* engine, imported directly:
+  * The rules authority is the *frontend* engine, imported directly:
  *   frontend/src/games/squareofshadows/engine
  *
  * CDK bundles this Lambda with esbuild (`bundling: { externalModules: [] }`), so

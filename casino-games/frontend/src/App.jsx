@@ -1,34 +1,52 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
-import { useWallet } from './hooks/useWallet';
-import { useTransactions } from './hooks/useTransactions';
+import { usePlayerProfile } from './hooks/usePlayerProfile';
 import { useLobby } from './hooks/useLobby';
 import AuthView from './components/AuthView';
-import DashboardView from './components/DashboardView';
-import HomeView from './components/HomeView';
-import ArcadeRoute from './components/ArcadeRoute';
-import Toasts from './components/Toasts';
 import Modal from './components/Modal';
 import { OAuthCallback, RequireAuth } from './components/RouteGuards';
 import { PLATFORM_MARK, PLATFORM_NAME } from './platform/catalog';
-import { soundManager } from './utils/audio';
-import { apiCall } from './utils/api';
 
 const SquareOfShadows = lazy(() => import('./games/squareofshadows/SquareOfShadows'));
 const Outlands = lazy(() => import('./games/zombie-shooter/ZombieShooter'));
 
 /**
- * Maps the current route to the design-system theme applied on `.casino-bg`.
+ * Maps the current route to the design-system theme applied on `.game-app-bg`.
  * Theme isolation: each game's scoped styles under [data-theme="…"] can only
  * affect its own route, never another game or the neutral platform chrome.
  */
 function routeTheme(pathname) {
-    if (pathname.startsWith('/casino')) return 'casino';
     if (pathname.startsWith('/square-of-shadows') || pathname.startsWith('/SquareofShadows') || pathname.startsWith('/squareofshadows')) return 'sos';
     if (pathname.startsWith('/outlands') || pathname.startsWith('/zombie-shooter')) return 'outlands';
-    if (pathname.startsWith('/arcade')) return 'arcade';
     return 'platform';
+}
+
+function WorkRedirect() {
+    useEffect(() => {
+        window.location.replace('/projects#games');
+    }, []);
+
+    return (
+        <main className="app-shell" aria-label="Opening the unified work page">
+            <p role="status">Opening the games collection…</p>
+            <a href="/projects#games">Continue to Work</a>
+        </main>
+    );
+}
+
+function GameAccountMenu({ nickname, onLogout }) {
+    const initial = (nickname || 'Player').trim().charAt(0).toUpperCase() || 'P';
+    return (
+        <details className="game-account-menu">
+            <summary aria-label={`Account menu for ${nickname || 'Player'}`}>{initial}</summary>
+            <div className="game-account-popover">
+                <span className="game-account-name">{nickname || 'Player'}</span>
+                <a href="/projects#games">Back to Work</a>
+                <button type="button" onClick={onLogout}>Sign out</button>
+            </div>
+        </details>
+    );
 }
 
 function App() {
@@ -39,8 +57,7 @@ function App() {
     const [modal, setModal] = useState({ isOpen: false, title: '', body: '', type: 'info' });
 
     const { user, setUser, userId, setUserId, isAuthReady } = useAuth();
-    const { balance, nickname, stats, loading: walletLoading, updateBalance, placeBet, refreshWallet, avatarImage, fairness, lastProof } = useWallet(userId);
-    const { transactions, loading: transactionsLoading, refreshTransactions } = useTransactions(userId);
+    const { nickname, avatarImage } = usePlayerProfile(userId, user);
     const lobby = useLobby(userId, nickname);
 
     useEffect(() => {
@@ -67,20 +84,15 @@ function App() {
         };
     }, []);
 
-    // Optimisation: the realtime lobby WebSocket is only needed on the routes
-    // that actually use it. Disconnect it elsewhere so leaving a game releases
-    // the connection instead of holding it for the whole session. `/casino`
-    // drives the floor map and `/square-of-shadows` drives online duels, so
-    // both must stay connected; DashboardView reconnects on mount.
-    const needsLobby = theme === 'casino' || theme === 'sos' || theme === 'outlands';
+    // The two retained worlds use the shared game socket for their online play.
+    const needsLobby = theme === 'sos' || theme === 'outlands';
     const disconnectLobby = lobby.disconnectFromLobby;
     useEffect(() => {
         if (needsLobby) return;
         disconnectLobby?.();
     }, [needsLobby, disconnectLobby]);
 
-    // Square of Shadows and Outlands have no DashboardView of their own to open
-    // the socket, so App owns that connection here.
+    // App owns the socket for the duration of an online-capable game route.
     const connectLobby = lobby.connectToLobby;
     useEffect(() => {
         if (theme !== 'sos' && theme !== 'outlands') return undefined;
@@ -126,31 +138,13 @@ function App() {
         clearSession();
         setUser({ email: '', sub: '', nickname: 'Player' });
         setUserId(null);
-        navigate('/', { replace: true });
-        showModal('Session Closed', 'You have logged out successfully.', 'info');
+        window.location.assign('/projects');
     };
-
-    const handleDeleteAccount = async () => {
-        lobby.disconnectFromLobby();
-        await apiCall('/auth/delete-account', 'POST', {}, true);
-        clearSession();
-        setUser({ email: '', sub: '', nickname: 'Player' });
-        setUserId(null);
-        navigate('/', { replace: true });
-        showModal('Account Deleted', 'Your account and all data have been permanently removed.', 'success');
-    };
-
-    // The casino-room pad is tied to the casino, not to the session. It used to
-    // start on the first click anywhere, so the game-select screen had music
-    // playing over it and it followed you into every other world.
-    useEffect(() => {
-        soundManager.setAmbient(location.pathname.startsWith('/casino'));
-    }, [location.pathname]);
 
     if (!isAuthReady) {
         return (
-            <div className="casino-bg" data-theme="platform">
-                <div className="casino-grid" />
+            <div className="game-app-bg" data-theme="platform">
+                <div className="game-grid" />
                 <div className="app-shell">
                     <div className="app-loading">
                         <span className="app-loading-mark">{PLATFORM_MARK}</span>
@@ -162,96 +156,32 @@ function App() {
         );
     }
 
-    const initialGameId = searchParams.get('game');
     // Square of Shadows invite links: /square-of-shadows?room=ABC234
     const sosRoomCode = searchParams.get('room');
 
     return (
-        <div className="casino-bg" data-theme={theme}>
-            <div className="casino-grid" />
+        <div className="game-app-bg" data-theme={theme}>
+            <div className="game-grid" />
+            {userId && needsLobby && <GameAccountMenu nickname={nickname} onLogout={handleLogout} />}
             <Routes>
                 <Route path="/oauth2/callback" element={<OAuthCallback showModal={showModal} />} />
 
-                <Route
-                    path="/"
-                    element={
-                        userId ? (
-                            <main className="app-shell dashboard-mode">
-                                <HomeView
-                                    userId={userId}
-                                    nickname={nickname}
-                                    balance={balance}
-                                    stats={stats}
-                                    email={user?.email}
-                                    avatarImage={avatarImage}
-                                    onProfileSaved={refreshWallet}
-                                    onLogout={handleLogout}
-                                />
-                            </main>
-                        ) : (
-                            <main className="app-shell">
-                                <AuthView
-                                    onLoginSuccess={handleLoginSuccess}
-                                    setUser={setUser}
-                                    showModal={showModal}
-                                />
-                            </main>
-                        )
-                    }
-                />
+                <Route path="/" element={<WorkRedirect />} />
 
                 <Route
-                    path="/casino"
-                    element={
-                        <RequireAuth userId={userId}>
-                            <main className="app-shell dashboard-mode">
-                                <DashboardView
-                                    user={user}
-                                    userId={userId}
-                                    balance={balance}
-                                    nickname={nickname}
-                                    stats={stats}
-                                    transactions={transactions}
-                                    loading={walletLoading || transactionsLoading}
-                                    updateBalance={updateBalance}
-                                    placeBet={placeBet}
-                                    onLogout={handleLogout}
-                                    showModal={showModal}
-                                    refreshWallet={refreshWallet}
-                                    refreshTransactions={refreshTransactions}
-                                    walletAvatar={avatarImage}
-                                    fairness={fairness}
-                                    lastProof={lastProof}
-                                    lobby={lobby}
-                                    onDeleteAccount={handleDeleteAccount}
-                                    onOpenLibrary={() => navigate('/')}
-                                    initialGameId={initialGameId}
-                                    onInitialGameConsumed={() => navigate('/casino', { replace: true })}
-                                />
-                            </main>
-                        </RequireAuth>
-                    }
+                    path="/login"
+                    element={userId ? <Navigate to="/" replace /> : (
+                        <main className="app-shell">
+                            <AuthView
+                                onLoginSuccess={handleLoginSuccess}
+                                setUser={setUser}
+                                showModal={showModal}
+                            />
+                        </main>
+                    )}
                 />
 
-                <Route
-                    path="/arcade"
-                    element={
-                        <RequireAuth userId={userId}>
-                            <main className="app-shell dashboard-mode">
-                                <ArcadeRoute
-                                    userId={userId}
-                                    nickname={nickname}
-                                    balance={balance}
-                                    stats={stats}
-                                    transactions={transactions}
-                                    updateBalance={updateBalance}
-                                    onLogout={handleLogout}
-                                />
-                            </main>
-                        </RequireAuth>
-                    }
-                />
-
+                <Route path="/library" element={<Navigate to="/" replace />} />
                 <Route
                     path="/square-of-shadows"
                     element={
@@ -305,7 +235,6 @@ function App() {
                 body={modal.body}
                 type={modal.type}
             />
-            <Toasts />
         </div>
     );
 }

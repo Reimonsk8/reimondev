@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { apiCall } from '../utils/api';
 import { googleLoginUrl, COGNITO_CLIENT_ID } from '../utils/oauth';
-import { Gamepad2, ShieldCheck, Skull, Spade, Swords } from 'lucide-react';
+import { Skull, Swords } from 'lucide-react';
 import { PLATFORM_MARK, PLATFORM_NAME } from '../platform/catalog';
 
 export default function AuthView({ onLoginSuccess, setUser, showModal }) {
@@ -228,6 +228,7 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
     return (
         <div className="auth-grid auth-experience">
             <section className="glass-card auth-card" aria-labelledby="auth-title">
+                <a className="auth-back-link" href="/projects#games">← Back to Work</a>
                 <div className="auth-brand">
                     <span className="gg-brand-mark">{PLATFORM_MARK}</span>
                     <span className="gg-brand-text">
@@ -303,21 +304,18 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
                     <span className="auth-kicker">One connected universe</span>
                     <h2>One account.<br />Every world.</h2>
                     <p>
-                        A growing collection of distinct games, brought together by one profile and a shared play-money wallet.
+                        Two distinct game worlds, available through one player profile.
                     </p>
                     <br />
                     <p className="auth-quote">
-                        "One account. One library. Every game in one place."
+                        "Choose your world. Set your own pace."
                     </p>
                 </div>
                 <ul className="auth-world-list">
                     <li><Swords size={16} /><span><strong>Square of Shadows</strong> — turn-based tactics</span></li>
-                    <li><Skull size={16} /><span><strong>Outlands</strong> — isometric zombie survival</span></li>
-                    <li><Spade size={16} /><span><strong>Casino</strong> — live lobby &amp; classic tables</span></li>
-                    <li><Gamepad2 size={16} /><span><strong>Arcade</strong> — cabinets &amp; original games</span></li>
-                    <li><ShieldCheck size={16} /><span><strong>Play-money</strong> chips only</span></li>
+                    <li><Skull size={16} /><span><strong>Zombie Shooter</strong> — isometric survival</span></li>
                 </ul>
-                <p className="auth-footnote"><ShieldCheck size={15} /> Play-money experiences. No real-money wagering.</p>
+                <p className="auth-footnote">Sign in once to access both games.</p>
             </aside>
         </div>
     );

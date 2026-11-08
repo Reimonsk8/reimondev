@@ -1,5 +1,5 @@
 {
-  "name": "casino-infra",
+  "name": "reimondev-games",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit -p frontend/tsconfig.json",
     "lint": "eslint frontend/src infra/lib infra/bin --quiet",
-    "test": "vitest run && node lambdas/websocket/blackjack.test.js",
+    "test": "vitest run",
     "test:sos": "vitest run frontend/src/games/squareofshadows lambdas/websocket/sos.test.js lambdas/websocket/sos.transport.test.js",
     "test:sos:smoke": "node scripts/sos-smoke.mjs",
     "test:outlands": "vitest run frontend/src/games/zombie-shooter",
@@ -18,16 +18,9 @@
     "preview": "vite preview",
     "cdk": "cdk",
     "deploy": "npx cdk deploy",
-    "testnet:status": "node scripts/testnet-status.mjs",
-    "sprites": "node scripts/sprite-gen.mjs",
     "sprites:copy": "node scripts/copy-sprites.mjs",
     "sprites:validate": "node scripts/validate-sprites.mjs",
-    "sprites:gen": "node scripts/sprite-gen.mjs gen-set",
-    "sprites:extract": "node scripts/sprite-gen.mjs extract",
-    "sprites:compose": "node scripts/sprite-gen.mjs compose-atlas",
-    "sprites:prepare": "node scripts/sprite-gen.mjs prepare",
     "build:sprites": "node scripts/copy-sprites.mjs && vite build",
-    "sprites:pixellab": "node scripts/sprite-gen/pixellab.mjs",
     "vfx": "node scripts/vfx/export.mjs",
     "vfx:list": "node vendor/pixelfx/tools/list.mjs",
     "vfx:preview": "node vendor/pixelfx/tools/render.mjs"

@@ -28,7 +28,7 @@ export default class ErrorBoundary extends Component {
         }}>
           <h2 style={{ color: '#fbbf24', marginBottom: '8px', fontSize: '20px' }}>Something went wrong</h2>
           <p style={{ color: '#94a3b8', marginBottom: '16px', fontSize: '14px', maxWidth: '420px' }}>
-            This game hit an unexpected error. The rest of the casino is fine — reload to try again.
+            This game hit an unexpected error. Reload to try again.
           </p>
           <pre style={{
             background: '#1e293b',

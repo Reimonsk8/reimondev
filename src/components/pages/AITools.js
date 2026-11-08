@@ -1,270 +1,407 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faRobot, faBrain, faSearch, faGem,
-  faCommentDots, faQuestionCircle, faLightbulb
-} from "@fortawesome/free-solid-svg-icons";
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
-import "../../styles/PostBoard.css";
+  faBrain,
+  faCode,
+  faGem,
+  faLightbulb,
+  faWind,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  SiAnthropic,
+  SiGithubcopilot,
+  SiGooglegemini,
+  SiMicrosoft,
+  SiOpenai,
+  SiPerplexity,
+  SiX,
+} from 'react-icons/si';
+import '../../styles/PostBoard.css';
 
-const aiOptions = [
-  { icon: faRobot, label: "ChatGPT", link: "https://chatgpt.com/" },
-  { icon: faBrain, label: "DeepSeek", link: "https://chat.deepseek.com/" },
-  { icon: faSearch, label: "Phind", link: "https://www.phind.com/" },
-  { icon: faGem, label: "Gemini", link: "https://gemini.google.com/app" },
-  { icon: faCommentDots, label: "Claude", link: "https://claude.ai/new" },
-  { icon: faXTwitter, label: "Grok (xAI)", link: "https://x.ai/" },
-  { icon: faQuestionCircle, label: "Perplexity", link: "https://www.perplexity.ai/" },
-  { icon: faLightbulb, label: "Qwen", link: "https://chat.qwen.ai/" },
-  { icon: faQuestionCircle, label: "MiniMax", link: "https://chat.minimax.io/" }
+const AI_TOOLS = [
+  {
+    name: 'ChatGPT',
+    description: 'General-purpose assistant for writing, analysis, and coding.',
+    href: 'https://chatgpt.com/',
+    brandIcon: SiOpenai,
+  },
+  {
+    name: 'Claude',
+    description: 'Assistant for writing, reasoning, and software development.',
+    href: 'https://claude.ai/',
+    brandIcon: SiAnthropic,
+  },
+  {
+    name: 'Gemini',
+    description: 'Google’s AI assistant and multimodal tools.',
+    href: 'https://gemini.google.com/app',
+    brandIcon: SiGooglegemini,
+  },
+  {
+    name: 'Microsoft Copilot',
+    description: 'Microsoft’s everyday assistant for search and productivity.',
+    href: 'https://copilot.microsoft.com/',
+    brandIcon: SiMicrosoft,
+  },
+  {
+    name: 'GitHub Copilot',
+    description: 'AI coding assistance in supported editors and GitHub.',
+    href: 'https://github.com/features/copilot',
+    brandIcon: SiGithubcopilot,
+  },
+  {
+    name: 'Cursor',
+    description: 'An AI-focused code editor for working across a codebase.',
+    href: 'https://cursor.com/',
+    icon: faCode,
+  },
+  {
+    name: 'Perplexity',
+    description: 'Web-focused answers with source links.',
+    href: 'https://www.perplexity.ai/',
+    brandIcon: SiPerplexity,
+  },
+  {
+    name: 'DeepSeek',
+    description: 'Chat and reasoning models from DeepSeek.',
+    href: 'https://chat.deepseek.com/',
+    icon: faBrain,
+  },
+  {
+    name: 'Grok · xAI',
+    description: 'Grok assistant from xAI.',
+    href: 'https://grok.com/',
+    brandIcon: SiX,
+  },
+  {
+    name: 'Qwen',
+    description: 'Chat and models from Alibaba’s Qwen team.',
+    href: 'https://chat.qwen.ai/',
+    icon: faLightbulb,
+  },
+  {
+    name: 'Le Chat · Mistral',
+    description: 'Mistral’s conversational AI assistant.',
+    href: 'https://chat.mistral.ai/',
+    icon: faWind,
+  },
+  {
+    name: 'MiniMax',
+    description: 'Conversational and multimodal AI tools from MiniMax.',
+    href: 'https://chat.minimax.io/',
+    icon: faGem,
+  },
+  {
+    name: 'Kimi',
+    description: 'AI assistant from Moonshot AI for research, writing, and reasoning.',
+    href: 'https://www.kimi.com/',
+    icon: faLightbulb,
+  },
 ];
 
-const aiStats1 = [
+const PREFERRED_SETUP = [
   {
-    "Tool": "ChatGPT (OpenAI)",
-    "Free Access": "✅",
-    "Best Model": "GPT-4-turbo (Pro)",
-    "Context Length": "128k",
-    "File Uploads": "✅",
-    "Image Generation": "✅",
-    "Image Input": "✅"
+    name: 'Windows Terminal',
+    description: 'My everyday terminal for PowerShell, shells, and development tools.',
+    href: 'https://aka.ms/terminal',
+    mark: 'WT',
+    category: 'Terminal',
   },
   {
-    "Tool": "Claude (Anthropic)",
-    "Free Access": "✅",
-    "Best Model": "Claude 3 Opus",
-    "Context Length": "200k",
-    "File Uploads": "✅",
-    "Image Generation": "❌",
-    "Image Input": "✅"
+    name: 'Hermes Agent',
+    description: 'A personal AI agent for coding and useful workflows.',
+    href: 'https://github.com/NousResearch/hermes-agent',
+    mark: 'H',
+    category: 'Agent',
   },
   {
-    "Tool": "Gemini (Google)",
-    "Free Access": "✅",
-    "Best Model": "Gemini 1.5 Pro",
-    "Context Length": "1M (Pro*)",
-    "File Uploads": "✅",
-    "Image Generation": "✅",
-    "Image Input": "✅"
+    name: 'OpenCode',
+    description: 'An open-source coding agent for working with projects from the terminal.',
+    href: 'https://opencode.ai/',
+    mark: 'OC',
+    category: 'Coding agent',
   },
   {
-    "Tool": "Perplexity AI",
-    "Free Access": "✅",
-    "Best Model": "Uses GPT-4, Claude, Mistral",
-    "Context Length": "~100k",
-    "File Uploads": "✅",
-    "Image Generation": "❌",
-    "Image Input": "✅"
+    name: '9Router',
+    description: 'Route model requests across providers and connect AI coding tools to a unified endpoint.',
+    href: 'https://9router.com/',
+    mark: '9R',
+    category: 'Model routing',
   },
   {
-    "Tool": "Phind",
-    "Free Access": "✅",
-    "Best Model": "GPT-4-turbo",
-    "Context Length": "100k+",
-    "File Uploads": "✅",
-    "Image Generation": "❌",
-    "Image Input": "❌"
+    name: 'My OpenCode commands',
+    description: 'Reusable commands and skills I share for OpenCode.',
+    href: 'https://github.com/Reimonsk8/opencode-skills/tree/master/.config/opencode/command',
+    mark: 'SK',
+    category: 'Open source',
   },
-  {
-    "Tool": "DeepSeek",
-    "Free Access": "✅",
-    "Best Model": "DeepSeek-V2",
-    "Context Length": "128k",
-    "File Uploads": "✅",
-    "Image Generation": "✅",
-    "Image Input": "✅"
-  },
-  {
-    "Tool": "Grok (xAI)",
-    "Free Access": "✅",
-    "Best Model": "Grok-1",
-    "Context Length": "~128k",
-    "File Uploads": "❌",
-    "Image Generation": "❌",
-    "Image Input": "❌"
-  },
-  {
-    "Tool": "Qwen",
-    "Free Access": "✅",
-    "Best Model": "Qwen-72B",
-    "Context Length": "128k",
-    "File Uploads": "✅",
-    "Image Generation": "✅",
-    "Image Input": "✅"
-  },
-  {
-    "Tool": "MiniMax",
-    "Free Access": "✅",
-    "Best Model": "MiniMax-abab5.5",
-    "Context Length": "100k",
-    "File Uploads": "✅",
-    "Image Generation": "❌",
-    "Image Input": "✅"
-  }
 ];
 
-const aiStats2 = [
+const WORKFLOW_TOOLS = [
   {
-    "Web Access": "✅",
-    "Memory / Recall": "✅",
-    "Code Interpreter": "✅",
-    "Voice I/O": "✅",
-    "Speed": "Fast",
-    "Source Citations": "❌",
-    "Custom Instructions": "✅"
+    name: 'Cryptboard Clipboard',
+    description: 'A handy clipboard tool for moving text between devices.',
+    href: 'https://cryptboard.io/clipboard',
+    mark: 'CB',
+    category: 'Clipboard',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "❌",
-    "Voice I/O": "❌",
-    "Speed": "Very fast",
-    "Source Citations": "❌",
-    "Custom Instructions": "❌"
+    name: 'InstaBox Dashboard',
+    description: 'Dashboard for managing my InstaBox services.',
+    href: 'https://dashboard.instabox.sh/',
+    mark: 'IB',
+    category: 'Dashboard',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "✅",
-    "Voice I/O": "❌",
-    "Speed": "Fast",
-    "Source Citations": "✅",
-    "Custom Instructions": "❌"
+    name: 'GitHub',
+    description: 'Repositories, collaboration, issues, and project automation.',
+    href: 'https://github.com/',
+    mark: 'GH',
+    category: 'Code & collaboration',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "❌",
-    "Voice I/O": "❌",
-    "Speed": "Very fast",
-    "Source Citations": "✅",
-    "Custom Instructions": "❌"
+    name: 'Graphify',
+    description: 'Turn code and documents into a searchable knowledge graph, report, and interactive studio.',
+    href: 'https://www.npmjs.com/package/@sentropic/graphify',
+    mark: 'GF',
+    category: 'Codebase exploration',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "✅",
-    "Voice I/O": "❌",
-    "Speed": "Very fast",
-    "Source Citations": "✅",
-    "Custom Instructions": "❌"
+    name: 'Render',
+    description: 'Deploy and host web apps, APIs, and supporting services.',
+    href: 'https://dashboard.render.com/',
+    mark: 'R',
+    category: 'Hosting',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "✅",
-    "Voice I/O": "❌",
-    "Speed": "Very fast",
-    "Source Citations": "✅",
-    "Custom Instructions": "❌"
+    name: 'Vercel',
+    description: 'Frontend deployment and hosting for web projects.',
+    href: 'https://vercel.com/',
+    mark: 'V',
+    category: 'Frontend hosting',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "❌",
-    "Voice I/O": "❌",
-    "Speed": "Fast",
-    "Source Citations": "❌",
-    "Custom Instructions": "❌"
+    name: 'GitHub Actions',
+    description: 'Automate checks, tests, builds, and deployment from your repositories.',
+    href: 'https://github.com/features/actions',
+    mark: 'CI',
+    category: 'Automation',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "✅",
-    "Voice I/O": "❌",
-    "Speed": "Fast",
-    "Source Citations": "✅",
-    "Custom Instructions": "❌"
+    name: 'AWS',
+    description: 'Cloud infrastructure, storage, serverless apps, and deployment tools.',
+    href: 'https://aws.amazon.com/',
+    mark: 'AWS',
+    category: 'Cloud',
   },
   {
-    "Web Access": "✅",
-    "Memory / Recall": "❌",
-    "Code Interpreter": "❌",
-    "Voice I/O": "❌",
-    "Speed": "Fast",
-    "Source Citations": "❌",
-    "Custom Instructions": "❌"
-  }
+    name: 'Edgegap',
+    description: 'Tools and services for deploying multiplayer game servers.',
+    href: 'https://edgegap.com/',
+    mark: 'EG',
+    category: 'Game hosting',
+  },
+  {
+    name: 'Torlink',
+    description: 'Open-source project and networking tools by Baairon.',
+    href: 'https://github.com/baairon/torlink',
+    mark: 'TL',
+    category: 'Open source',
+  },
+  {
+    name: 'BrowserOS Neo · MCP',
+    description: 'A browser for agent workflows, including MCP-driven browsing and testing.',
+    href: 'https://browseros.com/',
+    mark: 'N',
+    category: 'Browser automation',
+  },
+  {
+    name: 'StackBlitz',
+    description: 'Spin up web experiments and share runnable prototypes in the browser.',
+    href: 'https://stackblitz.com/',
+    mark: 'SB',
+    category: 'Prototyping',
+  },
+  {
+    name: 'Quickliquid Playground',
+    description: 'An interactive browser playground for experimenting with Quickliquid.',
+    href: 'https://quickliquid.vercel.app/playground/',
+    mark: 'QL',
+    category: 'Playground',
+  },
+  {
+    name: 'Excalidraw',
+    description: 'Quick sketches, diagrams, and early product ideas.',
+    href: 'https://excalidraw.com/',
+    mark: 'EX',
+    category: 'Ideas & diagrams',
+  },
+  {
+    name: 'Bruno',
+    description: 'Lightweight API client with collections stored as files in Git.',
+    href: 'https://www.usebruno.com/',
+    mark: 'B',
+    category: 'API testing',
+  },
+  {
+    name: 'DBeaver',
+    description: 'Work with PostgreSQL, MySQL, SQLite, MongoDB, and other databases.',
+    href: 'https://dbeaver.io/',
+    mark: 'DB',
+    category: 'Database tools',
+  },
+  {
+    name: 'Redis Insight',
+    description: 'Inspect Redis keys and data structures, and monitor performance.',
+    href: 'https://redis.io/insight/',
+    mark: 'RI',
+    category: 'Redis tools',
+  },
+  {
+    name: 'Three.js',
+    description: 'Build 3D web experiences and interactive visualizations.',
+    href: 'https://threejs.org/',
+    mark: '3D',
+    category: 'Web graphics',
+  },
 ];
 
-const AITools = () => {
-  const [hoveredTool, setHoveredTool] = useState(null);
+const CREATIVE_TOOLS = [
+  {
+    name: 'Suno',
+    description: 'Create and explore AI-generated music.',
+    href: 'https://suno.com/',
+    mark: 'S',
+    category: 'Music',
+  },
+  {
+    name: 'CapCut',
+    description: 'Video editing and creative tools for quick content workflows.',
+    href: 'https://www.capcut.com/',
+    mark: 'CC',
+    category: 'Video editing',
+  },
+  {
+    name: 'Dreamina · Seedance',
+    description: 'Explore AI image and video creation, including Seedance where available.',
+    href: 'https://dreamina.capcut.com/',
+    mark: 'SD',
+    category: 'AI video',
+  },
+  {
+    name: 'PixelLab',
+    description: 'AI-assisted pixel-art creation for game assets and sprites.',
+    href: 'https://www.pixellab.ai/',
+    mark: 'PX',
+    category: 'Game art',
+  },
+];
 
-  const getStatsForTool = (label, index = 1) => {
-    const toolIndex = aiStats1.findIndex(stat => stat.Tool.toLowerCase().includes(label?.toLowerCase()));
-    if (toolIndex === -1) return null;
-
-    return index === 2 ? aiStats2[toolIndex] : aiStats1[toolIndex];
-  };
-
+function ResourceSection({ id, title, description, resources }) {
   return (
-      <div className="circle-container">
-        {aiOptions.map((option, index) => {
-          const total = aiOptions.length;
-          const angle = (index / total) * 2 * Math.PI;
-          const radius = 200;
-          // Dynamically center based on number of tools
-          const center = 220;
-          const x = Math.cos(angle) * radius + center;
-          const y = Math.sin(angle) * radius + center;
+    <section className="ai-resource-section" aria-labelledby={`${id}-title`}>
+      <header className="ai-resource-heading">
+        <h3 id={`${id}-title`}>{title}</h3>
+        <p>{description}</p>
+      </header>
+      <div className="ai-tool-grid">
+        {resources.map((resource) => {
+          const content = (
+            <>
+              <span className="ai-tool-mark" aria-hidden="true">{resource.mark}</span>
+              <span className="ai-tool-copy">
+                <small className="ai-tool-category">{resource.category}</small>
+                <strong>{resource.name}</strong>
+                <small>{resource.description}</small>
+              </span>
+              {resource.href && <span className="ai-tool-arrow" aria-hidden="true">↗</span>}
+            </>
+          );
 
-          return (
+          return resource.href ? (
             <a
-              key={option.label}
-              href={option.link}
+              className="ai-tool-card"
+              key={resource.name}
+              href={resource.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="circle-button"
-              style={{ top: y, left: x }}
-              onMouseEnter={() => setHoveredTool(option.label)}
-              onMouseLeave={() => setHoveredTool(null)}
-              title={option.label}
             >
-              <FontAwesomeIcon icon={option.icon} size="lg" />
-              <div className="circle-text">{option.label}</div>
+              {content}
             </a>
+          ) : (
+            <article className="ai-tool-card ai-tool-card--local" key={resource.name}>
+              {content}
+            </article>
           );
         })}
-
-      {hoveredTool && (
-        <div className="ai-stats">
-          <h2>{hoveredTool} Stats</h2>
-          <table className="ai-table">
-            <thead>
-              <tr>
-                {Object.keys(aiStats1[0]).map((header, i) => (
-                  <th key={i}>{header}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {Object.values(getStatsForTool(hoveredTool)).map((value, i) => (
-                  <td key={i}>{value.toString()}</td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-           <table className="ai-table">
-            <thead>
-              <tr>
-                {Object.keys(aiStats2[0]).map((header, i) => (
-                  <th key={i}>{header}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {Object.values(getStatsForTool(hoveredTool,2)).map((value, i) => (
-                  <td key={i}>{value.toString()}</td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
-};
+}
 
-export default AITools;
+export default function AITools() {
+  return (
+    <section className="AITools ai-tools-directory" aria-labelledby="ai-tools-title">
+      <header className="ai-tools-heading">
+        <p className="postboard-eyebrow">MY EVERYDAY TOOLKIT</p>
+        <h2 id="ai-tools-title">AI Tools &amp; Resources</h2>
+        <p>A personal launchpad for my development setup, hosting and testing tools, and creative AI services.</p>
+      </header>
+
+      <ResourceSection
+        id="preferred-setup"
+        title="Preferred setup"
+        description="My usual flow: Windows Terminal → Hermes Agent → OpenCode, with 9Router handling model routing."
+        resources={PREFERRED_SETUP}
+      />
+
+      <ResourceSection
+        id="workflow-resources"
+        title="Developer workflow"
+        description="Useful links for building, hosting, testing, prototyping, and keeping everyday work moving."
+        resources={WORKFLOW_TOOLS}
+      />
+
+      <ResourceSection
+        id="creative-tools"
+        title="Creative AI tools"
+        description="Tools I use or explore for music, video, and game-art ideas. Features and availability may vary by region."
+        resources={CREATIVE_TOOLS}
+      />
+
+      <section className="ai-resource-section" aria-labelledby="ai-assistants-title">
+        <header className="ai-resource-heading">
+          <h3 id="ai-assistants-title">AI assistants</h3>
+          <p>Shortcuts to general-purpose assistants, research tools, and AI coding products.</p>
+        </header>
+        <div className="ai-tool-grid">
+          {AI_TOOLS.map((tool) => {
+            const BrandIcon = tool.brandIcon;
+            return (
+              <a
+                className="ai-tool-card"
+                key={tool.name}
+                href={tool.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="ai-tool-mark" aria-hidden="true">
+                  {BrandIcon ? <BrandIcon /> : <FontAwesomeIcon icon={tool.icon} />}
+                </span>
+                <span className="ai-tool-copy">
+                  <strong>{tool.name}</strong>
+                  <small>{tool.description}</small>
+                </span>
+                <span className="ai-tool-arrow" aria-hidden="true">↗</span>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+
+      <p className="ai-tools-note">
+        Links open third-party services. Features, availability, and pricing can change; check each provider for current details.
+      </p>
+    </section>
+  );
+}

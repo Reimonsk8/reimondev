@@ -1,14 +1,10 @@
 /* ============================================================================
-   Gloom Gambit Games — unified design system
+   ReimonDev Games — shared platform design system
    ----------------------------------------------------------------------------
-   One neutral "platform" theme (developer-software aesthetic) for `/`, login,
-   the game library, account chrome and the shared navigation, plus three
-   self-contained game themes selected per route via [data-theme]:
+   Shared platform styling plus two self-contained game themes selected per route:
 
      platform  → neutral graphite  (routes: `/`, oauth callback)
-     casino    → black / burgundy / gold    (route: `/casino`)
      sos       → dark-fantasy violet        (route: `/square-of-shadows`)
-     arcade    → neon cyan / magenta        (route: `/arcade`)
      outlands  → survival teal / green      (route: `/outlands`)
 
    This file is imported AFTER App.css and only overrides / augments legacy
@@ -76,47 +72,6 @@
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 22px;
-}
-
-[data-theme='casino'] {
-  --t-bg: #0a0507;
-  --t-bg-2: #150a0e;
-  --t-surface: #1a0e12;
-  --t-surface-2: #221216;
-  --t-surface-3: #2c181d;
-  --t-border: rgba(212, 175, 55, 0.2);
-  --t-border-strong: rgba(212, 175, 55, 0.44);
-  --t-text: #f6ede1;
-  --t-text-dim: #c9b79a;
-  --t-text-mute: #9a8266;
-
-  --t-accent: #d4af37;
-  --t-accent-strong: #b8912f;
-  --t-accent-contrast: #1a1002;
-  --t-accent-soft: rgba(212, 175, 55, 0.14);
-  --t-success: #2fbf7a;
-  --t-danger: #e0667a;
-  --t-warn: #f0c04a;
-  --t-info: #e0a94a;
-
-  --t-btn-a: #f2d175;
-  --t-btn-b: #b8912f;
-  --t-btn-fg: #1a1002;
-
-  --t-font-display: 'Playfair Display', Georgia, serif;
-  --t-ambient:
-    radial-gradient(1200px 720px at 50% -10%, rgba(212, 175, 55, 0.12), transparent 60%),
-    radial-gradient(900px 620px at 102% 0%, rgba(150, 20, 45, 0.24), transparent 55%);
-
-  --glass: rgba(26, 14, 18, 0.72);
-  --glass-border: rgba(212, 175, 55, 0.2);
-  --gold: #d4af37;
-  --gold-bright: #f2d175;
-  --gold-deep: #9a7420;
-  --text-muted: #c9b79a;
-  --accent: #e0667a;
-  --accent-2: #e0a94a;
-  --emerald: #2fbf7a;
 }
 
 [data-theme='outlands'] {
@@ -194,47 +149,6 @@
   --emerald: #4ade80;
 }
 
-[data-theme='arcade'] {
-  --t-bg: #050610;
-  --t-bg-2: #090717;
-  --t-surface: #0e1224;
-  --t-surface-2: #131a30;
-  --t-surface-3: #1a2342;
-  --t-border: rgba(34, 211, 238, 0.22);
-  --t-border-strong: rgba(34, 211, 238, 0.5);
-  --t-text: #eaf7ff;
-  --t-text-dim: #9fb3c8;
-  --t-text-mute: #6b7f99;
-
-  --t-accent: #22d3ee;
-  --t-accent-strong: #0891b2;
-  --t-accent-contrast: #02121a;
-  --t-accent-soft: rgba(34, 211, 238, 0.14);
-  --t-success: #34d399;
-  --t-danger: #fb7185;
-  --t-warn: #fbbf24;
-  --t-info: #a855f7;
-
-  --t-btn-a: #22d3ee;
-  --t-btn-b: #a855f7;
-  --t-btn-fg: #03101a;
-
-  --t-font-display: 'Poppins', ui-monospace, monospace;
-  --t-ambient:
-    radial-gradient(1000px 640px at 15% -10%, rgba(168, 85, 247, 0.3), transparent 60%),
-    radial-gradient(900px 620px at 106% 4%, rgba(34, 211, 238, 0.22), transparent 55%);
-
-  --glass: rgba(14, 18, 34, 0.72);
-  --glass-border: rgba(34, 211, 238, 0.22);
-  --gold: #22d3ee;
-  --gold-bright: #67e8f9;
-  --gold-deep: #0891b2;
-  --text-muted: #9fb3c8;
-  --accent: #fb7185;
-  --accent-2: #a855f7;
-  --emerald: #34d399;
-}
-
 /* ────────────────────────────────────────────────────────────────────────────
    2. BASE
    ──────────────────────────────────────────────────────────────────────────── */
@@ -251,23 +165,13 @@ h3 {
   font-family: var(--t-font-display);
 }
 
-.casino-bg {
+.game-app-bg {
   color: var(--t-text);
   background: var(--t-ambient), linear-gradient(180deg, var(--t-bg) 0%, var(--t-bg-2) 100%);
   transition: background 0.4s ease;
 }
 
-/* drop the noisy gold cube texture; themes provide their own ambience */
-.casino-bg::before {
-  display: none;
-}
-
-.casino-bg::after {
-  background: radial-gradient(circle at 82% 0%, rgba(255, 255, 255, 0.035), transparent 42%);
-  opacity: 0.6;
-}
-
-.casino-grid {
+.game-grid {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
@@ -275,15 +179,10 @@ h3 {
   opacity: 0.55;
 }
 
-/* per-theme polish for the shared grid backdrop */
-[data-theme='sos'] .casino-grid {
+/* Per-game grid scale. */
+[data-theme='sos'] .game-grid {
   background-size: 72px 72px;
   opacity: 0.7;
-}
-
-[data-theme='arcade'] .casino-grid {
-  background-size: 40px 40px;
-  opacity: 0.35;
 }
 
 ::selection {
@@ -621,259 +520,8 @@ h3 {
     radial-gradient(40% 36% at 78% 6%, rgba(212, 176, 95, 0.08), transparent 70%);
 }
 
-.lib-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  padding: 0.5rem 0 1.5rem;
-}
-
-.lib-header-copy {
-  min-width: 0;
-}
-
-.lib-header-stats {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.lib-eyebrow {
-  margin: 0 0 0.5rem;
-  color: var(--cosmos-violet);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-}
-
-.lib-title {
-  margin: 0;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-}
-
-.lib-subtitle {
-  max-width: 52ch;
-  margin: 0.6rem 0 0;
-  color: var(--cosmos-text-dim);
-  font-size: 0.98rem;
-  line-height: 1.6;
-}
-
-.lib-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-.lib-stat {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 0.9rem;
-  border-radius: 13px;
-  border: 1px solid #242833;
-  background: #14161c;
-}
-
-.lib-stat svg {
-  color: #6d8bff;
-}
-
-.lib-stat span {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.lib-stat strong {
-  font-size: 0.98rem;
-  color: #f2f3f5;
-}
-
-.lib-stat small {
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #6b7280;
-}
-
-.lib-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 1.25rem 0 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.lib-toolbar h2 {
-  margin: 0;
-  font-size: 1.25rem;
-}
-
-.lib-toolbar p {
-  margin: 0.15rem 0 0;
-  color: var(--cosmos-text-dim);
-  font-size: 0.85rem;
-}
-
-.lib-count {
-  color: var(--cosmos-text-dim);
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.lib-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr));
-  gap: 1.1rem;
-}
-
-.lib-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: 20px;
-  border: 1px solid var(--cosmos-glass-border);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(13, 18, 34, 0.92));
-  text-decoration: none;
-  color: var(--cosmos-text);
-  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-}
-
-.lib-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--lib-accent, #8b5cf6);
-  box-shadow:
-    0 26px 55px rgba(0, 0, 0, 0.5),
-    0 0 34px var(--lib-glow, rgba(139, 92, 246, 0.35));
-}
-
-.lib-card-sos { --lib-accent: rgba(196, 181, 253, 0.75); --lib-accent-soft: rgba(139, 92, 246, 0.28); --lib-glow: rgba(88, 28, 135, 0.45); }
-.lib-card-casino { --lib-accent: rgba(245, 197, 66, 0.7); --lib-accent-soft: rgba(212, 176, 95, 0.24); --lib-glow: rgba(150, 20, 45, 0.4); }
-.lib-card-arcade { --lib-accent: rgba(94, 234, 212, 0.7); --lib-accent-soft: rgba(45, 212, 191, 0.22); --lib-glow: rgba(168, 85, 247, 0.38); }
-.lib-card-outlands { --lib-accent: rgba(125, 255, 200, 0.66); --lib-accent-soft: rgba(125, 255, 200, 0.2); --lib-glow: rgba(16, 120, 80, 0.46); }
-
-.lib-card-art {
-  position: relative;
-  display: grid;
-  place-items: center;
-  height: 148px;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  background:
-    radial-gradient(420px 200px at 50% 120%, var(--lib-glow, rgba(139, 92, 246, 0.3)), transparent 70%),
-    linear-gradient(180deg, #0e1016, #0a0b0f);
-}
-
-.lib-card-art .cabinet-sprite {
-  width: 120px;
-  height: 86px;
-  fill: none;
-  stroke: var(--lib-accent, #8b5cf6);
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 14px var(--lib-glow, rgba(139, 92, 246, 0.35)));
-  transition: transform 0.3s ease;
-}
-
-.lib-card-art .sprite-hot {
-  fill: #fff;
-  stroke: var(--lib-accent, #8b5cf6);
-}
-
-.lib-card:hover .lib-card-art .cabinet-sprite {
-  transform: translateY(-3px) scale(1.04);
-}
-
-.lib-card-emblem {
-  display: grid;
-  place-items: center;
-  width: 84px;
-  height: 84px;
-  border-radius: 22px;
-  color: #efe9ff;
-  background: linear-gradient(150deg, rgba(124, 58, 237, 0.6), rgba(30, 27, 75, 0.75));
-  border: 1px solid rgba(167, 139, 250, 0.4);
-  box-shadow: inset 0 0 24px rgba(88, 28, 135, 0.5);
-}
-
-.lib-card-body {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 1.15rem 1.25rem 1.35rem;
-}
-
-.lib-card-badge {
-  align-self: flex-start;
-  padding: 0.18rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: #0a0d18;
-  background: #7ee0b0;
-}
-
-.lib-card-badge.is-soon {
-  background: #6b7280;
-  color: var(--cosmos-text);
-}
-
-.lib-card h3 {
-  margin: 0.15rem 0 0;
-  font-family: 'Inter', 'Poppins', sans-serif;
-  font-size: 1.25rem;
-  letter-spacing: -0.01em;
-}
-
-.lib-card-tag {
-  margin: 0;
-  color: var(--lib-accent, #8b5cf6);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.lib-card-desc {
-  margin: 0.15rem 0 0;
-  color: var(--cosmos-text-dim);
-  font-size: 0.88rem;
-  line-height: 1.6;
-}
-
 /* Sitting the action on the card floor keeps every "Launch" on one line across
    a row of cards whose descriptions run to different lengths. */
-.lib-card-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: auto;
-  padding-top: 0.6rem;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--lib-accent, #8b5cf6);
-}
-
-.lib-card-cta svg {
-  transition: transform 0.2s ease;
-}
-
-.lib-card:hover .lib-card-cta svg {
-  transform: translateX(3px);
-}
 
 .home-footer {
   margin-top: 2.5rem;
@@ -1134,12 +782,6 @@ h3 {
   background: linear-gradient(150deg, rgba(255, 255, 255, 0.05), var(--t-surface));
 }
 
-/* ────────────────────────────────────────────────────────────────────────────
-   6. NEUTRAL APP NAVIGATION (casino dashboard chrome)
-   The `/casino` top bar keeps the platform's neutral look so navigation reads
-   as app chrome on every route, regardless of the active game theme.
-   ──────────────────────────────────────────────────────────────────────────── */
-
 .tab-navigation {
   background: linear-gradient(180deg, rgba(13, 18, 34, 0.92), rgba(10, 12, 20, 0.92));
   border-bottom: 1px solid var(--cosmos-glass-border);
@@ -1224,28 +866,7 @@ h3 {
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
-   7. CASINO THEME — black / burgundy / gold polish
-   ──────────────────────────────────────────────────────────────────────────── */
-
-[data-theme='casino'] .hero-card,
-[data-theme='casino'] .timeline-card,
-[data-theme='casino'] .avatar-card {
-  border-color: rgba(212, 175, 55, 0.22);
-  background:
-    radial-gradient(600px 260px at 100% 0%, rgba(150, 20, 45, 0.22), transparent 60%),
-    linear-gradient(155deg, rgba(212, 175, 55, 0.08), var(--t-surface));
-}
-
-[data-theme='casino'] .hero-card::before {
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
-}
-
-[data-theme='casino'] .tab-navigation {
-  border-bottom-color: rgba(212, 175, 55, 0.14);
-}
-
-/* ────────────────────────────────────────────────────────────────────────────
-   8. SQUARE OF SHADOWS — dark-fantasy polish
+   7. SQUARE OF SHADOWS — dark-fantasy polish
    ──────────────────────────────────────────────────────────────────────────── */
 
 /* `.sos-panel` and `.sos-menu-card` were both in this list with a violet
@@ -1258,14 +879,7 @@ h3 {
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
-   9. ARCADE — neon polish
-   ──────────────────────────────────────────────────────────────────────────── */
-
-[data-theme='arcade'] .arcade-tone-violet { --tone: #a855f7; }
-[data-theme='arcade'] .arcade-tone-emerald { --tone: #34d399; }
-
-/* ────────────────────────────────────────────────────────────────────────────
-   10. RESPONSIVE
+   8. RESPONSIVE
    ──────────────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 767px) {
@@ -1278,18 +892,10 @@ h3 {
     width: 100%;
     justify-content: flex-start;
   }
-
-  .lib-header {
-    align-items: flex-start;
-  }
-
-  .lib-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
-   11. SQUARE OF SHADOWS — turn clock + numeric combat feedback
+   9. SQUARE OF SHADOWS — turn clock + numeric combat feedback
    Gameplay feedback layer: an always-visible countdown, floating damage
    numbers, and cell-level state readouts. Kept out of App.css so the legacy
    gold theme stays untouched.
@@ -1356,10 +962,6 @@ h3 {
   0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
   50% { box-shadow: 0 0 16px 0 rgba(244, 63, 94, 0.45); }
 }
-
-/* ── Complete interface system ────────────────────────────────────────────
-   Presentation-only surfaces used by the login, library, arcade, casino
-   minigames and the two full-screen worlds. */
 .auth-grid { align-items: stretch; }
 .auth-card { padding: clamp(1.5rem, 4vw, 2.5rem); }
 .auth-google-button {
@@ -1378,109 +980,7 @@ h3 {
 .auth-quote { color:var(--cosmos-violet); font-style:italic; font-weight:600; }
 .auth-highlight { padding:clamp(1.5rem, 4vw, 2.5rem); }
 .auth-highlight li svg { flex:none; color:var(--cosmos-violet); }
-
-.library-feature {
-  --feature-accent:#c4b5fd;
-  position:relative;
-  display:grid;
-  grid-template-columns:minmax(0, 1.2fr) minmax(180px, .8fr) auto;
-  align-items:center;
-  gap:1rem;
-  min-height:260px;
-  margin: .3rem 0 2.25rem;
-  padding:clamp(1.3rem, 3vw, 2.3rem);
-  overflow:hidden;
-  border:1px solid color-mix(in srgb, var(--feature-accent) 24%, transparent);
-  border-radius:26px;
-  background:radial-gradient(ellipse at 74% 55%, color-mix(in srgb, var(--feature-accent) 17%, transparent), transparent 42%), linear-gradient(115deg, rgba(255,255,255,.065), rgba(8,11,20,.88) 72%);
-  box-shadow:0 28px 70px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.07);
-}
-.library-feature-sos { --feature-accent:#b69aff; }
-.library-feature-outlands { --feature-accent:#75e6b2; }
-.library-feature-casino { --feature-accent:#e5c070; }
-.library-feature-arcade { --feature-accent:#68e8df; }
-.library-feature::after { content:''; position:absolute; width:280px; height:280px; right:12%; top:50%; border:1px solid color-mix(in srgb, var(--feature-accent) 20%, transparent); border-radius:50%; transform:translateY(-50%); box-shadow:0 0 0 28px rgba(255,255,255,.012), 0 0 0 58px rgba(255,255,255,.01); pointer-events:none; }
-.library-feature-copy { position:relative; z-index:1; max-width:570px; }
-.library-feature-kicker { display:inline-flex; align-items:center; gap:.45rem; color:var(--feature-accent); font-size:.7rem; font-weight:750; letter-spacing:.16em; text-transform:uppercase; }
-.library-feature h2 { margin:.55rem 0 .45rem; font-size:clamp(1.8rem, 4vw, 3rem); letter-spacing:-.04em; }
-.library-feature p { max-width:54ch; margin:0; color:var(--cosmos-text-dim); line-height:1.65; }
-.library-feature-action { display:inline-flex; align-items:center; gap:.55rem; margin-top:1.25rem; padding:.76rem 1rem; border:1px solid color-mix(in srgb, var(--feature-accent) 35%, transparent); border-radius:12px; color:#f5f3ff; background:color-mix(in srgb, var(--feature-accent) 13%, #0c1019); font-weight:700; text-decoration:none; transition:transform .18s ease, background .18s ease; }
-.library-feature-action:hover { transform:translateY(-2px); background:color-mix(in srgb, var(--feature-accent) 21%, #0c1019); }
-.library-feature-art { position:relative; z-index:1; display:grid; place-items:center; min-height:190px; color:var(--feature-accent); }
-.library-feature-art .cabinet-sprite { width:min(100%, 250px); height:170px; filter:drop-shadow(0 0 30px color-mix(in srgb, var(--feature-accent) 35%, transparent)); }
-.library-feature-orbit { position:absolute; width:170px; height:170px; border:1px solid color-mix(in srgb, var(--feature-accent) 30%, transparent); border-radius:50%; box-shadow:0 0 38px color-mix(in srgb, var(--feature-accent) 14%, transparent); }
-.library-feature-index { display:flex; align-items:center; gap:.5rem; align-self:end; color:var(--cosmos-text-dim); font:600 .72rem var(--t-font-mono); }
-.library-feature-index span { color:var(--feature-accent); }
-.library-feature-index i { width:34px; height:1px; background:var(--feature-accent); opacity:.6; }
-.lib-toolbar { align-items:end; padding-top:1.6rem; }
-.lib-toolbar .lib-eyebrow { margin-bottom:.25rem; }
-.lib-card { backdrop-filter:blur(12px); }
-.lib-card:focus-visible { outline-color:var(--lib-accent); outline-offset:4px; }
-
-/* Casino minigames: retain the game-specific artwork, unify the actual play
-   area and the inputs around it. */
-.game-shell {
-  --game-glass: color-mix(in srgb, var(--t-surface) 76%, transparent);
-  --game-line: color-mix(in srgb, var(--t-accent) 26%, transparent);
-  color: var(--t-text);
-}
-
-.game-shell-header {
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--game-line);
-  border-radius: 18px;
-  background: linear-gradient(125deg, color-mix(in srgb, var(--t-accent) 9%, transparent), rgba(255,255,255,.025) 48%, var(--game-glass));
-  backdrop-filter: blur(16px);
-}
-
-.game-shell-heading .eyebrow { letter-spacing: .16em; }
-.game-shell-actions { gap: .5rem; }
-.game-shell-action { min-height: 42px; border-radius: 12px; }
-
-.table-shell {
-  padding: clamp(.5rem, 1.8vw, 1rem);
-  border: 1px solid var(--game-line);
-  border-radius: 26px;
-  background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.012) 30%), var(--game-glass);
-  box-shadow: 0 24px 70px rgba(0,0,0,.38), inset 0 1px rgba(255,255,255,.06);
-  backdrop-filter: blur(16px);
-}
-
-.table-stage {
-  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--t-accent) 13%, transparent), transparent 54%), linear-gradient(150deg, #101b1d, #071012 70%);
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: 19px;
-  overflow: hidden;
-  box-shadow: inset 0 0 70px rgba(0,0,0,.3);
-}
-
-.table-content { position: relative; z-index: 1; }
-.game-placeholder { color: var(--t-text); }
-.game-controls,
-.game-bet-group,
-.dice-exact,
-.slots-paytable {
-  border-color: var(--game-line);
-  border-radius: 16px;
-  background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(4,7,15,.44));
-}
-.game-bet-control { border-color:var(--game-line); border-radius:15px; background:rgba(255,255,255,.035); }
-.game-result-message[role='status'] { min-height:1.5em; }
-.game-shell .form-input,
-.game-shell input[type='number'],
-.game-shell input[type='text'] { border-radius:11px; }
-.game-shell .primary-button { min-height:48px; border-radius:13px; }
 .wheel-content { border:1px solid var(--game-line); border-radius:20px; background:radial-gradient(ellipse, color-mix(in srgb, var(--t-accent) 12%, transparent), transparent 70%); }
-
-/* Original score-game modal surfaces, not the casino cabinet artwork. */
-.arcade-local-nav { border:1px solid rgba(94,234,212,.19); border-radius:16px; background:rgba(8,11,20,.76); backdrop-filter:blur(14px); }
-.arcade-featured,
-.arcade-panel,
-.arcade-rewards,
-.arcade-how-to { border-color:rgba(94,234,212,.16); background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(8,10,20,.9)); box-shadow:0 22px 60px rgba(0,0,0,.28); backdrop-filter:blur(14px); }
-.arcade-cabinet { border-color:color-mix(in srgb,var(--cabinet-color, #8b5cf6) 28%, transparent); background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(6,8,15,.92)); box-shadow:0 16px 42px rgba(0,0,0,.32); }
-.arcade-cabinet-screen { background:radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--cabinet-color, #8b5cf6) 12%,transparent),transparent 66%),rgba(6,8,15,.8); }
-.arcade-cabinet-controls button { border-radius:10px; }
 
 /* The full-screen worlds keep their bespoke game art; frame the lobby and HUD
    panels with shared material cues without touching board/canvas rendering. */
@@ -1493,29 +993,6 @@ h3 {
   box-shadow:0 24px 70px rgba(0,0,0,.4), inset 0 1px rgba(255,255,255,.05);
 }
 
-.game-choice-button,
-.coin-option,
-.dice-target,
-.roulette-number-input {
-  border-color: var(--game-line);
-  background: color-mix(in srgb, var(--t-surface-2) 82%, transparent);
-  color: var(--t-text);
-  transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
-}
-
-.game-choice-button:hover:not(:disabled),
-.coin-option:hover,
-.game-choice-button.is-selected {
-  border-color: var(--t-accent);
-  background: var(--t-accent-soft);
-  box-shadow: 0 0 22px color-mix(in srgb, var(--t-accent) 16%, transparent);
-}
-
-.game-choice-button:hover:not(:disabled) { transform: translateY(-1px); }
-.wager-summary { color: var(--t-text-dim); }
-.game-result-message { color: var(--t-text); }
-
-.game-shell-history,
 .instructions-card {
   border: 1px solid var(--game-line);
   border-radius: 18px;
@@ -1523,26 +1000,7 @@ h3 {
   box-shadow: 0 24px 70px rgba(0,0,0,.45);
   backdrop-filter: blur(18px);
 }
-
-.game-shell-history li { border-color: rgba(255,255,255,.08); }
 .instructions-overlay { backdrop-filter: blur(8px); }
-
-/* Arcade catalogue: keep its playful identity while softening the cabinet
-   chrome into the same premium platform surfaces. */
-.arcade-local-nav,
-.arcade-balance-card,
-.arcade-featured,
-.arcade-metric,
-.arcade-cabinet-card,
-.arcade-score-card {
-  border-color: rgba(94,234,212,.19);
-  background-color: rgba(10,13,24,.76);
-  box-shadow: 0 18px 48px rgba(0,0,0,.28);
-  backdrop-filter: blur(14px);
-}
-
-/* Outlands is intentionally immersive rather than boxed into casino chrome.
-   Apply consistent interaction feedback only to its existing UI controls. */
 .outlands-root button,
 .outlands-root [role='button'] {
   transition: filter .16s ease, transform .16s ease, border-color .16s ease, background-color .16s ease;
@@ -1561,26 +1019,9 @@ h3 {
   outline-offset: 3px;
 }
 
-@media (max-width: 640px) {
-  .library-feature { grid-template-columns:minmax(0,1fr) auto; min-height:0; gap:.5rem; padding:1.2rem; }
-  .library-feature-copy { grid-column:1 / -1; }
-  .library-feature-art { grid-column:1; grid-row:2; min-height:110px; justify-items:start; }
-  .library-feature-art .cabinet-sprite { width:150px; height:100px; }
-  .library-feature-orbit { width:105px; height:105px; left:20px; }
-  .library-feature-index { grid-column:2; grid-row:2; }
-  .library-feature::after { right:-100px; top:75%; }
-  .game-shell-header { align-items: flex-start; padding: .7rem; }
-  .game-shell-actions { flex-wrap: wrap; justify-content: flex-end; }
-  .game-shell-action { min-height: 44px; padding-inline: .7rem; }
-  .table-shell { border-radius: 19px; }
-  .table-stage { border-radius: 14px; }
-}
-
 @media (max-width: 420px) {
   .auth-card { padding:1.2rem; }
   .auth-highlight { padding:1.2rem; }
-  .lib-header-stats { gap:.35rem; }
-  .lib-header-stats .ui-chip { font-size:.7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
