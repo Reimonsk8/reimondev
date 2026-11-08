@@ -1,4 +1,4 @@
-import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy, SecretValue } from 'aws-cdk-lib';
+import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -44,24 +44,9 @@ export class CasinoInfraStack extends Stack {
     // Keep the currently registered Netlify callback during the move to the
     // integrated /games/ route; remove it only after that host is retired.
     const legacyGamesBaseUrl = this.node.tryGetContext('legacyGamesBaseUrl') || 'https://chimerical-capybara-0b55e9.netlify.app';
-    const googleClientId = this.node.tryGetContext('googleClientId') || '221234650825-oadqmntesh3m240on8lqcnes5m2eotj3.apps.googleusercontent.com';
-    const googleClientSecretName = this.node.tryGetContext('googleClientSecretName') || '/casino888/google-client-secret';
-
-    const userPoolDomain = userPool.addDomain('CasinoDomain', { cognitoDomain: { domainPrefix } });
-    const googleIdP = new cognito.CfnUserPoolIdentityProvider(this, 'CasinoGoogleIdP', {
-      userPoolId: userPool.userPoolId,
-      providerName: 'Google',
-      providerType: 'Google',
-      providerDetails: {
-        client_id: googleClientId,
-        client_secret: SecretValue.secretsManager(googleClientSecretName).unsafeUnwrap(),
-        authorize_scopes: 'email openid profile',
-      },
-      attributeMapping: { email: 'email', name: 'name', picture: 'picture', username: 'sub' },
-    });
-    // Keep the deployed provider's logical id so CloudFormation updates it in
-    // place rather than deleting/recreating the Google identity integration.
-    googleIdP.overrideLogicalId('CasinoGoogleIdP0E725B4E');
+    // The active Cognito domain and Google IdP were provisioned outside this
+    // stack. Reuse them rather than attempting to recreate the domain/provider
+    // or requiring the Google client secret during unrelated infrastructure updates.
 
     // 2. App Client sin secret
     const userPoolClient = userPool.addClient('CasinoUserPoolClient', {
@@ -92,7 +77,6 @@ export class CasinoInfraStack extends Stack {
         cognito.UserPoolClientIdentityProvider.GOOGLE,
       ],
     });
-    userPoolClient.node.addDependency(googleIdP);
 
     // 3. DynamoDB Tables
     // Shared player identity/profile table. Its historical physical name is
@@ -357,7 +341,7 @@ export class CasinoInfraStack extends Stack {
     });
 
     new CfnOutput(this, 'CognitoDomain', {
-      value: userPoolDomain.domainName,
+      value: `${domainPrefix}.auth.${this.region}.amazoncognito.com`,
     });
 
     // =====================================
