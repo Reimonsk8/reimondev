@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Shared WebSocket endpoint used by Square of Shadows and Zombie Shooter.
-const DEFAULT_WEBSOCKET_URL = 'wss://5ylvnxsm3i.execute-api.us-east-2.amazonaws.com/prod';
+const DEFAULT_WEBSOCKET_URL = 'wss://vbgum6fbrg.execute-api.us-east-2.amazonaws.com/prod';
 const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL || DEFAULT_WEBSOCKET_URL;
 
 const parseMessage = (event) => {
