@@ -1,0 +1,19 @@
+{
+  "slug": "heal",
+  "id": "holy/heal",
+  "name": "Heal",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/heal.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 39,
+  "frameWidth": 80,
+  "frameHeight": 104,
+  "fps": 20,
+  "loop": false,
+  "durationMs": 1950,
+  "pivot": [
+    40,
+    92
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "crit-hit",
+  "id": "impacts/crit-hit",
+  "name": "Critical hit",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/crit-hit.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 19,
+  "frameWidth": 216,
+  "frameHeight": 136,
+  "fps": 20,
+  "loop": false,
+  "durationMs": 950,
+  "pivot": [
+    84,
+    106
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

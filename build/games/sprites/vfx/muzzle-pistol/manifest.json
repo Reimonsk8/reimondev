@@ -1,0 +1,19 @@
+{
+  "slug": "muzzle-pistol",
+  "id": "projectiles/muzzle-pistol",
+  "name": "Pistol shot",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/projectiles/muzzle-pistol.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 44,
+  "frameWidth": 96,
+  "frameHeight": 72,
+  "fps": 24,
+  "loop": false,
+  "durationMs": 1833,
+  "pivot": [
+    44,
+    66
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

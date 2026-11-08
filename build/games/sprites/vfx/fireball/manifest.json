@@ -1,0 +1,19 @@
+{
+  "slug": "fireball",
+  "id": "fire/fireball",
+  "name": "Fireball",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/fire/fireball.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 24,
+  "frameWidth": 136,
+  "frameHeight": 56,
+  "fps": 20,
+  "loop": true,
+  "durationMs": 1200,
+  "pivot": [
+    112,
+    28
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

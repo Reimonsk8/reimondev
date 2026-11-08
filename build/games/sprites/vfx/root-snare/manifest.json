@@ -1,0 +1,19 @@
+{
+  "slug": "root-snare",
+  "id": "nature/root-snare",
+  "name": "Root snare",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/nature/root-snare.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 55,
+  "frameWidth": 128,
+  "frameHeight": 96,
+  "fps": 20,
+  "loop": false,
+  "durationMs": 2750,
+  "pivot": [
+    64,
+    78
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

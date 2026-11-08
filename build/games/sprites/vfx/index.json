@@ -1,0 +1,422 @@
+{
+  "effects": {
+    "slash": {
+      "slug": "slash",
+      "id": "melee/sword-slash",
+      "name": "Sword slash",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/melee/sword-slash.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 16,
+      "frameWidth": 136,
+      "frameHeight": 104,
+      "fps": 20,
+      "loop": false,
+      "durationMs": 800,
+      "pivot": [
+        44,
+        92
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "muzzle-pistol": {
+      "slug": "muzzle-pistol",
+      "id": "projectiles/muzzle-pistol",
+      "name": "Pistol shot",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/projectiles/muzzle-pistol.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 44,
+      "frameWidth": 96,
+      "frameHeight": 72,
+      "fps": 24,
+      "loop": false,
+      "durationMs": 1833,
+      "pivot": [
+        44,
+        66
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "fireball": {
+      "slug": "fireball",
+      "id": "fire/fireball",
+      "name": "Fireball",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/fire/fireball.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 24,
+      "frameWidth": 136,
+      "frameHeight": 56,
+      "fps": 20,
+      "loop": true,
+      "durationMs": 1200,
+      "pivot": [
+        112,
+        28
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "thunder-strike": {
+      "slug": "thunder-strike",
+      "id": "lightning/lightning-strike",
+      "name": "Lightning strike",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/lightning/lightning-strike.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 34,
+      "frameWidth": 240,
+      "frameHeight": 264,
+      "fps": 11,
+      "loop": false,
+      "durationMs": 3091,
+      "pivot": [
+        120,
+        228
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "frost-nova": {
+      "slug": "frost-nova",
+      "id": "ice/frost-nova",
+      "name": "Frost nova",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/ice/frost-nova.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 28,
+      "frameWidth": 288,
+      "frameHeight": 192,
+      "fps": 8,
+      "loop": false,
+      "durationMs": 3500,
+      "pivot": [
+        144,
+        150
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "heal": {
+      "slug": "heal",
+      "id": "holy/heal",
+      "name": "Heal",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/heal.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 39,
+      "frameWidth": 80,
+      "frameHeight": 104,
+      "fps": 20,
+      "loop": false,
+      "durationMs": 1950,
+      "pivot": [
+        40,
+        92
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "heal-aoe": {
+      "slug": "heal-aoe",
+      "id": "holy/heal-aoe",
+      "name": "Healing ring",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/heal-aoe.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 30,
+      "frameWidth": 256,
+      "frameHeight": 136,
+      "fps": 10,
+      "loop": false,
+      "durationMs": 3000,
+      "pivot": [
+        128,
+        104
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "holy-pillar": {
+      "slug": "holy-pillar",
+      "id": "holy/holy-pillar",
+      "name": "Holy pillar",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/holy-pillar.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 43,
+      "frameWidth": 192,
+      "frameHeight": 232,
+      "fps": 12,
+      "loop": false,
+      "durationMs": 3583,
+      "pivot": [
+        96,
+        204
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "earth-spike": {
+      "slug": "earth-spike",
+      "id": "nature/earth-spike",
+      "name": "Earth spike",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/nature/earth-spike.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 28,
+      "frameWidth": 272,
+      "frameHeight": 150,
+      "fps": 8,
+      "loop": false,
+      "durationMs": 3500,
+      "pivot": [
+        136,
+        132
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "ground-slam": {
+      "slug": "ground-slam",
+      "id": "impacts/ground-slam",
+      "name": "Ground slam",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/ground-slam.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 27,
+      "frameWidth": 288,
+      "frameHeight": 208,
+      "fps": 8,
+      "loop": false,
+      "durationMs": 3375,
+      "pivot": [
+        144,
+        164
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "muzzle-shotgun": {
+      "slug": "muzzle-shotgun",
+      "id": "projectiles/muzzle-shotgun",
+      "name": "Shotgun blast",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/projectiles/muzzle-shotgun.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 49,
+      "frameWidth": 160,
+      "frameHeight": 88,
+      "fps": 15,
+      "loop": false,
+      "durationMs": 3267,
+      "pivot": [
+        44,
+        82
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "muzzle-smg": {
+      "slug": "muzzle-smg",
+      "id": "projectiles/muzzle-smg",
+      "name": "SMG burst",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/projectiles/muzzle-smg.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 24,
+      "frameWidth": 112,
+      "frameHeight": 72,
+      "fps": 24,
+      "loop": true,
+      "durationMs": 1000,
+      "pivot": [
+        56,
+        66
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "bullet-impact": {
+      "slug": "bullet-impact",
+      "id": "impacts/bullet-impact",
+      "name": "Bullet impact",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/bullet-impact.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 29,
+      "frameWidth": 152,
+      "frameHeight": 100,
+      "fps": 20,
+      "loop": false,
+      "durationMs": 1450,
+      "pivot": [
+        116,
+        84
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "hit-spark": {
+      "slug": "hit-spark",
+      "id": "impacts/hit-spark",
+      "name": "Hit spark",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/hit-spark.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 11,
+      "frameWidth": 136,
+      "frameHeight": 80,
+      "fps": 20,
+      "loop": false,
+      "durationMs": 550,
+      "pivot": [
+        44,
+        64
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "crit-hit": {
+      "slug": "crit-hit",
+      "id": "impacts/crit-hit",
+      "name": "Critical hit",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/crit-hit.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 19,
+      "frameWidth": 216,
+      "frameHeight": 136,
+      "fps": 20,
+      "loop": false,
+      "durationMs": 950,
+      "pivot": [
+        84,
+        106
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "bleeding": {
+      "slug": "bleeding",
+      "id": "status/bleeding",
+      "name": "Bleeding",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/status/bleeding.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 38,
+      "frameWidth": 60,
+      "frameHeight": 56,
+      "fps": 16,
+      "loop": true,
+      "durationMs": 2375,
+      "pivot": [
+        30,
+        46
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "holy-smite": {
+      "slug": "holy-smite",
+      "id": "holy/smite",
+      "name": "Smite",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/smite.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 35,
+      "frameWidth": 224,
+      "frameHeight": 176,
+      "fps": 12,
+      "loop": false,
+      "durationMs": 2917,
+      "pivot": [
+        112,
+        148
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "divine-shield": {
+      "slug": "divine-shield",
+      "id": "holy/divine-shield",
+      "name": "Divine shield",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/holy/divine-shield.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 38,
+      "frameWidth": 88,
+      "frameHeight": 84,
+      "fps": 16,
+      "loop": true,
+      "durationMs": 2375,
+      "pivot": [
+        44,
+        68
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "vine-whip": {
+      "slug": "vine-whip",
+      "id": "nature/vine-whip",
+      "name": "Vine whip",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/nature/vine-whip.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 29,
+      "frameWidth": 216,
+      "frameHeight": 128,
+      "fps": 20,
+      "loop": false,
+      "durationMs": 1450,
+      "pivot": [
+        60,
+        114
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "root-snare": {
+      "slug": "root-snare",
+      "id": "nature/root-snare",
+      "name": "Root snare",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/nature/root-snare.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 55,
+      "frameWidth": 128,
+      "frameHeight": 96,
+      "fps": 20,
+      "loop": false,
+      "durationMs": 2750,
+      "pivot": [
+        64,
+        78
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "curse": {
+      "slug": "curse",
+      "id": "shadow/curse",
+      "name": "Curse",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/shadow/curse.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 55,
+      "frameWidth": 112,
+      "frameHeight": 124,
+      "fps": 16,
+      "loop": false,
+      "durationMs": 3438,
+      "pivot": [
+        56,
+        108
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    },
+    "poisoned": {
+      "slug": "poisoned",
+      "id": "status/poisoned",
+      "name": "Poisoned",
+      "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/status/poisoned.js",
+      "sheet": "strip.png",
+      "layout": "strip",
+      "frames": 26,
+      "frameWidth": 72,
+      "frameHeight": 64,
+      "fps": 16,
+      "loop": true,
+      "durationMs": 1625,
+      "pivot": [
+        36,
+        54
+      ],
+      "generatedBy": "scripts/vfx/export.mjs"
+    }
+  }
+}

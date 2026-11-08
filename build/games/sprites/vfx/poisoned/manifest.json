@@ -1,0 +1,19 @@
+{
+  "slug": "poisoned",
+  "id": "status/poisoned",
+  "name": "Poisoned",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/status/poisoned.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 26,
+  "frameWidth": 72,
+  "frameHeight": 64,
+  "fps": 16,
+  "loop": true,
+  "durationMs": 1625,
+  "pivot": [
+    36,
+    54
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

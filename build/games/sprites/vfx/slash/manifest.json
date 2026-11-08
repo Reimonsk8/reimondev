@@ -1,0 +1,19 @@
+{
+  "slug": "slash",
+  "id": "melee/sword-slash",
+  "name": "Sword slash",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/melee/sword-slash.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 16,
+  "frameWidth": 136,
+  "frameHeight": 104,
+  "fps": 20,
+  "loop": false,
+  "durationMs": 800,
+  "pivot": [
+    44,
+    92
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

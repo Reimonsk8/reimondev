@@ -1,7 +1,7 @@
 {
   "name": "ReimonDev Games",
   "short_name": "Reimon Games",
-  "description": "Play-money mini-games: Square of Shadows, Outlands, casino tables and arcade classics.",
+  "description": "Square of Shadows tactics and Zombie Shooter survival from ReimonDev.",
   "start_url": "/games/",
   "scope": "/games/",
   "display": "standalone",

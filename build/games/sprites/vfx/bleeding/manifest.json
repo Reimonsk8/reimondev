@@ -1,0 +1,19 @@
+{
+  "slug": "bleeding",
+  "id": "status/bleeding",
+  "name": "Bleeding",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/status/bleeding.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 38,
+  "frameWidth": 60,
+  "frameHeight": 56,
+  "fps": 16,
+  "loop": true,
+  "durationMs": 2375,
+  "pivot": [
+    30,
+    46
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}

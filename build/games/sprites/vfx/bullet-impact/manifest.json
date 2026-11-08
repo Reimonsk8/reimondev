@@ -1,0 +1,19 @@
+{
+  "slug": "bullet-impact",
+  "id": "impacts/bullet-impact",
+  "name": "Bullet impact",
+  "source": "https://github.com/patch-gg/pixelfx/blob/main/src/fx/impacts/bullet-impact.js",
+  "sheet": "strip.png",
+  "layout": "strip",
+  "frames": 29,
+  "frameWidth": 152,
+  "frameHeight": 100,
+  "fps": 20,
+  "loop": false,
+  "durationMs": 1450,
+  "pivot": [
+    116,
+    84
+  ],
+  "generatedBy": "scripts/vfx/export.mjs"
+}
