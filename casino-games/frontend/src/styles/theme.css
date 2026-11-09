@@ -2447,22 +2447,6 @@ h3 {
  * this file), so no highlight can erase the ground it sits on.
  */
 
-.sos-aim-preview-hint {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  margin: 0;
-  padding: 0.32rem 0.6rem;
-  border-radius: 6px;
-  background: rgba(124, 58, 237, 0.16);
-  border: 1px solid rgba(167, 139, 250, 0.4);
-  color: #c4b5fd;
-  font-size: 0.72rem;
-  text-align: center;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .sos-zone { animation: none; }
   .sos-spellfx-core,
@@ -6779,4 +6763,260 @@ h3 {
   .sos-panel-head > .sos-map-size > #sos-unit-range { display: block; }
   .sos-chronicle-brand .sos-brand { max-width: 5.2rem; overflow: hidden; text-overflow: ellipsis; }
   .sos-chronicle-controls .sos-sound-trigger { width: 28px; height: 28px; }
+}
+
+/* In landscape, dock MENU, profile, and sound together in the top-right corner.
+   Portrait keeps the normal Chronicle-footer position and touch spacing. */
+@media (orientation: landscape) {
+  .sos-root:has(.sos-board-layout) .sos-chronicle-controls {
+    position: fixed;
+    top: max(6px, env(safe-area-inset-top, 0px));
+    right: max(6px, env(safe-area-inset-right, 0px));
+    bottom: auto;
+    left: auto;
+    z-index: 10000;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 3px;
+    overflow: visible !important;
+    border: 1px solid rgba(212, 176, 95, 0.28);
+    border-radius: 4px;
+    background: rgba(12, 6, 20, 0.94);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+  }
+
+  .sos-root:has(.sos-board-layout) .sos-chronicle-controls .sos-back {
+    min-height: 26px;
+    height: 26px;
+    padding: 1px 5px;
+    font-size: 0.58rem;
+  }
+
+  .sos-root:has(.sos-board-layout) .sos-chronicle-controls .sos-sound-trigger {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+
+  .sos-root:has(.sos-board-layout) .sos-chronicle-brand .game-account-popover {
+    top: calc(100% + 0.35rem);
+    right: 0;
+    bottom: auto;
+    left: auto;
+  }
+}
+
+/* Keep the turn crest in the topbar's layout flow; a fixed badge covered the
+   first row of cells because the playing-state topbar otherwise had no height. */
+.sos-root:has(.sos-board-layout) > .sos-topbar {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto;
+  align-content: start;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  margin: 4px 4px 0;
+  padding: 2px 6px 4px;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.sos-root:has(.sos-board-layout) .sos-turn-tab {
+  position: relative;
+  top: auto;
+  left: auto;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  margin: 0 auto;
+  transform: none;
+  animation: none;
+  z-index: 101;
+  max-width: calc(100vw - 1rem);
+}
+
+.sos-root:has(.sos-board-layout) .sos-topbar-left.sos-board-corner-brand {
+  position: relative;
+  top: auto;
+  left: auto;
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  min-width: 0;
+  pointer-events: auto;
+}
+
+.sos-root:has(.sos-board-layout) .sos-board-corner-brand .sos-brand {
+  max-width: clamp(46px, 24vw, 180px);
+}
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 500px) {
+  .sos-root:has(.sos-board-layout) > .sos-topbar {
+    min-height: 36px;
+    margin: 0 4px 3px;
+    padding: 3px 6px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+
+  .sos-root:has(.sos-board-layout) .sos-turn-tab {
+    height: 30px;
+    gap: 6px;
+    padding: 0 8px;
+    max-width: min(100%, calc(100vw - 1rem));
+  }
+
+  .sos-root:has(.sos-board-layout) .sos-topbar-left.sos-board-corner-brand {
+    position: relative;
+    top: auto;
+    left: auto;
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 100%;
+  }
+}
+
+/* Selected-unit identity, map size, and camera slider share one compact row. */
+.sos-panel-head.is-selected-unit {
+  justify-content: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+  margin-bottom: 0.25rem;
+}
+
+.sos-panel-head.is-selected-unit > .sos-panel-title {
+  flex: 0 0 auto;
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+.sos-panel-head.is-selected-unit .sos-selected-head {
+  flex: 0 0 auto;
+  min-width: 0;
+  gap: 0.18rem;
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.sos-panel-head.is-selected-unit .sos-selected-head svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+.sos-panel-head.is-selected-unit .sos-selected-head strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sos-panel-head.is-selected-unit > .sos-map-size {
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  gap: 0.2rem;
+  min-width: 0;
+  margin-left: auto;
+}
+
+.sos-panel-head.is-selected-unit .sos-map-size-readout {
+  font-size: 0.52rem;
+  letter-spacing: 0.03em;
+}
+
+.sos-panel-head.is-selected-unit .sos-map-size-readout output {
+  font-size: 0.62rem;
+}
+
+.sos-panel-head.is-selected-unit .sos-unit-range {
+  flex: 1 1 48px;
+  width: clamp(42px, 5vw, 76px);
+  min-width: 38px;
+  height: 19px;
+}
+
+/* Chronicle hints/errors use the same scrollable feed as combat events. */
+.sos-log-row.is-hint {
+  border-left-color: rgba(212, 176, 95, 0.7);
+  color: #e4d4ad;
+  background: rgba(100, 74, 27, 0.2);
+  font-style: italic;
+}
+
+.sos-log-row.is-state {
+  border-left-color: #f59e0b;
+  color: #fcd9a1;
+  background: rgba(120, 69, 13, 0.22);
+}
+
+/* The compact profile menu sits in the Chronicle footer. Let its panel chrome
+   and header overflow, then open upward so the list remains inside the rail. */
+.sos-root:has(.sos-board-layout) .sos-rail-right > .sos-slot-log,
+.sos-root:has(.sos-board-layout) .sos-rail-right > .sos-slot-log .sos-log-header {
+  overflow: visible !important;
+}
+
+.sos-root:has(.sos-board-layout) .sos-rail-right:has(.game-account-menu--compact) {
+  overflow: visible;
+}
+
+.sos-root:has(.sos-board-layout) .sos-rail-right > .sos-slot-log {
+  position: relative;
+  z-index: 9999;
+}
+
+.sos-root:has(.sos-board-layout) .sos-chronicle-controls,
+.sos-root:has(.sos-board-layout) .sos-chronicle-brand,
+.sos-root:has(.sos-board-layout) .sos-chronicle-brand .game-account-menu--compact {
+  position: relative;
+  z-index: 9999;
+  overflow: visible !important;
+}
+
+.sos-root:has(.sos-board-layout) .sos-chronicle-brand .game-account-popover {
+  top: auto;
+  right: auto;
+  bottom: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 9999;
+}
+
+@media (orientation: landscape) {
+  .sos-root:has(.sos-board-layout) .sos-rail-right > .sos-slot-log .sos-chronicle-controls {
+    position: fixed;
+    top: max(6px, env(safe-area-inset-top, 0px));
+    right: max(6px, env(safe-area-inset-right, 0px));
+    bottom: auto;
+    left: auto;
+    z-index: 10000;
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 3px;
+    border: 1px solid rgba(212, 176, 95, 0.28);
+    border-radius: 4px;
+    background: rgba(12, 6, 20, 0.94);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  .sos-root:has(.sos-board-layout) .sos-chronicle-brand .game-account-popover {
+    top: calc(100% + 0.35rem);
+    right: 0;
+    bottom: auto;
+    left: auto;
+  }
 }

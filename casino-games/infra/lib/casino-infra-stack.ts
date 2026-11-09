@@ -41,6 +41,8 @@ export class CasinoInfraStack extends Stack {
 
     const domainPrefix = this.node.tryGetContext('cognitoDomainPrefix') || 'reimondev';
     const gamesBaseUrl = this.node.tryGetContext('gamesBaseUrl') || 'https://reimondev.com/games';
+    const wwwGamesBaseUrl = this.node.tryGetContext('wwwGamesBaseUrl') || 'https://www.reimondev.com/games';
+    const localGamesBaseUrl = this.node.tryGetContext('localGamesBaseUrl') || 'http://localhost:3000/games';
     // Keep the currently registered Netlify callback during the move to the
     // integrated /games/ route; remove it only after that host is retired.
     const legacyGamesBaseUrl = this.node.tryGetContext('legacyGamesBaseUrl') || 'https://chimerical-capybara-0b55e9.netlify.app';
@@ -65,10 +67,14 @@ export class CasinoInfraStack extends Stack {
         ],
         callbackUrls: [...new Set([
           `${gamesBaseUrl}/oauth2/callback`,
+          `${wwwGamesBaseUrl}/oauth2/callback`,
+          `${localGamesBaseUrl}/oauth2/callback`,
           `${legacyGamesBaseUrl}/oauth2/callback`,
         ])],
         logoutUrls: [...new Set([
           `${gamesBaseUrl}/`,
+          `${wwwGamesBaseUrl}/`,
+          `${localGamesBaseUrl}/`,
           legacyGamesBaseUrl,
         ])],
       },

@@ -73,6 +73,27 @@
 .game-account-menu > summary::-webkit-details-marker { display: none; }
 .game-account-menu > summary:hover { border-color: rgba(225, 229, 238, 0.62); }
 
+.game-account-menu--compact {
+  position: relative;
+  inset: auto;
+  z-index: 30;
+  flex: none;
+}
+
+.game-account-menu--compact > summary {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-color: rgba(212, 176, 95, 0.48);
+  color: #f0d77b;
+  background: rgba(12, 9, 22, 0.92);
+  font-size: 0.68rem;
+}
+
+.game-account-menu--compact .game-account-popover {
+  right: auto;
+  left: 0;
+}
+
 .game-account-popover {
   position: absolute;
   top: calc(100% + 0.55rem);
@@ -396,6 +417,226 @@
   .home-page .gg-chip { padding:.35rem .55rem; font-size:.7rem; }
   .home-page .gg-chip-button { max-width:calc(100vw - 2.4rem); overflow:hidden; text-overflow:ellipsis; }
   .home-profile-modal .avatar-customizer .color-presets { grid-template-columns:repeat(4,minmax(40px,1fr)); }
+}
+
+/* ReimonDev sign-in: one centered form, with the home page's sword and eclipse. */
+.app-shell.auth-shell {
+  min-height: 100svh;
+  padding: 0;
+}
+
+.auth-screen {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: max(5rem, calc(5rem + env(safe-area-inset-top))) 1.25rem 2rem;
+  overflow: hidden;
+  isolation: isolate;
+  color: #f2f2f2;
+  background: #030303;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.auth-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  filter: none;
+  opacity: 1;
+  background:
+    radial-gradient(ellipse 190px 145px at 50% 0%, #030303 0 42%, rgba(230,230,230,.11) 54%, rgba(230,230,230,.025) 66%, transparent 100%),
+    radial-gradient(ellipse 520px 330px at 50% 0%, rgba(240,240,240,.045), transparent 76%),
+    radial-gradient(ellipse 520px 450px at 50% 100%, rgba(255,255,255,.018), transparent 76%);
+}
+
+.auth-screen .auth-back-link {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top));
+  left: max(1.25rem, env(safe-area-inset-left));
+  z-index: 2;
+  min-height: 40px;
+  margin: 0;
+  color: #a8a8a8;
+  font-family: 'Times New Roman', Georgia, serif;
+  letter-spacing: .04em;
+}
+
+.auth-screen .auth-back-link:hover { color: #fff; }
+
+.auth-screen .auth-panel {
+  z-index: 1;
+  display: flex;
+  width: min(420px, 100%);
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.auth-screen .auth-panel::before { display: none; }
+
+.auth-sword-showcase {
+  display: grid;
+  height: clamp(150px, 24svh, 220px);
+  place-items: center;
+  margin: 0 auto .35rem;
+}
+
+.auth-sword-emblem {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: min(24vw, 100px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 18px rgba(255,255,255,.08));
+  animation: auth-sword-emerge .9s ease-out both;
+}
+
+.auth-wordmark {
+  margin: 0 0 1.2rem;
+  color: #eee;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: clamp(1.15rem, 3vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-align: center;
+  animation: auth-rise .65s ease-out .12s both;
+}
+
+.auth-screen .auth-header {
+  margin-bottom: 1.1rem;
+  text-align: center;
+  animation: auth-rise .65s ease-out .2s both;
+}
+
+.auth-screen .auth-kicker {
+  margin-bottom: .35rem;
+  color: #aaa;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .2em;
+}
+
+.auth-screen .auth-header h1 {
+  margin: 0 0 .4rem;
+  color: #f5f5f5;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: clamp(1.65rem, 5vw, 2.15rem);
+  font-weight: 400;
+  letter-spacing: .04em;
+}
+
+.auth-screen .auth-header p {
+  margin: 0;
+  color: #b5b5b5;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: .98rem;
+  line-height: 1.5;
+}
+
+.auth-screen .auth-google-button {
+  min-height: 46px;
+  border-color: #454545;
+  border-radius: 0;
+  color: #e4e4e4;
+  background: rgba(255,255,255,.035);
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.auth-screen .auth-google-button:hover:not(:disabled) {
+  border-color: #999;
+  background: rgba(255,255,255,.08);
+}
+
+.auth-screen .auth-divider { color: #8f8f8f; }
+.auth-screen .auth-divider::before,
+.auth-screen .auth-divider::after { background: rgba(255,255,255,.16); }
+
+.auth-screen .auth-form {
+  gap: .8rem;
+  animation: auth-rise .65s ease-out .28s both;
+}
+
+.auth-screen .auth-label {
+  color: #c7c7c7;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: .83rem;
+  font-weight: 400;
+}
+
+.auth-screen .auth-input {
+  min-height: 46px;
+  border-color: #444;
+  border-radius: 0;
+  background: rgba(0,0,0,.55);
+  color: #f3f3f3;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.auth-screen .auth-input:focus {
+  border-color: #bbb;
+  background: #080808;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.1);
+}
+
+.auth-screen .auth-submit {
+  min-height: 46px;
+  border-color: #aaa;
+  border-radius: 0;
+  color: #111;
+  background: #e2e2e2;
+  box-shadow: none;
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: 600;
+}
+
+.auth-screen .auth-submit:hover:not(:disabled) {
+  border-color: #fff;
+  color: #000;
+  background: #fff;
+  box-shadow: none;
+}
+
+.auth-screen .auth-switch {
+  gap: .25rem;
+  margin-top: .75rem;
+  color: #aaa;
+  font-family: 'Times New Roman', Georgia, serif;
+}
+
+.auth-screen .auth-switch button:not(.ghost-button) { color: #eee; }
+.auth-screen .auth-switch button:not(.ghost-button):hover { color: #fff; }
+.auth-screen .auth-switch .ghost-button { border-radius: 0; color: #aaa; }
+.auth-screen :where(button, a, input):focus-visible {
+  outline: 2px solid #eee;
+  outline-offset: 3px;
+}
+
+@keyframes auth-sword-emerge {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes auth-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { apiCall } from '../utils/api';
 import { googleLoginUrl, COGNITO_CLIENT_ID } from '../utils/oauth';
-import { Skull, Swords } from 'lucide-react';
-import { PLATFORM_MARK, PLATFORM_NAME } from '../platform/catalog';
+import SwordEmblem from '../../../../src/assets/reimon-ornate-sword.svg';
 
 export default function AuthView({ onLoginSuccess, setUser, showModal }) {
     const [authForm, setAuthForm] = useState('login');
@@ -116,6 +115,7 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
             const result = await apiCall('/auth/login', 'POST', { email, password }, false);
             localStorage.setItem('c888_access_token', result.tokens.AccessToken || '');
             localStorage.setItem('c888_id_token', result.tokens.IdToken || '');
+            localStorage.setItem('c888_refresh_token', result.tokens.RefreshToken || '');
 
             const idToken = result.tokens.IdToken;
             const payload = JSON.parse(atob(idToken.split('.')[1]));
@@ -126,7 +126,7 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
                 nickname: (payload.email || email).split('@')[0] || 'Player',
             });
 
-            showModal('Login Successful', `Welcome back ${email.split('@')[0]}! Loading your Dashboard...`, 'success');
+            showModal('Login Successful', `Welcome back ${email.split('@')[0]}! Returning you to your game…`, 'success');
             onLoginSuccess();
         } catch (err) {
             showModal('Login Error', err.message || 'An error occurred during login', 'error');
@@ -206,7 +206,7 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
 
     const title =
         authForm === 'login'
-            ? 'Welcome back'
+            ? 'Sign in'
             : authForm === 'signup'
                 ? 'Create your account'
                 : authForm === 'forgot'
@@ -216,9 +216,9 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
                         : 'Verify your email';
     const subtitle =
         authForm === 'login'
-            ? 'One account for every world. Pick up where you left off.'
+            ? 'One ReimonDev account for online play.'
             : authForm === 'signup'
-                ? 'One account unlocks the whole library — no separate sign-ins.'
+                ? 'One ReimonDev account for online play across both worlds.'
                 : authForm === 'forgot'
                     ? 'Enter your email and we will send you a reset code.'
                     : authForm === 'reset'
@@ -226,19 +226,17 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
                         : 'Enter the code sent to your email.';
 
     return (
-        <div className="auth-grid auth-experience">
-            <section className="glass-card auth-card" aria-labelledby="auth-title">
-                <a className="auth-back-link" href="/projects#games">← Back to Work</a>
-                <div className="auth-brand">
-                    <span className="gg-brand-mark">{PLATFORM_MARK}</span>
-                    <span className="gg-brand-text">
-                        <span className="gg-brand-name">{PLATFORM_NAME}</span>
-                        <span className="gg-brand-tag">one account · every world</span>
-                    </span>
+        <div className="auth-experience auth-screen">
+            <div className="auth-eclipse" aria-hidden="true" />
+            <a className="auth-back-link" href="/home">← Back to main site</a>
+            <section className="auth-card auth-panel" aria-labelledby="auth-title">
+                <div className="auth-sword-showcase" aria-hidden="true">
+                    <img className="auth-sword-emblem" src={SwordEmblem} alt="" />
                 </div>
+                <p className="auth-wordmark">REIMON DEVELOPMENT</p>
 
                 <div className="auth-header">
-                    <span className="auth-kicker">Your worlds are waiting</span>
+                    <span className="auth-kicker">Player account</span>
                     <h1 id="auth-title">{title}</h1>
                     <p>{subtitle}</p>
                 </div>
@@ -298,25 +296,6 @@ export default function AuthView({ onLoginSuccess, setUser, showModal }) {
                     )}
                 </div>
             </section>
-
-            <aside className="auth-highlight glass-card" aria-label="About the game library">
-                <div>
-                    <span className="auth-kicker">One connected universe</span>
-                    <h2>One account.<br />Every world.</h2>
-                    <p>
-                        Two distinct game worlds, available through one player profile.
-                    </p>
-                    <br />
-                    <p className="auth-quote">
-                        "Choose your world. Set your own pace."
-                    </p>
-                </div>
-                <ul className="auth-world-list">
-                    <li><Swords size={16} /><span><strong>Square of Shadows</strong> — turn-based tactics</span></li>
-                    <li><Skull size={16} /><span><strong>Zombie Shooter</strong> — isometric survival</span></li>
-                </ul>
-                <p className="auth-footnote">Sign in once to access both games.</p>
-            </aside>
         </div>
     );
 }

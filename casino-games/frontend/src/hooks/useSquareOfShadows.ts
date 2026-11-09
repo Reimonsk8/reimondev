@@ -382,19 +382,21 @@ export function useSquareOfShadows({
 
   /** Open a fresh lobby and take the first seat; the server replies with a code. */
   const hostOnline = useCallback(() => {
+    if (!userId) return;
     setRoomError(null);
     setMode('online');
     sendOrQueue({ action: 'sos:create' });
-  }, [sendOrQueue]);
+  }, [sendOrQueue, userId]);
 
   /** Join an existing lobby by invite code. */
   const joinOnline = useCallback(
     (code: string) => {
+      if (!userId) return;
       setRoomError(null);
       setMode('online');
       sendOrQueue({ action: 'sos:join', gameId: code });
     },
-    [sendOrQueue],
+    [sendOrQueue, userId],
   );
 
   /**
@@ -407,11 +409,11 @@ export function useSquareOfShadows({
    * handler below drops the memory so a dead room is never offered twice.
    */
   const resumeOnline = useCallback(() => {
-    if (!resumeRoomId) return;
+    if (!userId || !resumeRoomId) return;
     setRoomError(null);
     setMode('online');
     sendOrQueue({ action: 'sos:join', gameId: resumeRoomId });
-  }, [resumeRoomId, sendOrQueue]);
+  }, [resumeRoomId, sendOrQueue, userId]);
 
   /**
    * Remember a live room, and forget one that is finished or abandoned.
@@ -767,7 +769,7 @@ const isAiTurn = mode === 'ai' && state?.activePlayerId === AI_PLAYER_ID;
     room,
     roomError,
     clearRoomError: () => setRoomError(null),
-    canPlayOnline: !!sendRaw,
+    canPlayOnline: !!userId && !!sendRaw,
     hostOnline,
     joinOnline,
     resumeOnline,

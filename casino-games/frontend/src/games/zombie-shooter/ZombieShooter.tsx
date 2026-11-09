@@ -113,6 +113,7 @@ interface OutlandsProps {
   userId?: string | null;
   nickname?: string;
   avatarImage?: string | null;
+  onRequestLogin?: () => void;
   lobby?: {
     status?: string;
     players?: Record<string, LobbyPlayerEntry>;
@@ -323,6 +324,7 @@ export default function ZombieShooter({
   nickname = 'Survivor',
   avatarImage = null,
   lobby,
+  onRequestLogin,
 }: OutlandsProps = {}) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const serverRef = useRef<LocalGameServer | SocketGameClient | null>(null);
@@ -966,10 +968,16 @@ export default function ZombieShooter({
     if (joiningSector) return;
     const wsUrl = outlandsWsUrl();
     if (wsUrl) {
+      if (!userId) {
+        setBanner('Sign in to join the shared Outlands sector.');
+        onRequestLogin?.();
+        return;
+      }
       let token = '';
       try { token = localStorage.getItem('c888_id_token') ?? ''; } catch { /* storage unavailable */ }
       if (!token) {
-        setBanner('Sign in again to join the shared Outlands sector.');
+        setBanner('Your session needs to be restored before joining the shared sector.');
+        onRequestLogin?.();
         return;
       }
       setJoiningSector(true);
@@ -996,7 +1004,7 @@ export default function ZombieShooter({
     setHud(snapshotFrom(next));
     setPhase('playing');
     setBanner(`Deployed to ${entry.name} · ${entry.sectorCode} · Local simulation`);
-  }, [joiningSector]);
+  }, [joiningSector, onRequestLogin, userId]);
 
   const handleSwitchWeapon = useCallback((weapon: WeaponId) => {
     if (!serverRef.current || !canEquipWeapon(serverRef.current.state.player, weapon)) {
@@ -1921,6 +1929,11 @@ export default function ZombieShooter({
                 <strong>Shared world offline:</strong> the persistent Outlands server is not configured.
               </p>
             )}
+            {sharedSectorUrl && !userId && (
+              <p className="outlands-briefing-stats">
+                Local play is open to everyone. Sign in with ReimonDev to join the shared world.
+              </p>
+            )}
             <p>
               Step out of <strong>Nastya&apos;s Holdout</strong> into a pitch-black
               isometric quarantine zone inspired by <em>Dead Frontier</em> and{' '}
@@ -1962,7 +1975,13 @@ export default function ZombieShooter({
                     onClick={() => handleSelectSafezone(entry)}
                     disabled={joiningSector || (import.meta.env.PROD && !sharedSectorUrl) || (Boolean(sharedSectorUrl) && sectorStatus?.full === true)}
                   >
-                    {joiningSector ? 'Joining…' : import.meta.env.PROD && !sharedSectorUrl ? 'World Offline' : 'Deploy Here'}
+                    {joiningSector
+                      ? 'Joining…'
+                      : import.meta.env.PROD && !sharedSectorUrl
+                        ? 'World Offline'
+                        : sharedSectorUrl && !userId
+                          ? 'Sign in to Deploy Online'
+                          : 'Deploy Here'}
                   </button>
                 </div>
               ))}

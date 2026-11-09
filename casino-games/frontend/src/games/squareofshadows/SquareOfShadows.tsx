@@ -12,6 +12,7 @@ import {
   Map as MapIcon, Music, Flame, Leaf, Eye, Skull,
 } from 'lucide-react';
 import { useSquareOfShadows } from '../../hooks/useSquareOfShadows';
+import GameAccountMenu from '../../components/GameAccountMenu';
 import { attackLinkFor } from './attackLink';
 import { SOS_PIXEL_FX, sosPixelFxStyle } from './pixelFx';
 import {
@@ -264,6 +265,9 @@ interface SquareOfShadowsProps {
   subscribe?: (listener: (message: unknown) => void) => () => void;
   /** Invite code from `?room=`. */
   initialRoom?: string | null;
+  /** Send guests through the shared ReimonDev sign-in before online play. */
+  onRequestLogin?: () => void;
+  onLogout?: () => void;
 }
 
 interface ClassMeta {
@@ -358,7 +362,7 @@ const LINK_SPRITE_FOR: Partial<Record<SosLinkFx['kind'], string>> = {
 interface CombatLogEntry {
   id: string;
   turn: number;
-  kind: 'damage' | 'spell' | 'heal' | 'guard' | 'move' | 'trap' | 'defeat' | 'turn';
+  kind: 'damage' | 'spell' | 'heal' | 'guard' | 'move' | 'trap' | 'defeat' | 'turn' | 'hint' | 'state';
   text: string;
   icon?: string;
 }
@@ -1053,7 +1057,14 @@ export default function SquareOfShadows({
   sendRaw,
   subscribe,
   initialRoom = null,
+  onRequestLogin,
+  onLogout,
 }: SquareOfShadowsProps) {
+  const [titleAltarArt] = useState(() => {
+    const altarIndex = Math.floor(Math.random() * 16) + 1;
+    const altarNumber = String(altarIndex).padStart(2, '0');
+    return publicAsset(`/sprites/sos-altar-monuments/altar-${altarNumber}.png`);
+  });
   const sos = useSquareOfShadows({ userId, nickname, sendRaw, subscribe, initialRoom, isOnline });
   const {
     mode,
@@ -1350,6 +1361,17 @@ export default function SquareOfShadows({
   // ── combat log & board hit-stop shake ───────────────────────────────────
   const [combatLog, setCombatLog] = useState<CombatLogEntry[]>([]);
   const logSeq = useRef(0);
+  const appendChronicleNotice = useCallback((kind: 'hint' | 'state', text: string) => {
+    const entry: CombatLogEntry = {
+      id: `lg-${(logSeq.current += 1)}`,
+      turn: state?.turnNumber ?? 0,
+      kind,
+      text,
+    };
+    setCombatLog((previous) => [...previous, entry].slice(-60));
+  }, [state?.turnNumber]);
+  const loggedActionErrorRef = useRef<string | null>(null);
+  const loggedPreviewRef = useRef<string | null>(null);
   const [boardShake, setBoardShake] = useState<
     { seq: number; dx: number; dy: number; amp: number; durMs: number } | null
   >(null);
@@ -2736,6 +2758,31 @@ export default function SquareOfShadows({
   /** Tile the player is pointing at, used to preview the blast before casting. */
   const [previewTarget, setPreviewTarget] = useState<Position | null>(null);
   const previewAbility: AbilityId | null = armedAbility ?? null;
+  useEffect(() => {
+    if (!error) {
+      loggedActionErrorRef.current = null;
+      return;
+    }
+    if (loggedActionErrorRef.current === error) return;
+    loggedActionErrorRef.current = error;
+    appendChronicleNotice('state', `Action unavailable: ${error}`);
+    clearError();
+  }, [error, clearError, appendChronicleNotice]);
+
+  useEffect(() => {
+    if (!previewAbility || !selectedUnit) {
+      loggedPreviewRef.current = null;
+      return;
+    }
+    const key = `${selectedUnit.id}:${previewAbility}`;
+    if (loggedPreviewRef.current === key) return;
+    loggedPreviewRef.current = key;
+    const abilityName = previewAbility.replace(/_/g, ' ');
+    appendChronicleNotice(
+      'hint',
+      `${CLASS_META[selectedUnit.type].label} readies ${abilityName}. Highlighted tiles are in range; hover to preview, click to use it.`,
+    );
+  }, [previewAbility, selectedUnit?.id, appendChronicleNotice]);
 
   /**
    * The tile whose last click did nothing, flashed briefly so an illegal click
@@ -3620,7 +3667,17 @@ export default function SquareOfShadows({
   }, [incomingChallenge, challengeSecondsLeft, respondChallenge]);
 
   const isPlayingMatch = !!(mode !== 'menu' && state && state.phase !== 'deployment');
-  const renderBrandControls = () => (
+  const renderGameWordmark = () => (
+    <div className="sos-brand">
+      <span
+        className="sos-brand-crest"
+        style={{ backgroundImage: `url("${publicAsset('/sprites/sos-ground-decor/sprite-sheet-alpha.png')}")` }}
+        aria-hidden="true"
+      />
+      <span>Square of Shadows</span>
+    </div>
+  );
+  const renderBrandControls = (showWordmark = true) => (
     <div className="sos-topbar-header sos-chronicle-brand">
       {(mode !== 'menu' || lobbyOpen) && (
         <button
@@ -3634,22 +3691,14 @@ export default function SquareOfShadows({
           <span>MENU</span>
         </button>
       )}
-      <a
-        href="/projects#games"
-        className="sos-brand-mark"
-        aria-label="Back to Work"
-        title="Back to Work"
-        onClick={(event) => {
-          event.preventDefault();
-          window.location.href = '/projects#games';
-        }}
-      >
-        GG
-      </a>
-      <div className="sos-brand">
-        <span className="sos-brand-crest" aria-hidden="true" />
-        <span>Square of Shadows</span>
-      </div>
+      <GameAccountMenu
+        nickname={nickname}
+        isAuthenticated={Boolean(userId)}
+        onLogin={onRequestLogin}
+        onLogout={onLogout}
+        compact
+      />
+      {showWordmark && renderGameWordmark()}
     </div>
   );
   const renderSoundControl = () => (
@@ -3738,7 +3787,11 @@ export default function SquareOfShadows({
   return (
     <div className="sos-root" onPointerDownCapture={handleFirstGesture}>
       <div className="sos-topbar">
-        {!isPlayingMatch && (
+        {isPlayingMatch ? (
+          <div className="sos-topbar-left sos-board-corner-brand">
+            <div className="sos-topbar-header">{renderGameWordmark()}</div>
+          </div>
+        ) : (
           <div className="sos-topbar-left">{renderBrandControls()}</div>
         )}
 
@@ -3829,7 +3882,7 @@ export default function SquareOfShadows({
 
           <div className="sos-menu-hero-art" aria-hidden="true">
             <img
-              src={publicAsset('/sprites/sos-pixellab/gothic-altar.png')}
+              src={titleAltarArt}
               alt=""
               className="sos-altar-art"
             />
@@ -3888,14 +3941,20 @@ export default function SquareOfShadows({
             </button>
             <button
               type="button"
-              className={`sos-menu-entry${canPlayOnline ? '' : ' is-disabled'}`}
-              disabled={!canPlayOnline}
+              className={`sos-menu-entry${userId && !canPlayOnline ? ' is-disabled' : ''}`}
+              disabled={Boolean(userId) && !canPlayOnline}
               onClick={() => {
+                if (!userId) {
+                  onRequestLogin?.();
+                  return;
+                }
                 playSfx('select');
                 setLobbyOpen(true);
               }}
               title={
-                canPlayOnline
+                !userId
+                  ? 'Sign in or create a ReimonDev account to play online'
+                  : canPlayOnline
                   ? 'Challenge another player from the duel lobby'
                   : isOnline
                     ? 'The lobby socket is still connecting…'
@@ -3905,7 +3964,9 @@ export default function SquareOfShadows({
               <Globe size={22} aria-hidden="true" />
               <span className="sos-menu-entry-label">Online Duel</span>
               <span className="sos-menu-entry-hint">
-                {canPlayOnline
+                {!userId
+                  ? initialRoom ? 'Sign in to accept your invite.' : 'Sign in to challenge another player.'
+                  : canPlayOnline
                   ? 'Challenge another player to a duel.'
                   : isOnline
                     ? 'Connecting to the lobby…'
@@ -4702,10 +4763,18 @@ export default function SquareOfShadows({
                 can be changed where the map is being described rather than from
                 a corner of the grid or a popover over the board.
               */}
-              <div className="sos-panel-head">
+              <div className={`sos-panel-head${selectedUnit ? ' is-selected-unit' : ''}`}>
                 <h3 className="sos-panel-title">
                   {selectedUnit ? 'Selected unit' : 'Tactical map'}
                 </h3>
+                {selectedUnit && (
+                  <div className="sos-selected-head">
+                    <ClassIcon type={selectedUnit.type} size={16} />
+                    <strong style={{ color: CLASS_META[selectedUnit.type].color }}>
+                      {CLASS_META[selectedUnit.type].label}
+                    </strong>
+                  </div>
+                )}
                 {/*
                   Always shown, not just when the panel reads "Tactical map":
                   the window is something you resize mid-turn, with a unit
@@ -4743,12 +4812,6 @@ export default function SquareOfShadows({
               </div>
               {selectedUnit ? (
                 <div className="sos-selected">
-                  <div className="sos-selected-head">
-                    <ClassIcon type={selectedUnit.type} size={22} />
-                    <strong style={{ color: CLASS_META[selectedUnit.type].color }}>
-                      {CLASS_META[selectedUnit.type].label}
-                    </strong>
-                  </div>
                   <div className="sos-hpbar">
                     <div
                       className="sos-hpbar-fill"
@@ -5001,11 +5064,6 @@ export default function SquareOfShadows({
               </div>
             </div>
 
-            {error && (
-              <button type="button" className="sos-error" onClick={clearError}>
-                {error} — dismiss
-              </button>
-            )}
             </div>
 
             {/* Right rail: Battle Chronicle over chat, split half and half. They
@@ -5055,7 +5113,7 @@ export default function SquareOfShadows({
                 )}
               </div>
               <div className="sos-chronicle-controls">
-                {renderBrandControls()}
+                {renderBrandControls(!isPlayingMatch)}
                 {renderSoundControl()}
               </div>
             </div>
@@ -5096,11 +5154,6 @@ export default function SquareOfShadows({
           </div>
 
           <div className="sos-board-wrap">
-            {previewAbility && (
-              <p className="sos-aim-preview-hint" role="status">
-                Highlighted tiles are in range. Hover one to light up exactly where the effect lands; click to use the skill.
-              </p>
-            )}
             {/* Size container for the board. Kept separate from the wrap so the
                 action banner does not count against the height the board may use
                 — `container-type: size` ignores contents, so if the banner were

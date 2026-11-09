@@ -4,8 +4,9 @@ import { useAuth } from './hooks/useAuth';
 import { usePlayerProfile } from './hooks/usePlayerProfile';
 import { useLobby } from './hooks/useLobby';
 import AuthView from './components/AuthView';
+import GameAccountMenu from './components/GameAccountMenu';
 import Modal from './components/Modal';
-import { OAuthCallback, RequireAuth } from './components/RouteGuards';
+import { OAuthCallback } from './components/RouteGuards';
 import { PLATFORM_MARK, PLATFORM_NAME } from './platform/catalog';
 
 const SquareOfShadows = lazy(() => import('./games/squareofshadows/SquareOfShadows'));
@@ -32,20 +33,6 @@ function WorkRedirect() {
             <p role="status">Opening the games collection…</p>
             <a href="/projects#games">Continue to Work</a>
         </main>
-    );
-}
-
-function GameAccountMenu({ nickname, onLogout }) {
-    const initial = (nickname || 'Player').trim().charAt(0).toUpperCase() || 'P';
-    return (
-        <details className="game-account-menu">
-            <summary aria-label={`Account menu for ${nickname || 'Player'}`}>{initial}</summary>
-            <div className="game-account-popover">
-                <span className="game-account-name">{nickname || 'Player'}</span>
-                <a href="/projects#games">Back to Work</a>
-                <button type="button" onClick={onLogout}>Sign out</button>
-            </div>
-        </details>
     );
 }
 
@@ -106,12 +93,18 @@ function App() {
 
     const closeModal = () => setModal((prev) => ({ ...prev, isOpen: false }));
 
-    // Intended deep-link stashed by RequireAuth (survives the Google OAuth round trip).
+    // Intended game route stashed before sign-in (survives the Google OAuth round trip).
     const consumeRedirect = useCallback(() => {
         const target = sessionStorage.getItem('c888_redirect');
         if (target) sessionStorage.removeItem('c888_redirect');
         return target || '/';
     }, []);
+
+    const requestLogin = useCallback(() => {
+        const target = `${location.pathname}${location.search}`;
+        if (target && target !== '/') sessionStorage.setItem('c888_redirect', target);
+        navigate('/login');
+    }, [location.pathname, location.search, navigate]);
 
     const handleLoginSuccess = () => {
         const idToken = localStorage.getItem('c888_id_token');
@@ -162,7 +155,14 @@ function App() {
     return (
         <div className="game-app-bg" data-theme={theme}>
             <div className="game-grid" />
-            {userId && needsLobby && <GameAccountMenu nickname={nickname} onLogout={handleLogout} />}
+            {theme === 'outlands' && (
+                <GameAccountMenu
+                    nickname={nickname}
+                    isAuthenticated={Boolean(userId)}
+                    onLogin={requestLogin}
+                    onLogout={handleLogout}
+                />
+            )}
             <Routes>
                 <Route path="/oauth2/callback" element={<OAuthCallback showModal={showModal} />} />
 
@@ -171,7 +171,7 @@ function App() {
                 <Route
                     path="/login"
                     element={userId ? <Navigate to="/" replace /> : (
-                        <main className="app-shell">
+                        <main className="app-shell auth-shell">
                             <AuthView
                                 onLoginSuccess={handleLoginSuccess}
                                 setUser={setUser}
@@ -185,39 +185,38 @@ function App() {
                 <Route
                     path="/square-of-shadows"
                     element={
-                        <RequireAuth userId={userId}>
-                            <main className="app-shell game-fullbleed">
-                                <Suspense fallback={<div className="game-loading">Entering the shadows…</div>}>
-                                    <SquareOfShadows
-                                        userId={userId}
-                                        nickname={nickname}
-                                        avatarImage={avatarImage}
-                                        isOnline={lobby?.status === 'connected'}
-                                        sendRaw={lobby?.sendRaw}
-                                        subscribe={lobby?.subscribe}
-                                        initialRoom={sosRoomCode}
-                                    />
-                                </Suspense>
-                            </main>
-                        </RequireAuth>
+                        <main className="app-shell game-fullbleed">
+                            <Suspense fallback={<div className="game-loading">Entering the shadows…</div>}>
+                                <SquareOfShadows
+                                    userId={userId}
+                                    nickname={nickname}
+                                    avatarImage={avatarImage}
+                                    isOnline={lobby?.status === 'connected'}
+                                    sendRaw={lobby?.sendRaw}
+                                    subscribe={lobby?.subscribe}
+                                    initialRoom={sosRoomCode}
+                                    onRequestLogin={requestLogin}
+                                    onLogout={handleLogout}
+                                />
+                            </Suspense>
+                        </main>
                     }
                 />
 
                 <Route
                     path="/outlands"
                     element={
-                        <RequireAuth userId={userId}>
-                            <main className="app-shell game-fullbleed outlands-route">
-                                <Suspense fallback={<div className="game-loading">Entering the Outlands…</div>}>
-                                    <Outlands
-                                        userId={userId}
-                                        nickname={nickname}
-                                        avatarImage={avatarImage}
-                                        lobby={lobby}
-                                    />
-                                </Suspense>
-                            </main>
-                        </RequireAuth>
+                        <main className="app-shell game-fullbleed outlands-route">
+                            <Suspense fallback={<div className="game-loading">Entering the Outlands…</div>}>
+                                <Outlands
+                                    userId={userId}
+                                    nickname={nickname}
+                                    avatarImage={avatarImage}
+                                    lobby={lobby}
+                                    onRequestLogin={requestLogin}
+                                />
+                            </Suspense>
+                        </main>
                     }
                 />
 

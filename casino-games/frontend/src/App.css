@@ -461,7 +461,6 @@ body {
 .sos-brand-crest {
   width: 22px;
   height: 22px;
-  background-image: url('../sprites/sos-ground-decor/sprite-sheet-alpha.png');
   background-size: 1000% 100%;
   background-position: calc(3 / 9 * 100%) center;
   background-repeat: no-repeat;
@@ -605,14 +604,14 @@ body {
 /*
  * Anchored to the top, and kept SHORT.
  *
- * Both this and the nav below it are absolutely positioned from the same 8%
- * margin, so the only thing keeping them apart is their own height. The lead
+ * Both this and the nav below it are absolutely positioned from the same narrow
+ * edge margin, so the only thing keeping them apart is their own height. The lead
  * paragraph is capped narrow on purpose: at full width it wrapped to three lines
  * and ran straight into the first nav row.
  */
 .sos-title-block {
   position: absolute;
-  left: 8%;
+  left: clamp(1rem, 2vw, 2.25rem);
   top: 9%;
   z-index: 10;
   max-width: min(34rem, 44vw);
@@ -651,7 +650,7 @@ body {
  */
 .sos-menu-nav {
   position: absolute;
-  left: 8%;
+  left: clamp(1rem, 2vw, 2.25rem);
   top: 62%;
   transform: translateY(-50%);
   z-index: 10;
@@ -911,9 +910,8 @@ body {
  * The altar mark, now a crest over the wordmark.
  *
  * It is 96px of pixel art sitting on a full-bleed photograph, so it needs its
- * own glow to read as lit rather than as a pasted sprite. It sits left-aligned
- * with the text rather than centred, because everything on this screen hangs off
- * the 8% margin.
+ * own glow to read as lit rather than as a pasted sprite. Desktop places it on
+ * the opposite side of the text; mobile centers it above the mode choices.
  */
 .sos-menu-hero-art {
   display: flex;
@@ -1014,7 +1012,7 @@ body {
   }
 }
 
-/* Portrait phone: one uncluttered, scroll-safe stack with generous tap targets. */
+/* Portrait phone: keep art and game choices, omit the desktop copy to preserve space. */
 @media (max-width: 600px) and (orientation: portrait) {
   .sos-root:has(.sos-menu) {
     height: var(--app-dvh, 100dvh);
@@ -1057,11 +1055,7 @@ body {
   }
 
   .sos-menu .sos-title-block {
-    position: static;
-    order: 1;
-    width: 100%;
-    max-width: none;
-    text-align: center;
+    display: none;
   }
 
   .sos-menu .sos-title-block .eyebrow {
@@ -1146,15 +1140,15 @@ body {
   }
 }
 
-/* Landscape phones get a true two-column composition: title and actions to the
-   left, contained altar illustration to the right, with no vertical clipping. */
+/* Landscape phones keep the mode actions left and art right; the title copy is
+   hidden so the game choices stay visible without vertical clipping. */
 @media (orientation: landscape) and (max-height: 550px) {
   .sos-menu {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-    grid-template-rows: minmax(min-content, auto) minmax(0, 1fr);
-    grid-template-areas: 'copy art' 'nav art';
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: 'nav art';
     align-content: center;
     align-items: center;
     gap: 6px;
@@ -1185,13 +1179,7 @@ body {
   }
 
   .sos-menu .sos-title-block {
-    position: static;
-    grid-area: copy;
-    align-self: start;
-    width: auto;
-    max-width: none;
-    margin-top: 32px;
-    text-align: left;
+    display: none;
   }
 
   .sos-menu .sos-title-block .eyebrow {
