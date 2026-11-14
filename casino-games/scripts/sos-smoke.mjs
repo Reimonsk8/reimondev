@@ -460,6 +460,10 @@ try {
       const controls = box('.sos-chronicle-controls');
       const brand = box('.sos-chronicle-brand');
       const audio = box('.sos-chronicle-audio');
+      const profile = box('.game-account-menu--compact > summary');
+      const controlsPosition = getComputedStyle(
+        document.querySelector('.sos-chronicle-controls'),
+      ).position;
       const turn = box('.sos-turn-tab');
       const fold = document.querySelector('.sos-rail-fold');
       return {
@@ -468,6 +472,8 @@ try {
         controls,
         brand,
         audio,
+        profile,
+        controlsPosition,
         turn,
         foldExists: !!fold,
         mobileFooterExists: !!document.querySelector('.sos-mobile-control-bar'),
@@ -479,12 +485,24 @@ try {
       };
     });
     const layout = mobileChronicleDock[viewport.name];
+    const portraitDock = viewport.name !== 'portrait'
+      || (!!layout.controls && !!layout.chronicle
+        && layout.controls.bottom <= layout.chronicle.bottom + 1
+        && layout.controls.bottom >= layout.chronicle.bottom - 80
+        && layout.controlsPosition !== 'fixed');
+    const landscapeDock = viewport.name !== 'landscape'
+      || (!!layout.controls
+        && layout.controlsPosition === 'fixed'
+        && layout.controls.top >= 0
+        && layout.controls.top <= 10
+        && layout.controls.right >= viewport.width - 10
+        && layout.controls.width <= 220);
     if (!layout.chronicle || !layout.controls || !layout.brand || !layout.audio
+      || !layout.profile
       || !layout.foldExists || !layout.controlsInsideChronicle || layout.mobileFooterExists
-      || layout.controls.bottom > layout.chronicle.bottom + 1
-      || layout.controls.bottom < layout.chronicle.bottom - 80
+      || !portraitDock || !landscapeDock
       || layout.turnCenterError > 2 || layout.horizontalOverflow) {
-      throw new Error(`Mobile Chronicle controls are not docked inside the panel in ${viewport.name}: ${JSON.stringify(layout)}`);
+      throw new Error(`Mobile Chronicle controls are not docked for ${viewport.name}: ${JSON.stringify(layout)}`);
     }
     await page.click('.sos-rail-fold');
     const folded = await page.evaluate(() => ({

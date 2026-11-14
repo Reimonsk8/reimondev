@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaEnvelope } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { buildSignInUrl, OAUTH_REDIRECT_URI } from '../../auth/oauth';
 import { useAuth } from '../../auth/AuthContext';
 import '../../styles/Login.css';
@@ -104,10 +106,14 @@ export default function Login() {
             {error && <p className="login-error" role="alert">{error}</p>}
             <div className="login-providers">
               <a className="login-provider login-provider--primary" href={buildSignInUrl('Google')}>
-                Continue with Google<span aria-hidden="true">↗</span>
+                <FcGoogle className="login-provider-icon login-provider-icon--google" aria-hidden="true" />
+                <span className="login-provider-label">Continue with Google</span>
+                <span className="login-provider-arrow" aria-hidden="true">↗</span>
               </a>
               <a className="login-provider" href={buildSignInUrl()}>
-                Sign in with email and password<span aria-hidden="true">↗</span>
+                <FaEnvelope className="login-provider-icon" aria-hidden="true" />
+                <span className="login-provider-label">Sign in with email and password</span>
+                <span className="login-provider-arrow" aria-hidden="true">↗</span>
               </a>
             </div>
             <p className="login-help">

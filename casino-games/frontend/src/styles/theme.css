@@ -6768,6 +6768,16 @@ h3 {
 /* In landscape, dock MENU, profile, and sound together in the top-right corner.
    Portrait keeps the normal Chronicle-footer position and touch spacing. */
 @media (orientation: landscape) {
+  /* A backdrop-filter creates a containing block for fixed descendants. The
+     Chronicle owns the controls in the DOM for portrait; in landscape, remove
+     that filter so the fixed control dock can anchor to the viewport instead
+     of sticking to the Chronicle panel. Its background is opaque enough that
+     losing the panel blur is not visually noticeable. */
+  .sos-root:has(.sos-board-layout) .sos-slot-log {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
   .sos-root:has(.sos-board-layout) .sos-chronicle-controls {
     position: fixed;
     top: max(6px, env(safe-area-inset-top, 0px));

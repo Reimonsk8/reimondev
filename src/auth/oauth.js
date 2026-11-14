@@ -18,8 +18,8 @@ export const COGNITO_CLIENT_ID =
 
 const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
-// Must be allow-listed on the Cognito app client, next to the games app's
-// existing /games/oauth2/callback entry. Overridable for the fallback below.
+// Must be allow-listed on the Cognito app client. The portal handles the
+// callback itself, then stores the same c888_* tokens as the games app.
 export const OAUTH_REDIRECT_URI =
   process.env.REACT_APP_AUTH_REDIRECT_URI || `${origin}/login`;
 

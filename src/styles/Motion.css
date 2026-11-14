@@ -125,7 +125,7 @@ main {
   .work-card-action span,
   .services-contact-link span,
   .resume-open-link span,
-  .login-provider span,
+  .login-provider-arrow,
   .home-action span {
     display: inline-block;
     transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -135,7 +135,7 @@ main {
   .work-card-action:hover span,
   .services-contact-link:hover span,
   .resume-open-link:hover span,
-  .login-provider:hover span,
+  .login-provider:hover .login-provider-arrow,
   .home-action:hover span {
     transform: translate(3px, -3px);
   }
@@ -162,7 +162,7 @@ main {
   .work-card-action span,
   .services-contact-link span,
   .resume-open-link span,
-  .login-provider span,
+  .login-provider-arrow,
   .home-action span {
     transition: none !important;
   }
