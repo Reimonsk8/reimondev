@@ -5,25 +5,24 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import {
-  fetchAuthSession,
-  getCurrentUser,
-  signOut as amplifySignOut,
-} from 'aws-amplify/auth';
-import { isAuthConfigured } from './amplifyAuth';
+import { exchangeCodeForTokens, refreshTokens } from './oauth';
 
 // The one admin account for the site. This is a client-side convenience gate
 // for showing admin-only UI; real admin data must still be enforced by the
 // APIs that serve it.
 export const ADMIN_EMAIL = 'reimonsk8@gmail.com';
 
-// Token keys owned by the Vite games app (`/games/...`). Both apps share the
-// same origin in production, so mirroring the Cognito tokens into these keys
-// means one portal sign-in is enough for the multiplayer games — and a game
-// sign-in is recognized by the portal.
-const GAMES_ID_TOKEN = 'c888_id_token';
-const GAMES_ACCESS_TOKEN = 'c888_access_token';
-const GAMES_REFRESH_TOKEN = 'c888_refresh_token';
+// Token keys owned by the games app (`/games/...`). Both apps share one origin
+// in production, so writing these here means a portal sign-in *is* a games
+// sign-in — and a games sign-in is recognized by the portal. There is no copy
+// or translation step: this is the only session store.
+const ID_TOKEN = 'c888_id_token';
+const ACCESS_TOKEN = 'c888_access_token';
+const REFRESH_TOKEN = 'c888_refresh_token';
+const USER_ID = 'c888_user_id';
+
+// Treat a token as expired slightly early so a request never races the clock.
+const EXPIRY_SKEW_MS = 60 * 1000;
 
 const decodeJwtPayload = (token) => {
   try {
@@ -35,41 +34,49 @@ const decodeJwtPayload = (token) => {
   }
 };
 
-const readGamesSession = () => {
+const userFromClaims = (claims) => {
+  if (!claims?.sub) return null;
+  return {
+    username: claims['cognito:username'] || claims.username || claims.sub,
+    email: claims.email || '',
+    name: claims.name || '',
+    groups: Array.isArray(claims['cognito:groups']) ? claims['cognito:groups'] : [],
+    sub: claims.sub,
+    expiresAt: claims.exp ? claims.exp * 1000 : 0,
+  };
+};
+
+const isExpired = (user) => Boolean(user?.expiresAt) && user.expiresAt - EXPIRY_SKEW_MS < Date.now();
+
+const readTokens = () => {
   try {
-    const token = window.localStorage.getItem(GAMES_ID_TOKEN);
-    if (!token) return null;
-    const claims = decodeJwtPayload(token);
-    if (!claims?.sub) return null;
-    if (claims.exp && claims.exp * 1000 < Date.now()) return null;
     return {
-      source: 'games',
-      username: claims.sub,
-      email: claims.email || '',
-      name: claims.name || '',
-      groups: Array.isArray(claims['cognito:groups']) ? claims['cognito:groups'] : [],
-      sub: claims.sub,
+      id: window.localStorage.getItem(ID_TOKEN),
+      access: window.localStorage.getItem(ACCESS_TOKEN),
+      refresh: window.localStorage.getItem(REFRESH_TOKEN),
     };
   } catch {
-    return null;
+    return { id: null, access: null, refresh: null };
   }
 };
 
-const mirrorTokensToGames = ({ id, access, refresh }) => {
+const storeTokens = (tokens) => {
   try {
-    if (id) window.localStorage.setItem(GAMES_ID_TOKEN, id);
-    if (access) window.localStorage.setItem(GAMES_ACCESS_TOKEN, access);
-    if (refresh) window.localStorage.setItem(GAMES_REFRESH_TOKEN, refresh);
+    if (tokens.id_token) window.localStorage.setItem(ID_TOKEN, tokens.id_token);
+    if (tokens.access_token) window.localStorage.setItem(ACCESS_TOKEN, tokens.access_token);
+    // Refresh-token grants don't return a new refresh token; keep the old one.
+    if (tokens.refresh_token) window.localStorage.setItem(REFRESH_TOKEN, tokens.refresh_token);
   } catch {
-    // Storage unavailable — the games app just won't inherit this session.
+    // Storage unavailable — the session just won't persist.
   }
 };
 
-const clearGamesSession = () => {
+const clearTokens = () => {
   try {
-    window.localStorage.removeItem(GAMES_ID_TOKEN);
-    window.localStorage.removeItem(GAMES_ACCESS_TOKEN);
-    window.localStorage.removeItem(GAMES_REFRESH_TOKEN);
+    window.localStorage.removeItem(ID_TOKEN);
+    window.localStorage.removeItem(ACCESS_TOKEN);
+    window.localStorage.removeItem(REFRESH_TOKEN);
+    window.localStorage.removeItem(USER_ID);
   } catch {
     // Storage unavailable — nothing to clear.
   }
@@ -87,83 +94,73 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
 
+  // Read the shared session, renewing it with the refresh token when needed.
   const refresh = useCallback(async () => {
-    if (isAuthConfigured) {
-      try {
-        const current = await getCurrentUser();
-        const session = await fetchAuthSession();
-        const idToken = session.tokens?.idToken;
-        const accessToken = session.tokens?.accessToken;
+    const tokens = readTokens();
 
-        // Hand the session to the games app (same origin, legacy keys).
-        mirrorTokensToGames({
-          id: idToken?.toString(),
-          access: accessToken?.toString(),
-          refresh: session.tokens?.refreshToken?.toString(),
-        });
-
-        const claims = idToken?.payload || {};
-        setUser({
-          source: 'portal',
-          username: current.username,
-          email: claims.email || '',
-          name: claims.name || '',
-          groups: Array.isArray(claims['cognito:groups']) ? claims['cognito:groups'] : [],
-          sub: claims.sub || current.userId,
-        });
+    if (tokens.id) {
+      const current = userFromClaims(decodeJwtPayload(tokens.id));
+      if (current && !isExpired(current)) {
+        setUser(current);
         setReady(true);
-        return;
-      } catch {
-        // Not signed in through the portal — fall back to a games session.
+        return current;
       }
     }
 
-    setUser(readGamesSession());
+    if (tokens.refresh) {
+      try {
+        const renewed = await refreshTokens(tokens.refresh);
+        storeTokens(renewed);
+        const current = userFromClaims(decodeJwtPayload(renewed.id_token));
+        setUser(current);
+        setReady(true);
+        return current;
+      } catch {
+        clearTokens();
+      }
+    }
+
+    setUser(null);
     setReady(true);
+    return null;
+  }, []);
+
+  // Finish the hosted-UI redirect: exchange the one-time code for tokens.
+  const completeSignIn = useCallback(async (code) => {
+    const tokens = await exchangeCodeForTokens(code);
+    storeTokens(tokens);
+    const current = userFromClaims(decodeJwtPayload(tokens.id_token));
+    setUser(current);
+    setReady(true);
+    return current;
+  }, []);
+
+  const signOut = useCallback(() => {
+    clearTokens();
+    setUser(null);
   }, []);
 
   useEffect(() => {
-    let alive = true;
-    const run = () => {
-      if (alive) refresh();
+    refresh();
+    // Pick up sign-ins from other tabs or from the games app without a reload.
+    const onStorage = (event) => {
+      if (event.key && ![ID_TOKEN, ACCESS_TOKEN, REFRESH_TOKEN].includes(event.key)) return;
+      refresh();
     };
-
-    run();
-    // Pick up sessions created in other tabs, the games app, or after the
-    // Google OAuth round trip without forcing a reload.
-    window.addEventListener('focus', run);
-    document.addEventListener('visibilitychange', run);
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('focus', refresh);
     return () => {
-      alive = false;
-      window.removeEventListener('focus', run);
-      document.removeEventListener('visibilitychange', run);
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('focus', refresh);
     };
   }, [refresh]);
-
-  const signOut = useCallback(async () => {
-    if (isAuthConfigured) {
-      try {
-        await amplifySignOut();
-      } catch {
-        // Already signed out or unreachable — clearing local keys is enough.
-      }
-    }
-    clearGamesSession();
-    setUser(null);
-  }, []);
 
   const isAdmin = Boolean(user) && (
     (user.email || '').toLowerCase() === ADMIN_EMAIL
     || (user.groups || []).includes('admin')
   );
 
-  const value = {
-    user,
-    ready,
-    isAdmin,
-    signOut,
-    refresh,
-  };
+  const value = { user, ready, isAdmin, signOut, refresh, completeSignIn };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

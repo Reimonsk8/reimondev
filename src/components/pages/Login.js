@@ -1,56 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Authenticator,
-  ThemeProvider,
-  createTheme,
-  defaultDarkModeOverride,
-} from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import { isAuthConfigured } from '../../auth/amplifyAuth';
+import { buildSignInUrl, OAUTH_REDIRECT_URI } from '../../auth/oauth';
 import { useAuth } from '../../auth/AuthContext';
 import '../../styles/Login.css';
 
-// Dark theme so the Authenticator blends into the eclipse look instead of
-// rendering its default light card.
-const theme = createTheme({
-  name: 'eclipse-auth',
-  overrides: [defaultDarkModeOverride],
-});
+const ERROR_MESSAGES = {
+  access_denied: 'Sign-in was cancelled before it finished.',
+  redirect_mismatch: `This URL isn't allow-listed on the Cognito app client yet: ${OAUTH_REDIRECT_URI}`,
+  invalid_request: 'Cognito rejected the request. Check the app client configuration.',
+};
 
-const SETUP_VARS = [
-  ['REACT_APP_AUTH_USER_POOL_ID', 'us-east-2_XXXXXXXXX'],
-  ['REACT_APP_AUTH_REGION', 'us-east-2 (default)'],
-  ['REACT_APP_AUTH_USER_POOL_CLIENT_ID', '77ieg4fiv0dg7fo5g9uqb1n5rm (default)'],
-  ['REACT_APP_AUTH_COGNITO_DOMAIN', 'reimondev.auth.us-east-2.amazoncognito.com (default)'],
-];
-
-const AuthNotConfigured = () => (
-  <section className="login-setup" aria-label="Authentication setup required">
-    <p className="login-setup-title">Sign-in isn&apos;t configured yet</p>
-    <p className="login-setup-copy">
-      Add the user pool ID to <code>.env.local</code> (or the Amplify console) and restart
-      the dev server. The page then renders the real sign-in form.
-    </p>
-    <ul className="login-setup-vars">
-      {SETUP_VARS.map(([name, example]) => (
-        <li key={name}>
-          <code>{name}</code>
-          <span>{example}</span>
-        </li>
-      ))}
-    </ul>
-    <p className="login-setup-note">
-      Find the pool ID with{' '}
-      <code>aws cognito-idp list-user-pools --max-results 60 --region us-east-2</code>.
-      The app client also needs <code>http://localhost:3000/login</code> and{' '}
-      <code>https://reimondev.com/login</code> as allowed callback URLs.
-    </p>
-  </section>
-);
-
-const SignedIn = () => {
-  const { user, isAdmin, signOut } = useAuth();
+const SignedIn = ({ user, isAdmin, signOut }) => {
   const email = user?.email || user?.username || '';
 
   return (
@@ -60,7 +20,7 @@ const SignedIn = () => {
         Signed in as <strong>{email}</strong>
       </p>
       <p className="login-signed-in-note">
-        This session also unlocks the multiplayer games — no second sign-in there.
+        One session for the whole site — the multiplayer games pick it up automatically.
         {isAdmin && (
           <>
             {' '}
@@ -68,27 +28,54 @@ const SignedIn = () => {
           </>
         )}
       </p>
-      <button type="button" className="login-signout" onClick={() => signOut()}>
+      <button type="button" className="login-signout" onClick={signOut}>
         Sign out
       </button>
     </section>
   );
 };
 
-// Rendered inside the Authenticator's signed-in state. The shared auth context
-// may still be empty right after a password/Google sign-in, so refresh it.
-const AfterSignIn = () => {
-  const { user, refresh } = useAuth();
-
-  useEffect(() => {
-    if (!user) refresh();
-  }, [user, refresh]);
-
-  return <SignedIn />;
-};
-
 export default function Login() {
-  const { user } = useAuth();
+  const { user, ready, isAdmin, signOut, completeSignIn } = useAuth();
+  const [exchanging, setExchanging] = useState(false);
+  const [error, setError] = useState('');
+  const handled = useRef(false);
+
+  // Return trip from the Cognito hosted UI: one-time code in the query string.
+  useEffect(() => {
+    if (handled.current) return;
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const oauthError = params.get('error');
+
+    if (!code && !oauthError) return;
+    handled.current = true;
+
+    // Strip the parameters so a refresh doesn't replay a used code.
+    window.history.replaceState(null, '', window.location.pathname);
+
+    if (oauthError) {
+      setError(
+        ERROR_MESSAGES[oauthError]
+          || params.get('error_description')
+          || 'Sign-in failed. Please try again.',
+      );
+      return;
+    }
+
+    setExchanging(true);
+    completeSignIn(code)
+      .then((signedIn) => {
+        if (!signedIn) setError('Signed in, but the token response could not be read.');
+      })
+      .catch((err) => {
+        console.error('Cognito token exchange failed:', err);
+        setError('Could not finish sign-in. Please try again.');
+      })
+      .finally(() => setExchanging(false));
+  }, [completeSignIn]);
+
+  const showSession = Boolean(user);
 
   return (
     <main className="login-page" aria-labelledby="login-title">
@@ -106,16 +93,31 @@ export default function Login() {
       </header>
 
       <div className="login-panel">
-        {user ? (
-          <SignedIn />
-        ) : isAuthConfigured ? (
-          <ThemeProvider theme={theme} colorMode="dark">
-            <Authenticator socialProviders={['google']}>
-              {() => <AfterSignIn />}
-            </Authenticator>
-          </ThemeProvider>
+        {showSession ? (
+          <SignedIn user={user} isAdmin={isAdmin} signOut={signOut} />
+        ) : exchanging ? (
+          <p className="login-status" role="status">Signing you in…</p>
+        ) : !ready ? (
+          <p className="login-status" role="status">Checking for an existing session…</p>
         ) : (
-          <AuthNotConfigured />
+          <>
+            {error && <p className="login-error" role="alert">{error}</p>}
+            <div className="login-providers">
+              <a className="login-provider login-provider--primary" href={buildSignInUrl('Google')}>
+                Continue with Google<span aria-hidden="true">↗</span>
+              </a>
+              <a className="login-provider" href={buildSignInUrl()}>
+                Sign in with email and password<span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <p className="login-help">
+              You&apos;ll finish on Cognito&apos;s secure sign-in page, the same one the
+              games use.
+            </p>
+            <p className="login-help login-help--fine">
+              App clients must allow <code>{OAUTH_REDIRECT_URI}</code> as a callback URL.
+            </p>
+          </>
         )}
       </div>
     </main>

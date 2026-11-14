@@ -48,12 +48,86 @@
   width: min(26rem, 100%);
 }
 
-/* Tone the Authenticator's card down to the site's surface colors. */
-.login-panel [data-amplify-authenticator] {
-  --amplify-components-authenticator-router-background-color: rgba(16, 17, 21, 0.92);
-  --amplify-components-authenticator-router-border-color: var(--eclipse-border);
-  --amplify-components-authenticator-router-box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  --amplify-fonts-default-variable: var(--eclipse-sans);
+/* Hosted-UI sign-in buttons. Both go to the same Cognito session store. */
+.login-providers {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.login-provider {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid rgba(225, 229, 238, 0.22);
+  border-radius: 2px;
+  color: var(--eclipse-text);
+  background: rgba(255, 255, 255, 0.035);
+  font-family: var(--eclipse-sans);
+  font-size: 0.86rem;
+  text-decoration: none;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.login-provider span {
+  color: #aaaeb8;
+}
+
+.login-provider:hover {
+  border-color: rgba(238, 241, 248, 0.55);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.login-provider--primary {
+  border-color: rgba(225, 229, 238, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.login-status {
+  margin: 0;
+  padding: 1.2rem 0;
+  color: var(--eclipse-secondary);
+  font-family: var(--eclipse-sans);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.login-error {
+  margin: 0 0 0.9rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgba(255, 138, 128, 0.35);
+  border-radius: 2px;
+  color: #ffb3ab;
+  background: rgba(255, 107, 96, 0.08);
+  font-family: var(--eclipse-sans);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.login-help {
+  margin: 0.9rem 0 0;
+  color: var(--eclipse-muted);
+  font-family: var(--eclipse-sans);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.login-help--fine {
+  color: #6d717a;
+  font-size: 0.66rem;
+}
+
+.login-help code {
+  padding: 0.05rem 0.25rem;
+  border: 1px solid rgba(225, 229, 238, 0.14);
+  border-radius: 4px;
+  color: var(--eclipse-silver);
+  font-size: 0.64rem;
+  overflow-wrap: anywhere;
 }
 
 /* Signed-in confirmation card. */

@@ -56,16 +56,20 @@ export default function Admin() {
             <dd>{user?.email || '—'}</dd>
           </div>
           <div>
-            <dt>Source</dt>
-            <dd>{user?.source === 'portal' ? 'Portal sign-in' : 'Games app sign-in'}</dd>
-          </div>
-          <div>
             <dt>Subject</dt>
             <dd className="admin-mono">{user?.sub || '—'}</dd>
           </div>
           <div>
             <dt>Groups</dt>
             <dd>{user?.groups?.length ? user.groups.join(', ') : '—'}</dd>
+          </div>
+          <div>
+            <dt>Session expires</dt>
+            <dd>
+              {user?.expiresAt
+                ? new Date(user.expiresAt).toLocaleString()
+                : '—'}
+            </dd>
           </div>
         </dl>
       </section>
