@@ -34,6 +34,11 @@ canvas{
   pointer-events: none;
   contain: layout paint;
   background-color: #080808;
+  /* Set by AuroraBackdrop: a few pixels of cursor parallax, eased by the
+     transition so the background drifts after the pointer rather than
+     tracking it frame by frame. */
+  transform: translate3d(var(--aurora-px, 0px), var(--aurora-py, 0px), 0);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Three aurora layers + a breathing core. No blur filters: the softness is
@@ -349,6 +354,10 @@ canvas{
 }
 
 @media (prefers-reduced-motion: reduce) {
+  #particles-js {
+    transform: none;
+    transition: none;
+  }
   #particles-js::before,
   #particles-js::after,
   #particles-js .aurora-c {
@@ -608,6 +617,7 @@ a.pi-h { background: #c8232c; }
 }
 
 .sword-showcase {
+  position: relative;
   display: grid;
   width: min(100%, 380px);
   height: min(38svh, 380px);
@@ -616,16 +626,34 @@ a.pi-h { background: #c8232c; }
   overflow: visible;
 }
 
+/* A cold halo behind the sword, breathing slowly. Pure opacity/scale so it
+   costs nothing while the rest of the hero settles. */
+.sword-showcase::before {
+  position: absolute;
+  z-index: 0;
+  width: min(62%, 230px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(226, 231, 240, 0.14), transparent 68%);
+  content: '';
+  opacity: 0.38;
+  animation: home-halo-breathe 9s ease-in-out 1.4s infinite backwards;
+  pointer-events: none;
+}
+
 .sword-emblem {
+  position: relative;
+  z-index: 1;
   display: block;
   width: auto;
   height: auto;
   max-width: min(22vw, 175px);
   max-height: min(38svh, 380px);
   object-fit: contain;
-  opacity: 0;
   filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.08));
-  animation: home-sword-emerge 1.2s cubic-bezier(0.2, 0.75, 0.25, 1) 0.28s both;
+  animation:
+    home-sword-emerge 1.2s cubic-bezier(0.2, 0.75, 0.25, 1) 0.28s backwards,
+    home-sword-drift 9s ease-in-out 2s infinite;
 }
 
 .home-title {
@@ -635,8 +663,7 @@ a.pi-h { background: #c8232c; }
   font-weight: 400;
   letter-spacing: 0.09em;
   line-height: 1.1;
-  opacity: 0;
-  animation: home-fade-up 0.75s cubic-bezier(0.2, 0.75, 0.25, 1) 0.92s both;
+  animation: home-title-settle 0.95s cubic-bezier(0.2, 0.75, 0.25, 1) 0.92s backwards;
 }
 
 .home-intro {
@@ -645,8 +672,7 @@ a.pi-h { background: #c8232c; }
   color: #c5c5c5;
   font-size: clamp(1rem, 2.2vw, 1.25rem);
   line-height: 1.5;
-  opacity: 0;
-  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.18s both;
+  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.18s backwards;
 }
 
 .home-actions {
@@ -655,8 +681,7 @@ a.pi-h { background: #c8232c; }
   justify-content: center;
   gap: 0.75rem;
   margin-top: 1.35rem;
-  opacity: 0;
-  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.48s both;
+  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.48s backwards;
 }
 
 .home-action {
@@ -705,8 +730,10 @@ a.pi-h { background: #c8232c; }
   justify-items: center;
   gap: 0.8rem;
   margin-top: 1.3rem;
-  opacity: 0;
-  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.78s both;
+}
+
+.home-social-label {
+  animation: home-fade-up 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) 1.7s backwards;
 }
 
 .home-landing .social-icons {
@@ -724,7 +751,9 @@ a.pi-h { background: #c8232c; }
   color: #aaa;
   font-size: 1.35rem;
   text-decoration: none;
-  transition: color 180ms ease, transform 180ms ease;
+  animation: home-social-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(1.78s + var(--i, 0) * 55ms);
+  transition: color 180ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .home-landing .social-icons a:hover {
@@ -745,6 +774,28 @@ a.pi-h { background: #c8232c; }
 
 @keyframes home-sword-emerge {
   from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* The emblem keeps a barely-there float after it has arrived. */
+@keyframes home-sword-drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(0.4deg); }
+}
+
+@keyframes home-halo-breathe {
+  0%, 100% { opacity: 0.38; transform: scale(0.96); }
+  50% { opacity: 0.78; transform: scale(1.05); }
+}
+
+/* Tracking settles inward as the title lands, instead of a plain fade. */
+@keyframes home-title-settle {
+  from { opacity: 0; letter-spacing: 0.22em; transform: translateY(14px); }
+  to { opacity: 1; letter-spacing: 0.09em; transform: translateY(0); }
+}
+
+@keyframes home-social-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.94); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
@@ -781,11 +832,13 @@ a.pi-h { background: #c8232c; }
 
 @media (prefers-reduced-motion: reduce) {
   #root:has(.home-landing) .navbar,
+  .home-landing .sword-showcase::before,
   .home-landing .sword-emblem,
   .home-landing .home-title,
   .home-landing .home-intro,
   .home-landing .home-actions,
-  .home-landing .home-social-block {
+  .home-landing .home-social-label,
+  .home-landing .social-icons a {
     animation: none;
     opacity: 1;
     transform: none;

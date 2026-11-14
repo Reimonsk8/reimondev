@@ -16,7 +16,7 @@ const SOCIAL_LINKS = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/reimondev/', Icon: FaLinkedin },
   { label: 'Facebook', href: 'https://www.facebook.com/reimonsk8', Icon: FaFacebook },
   { label: 'Instagram', href: 'https://www.instagram.com/reimonsk8/', Icon: FaInstagram },
-  { label: 'WhatsApp', href: 'https://wa.me/+1234567890', Icon: FaWhatsapp },
+  { label: 'WhatsApp', href: 'https://wa.me/526462763784', Icon: FaWhatsapp },
 ];
 
 const Home = () => {
@@ -35,8 +35,16 @@ const Home = () => {
         <div className="home-social-block">
           <p className="home-social-label">Find me elsewhere</p>
           <nav className="social-icons" aria-label="Social networks">
-            {SOCIAL_LINKS.map(({ label, href, Icon }) => (
-              <a key={label} href={href} aria-label={label} title={label} target="_blank" rel="noopener noreferrer">
+            {SOCIAL_LINKS.map(({ label, href, Icon }, index) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                title={label}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ '--i': index }}
+              >
                 <Icon aria-hidden="true" />
               </a>
             ))}

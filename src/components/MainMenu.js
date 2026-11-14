@@ -20,6 +20,17 @@ const AITools = lazy(() => import('./pages/AITools'));
 const IntroKartel = lazy(() => import('./projectPages/IntroKartel'));
 const ShopKartel = lazy(() => import('./projectPages/ShopKartel'));
 
+// Suspense fallback while a route chunk loads. The wordmark holds the layout
+// still and the line underneath keeps moving, so a slow chunk never flashes a
+// bare "Loading…" across the screen.
+const RouteFallback = () => (
+    <div className="page-loading" role="status" aria-label="Loading">
+        <span className="page-loading-mark">REIMON<span>DEV</span></span>
+        <span className="page-loading-line" aria-hidden="true" />
+        <span className="sr-only">Loading…</span>
+    </div>
+);
+
 const MainMenu = () => {
     const [showNavbar, setShowNavBar] = useState(true);
     const location = useLocation();
@@ -31,7 +42,10 @@ const MainMenu = () => {
     return (
         <>
             {showNavbar && <NavBar />}
-            <Suspense fallback={<div className="page-loading" role="status">Loading…</div>}>
+            {/* Keyed by history entry: a fresh node on every navigation, so the
+                dip-to-dark replays even when the path stays the same. */}
+            <div key={location.key} className="route-veil" aria-hidden="true" />
+            <Suspense fallback={<RouteFallback />}>
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/home' element={<Home />} />

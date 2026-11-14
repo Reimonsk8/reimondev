@@ -191,6 +191,8 @@
   min-height: 560px;
   border: 0;
   background: #fff;
+  /* Keyed by resume id, so switching profiles fades the new PDF in. */
+  animation: motion-page-in 320ms ease-out both;
 }
 
 .resume-preview-fallback {
@@ -262,6 +264,10 @@
   .resume-open-link {
     scroll-behavior: auto;
     transition: none;
+  }
+
+  .resume-preview iframe {
+    animation: none;
   }
 
   .resume-option:hover {

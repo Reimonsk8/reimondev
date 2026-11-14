@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles/App.css';
+import './styles/Motion.css';
 import MainMenu from './components/MainMenu';
 import AuroraBackdrop from './components/AuroraBackdrop';
 import { AuroraLabPanel, AuroraSettingsProvider } from './components/AuroraLab';

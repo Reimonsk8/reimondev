@@ -46,6 +46,24 @@
 
 .login-panel {
   width: min(26rem, 100%);
+  animation: motion-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) 320ms backwards;
+}
+
+/* The heading arrives in three beats, then the panel follows. */
+.login-intro > * {
+  animation: motion-rise 760ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.login-intro .login-eyebrow {
+  animation-delay: 60ms;
+}
+
+.login-intro h1 {
+  animation-delay: 150ms;
+}
+
+.login-intro .login-lede {
+  animation-delay: 250ms;
 }
 
 /* Hosted-UI sign-in buttons. Both go to the same Cognito session store. */
@@ -106,6 +124,7 @@
   font-size: 0.78rem;
   line-height: 1.55;
   overflow-wrap: anywhere;
+  animation: motion-rise-sm 260ms ease-out both;
 }
 
 .login-help {
@@ -252,5 +271,13 @@
 @media (max-width: 480px) {
   .login-page {
     padding: 6.5rem 1rem 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-intro > *,
+  .login-panel,
+  .login-error {
+    animation: none;
   }
 }

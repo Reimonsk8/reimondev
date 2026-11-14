@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
+import useScrollReveal from '../../utils/useScrollReveal';
 import ProjectPubnub from '../projectPages/projectPubnub';
 import '../../styles/Projects.css';
 
@@ -290,9 +291,13 @@ function WorkAction({ action }) {
   );
 }
 
-function WorkCard({ item, isPrivate, pubnubOpen, onToggleDemo }) {
+function WorkCard({ item, isPrivate, pubnubOpen, onToggleDemo, revealIndex }) {
   return (
-    <article className={`work-card work-card--${item.kind}${isPrivate ? ' work-card--private' : ''}`}>
+    <article
+      className={`work-card work-card--${item.kind}${isPrivate ? ' work-card--private' : ''}`}
+      data-reveal
+      style={{ '--reveal-i': revealIndex }}
+    >
       <div className={`work-card-art ${item.imageClass || ''}`}>
         {item.image ? (
           <img src={item.image} alt={item.imageAlt || ''} loading="lazy" decoding="async" />
@@ -356,7 +361,6 @@ function Projects() {
   const { ready, isAdmin } = useAuth();
   const [filter, setFilter] = useState(() => (window.location.hash === '#games' ? 'game' : 'all'));
   const [pubnubOpen, setPubnubOpen] = useState(false);
-
   // Private cards exist only for the admin session; for everyone else the page
   // behaves exactly like a curated portfolio.
   const showUnpublished = ready && isAdmin;
@@ -371,6 +375,10 @@ function Projects() {
     ? WORK_ITEMS.filter((item) => item.visibility === 'private' && matches(item))
     : [];
   const total = publicItems.length + privateItems.length;
+
+  // Re-arm the scroll reveals whenever the filter (or the admin session)
+  // rebuilds the grid, so the incoming cards stagger instead of snapping in.
+  const gridRef = useScrollReveal([filter, showUnpublished]);
 
   useEffect(() => {
     if (filter === 'unpublished' && !showUnpublished) setFilter('all');
@@ -417,19 +425,24 @@ function Projects() {
           </span>
         </div>
 
-        <div id="work-results" className="work-grid">
-          {publicItems.map((item) => (
+        <div id="work-results" className="work-grid" ref={gridRef}>
+          {publicItems.map((item, index) => (
             <WorkCard
               key={item.id}
               item={item}
               isPrivate={false}
+              revealIndex={index}
               pubnubOpen={pubnubOpen}
               onToggleDemo={() => setPubnubOpen((open) => !open)}
             />
           ))}
 
           {privateItems.length > 0 && (
-            <div className="work-private-divider">
+            <div
+              className="work-private-divider"
+              data-reveal
+              style={{ '--reveal-i': publicItems.length }}
+            >
               <p className="work-private-title">Unpublished</p>
               <p className="work-private-copy">
                 Unfinished, on hold, or outdated work. Only your admin session renders these cards.
@@ -437,11 +450,12 @@ function Projects() {
             </div>
           )}
 
-          {privateItems.map((item) => (
+          {privateItems.map((item, index) => (
             <WorkCard
               key={item.id}
               item={item}
               isPrivate
+              revealIndex={publicItems.length + 1 + index}
               pubnubOpen={pubnubOpen}
               onToggleDemo={() => setPubnubOpen((open) => !open)}
             />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useScrollReveal from '../../utils/useScrollReveal';
 import '../../styles/Resume.css';
 
 const RESUMES = [
@@ -25,10 +26,11 @@ const RESUMES = [
 export default function Resume() {
   const [selectedId, setSelectedId] = useState(RESUMES[0].id);
   const selectedResume = RESUMES.find((resume) => resume.id === selectedId) || RESUMES[0];
+  const pageRef = useScrollReveal([selectedId]);
 
   return (
-    <main className="resume-page" aria-labelledby="resume-title">
-      <header className="resume-intro">
+    <main className="resume-page" aria-labelledby="resume-title" ref={pageRef}>
+      <header className="resume-intro" data-reveal style={{ '--reveal-i': 0 }}>
         <p className="resume-eyebrow">CAREER PROFILE · CURRICULUM VITAE</p>
         <h1 id="resume-title">A career built across disciplines.<br /><span>Focused for what comes next.</span></h1>
         <p className="resume-lede">
@@ -37,7 +39,7 @@ export default function Resume() {
       </header>
 
       <section className="resume-library" aria-labelledby="resume-library-title">
-        <div className="resume-section-heading">
+        <div className="resume-section-heading" data-reveal style={{ '--reveal-i': 0 }}>
           <div>
             <p className="resume-eyebrow">THREE PROFESSIONAL PROFILES</p>
             <h2 id="resume-library-title">Choose a resume</h2>
@@ -62,6 +64,8 @@ export default function Resume() {
                 type="button"
                 aria-pressed={isSelected}
                 onClick={() => setSelectedId(resume.id)}
+                data-reveal
+                style={{ '--reveal-i': index }}
               >
                 <span className="resume-option-number">0{index + 1}</span>
                 <span className="resume-option-copy">
@@ -76,7 +80,12 @@ export default function Resume() {
           })}
         </div>
 
-        <div className="resume-preview" aria-label={`${selectedResume.label} PDF preview`}>
+        <div
+          className="resume-preview"
+          aria-label={`${selectedResume.label} PDF preview`}
+          data-reveal
+          style={{ '--reveal-i': 3 }}
+        >
           <iframe
             key={selectedResume.id}
             src={`${selectedResume.url}#view=FitH`}

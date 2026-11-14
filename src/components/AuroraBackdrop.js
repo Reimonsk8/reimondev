@@ -32,6 +32,39 @@ const AuroraBackdrop = () => {
     return () => document.removeEventListener('visibilitychange', syncPaused);
   }, [paused]);
 
+  // Cursor parallax: the aurora leans a few pixels toward the pointer. Motion
+  // is skipped for touch devices and reduced-motion users; the CSS transition
+  // does the easing, so this only writes a variable per animation frame.
+  useEffect(() => {
+    const el = auroraRef.current;
+    if (!el || typeof window.matchMedia !== 'function') return undefined;
+
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!finePointer || reduceMotion) return undefined;
+
+    let frame = 0;
+
+    const handleMove = (event) => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        const x = (event.clientX / window.innerWidth - 0.5) * 30;
+        const y = (event.clientY / window.innerHeight - 0.5) * 18;
+        el.style.setProperty('--aurora-px', `${x.toFixed(2)}px`);
+        el.style.setProperty('--aurora-py', `${y.toFixed(2)}px`);
+      });
+    };
+
+    window.addEventListener('pointermove', handleMove, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', handleMove);
+      if (frame) window.cancelAnimationFrame(frame);
+      el.style.removeProperty('--aurora-px');
+      el.style.removeProperty('--aurora-py');
+    };
+  }, []);
+
   useEffect(() => {
     const reduceMotion = window.matchMedia
       ? window.matchMedia('(prefers-reduced-motion: reduce)').matches

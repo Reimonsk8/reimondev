@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useScrollReveal from '../../utils/useScrollReveal';
 import '../../styles/Services.css';
 
 const SOFTWARE_SERVICES = [
@@ -93,9 +94,13 @@ const VISUAL_ART_SERVICES = [
   },
 ];
 
-function ServiceCard({ service }) {
+function ServiceCard({ service, revealIndex }) {
   return (
-    <article className={`service-card${service.featured ? ' service-card--featured' : ''}`}>
+    <article
+      className={`service-card${service.featured ? ' service-card--featured' : ''}`}
+      data-reveal
+      style={{ '--reveal-i': revealIndex }}
+    >
       <div className="service-card-heading">
         <span className="service-number" aria-hidden="true">{service.number}</span>
         <p className="service-category">{service.category}</p>
@@ -110,9 +115,11 @@ function ServiceCard({ service }) {
 }
 
 export default function Services() {
+  const pageRef = useScrollReveal();
+
   return (
-    <main className="services-page" aria-labelledby="services-title">
-      <header className="services-intro">
+    <main className="services-page" aria-labelledby="services-title" ref={pageRef}>
+      <header className="services-intro" data-reveal style={{ '--reveal-i': 0 }}>
         <p className="services-eyebrow">WHAT I CAN HELP BUILD</p>
         <h1 id="services-title">Practical work.<br /><span>Clearly scoped.</span></h1>
         <p className="services-lede">
@@ -122,28 +129,32 @@ export default function Services() {
 
       <section className="services-library" aria-label="Available services">
         <section className="service-group" aria-labelledby="software-engineering-title">
-          <header className="service-group-heading">
+          <header className="service-group-heading" data-reveal style={{ '--reveal-i': 0 }}>
             <p className="services-eyebrow">01 · BUILDING SYSTEMS</p>
             <h2 id="software-engineering-title">Software Engineering</h2>
             <p>Focused software, AI, game, cloud, and data projects with defined deliverables.</p>
           </header>
           <div className="services-grid services-grid--software">
-            {SOFTWARE_SERVICES.map((service) => <ServiceCard service={service} key={service.id} />)}
+            {SOFTWARE_SERVICES.map((service, index) => (
+              <ServiceCard service={service} key={service.id} revealIndex={index} />
+            ))}
           </div>
         </section>
 
         <section className="service-group service-group--visual" aria-labelledby="visual-art-title">
-          <header className="service-group-heading">
+          <header className="service-group-heading" data-reveal style={{ '--reveal-i': 0 }}>
             <p className="services-eyebrow">02 · MAKING EXPERIENCES</p>
             <h2 id="visual-art-title">Visual Art</h2>
             <p>Original visuals and music made for live events and creative projects.</p>
           </header>
           <div className="services-grid services-grid--visual">
-            {VISUAL_ART_SERVICES.map((service) => <ServiceCard service={service} key={service.id} />)}
+            {VISUAL_ART_SERVICES.map((service, index) => (
+              <ServiceCard service={service} key={service.id} revealIndex={index} />
+            ))}
           </div>
         </section>
 
-        <aside className="services-contact">
+        <aside className="services-contact" data-reveal style={{ '--reveal-i': 0 }}>
           <div>
             <p className="services-eyebrow">HAVE A PROJECT IN MIND?</p>
             <h2>Let’s define the right-sized version.</h2>
@@ -155,7 +166,7 @@ export default function Services() {
         </aside>
       </section>
 
-      <footer className="services-footer">
+      <footer className="services-footer" data-reveal style={{ '--reveal-i': 0 }}>
         <Link to="/projects">Explore selected work <span aria-hidden="true">↗</span></Link>
       </footer>
     </main>

@@ -81,14 +81,14 @@ function Navbar() {
         </button>
       </header>
 
-      {sidebar && (
-        <button
-          type="button"
-          className="nav-backdrop"
-          aria-label="Close navigation"
-          onClick={closeSidebar}
-        />
-      )}
+      <button
+        type="button"
+        className={sidebar ? 'nav-backdrop is-open' : 'nav-backdrop'}
+        aria-label="Close navigation"
+        aria-hidden={!sidebar}
+        tabIndex={sidebar ? 0 : -1}
+        onClick={closeSidebar}
+      />
 
       <nav
         ref={navigationRef}
@@ -104,10 +104,10 @@ function Navbar() {
           </button>
         </div>
         <ul className="nav-menu-items">
-          {NAV_ITEMS.map((item) => {
+          {NAV_ITEMS.map((item, index) => {
             const isActive = location.pathname === item.path;
             return (
-              <li key={item.path} className="nav-text">
+              <li key={item.path} className="nav-text" style={{ '--i': index }}>
                 <Link
                   to={item.path}
                   aria-current={isActive ? 'page' : undefined}
