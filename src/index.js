@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { configureAuth } from './auth/amplifyAuth';
+
+// No-ops when the Cognito env vars are missing; the /login page then shows a
+// setup checklist instead of a broken form.
+configureAuth();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -47,7 +47,9 @@ canvas{
   background-size: cover;
   background-position: 50% 50%;
   transform-origin: 50% 0%;
-  transition: opacity 8s cubic-bezier(0.42, 0, 0.58, 1);
+  /* Aurora Lab hooks: live crossfade duration + overall layer scale. */
+  transition: opacity var(--aurora-fade, 8s) cubic-bezier(0.42, 0, 0.58, 1);
+  scale: var(--aurora-size, 1);
 }
 
 #particles-js::before,
@@ -89,7 +91,7 @@ canvas{
       oklch(0 0 0 / 0.72) 0%, oklch(0.18 0 0 / 0.32) 20%,
       oklch(1 0 0 / var(--a-bo, 0.10)) 34%, oklch(0.65 0 0 / 0.035) 52%,
       oklch(0.12 0 0 / 0.28) 70%, oklch(0 0 0 / 0.92) 100%);
-  animation: aurora-drift-a 29s ease-in-out infinite;
+  animation: aurora-drift-a calc(29s * var(--aurora-drift, 1)) ease-in-out infinite;
 }
 
 /* Phase B — charcoal singularity with a stable umbra and soft outer vignette. */
@@ -131,7 +133,7 @@ canvas{
       oklch(0.86 0 0 / var(--b-l1o, 0.04)) 0%, oklch(0.62 0 0 / 0.018) 46%, oklch(1 0 0 / 0) 82%),
     radial-gradient(ellipse var(--b-corona2-w) var(--b-corona2-h) at var(--b-corona2-x) 11%,
       oklch(0.86 0 0 / var(--b-l2o, 0.035)) 0%, oklch(0.62 0 0 / 0.015) 44%, oklch(1 0 0 / 0) 80%);
-  animation: aurora-drift-b 34s ease-in-out infinite;
+  animation: aurora-drift-b calc(34s * var(--aurora-drift, 1)) ease-in-out infinite;
 }
 
 /* Phase C — fixed umbra with a layered, softly irregular silver corona. */
@@ -183,7 +185,7 @@ canvas{
       oklch(0.88 0 0 / var(--c-l2o, 0.035)) 0%, oklch(0.62 0 0 / 0.016) 44%, oklch(1 0 0 / 0) 84%),
     radial-gradient(ellipse var(--c-corona-3-w) var(--c-corona-3-h) at 50% 18%,
       oklch(0.78 0 0 / var(--c-l3o, 0.03)) 0%, oklch(0.54 0 0 / 0.012) 48%, oklch(1 0 0 / 0) 86%);
-  animation: aurora-drift-c 31s ease-in-out infinite;
+  animation: aurora-drift-c calc(31s * var(--aurora-drift, 1)) ease-in-out infinite;
 }
 
 /* On desktop, size the eclipse like a near-circle: no more than 550px wide
@@ -288,15 +290,16 @@ canvas{
     oklch(0.30 0 0 / 0.025) 70%,
     oklch(0 0 0 / 0) 82%);
   transform: translate3d(-50%, 0, 0);
+  scale: var(--aurora-size, 1);
   pointer-events: none;
-  animation: aurora-core-breathe 19s ease-in-out infinite;
+  animation: aurora-core-breathe calc(19s * var(--aurora-drift, 1)) ease-in-out infinite;
   transition: opacity 1.5s ease;
 }
 
 /* Let the ring breathe alone: dim the core while phase C is on screen. */
 #particles-js[data-phase="c"] .aurora-core{
   animation: none;
-  opacity: 0.055;
+  opacity: calc(var(--aurora-core-o, 1) * 0.055);
   transform: translate3d(-50%, 0, 0);
 }
 
@@ -317,7 +320,7 @@ canvas{
   inset: 0;
   margin: 0;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: var(--aurora-grain-o, 0.035);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   background-size: 180px 180px;
   background-repeat: repeat;
@@ -340,9 +343,9 @@ canvas{
 }
 
 @keyframes aurora-core-breathe{
-  0%, 100%{ opacity: 0.08; transform: translate3d(-50%, 0, 0) scale(0.96, 0.97); }
-  45%     { opacity: 0.28; transform: translate3d(-50%, 0, 0) scale(1.03, 1.02); }
-  60%     { opacity: 0.20; transform: translate3d(-50%, 0, 0) scale(1.01, 1.00); }
+  0%, 100%{ opacity: calc(var(--aurora-core-o, 1) * 0.08); transform: translate3d(-50%, 0, 0) scale(0.96, 0.97); }
+  45%     { opacity: calc(var(--aurora-core-o, 1) * 0.28); transform: translate3d(-50%, 0, 0) scale(1.03, 1.02); }
+  60%     { opacity: calc(var(--aurora-core-o, 1) * 0.20); transform: translate3d(-50%, 0, 0) scale(1.01, 1.00); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -355,7 +358,7 @@ canvas{
   #particles-js .aurora-c { opacity: 0; }
   #particles-js .aurora-core {
     animation: none;
-    opacity: 0.3;
+    opacity: calc(var(--aurora-core-o, 1) * 0.3);
     transform: translate3d(-50%, 0, 0);
   }
 }

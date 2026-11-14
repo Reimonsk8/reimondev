@@ -87,3 +87,22 @@ export function initialAuroraVars() {
     ...randomAuroraVars('c'),
   };
 }
+
+// Aurora Lab helper: multiply every alpha var (keys ending in "o") by an
+// intensity factor. --c-ro is derived from --c-o, so it is recomputed instead
+// of scaled directly, matching randomAuroraVars above.
+export function scaleAuroraAlphas(vars, intensity) {
+  if (!Number.isFinite(intensity) || intensity === 1) return vars;
+
+  const out = {};
+  for (const [key, value] of Object.entries(vars)) {
+    if (key === '--c-ro') continue;
+    out[key] = key.endsWith('o')
+      ? Math.min(1, Number(value) * intensity).toFixed(3)
+      : value;
+  }
+  if (out['--c-o'] !== undefined) {
+    out['--c-ro'] = (Number(out['--c-o']) * 0.38).toFixed(3);
+  }
+  return out;
+}

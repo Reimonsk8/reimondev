@@ -3,6 +3,7 @@ import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 import '../styles/Navbar.css';
 
 const NAV_ITEMS = [
@@ -18,6 +19,7 @@ const NAV_ITEMS = [
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
   const location = useLocation();
+  const { user, isAdmin, signOut } = useAuth();
   const triggerRef = useRef(null);
   const closeRef = useRef(null);
   const navigationRef = useRef(null);
@@ -57,6 +59,11 @@ function Navbar() {
   }, [sidebar]);
 
   const closeSidebar = () => setSidebar(false);
+
+  const handleSignOut = async () => {
+    closeSidebar();
+    await signOut();
+  };
 
   return (
     <>
@@ -113,6 +120,39 @@ function Navbar() {
             );
           })}
         </ul>
+
+        {/* Bottom of the menu: account entry, plus the admin console for the
+            admin account only. */}
+        <div className="nav-auth">
+          {isAdmin && (
+            <Link
+              className="nav-auth-item"
+              to="/admin"
+              onClick={closeSidebar}
+              aria-current={location.pathname === '/admin' ? 'page' : undefined}
+            >
+              <FaIcons.FaUserShield aria-hidden="true" />
+              <span>Admin</span>
+            </Link>
+          )}
+          {user ? (
+            <button type="button" className="nav-auth-item" onClick={handleSignOut}>
+              <FaIcons.FaSignOutAlt aria-hidden="true" />
+              <span>Log out</span>
+            </button>
+          ) : (
+            <Link
+              className="nav-auth-item"
+              to="/login"
+              onClick={closeSidebar}
+              aria-current={location.pathname === '/login' ? 'page' : undefined}
+            >
+              <FaIcons.FaSignInAlt aria-hidden="true" />
+              <span>Log in</span>
+            </Link>
+          )}
+        </div>
+
         <p className="nav-menu-footer">A QUIET PLACE TO BUILD.</p>
       </nav>
     </>

@@ -30,7 +30,7 @@ const Home = () => {
         <p className="home-intro">Testing new stuff, more features coming soon.</p>
         <div className="home-actions">
           <Link className="home-action home-action-primary" to="/projects">Explore work</Link>
-          <Link className="home-action" to="/">Replay intro</Link>
+          <Link className="home-action" to="/intro">Replay intro</Link>
         </div>
         <div className="home-social-block">
           <p className="home-social-label">Find me elsewhere</p>

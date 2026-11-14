@@ -1,0 +1,225 @@
+/* Hidden experimental "Aurora Lab" panel. Opened by typing "eclipse" or via
+   the corner launcher button. */
+
+/* Corner launcher: small, quiet, but clickable on every page. Fades in on
+   hover/focus so it never competes with page content. */
+.aurora-lab-launcher{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 899;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: rgba(10, 10, 12, 0.5);
+  backdrop-filter: blur(4px);
+  color: #bdbdbd;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.45;
+  animation: aurora-lab-launcher-in 240ms ease-out;
+  transition: opacity 160ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+/* End state matches the resting 0.45 opacity so the reveal never pops. */
+@keyframes aurora-lab-launcher-in{
+  from{ opacity: 0; transform: translateY(6px); }
+  to  { opacity: 0.45; transform: translateY(0); }
+}
+
+.aurora-lab-launcher:hover,
+.aurora-lab-launcher:focus-visible{
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.aurora-lab{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 900;
+  width: min(320px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 14px 16px 12px;
+  box-sizing: border-box;
+  color: #e6e6e6;
+  background: rgba(10, 10, 12, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  text-align: left;
+  animation: aurora-lab-in 240ms ease-out;
+}
+
+@keyframes aurora-lab-in{
+  from{ opacity: 0; transform: translateY(12px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+
+.aurora-lab-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.aurora-lab-title{
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #d9d9d9;
+}
+
+.aurora-lab-tag{
+  margin-left: 6px;
+  padding: 1px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: #9c9c9c;
+}
+
+.aurora-lab-head-actions{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aurora-lab-close{
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #d0d0d0;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.aurora-lab-close:hover{
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.lab-section{
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lab-section-title{
+  margin: 0 0 8px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
+
+.lab-row{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  row-gap: 2px;
+  margin: 0 0 6px;
+  cursor: default;
+}
+
+.lab-label{
+  font-size: 11px;
+  color: #bdbdbd;
+}
+
+.lab-value{
+  font-size: 11px;
+  color: #f0f0f0;
+}
+
+.lab-slider{
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 0;
+  accent-color: #c9c9c9;
+  cursor: ew-resize;
+}
+
+.lab-buttons{
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.lab-btn{
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #e0e0e0;
+  font: inherit;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.lab-btn:hover{
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.lab-btn-mini{
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  font-size: 10px;
+}
+
+.lab-btn-mini.is-active{
+  background: rgba(255, 255, 255, 0.24);
+  color: #fff;
+}
+
+.lab-hint{
+  margin: 10px 0 0;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #7e7e7e;
+}
+
+.lab-hint strong{
+  color: #a8a8a8;
+  font-weight: 600;
+}
+
+.lab-hint code{
+  color: #9a9a9a;
+}
+
+@media (max-width: 480px){
+  .aurora-lab-launcher{
+    right: 8px;
+    bottom: 8px;
+  }
+
+  .aurora-lab{
+    right: 8px;
+    bottom: 8px;
+    width: calc(100vw - 16px);
+    max-height: 60vh;
+  }
+}

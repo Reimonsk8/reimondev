@@ -229,6 +229,128 @@
   letter-spacing: 0.13em;
 }
 
+/* Unpublished work — admin-only cards plus their status and TODO notes. */
+.work-card--private {
+  border-style: dashed;
+  border-color: rgba(225, 229, 238, 0.2);
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.014) 0 12px, transparent 12px 24px),
+    linear-gradient(145deg, rgba(18, 19, 23, 0.94), rgba(8, 9, 12, 0.96));
+}
+
+.work-card--private:hover {
+  border-color: rgba(225, 229, 238, 0.4);
+}
+
+.work-card--private .work-card-art img {
+  filter: saturate(0.5) brightness(0.7);
+}
+
+.work-card--private:hover .work-card-art img {
+  filter: saturate(0.62) brightness(0.8);
+}
+
+.work-card-art .work-card-kind--private {
+  border-style: dashed;
+  border-color: rgba(236, 239, 246, 0.45);
+  color: #fff;
+  letter-spacing: 0.2em;
+}
+
+.work-card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+  padding: 0.22rem 0.45rem;
+  border: 1px solid rgba(225, 229, 238, 0.16);
+  border-radius: 2px;
+  color: #c2c6d0;
+  background: rgba(255, 255, 255, 0.025);
+  font-family: var(--eclipse-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.work-card-status-dot {
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: #d7dae2;
+}
+
+.work-card-state {
+  margin: 0;
+  color: #8f939d;
+  font-family: var(--eclipse-sans);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.work-card-todo {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(225, 229, 238, 0.16);
+}
+
+.work-card-todo-title {
+  margin: 0 0 0.4rem;
+  color: #83878f;
+  font-family: var(--eclipse-sans);
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.work-card-todo ul {
+  margin: 0;
+  padding-left: 1.05rem;
+  color: #a8acb6;
+  font-family: var(--eclipse-sans);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.work-card-todo li + li {
+  margin-top: 0.25rem;
+}
+
+.work-private-divider {
+  grid-column: 1 / -1;
+  margin-top: 0.75rem;
+  padding-top: 1.6rem;
+  border-top: 1px dashed rgba(225, 229, 238, 0.22);
+}
+
+.work-private-title {
+  margin: 0;
+  color: var(--eclipse-text);
+  font-family: var(--eclipse-serif);
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  font-weight: 400;
+}
+
+.work-private-copy {
+  margin: 0.35rem 0 0;
+  color: #858994;
+  font-family: var(--eclipse-sans);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.work-empty {
+  grid-column: 1 / -1;
+  margin: 2rem 0;
+  color: #858994;
+  font-family: var(--eclipse-sans);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 .work-card-content {
   padding: clamp(1rem, 2.4vw, 1.45rem);
 }

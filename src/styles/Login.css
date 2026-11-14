@@ -1,0 +1,182 @@
+/* Sign-in page. Layout mirrors the other eclipse-theme pages; the Amplify
+   Authenticator brings its own styles and receives a dark theme in JS. */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  padding: clamp(6rem, 12vh, 9rem) clamp(1.25rem, 5vw, 4rem) 4rem;
+}
+
+.login-intro {
+  max-width: 46rem;
+  text-align: center;
+}
+
+.login-eyebrow {
+  margin: 0 0 1rem;
+  color: var(--eclipse-muted);
+  font-family: var(--eclipse-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+}
+
+.login-intro h1 {
+  margin: 0 0 1.1rem;
+  color: var(--eclipse-text);
+  font-family: var(--eclipse-serif);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.login-intro h1 span {
+  color: var(--eclipse-muted);
+}
+
+.login-lede {
+  margin: 0 auto;
+  max-width: 34rem;
+  color: var(--eclipse-secondary);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+.login-panel {
+  width: min(26rem, 100%);
+}
+
+/* Tone the Authenticator's card down to the site's surface colors. */
+.login-panel [data-amplify-authenticator] {
+  --amplify-components-authenticator-router-background-color: rgba(16, 17, 21, 0.92);
+  --amplify-components-authenticator-router-border-color: var(--eclipse-border);
+  --amplify-components-authenticator-router-box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --amplify-fonts-default-variable: var(--eclipse-sans);
+}
+
+/* Signed-in confirmation card. */
+.login-signed-in {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  padding: 1.6rem 1.5rem;
+  border: 1px solid var(--eclipse-border);
+  border-radius: 12px;
+  background: rgba(16, 17, 21, 0.92);
+  text-align: left;
+}
+
+.login-signed-in .login-eyebrow {
+  margin: 0;
+}
+
+.login-signed-in-line {
+  margin: 0;
+  color: var(--eclipse-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.login-signed-in-line strong {
+  color: var(--eclipse-text);
+  font-weight: 600;
+}
+
+.login-signed-in-note {
+  margin: 0;
+  color: var(--eclipse-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.login-signed-in-note a {
+  color: var(--eclipse-silver);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.login-signed-in-note a:hover {
+  color: #fff;
+}
+
+.login-signout {
+  padding: 0.6rem 1.1rem;
+  border: 1px solid rgba(225, 229, 238, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--eclipse-text);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.login-signout:hover {
+  border-color: rgba(225, 229, 238, 0.45);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Setup checklist shown until the Cognito env vars exist. */
+.login-setup {
+  padding: 1.6rem 1.5rem;
+  border: 1px solid var(--eclipse-border);
+  border-radius: 12px;
+  background: rgba(16, 17, 21, 0.92);
+  text-align: left;
+}
+
+.login-setup-title {
+  margin: 0 0 0.6rem;
+  color: var(--eclipse-text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.login-setup-copy,
+.login-setup-note {
+  margin: 0;
+  color: var(--eclipse-secondary);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.login-setup-note {
+  margin-top: 1rem;
+  color: var(--eclipse-muted);
+}
+
+.login-setup code {
+  padding: 0.1rem 0.3rem;
+  border: 1px solid rgba(225, 229, 238, 0.14);
+  border-radius: 4px;
+  color: var(--eclipse-silver);
+  font-size: 0.76rem;
+}
+
+.login-setup-vars {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.login-setup-vars li {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.login-setup-vars span {
+  color: var(--eclipse-muted);
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    padding: 6.5rem 1rem 3rem;
+  }
+}

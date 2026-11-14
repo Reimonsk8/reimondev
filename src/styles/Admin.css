@@ -1,0 +1,135 @@
+/* Admin console — visible only for the admin Cognito account. */
+
+.admin-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: clamp(6rem, 12vh, 9rem) clamp(1.25rem, 5vw, 4rem) 4rem;
+}
+
+.admin-intro {
+  max-width: 46rem;
+  text-align: center;
+}
+
+.admin-eyebrow {
+  margin: 0 0 1rem;
+  color: var(--eclipse-muted);
+  font-family: var(--eclipse-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+}
+
+.admin-intro h1 {
+  margin: 0 0 1.1rem;
+  color: var(--eclipse-text);
+  font-family: var(--eclipse-serif);
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.admin-intro h1 span {
+  color: var(--eclipse-muted);
+}
+
+.admin-lede {
+  margin: 0 auto;
+  max-width: 34rem;
+  color: var(--eclipse-secondary);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+.admin-panel {
+  width: min(38rem, 100%);
+  padding: 1.5rem 1.6rem;
+  border: 1px solid var(--eclipse-border);
+  border-radius: 12px;
+  background: rgba(16, 17, 21, 0.9);
+  text-align: left;
+}
+
+.admin-panel h2 {
+  margin: 0 0 1rem;
+  color: var(--eclipse-muted);
+  font-family: var(--eclipse-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.admin-facts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.admin-facts div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.admin-facts dt {
+  color: var(--eclipse-muted);
+  font-size: 0.75rem;
+}
+
+.admin-facts dd {
+  margin: 0;
+  color: var(--eclipse-text);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+.admin-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.74rem !important;
+}
+
+.admin-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(225, 229, 238, 0.18);
+  border-radius: 8px;
+  color: var(--eclipse-text);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.admin-link:hover {
+  border-color: rgba(225, 229, 238, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.admin-note {
+  margin: 1.1rem 0 0;
+  color: var(--eclipse-muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .admin-page {
+    padding: 6.5rem 1rem 3rem;
+  }
+
+  .admin-facts div {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
